@@ -1,0 +1,15 @@
+:root {
+  --black-background: rgb(0,80,136);
+  --white: #ffff;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--black);
+  color: var(--white);
+}
