@@ -1,15 +1,12 @@
 import "./App.css";
-import Header from "./components/Header";
+import Index from "./pages/login"
 
-export default function App() {
+function App() {
   return (
     <>
-      <Header />
-      <aside></aside>
-      <main></main>
-      <footer></footer>
+      <Index />
     </>
   );
 }
 
-// export default App;
+export default App;

@@ -1,0 +1,192 @@
+.wrapper {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  border-top: 1px solid rgb(255, 120, 10);
+}
+
+.container {
+  display: flex;
+  margin: auto;
+  flex-direction: row-reverse;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  gap: 10rem;
+}
+
+.container .imageLogin img {
+  width: 30rem;
+  height: 15rem;
+}
+
+.container .formLogin {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+  padding: 1rem;
+  gap: 3rem;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 35px;
+  width: 100%;
+}
+
+.inputWrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.inputWrapper label {
+  display: flex;
+  font-size: 16px;
+  min-width: 80px;
+  position: absolute;
+  justify-content: left;
+  margin: 0px 0px 0px 10px;
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+
+.inputWrapper input {
+  flex: 1;
+  padding: 8px;
+  border: none;
+  outline: none;
+  background: transparent;
+  border-bottom: 1px solid #ffffff;
+  outline: none;
+  color: rgb(255, 255, 255);
+  transition: all 0.3s ease;
+}
+
+.inputGroup input:focus ~ label,
+.inputGroup input:valid ~ label {
+  font-size: 14px;
+  color: rgb(255, 120, 10);
+  transform: translateY(-130%);
+}
+
+.inputWrapper .svgGroup {
+  position: relative;
+  transform: translateY(-10%);
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+
+.inputWrapper input:hover {
+  border-bottom: 2px solid rgb(255, 120, 10);
+  transition: all 0.3s ease;
+}
+
+.rememberAndPassword {
+  width: 100%;
+  display: flex;
+  gap: 50px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.wrapperRememberMe {
+  display: flex;
+  gap: 5px;
+}
+
+.rememberAndPassword input {
+  appearance: none;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 2px;
+  background-color: var(--gray-100);
+  border: 1px solid var(--gray-100);
+  position: relative;
+  cursor: pointer;
+  background-color: transparent;
+}
+
+.rememberAndPassword input:checked {
+  background-color: rgb(255, 120, 10);
+  border: none;
+}
+
+.rememberAndPassword input:checked::before {
+  content: "";
+  display: block;
+  width: 6px;
+  height: 10px;
+  margin: auto;
+  border: solid var(--gray-200);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.formLogin a {
+  text-decoration: none;
+  color: var(--gray-100);
+  font-weight: 400;
+}
+
+.formLogin a:hover {
+  color: rgb(255, 120, 10);
+}
+
+.accessLogin {
+  background-color: white;
+  color: var(--gray-700);
+  font-weight: 400;
+  width: 80%;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.accessLogin:hover {
+  background-color: rgb(255, 120, 10);
+  transition: 0.5s ease;
+}
+
+.formLogin .accessHelpMargin {
+  margin: 4rem 0rem 0rem 0rem;
+}
+
+/* Media query para dispositivos móveis */
+@media (max-width: 930px) {
+  .container {
+    flex-direction: column;
+    gap: 2rem; 
+    padding: 1rem; 
+  }
+
+  .container .imageLogin img {
+    width: 20rem; 
+    height: auto; 
+  }
+
+  .container .formLogin {
+    width: 100%; 
+    gap: 2rem;
+  }
+
+  .inputGroup {
+    gap: 20px;
+  }
+
+  .rememberAndPassword {
+    gap: 20px; 
+  }
+
+  .wrapperRememberMe {
+    flex-direction: row; 
+    gap: 5px; 
+  }
+
+  .accessLogin {
+    width: 100%; 
+  }
+}
