@@ -1,50 +1,54 @@
-Projeto GLPI Analysis
-Descrição
-O projeto GLPI Analysis é uma aplicação desenvolvida para fornecer análise técnica detalhada da plataforma GLPI, com o objetivo de oferecer estatísticas, dashboards e gráficos para técnicos e, potencialmente, para clientes no futuro. Utilizando tecnologias modernas como Node.js, TypeScript, Fastify, MySQL (MariaDB), ReactJS e phosphor-react, o sistema visa facilitar a visualização e interpretação de dados relacionados ao GLPI.
+# GLPI Technical Analysis System
 
-Funcionalidades Principais
-Estatísticas Detalhadas: Visualização de métricas importantes como total de tickets, status dos tickets, tempo médio de resolução, entre outros.
-Dashboard Interativo: Interface intuitiva com gráficos e dados dinâmicos para uma análise mais eficaz.
-Suporte Multiusuário: Capacidade de segmentar informações técnicas e, eventualmente, disponibilizar dados relevantes para os clientes.
-Integração com GLPI: Conexão direta com a base de dados GLPI para acesso em tempo real às informações.
-Tecnologias Utilizadas
-Backend: Node.js, TypeScript, Fastify, MySQL (MariaDB), Mysql2
-Frontend: ReactJS, TypeScript, phosphor-react
-Outros: HTML, CSS (SCSS), Git
-Instalação e Uso
-Para executar o projeto localmente:
+![Project Image](image.png)
 
-Clone o Repositório:
+Este projeto visa fornecer uma plataforma de análise técnica para a GLPI, oferecendo estatísticas detalhadas, dashboards interativos e gráficos informativos. Inicialmente direcionado para técnicos, com potencial de expansão para incluir clientes.
 
-bash
-Copy code
-git clone https://github.com/seu-usuario/nome-do-repositorio.git
-cd nome-do-repositorio
-Instale as Dependências:
+## Tecnologias Utilizadas
 
-bash
-Copy code
-# Instale as dependências do backend
-cd backend
-npm install
+- Node.js/TypeScript/Fastify para o backend
+- MySQL (MariaDB) para armazenamento de dados
+- ReactJS/TypeScript para o frontend
 
-# Instale as dependências do frontend
-cd ../frontend
-npm install
-Configuração do Banco de Dados:
+## Funcionalidades
 
-Configure o acesso ao banco de dados MySQL (MariaDB) no arquivo de configuração backend/src/config/database.ts.
-Executar o Servidor:
+- **Estatísticas Avançadas**: Visualização detalhada de métricas de desempenho e uso da plataforma GLPI.
+- **Dashboards Interativos**: Painéis personalizáveis para monitoramento em tempo real.
+- **Gráficos Dinâmicos**: Representação visual de dados por meio de gráficos interativos.
+- **Histórico de Atividades**: Registro e análise do histórico de interações e tickets.
+- **Acesso Diferenciado**: Funcionalidades separadas para técnicos e clientes, com perspectiva de usuário única.
 
-bash
-Copy code
-# No diretório backend/
-npm run dev
-Executar o Cliente:
+## Estrutura do Projeto
 
-bash
-Copy code
-# No diretório frontend/
-npm start
-Contribuição
-Contribuições são bem-vindas! Sinta-se à vontade para abrir uma issue ou enviar um pull request com melhorias, correções de bugs ou novas funcionalidades.
+- **`/backend`**: Contém o código do servidor Node.js com Fastify e TypeScript.
+- **`/frontend`**: Aplicação ReactJS com phosphor-react para a interface do usuário.
+- **`/database`**: Scripts SQL e configurações relacionadas ao banco de dados MariaDB.
+
+## Como Utilizar
+
+1. **Configuração do Ambiente**:
+   - Clone o repositório.
+   - Instale as dependências do Node.js tanto para o backend quanto para o frontend.
+   - Execute `npm install` para instalar as dependências.
+
+2. **Configuração do Banco de Dados**:
+   - Configure o MariaDB com as credenciais apropriadas de acesso ao Banco do GLPI.
+
+3. **Execução do Backend**:
+   - Navegue até o diretório `/api-rest-GLPI`.
+   - Execute `npm run dev` para iniciar o servidor.
+
+4. **Execução do Frontend**:
+   - Navegue até o diretório `/GLPI-Analytics-Pro`.
+   - Execute `npm run dev` para iniciar a aplicação React.
+
+5. **Acesso à Aplicação**:
+   - Abra o navegador e vá para `http://localhost:5173` para acessar a interface do usuário.
+
+## Contribuição
+
+Contribuições são bem-vindas! Sinta-se à vontade para enviar pull requests para melhorar o projeto.
+
+## Autor
+
+Desenvolvido por [Henrique Maximo](https://github.com/Henrry-Maximo)
