@@ -10,7 +10,7 @@ export async function ticketController(app: FastifyInstance) {
   });
 
   // retornar número de chamados por status
-  app.get("/tickets-by-count", async (req, reply) => {
+  app.get("/tickets-by-count-status", async (req, reply) => {
     const db = await createConnection();
     const [rows] = await db.query(`
       SELECT 
@@ -95,6 +95,17 @@ export async function ticketController(app: FastifyInstance) {
       GROUP BY t.id
       ORDER BY t.date_mod DESC LIMIT 10;
   `);
-  return reply.status(200).send(rows);
-  })
+    return reply.status(200).send(rows);
+  });
+
+  // retornar chamados que atingiram o prazo do SLA
+  app.get("/tickets-late", async (req, reply) => {
+    const db = await createConnection();
+    const [rows] =
+      await db.query(`SELECT COUNT(*) AS "Chamado Atrasados" FROM glpi_tickets
+      WHERE glpi_tickets.status NOT IN (5, 6) 
+      AND glpi_tickets.solvedate IS NULL 
+      AND glpi_tickets.time_to_resolve < TIMEDIFF(NOW(), glpi_tickets.date) LIMIT 10`);
+    reply.status(200).send(rows);
+  });
 }
