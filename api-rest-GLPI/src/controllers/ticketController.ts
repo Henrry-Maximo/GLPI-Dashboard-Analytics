@@ -41,7 +41,7 @@ export async function ticketController(app: FastifyInstance) {
   });
 
   // retornar quantiade de chamados associados a uma categoria
-  app.get("/ticket-by-categorie", async (req, reply) => {
+  app.get("/tickets-by-categorie", async (req, reply) => {
     const db = await createConnection();
     const [rows] = await db.query(
       `SELECT c.completename AS category, COUNT(t.id) AS quantity_tickets FROM glpi_tickets t JOIN glpi_itilcategories c ON t.itilcategories_id = c.id GROUP BY c.completename ORDER BY quantity_tickets DESC;`
@@ -50,11 +50,51 @@ export async function ticketController(app: FastifyInstance) {
   });
 
   // retornar últimos 10 chamados por categoria (id, name, status, date, category)
-  app.get("/ticket-last-by-categorie", async (req, reply) => {
+  app.get("/tickets-last-by-categorie", async (req, reply) => {
     const db = await createConnection();
     const [rows] = await db.query(
       "SELECT t.id, t.name, t.status as status, t.date as date, c.name AS category_name FROM glpi_tickets AS t INNER JOIN glpi_itilcategories AS c ON t.itilcategories_id = c.id WHERE t.status IN (1,2,3,4,5) ORDER BY t.id DESC LIMIT 10;"
     );
     return reply.status(200).send(rows);
   });
+
+  // retornar os últimos 10 chamados por entidade/status/urgência/usuário/técnico
+  app.get("/tickets-line-time", async (req, reply) => {
+    const db = await createConnection();
+    const [rows] = await db.query(`
+      SELECT 
+          DATE_FORMAT(t.date_creation, "%d/%m/%Y %H:%i") AS "Data de criação",
+          e.name AS "Entidade",
+          t.id as "ID do chamado",
+          t.name AS "Título do chamado",
+          GROUP_CONCAT(DISTINCT CONCAT(u.firstname,' ', u.realname)) AS "Requerente",
+          GROUP_CONCAT(DISTINCT CONCAT(u2.firstname,' ', u2.realname)) AS "Técnico",
+          CASE 
+              WHEN t.status = 1 THEN 'Novo'
+              WHEN t.status = 2 THEN 'Em Atendimento (atribuído)'
+              WHEN t.status = 3 THEN 'Em Atendimento (planejado)'
+              WHEN t.status = 4 THEN 'Pendente'
+              WHEN t.status = 5 THEN 'Solucionado'
+              WHEN t.status = 6 THEN 'Fechado'
+          END AS "Status Chamado",
+          CASE 
+              WHEN t.priority = 6 THEN 'Crítica'
+              WHEN t.priority = 1 THEN 'Muito baixa'
+              WHEN t.priority = 2 THEN 'Baixa'
+              WHEN t.priority = 3 THEN 'Média'
+              WHEN t.priority = 4 THEN 'Alta'
+              WHEN t.priority = 5 THEN 'Muito alta'
+          END AS "Prioridade"
+      FROM glpi_tickets t
+      LEFT OUTER JOIN glpi_entities e ON t.entities_id = e.id
+      LEFT OUTER JOIN glpi_tickets_users tu1 ON (tu1.tickets_id = t.id AND tu1.type = 1)
+      LEFT OUTER JOIN glpi_users u ON u.id = tu1.users_id
+      LEFT OUTER JOIN glpi_tickets_users tu2 ON (tu2.tickets_id = t.id AND tu2.type = 2)
+      LEFT OUTER JOIN glpi_users u2 ON u2.id = tu2.users_id
+      WHERE t.status <> 6 AND t.status <> 5
+      GROUP BY t.id
+      ORDER BY t.date_mod DESC LIMIT 10;
+  `);
+  return reply.status(200).send(rows);
+  })
 }
