@@ -2,7 +2,8 @@ import { FastifyInstance } from "fastify";
 import { createConnection } from "../database/db";
 
 export async function categorieController(app: FastifyInstance) {
-  app.get("/", async (req, reply) => {
+  // retornar nome de todas as categorias
+  app.get("/categories", async (req, reply) => {
     try {
       const db = await createConnection();
     const [rows] = await db.execute(
@@ -15,6 +16,7 @@ export async function categorieController(app: FastifyInstance) {
     }
   });
 
+  // retornar total de categorias
   app.get("/categories-by-count", async (req, reply) => {
     try {
       const db = await createConnection();
