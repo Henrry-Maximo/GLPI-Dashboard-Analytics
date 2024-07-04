@@ -5,7 +5,23 @@ export async function ticketController(app: FastifyInstance) {
   // retornar todos os chamados por nome
   app.get("/tickets", async (req, reply) => {
     const db = await createConnection();
-    const [rows] = await db.query("SELECT name FROM glpi_tickets;");
+    const [rows] = await db.query(`
+    SELECT 
+    id,
+    entities_id,
+    name,
+    date_creation,
+    date_mod,
+    solvedate,
+    closedate,
+    users_id_recipient,
+    status,
+    priority,
+    itilcategories_id,
+    type,
+    locations_id
+  FROM
+    glpi_tickets;`);
     await db.end();
     return reply.status(200).send(rows);
   });

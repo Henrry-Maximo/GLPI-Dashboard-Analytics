@@ -17,5 +17,3 @@
 # CATEGORY
 - [x] api-glpi/categorie/categories - lista de categorias por nome
 - [x] api-glpi/categorie/categories-by-count - lista com o total de categorias existentes
-
-

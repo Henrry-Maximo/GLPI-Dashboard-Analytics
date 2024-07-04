@@ -1,4 +1,4 @@
-<mxfile host="Electron" modified="2024-07-04T14:57:29.074Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/22.1.2 Chrome/114.0.5735.289 Electron/25.9.4 Safari/537.36" etag="SxRK74Yk8k6rTyhgAsC-" version="22.1.2" type="device">
+<mxfile host="Electron" modified="2024-07-04T15:09:31.218Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/22.1.2 Chrome/114.0.5735.289 Electron/25.9.4 Safari/537.36" etag="MNxh4LS2y8n11t7vg9rI" version="22.1.2" type="device">
   <diagram name="Página-1" id="UOZbxtHQJkRKP1uAjrQE">
     <mxGraphModel dx="1753" dy="2515" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -54,9 +54,6 @@
         <mxCell id="yj3FxXPpEBxRYdkQRJRm-13" value="Login Inválido" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="1750" y="-430" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="yj3FxXPpEBxRYdkQRJRm-16" value="Menu da Aplicação&lt;br&gt;- Início&lt;br&gt;- Orçamento&lt;br&gt;- Configurações" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;" vertex="1" parent="1">
-          <mxGeometry x="1026" y="240" width="190" height="120" as="geometry" />
-        </mxCell>
         <mxCell id="yj3FxXPpEBxRYdkQRJRm-17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="yj3FxXPpEBxRYdkQRJRm-18" target="yj3FxXPpEBxRYdkQRJRm-20">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
@@ -101,24 +98,8 @@
         <mxCell id="yj3FxXPpEBxRYdkQRJRm-28" value="Autenticação Inválido" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="1490" y="-280" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="yj3FxXPpEBxRYdkQRJRm-30" value="Header (opção)" style="rhombus;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="1370" y="270" width="160" height="110" as="geometry" />
-        </mxCell>
-        <mxCell id="yj3FxXPpEBxRYdkQRJRm-31" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="yj3FxXPpEBxRYdkQRJRm-32" target="yj3FxXPpEBxRYdkQRJRm-30">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
         <mxCell id="yj3FxXPpEBxRYdkQRJRm-32" value="Início" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="1385" y="143.75" width="130" height="70" as="geometry" />
-        </mxCell>
-        <mxCell id="yj3FxXPpEBxRYdkQRJRm-33" value="" style="endArrow=none;dashed=1;html=1;dashPattern=1 3;strokeWidth=2;rounded=0;exitX=0;exitY=0;exitDx=190;exitDy=75;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="yj3FxXPpEBxRYdkQRJRm-16" target="yj3FxXPpEBxRYdkQRJRm-32">
-          <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="1160" y="193.75" as="sourcePoint" />
-            <mxPoint x="1210" y="143.75" as="targetPoint" />
-            <Array as="points">
-              <mxPoint x="1290" y="315" />
-              <mxPoint x="1290" y="179" />
-            </Array>
-          </mxGeometry>
         </mxCell>
         <mxCell id="yj3FxXPpEBxRYdkQRJRm-34" value="" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="1270" y="-150" width="20" height="60" as="geometry" />
