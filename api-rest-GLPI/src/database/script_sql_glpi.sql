@@ -2,6 +2,9 @@ USE glpi_database;
 
 show tables;
 
+SELECT name, password, password_last_update, firstname, locations_id FROM glpi_users;
+SELECT * FROM glpi_users;
+
 # retornar todos os chamados por nome
 SELECT 
     id,
