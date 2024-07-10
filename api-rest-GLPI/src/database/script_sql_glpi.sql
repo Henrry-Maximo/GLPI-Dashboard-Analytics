@@ -2,8 +2,8 @@ USE glpi_database;
 
 show tables;
 
+# retornar todos os usuários por nome / senha / última atualização senha / primeiro nome / setor
 SELECT name, password, password_last_update, firstname, locations_id FROM glpi_users;
-SELECT * FROM glpi_users;
 
 # retornar todos os chamados por nome
 SELECT 
@@ -32,6 +32,16 @@ SELECT
 	COUNT(CASE WHEN status = 5 THEN 1 END) AS total_solucionados,
 	COUNT(CASE WHEN status = 6 THEN 1 END) AS total_fechados
 FROM glpi_tickets;
+
+# retornar números de chamados por status ao longo do tempo
+SELECT 
+    DATE(date_creation) AS data, status, COUNT(id) AS quantidade
+FROM
+    glpi_tickets
+WHERE
+	status NOT IN (6)
+GROUP BY DATE(date_creation) , status
+ORDER BY DATE(date_creation);
 
 #glpi_tickets: Contém informações sobre os tickets, como status, prioridade, datas de abertura e fechamento.
 #glpi_tickettasks: Contém as tarefas relacionadas aos tickets, útil para analisar o tempo gasto em diferentes tipos de tarefas.

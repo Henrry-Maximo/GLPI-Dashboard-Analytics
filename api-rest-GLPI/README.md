@@ -8,6 +8,7 @@
 # TICKET
 - [x] api-glpi/ticket/tickets - lista de chamados por nome
 - [x] api-glpi/ticket/tickets-by-count-status - lista de contagem de chamados por status
+- [x] api-glpi/ticket/tickets-by-status-data - lista de contagem de chamados por status ao longo do tempo
 - [x] api-glpi/ticket/tickets-by-count-urgency - lista de contagem de chamados por urgência
 - [x] api-glpi/ticket/tickets-by-categorie - lista de contagem de chamados associados a uma categoria
 - [x] api-glpi/ticket/tickets-last-by-categorie - lista de chamados por categoria (últimos 10)
