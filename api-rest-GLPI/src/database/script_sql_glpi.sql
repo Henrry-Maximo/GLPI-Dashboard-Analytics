@@ -25,13 +25,24 @@ FROM
 
 # retornar número de chamados por status
 SELECT 
-	COUNT(id) AS total_chamados,
-	COUNT(CASE WHEN status = 1 THEN 1 END) AS total_abertos,
-	COUNT(CASE WHEN status = 2 THEN 1 END) AS total_atribuidos,
-	COUNT(CASE WHEN status = 4 THEN 1 END) AS total_pendentes,
-	COUNT(CASE WHEN status = 5 THEN 1 END) AS total_solucionados,
-	COUNT(CASE WHEN status = 6 THEN 1 END) AS total_fechados
-FROM glpi_tickets;
+    COUNT(id) AS total_chamados,
+    COUNT(CASE
+        WHEN status = 1 THEN 1
+    END) AS total_abertos,
+    COUNT(CASE
+        WHEN status = 2 THEN 1
+    END) AS total_atribuidos,
+    COUNT(CASE
+        WHEN status = 4 THEN 1
+    END) AS total_pendentes,
+    COUNT(CASE
+        WHEN status = 5 THEN 1
+    END) AS total_solucionados,
+    COUNT(CASE
+        WHEN status = 6 THEN 1
+    END) AS total_fechados
+FROM
+    glpi_tickets;
 
 # retornar números de chamados por status ao longo do tempo
 SELECT 
@@ -40,8 +51,84 @@ FROM
     glpi_tickets
 WHERE
 	status NOT IN (6)
-GROUP BY DATE(date_creation) , status
-ORDER BY DATE(date_creation);
+GROUP BY DATE(date_creation) 
+, status
+ORDER BY DATE(date_creation) DESC;
+
+# retornar número de chamados por usuário
+SELECT 
+    u.name AS usuario,
+    COUNT(t.id) AS quantidade_chamados
+FROM 
+    glpi_tickets t
+JOIN 
+    glpi_users u ON t.users_id_recipient = u.id
+GROUP BY 
+    u.name
+ORDER BY 
+    quantidade_chamados DESC;
+    
+
+# retorna número de chamados atribuídos para um técnico
+SELECT 
+    u.name AS tecnico,
+    COUNT(t.id) AS quantidade_chamados
+FROM 
+    glpi_tickets t
+JOIN 
+    glpi_tickets_users tu ON t.id = tu.tickets_id
+JOIN 
+    glpi_users u ON tu.users_id = u.id
+WHERE 
+    tu.type = 2 -- Atribuição de técnico
+GROUP BY 
+    u.name
+ORDER BY 
+    quantidade_chamados DESC;
+
+# retorna número de chamados por técnico/data (todos os status)
+SELECT 
+    DATE(t.date_creation) AS data,
+    u.name AS tecnico,
+    COUNT(t.id) AS quantidade_chamados
+FROM
+    glpi_tickets t
+JOIN
+    glpi_tickets_users tu ON t.id = tu.tickets_id
+JOIN
+    glpi_users u ON tu.users_id = u.id
+WHERE
+    tu.type = 2
+GROUP BY 
+    DATE(t.date_creation),
+    u.name
+ORDER BY 
+    data DESC, 
+    quantidade_chamados DESC;
+
+# retorna número de chamados por técnico/data/status (solucionado)
+SELECT 
+    DATE(t.date_creation) AS data,
+    u.name AS tecnico,
+    t.status,
+    COUNT(t.id) AS quantidade_chamados
+FROM
+    glpi_tickets t
+JOIN
+    glpi_tickets_users tu ON t.id = tu.tickets_id
+JOIN
+    glpi_users u ON tu.users_id = u.id
+WHERE
+    tu.type = 2 AND
+    t.status = 6
+GROUP BY 
+    DATE(t.date_creation),
+    u.name
+ORDER BY 
+    data DESC, 
+    quantidade_chamados DESC;
+
+
 
 #glpi_tickets: Contém informações sobre os tickets, como status, prioridade, datas de abertura e fechamento.
 #glpi_tickettasks: Contém as tarefas relacionadas aos tickets, útil para analisar o tempo gasto em diferentes tipos de tarefas.

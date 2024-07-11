@@ -25,8 +25,8 @@
 }
 
 body {
-  background-color: var(--gray-700);
-  color: var(--gray-100);
+  background-color: var(--gray-100);
+  color: var(--gray-700);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
