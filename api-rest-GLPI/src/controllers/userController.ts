@@ -35,14 +35,14 @@ export async function userController(app: FastifyInstance) {
     const db = await createConnection();
     const [rows] = await db.query(`
     SELECT 
-      u.name AS usuario,
-      COUNT(t.id) AS quantidade_chamados
+      b.name AS usuario,
+      COUNT(a.id) AS quantidade_chamados
     FROM 
-      glpi_tickets t
+      glpi_tickets a
     JOIN 
-      glpi_users u ON t.users_id_recipient = u.id
+      glpi_users b ON a.users_id_recipient = b.id
     GROUP BY 
-      u.name
+      b.name
     ORDER BY 
       quantidade_chamados DESC;`);
     return reply.status(200).send(rows);

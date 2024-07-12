@@ -16,6 +16,7 @@
 - [x] api-glpi/ticket/tickets-line-time - lista de chamados por entidade/status/urgência/usuário/técnico (últimos 10)
 - [x] api-glpi/ticket/tickets-late - lista de contagem de chamados que atingiram o prazo do SLA (últimos 10)
 - [x] api-glpi/ticket/tickets-line-late-by-status-date - lista de contagem de chamados (quantidade) por status e data
+- [x] api-glpi/ticket/tickets-by-technician - lista de contagem de chamados (quantidade) por técnico
 
 # CATEGORY
 - [x] api-glpi/categorie/categories - lista de categorias por nome

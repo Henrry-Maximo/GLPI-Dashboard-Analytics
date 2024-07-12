@@ -157,4 +157,26 @@ export async function ticketController(app: FastifyInstance) {
 
     return reply.status(200).send(rows);
   });
+
+  // retornar chamados (quantidade) por técnico
+  app.get("/tickets-by-technician", async (req, reply) => {
+    const db = await createConnection();
+    const [rows] = await db.query(`
+      SELECT 
+        b.name AS tecnico, COUNT(a.id) AS quantidade_chamados 
+      FROM 
+        glpi_tickets a
+      JOIN 
+        glpi_tickets_users c ON a.id = c.tickets_id
+      JOIN 
+        glpi_users b ON c.users_id = b.id
+      WHERE 
+        c.type = 2 -- Atribuição de técnico
+      GROUP BY 
+        b.name
+      ORDER BY 
+        quantidade_chamados DESC;
+      `);
+    return reply.status(200).send(rows);
+  });
 }
