@@ -86,22 +86,22 @@ GROUP BY
 ORDER BY 
     quantidade_chamados DESC;
 
-# retorna número de chamados por técnico/data (todos os status)
+# retorna número de chamados por data/técnico (todos os status)
 SELECT 
-    DATE(t.date_creation) AS data,
-    u.name AS tecnico,
-    COUNT(t.id) AS quantidade_chamados
+    DATE(a.date_creation) AS data,
+    c.name AS tecnico,
+    COUNT(a.id) AS quantidade_chamados
 FROM
-    glpi_tickets t
+    glpi_tickets a
 JOIN
-    glpi_tickets_users tu ON t.id = tu.tickets_id
+    glpi_tickets_users b ON a.id = b.tickets_id
 JOIN
-    glpi_users u ON tu.users_id = u.id
+    glpi_users c ON b.users_id = c.id
 WHERE
-    tu.type = 2
+    b.type = 2
 GROUP BY 
-    DATE(t.date_creation),
-    u.name
+    DATE(a.date_creation),
+    c.name
 ORDER BY 
     data DESC, 
     quantidade_chamados DESC;

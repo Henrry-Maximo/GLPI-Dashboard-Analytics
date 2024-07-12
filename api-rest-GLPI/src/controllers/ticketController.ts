@@ -42,7 +42,8 @@ export async function ticketController(app: FastifyInstance) {
     return reply.status(200).send(rows);
   });
 
-  app.get("/tickets-by-status-data", async (req, reply) => {
+  // retornar número de chamados por status e data
+  app.get("/tickets-by-status-date", async (req, reply) => {
     const db = await createConnection();
     const [rows] = await db.query(`
     SELECT 
@@ -138,5 +139,22 @@ export async function ticketController(app: FastifyInstance) {
       AND glpi_tickets.solvedate IS NULL 
       AND glpi_tickets.time_to_resolve < TIMEDIFF(NOW(), glpi_tickets.date) LIMIT 10`);
     reply.status(200).send(rows);
+  });
+
+  // retornar chamados (quantidade) por status e data
+  app.get("/tickets-line-late-by-status-date", async (req, reply) => {
+    const db = await createConnection();
+    const [rows] = await db.query(
+      `SELECT 
+        DATE(date_creation) AS data, status, COUNT(id) AS quantidade
+      FROM
+        glpi_tickets
+      WHERE
+        status NOT IN (6)
+      GROUP BY DATE(date_creation), status
+      ORDER BY DATE(date_creation) DESC;`
+    );
+
+    return reply.status(200).send(rows);
   });
 }

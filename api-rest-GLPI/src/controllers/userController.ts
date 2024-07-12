@@ -16,7 +16,7 @@ export async function userController(app: FastifyInstance) {
     }
   });
 
-  // retornar contagem de usuário existentes
+  // retornar total de usuário existentes
   app.get("/users-by-count", async (req, reply) => {
     try {
       const conn = await createConnection();
