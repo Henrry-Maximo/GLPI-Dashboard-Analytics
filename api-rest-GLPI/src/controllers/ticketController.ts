@@ -75,9 +75,13 @@ export async function ticketController(app: FastifyInstance) {
   // retornar quantiade de chamados associados a uma categoria
   app.get("/tickets-by-categorie", async (req, reply) => {
     const db = await createConnection();
-    const [rows] = await db.query(
-      `SELECT c.completename AS category, COUNT(t.id) AS quantity_tickets FROM glpi_tickets t JOIN glpi_itilcategories c ON t.itilcategories_id = c.id GROUP BY c.completename ORDER BY quantity_tickets DESC;`
-    );
+    const [rows] = await db.query
+    (`
+      SELECT c.completename AS category, COUNT(t.id) AS quantity_tickets 
+        FROM glpi_tickets t 
+      JOIN glpi_itilcategories c ON t.itilcategories_id = c.id GROUP BY c.completename 
+        ORDER BY quantity_tickets DESC;
+      `);
     return reply.status(200).send(rows);
   });
 
