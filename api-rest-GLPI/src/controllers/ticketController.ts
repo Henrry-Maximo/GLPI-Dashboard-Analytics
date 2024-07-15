@@ -167,7 +167,7 @@ export async function ticketController(app: FastifyInstance) {
     const db = await createConnection();
     const [rows] = await db.query(`
       SELECT 
-        b.name AS tecnico, COUNT(a.id) AS quantidade_chamados 
+        b.name AS technician, COUNT(a.id) AS quantity_tickets 
       FROM 
         glpi_tickets a
       JOIN 
@@ -175,12 +175,25 @@ export async function ticketController(app: FastifyInstance) {
       JOIN 
         glpi_users b ON c.users_id = b.id
       WHERE 
-        c.type = 2 -- Atribuição de técnico
+        c.type = 2
       GROUP BY 
         b.name
       ORDER BY 
-        quantidade_chamados DESC;
+        quantity_tickets DESC;
       `);
     return reply.status(200).send(rows);
   });
+
+  // retornar número de chamados por tipo (requisição/incidente)
+  app.get("/tickets-by-type", async (req, reply) => {
+    const db = await createConnection();
+    const [rows] = await db.query(`
+      SELECT 
+        COUNT(CASE WHEN t.type = 1 THEN 1 END) AS 'incident',
+        COUNT(CASE WHEN t.type = 2 THEN 1 END) AS 'request'
+      FROM
+        glpi_tickets t
+      `);
+    return reply.status(200).send(rows);
+  })
 }

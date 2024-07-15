@@ -128,15 +128,10 @@ ORDER BY
     data DESC, 
     quantidade_chamados DESC;
 
+# retornar número de incidente/requisição (formulário)
+SELECT 
+    COUNT(CASE WHEN t.type = 1 THEN 1 END) AS 'incident',
+    COUNT(CASE WHEN t.type = 2 THEN 1 END) AS 'request'
+FROM
+    glpi_tickets t
 
-
-#glpi_tickets: Contém informações sobre os tickets, como status, prioridade, datas de abertura e fechamento.
-#glpi_tickettasks: Contém as tarefas relacionadas aos tickets, útil para analisar o tempo gasto em diferentes tipos de tarefas.
-#glpi_ticketvalidations: Armazena as validações dos tickets, pode ser usada para verificar a qualidade das resoluções.
-#glpi_ticketcosts: Informações sobre os custos associados aos tickets.
-#glpi_tickets_users: Relações entre tickets e usuários, útil para ver quem está resolvendo quais tickets.
-#glpi_problems: Dados sobre problemas recorrentes, que podem ser analisados para identificar áreas que precisam de melhorias.
-#glpi_changes: Informações sobre mudanças no sistema, importante para entender o impacto das mudanças nos tickets.
-#glpi_computers: Informações sobre os computadores gerenciados, útil para inventário e análise de ativos.
-#glpi_printers: Dados sobre impressoras gerenciadas.
-#glpi_networkequipments: Informações sobre equipamentos de rede.
