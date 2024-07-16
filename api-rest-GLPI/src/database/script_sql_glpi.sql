@@ -128,10 +128,28 @@ ORDER BY
     data DESC, 
     quantidade_chamados DESC;
 
-# retornar número de incidente/requisição (formulário)
+# retornar número de chamados por incidente/requisição (formulário)
 SELECT 
     COUNT(CASE WHEN t.type = 1 THEN 1 END) AS 'incident',
     COUNT(CASE WHEN t.type = 2 THEN 1 END) AS 'request'
 FROM
-    glpi_tickets t
+    glpi_tickets t;
+
+# retornar número de chamados solucionados por técnico/grupo/quantidade
+SELECT 
+    glpi_users.name AS 'technician',
+    glpi_groups.name AS 'group',
+    COUNT(glpi_tickets_users.tickets_id) AS 'quantity'
+FROM
+    glpi_tickets_users
+        INNER JOIN
+    glpi_users ON glpi_tickets_users.users_id = glpi_users.id
+        INNER JOIN
+    glpi_groups_users ON glpi_tickets_users.users_id = glpi_groups_users.users_id
+        INNER JOIN
+    glpi_groups ON glpi_groups_users.groups_id = glpi_groups.id
+WHERE
+    glpi_users.name NOT IN ('luana.yasmim' , 'cassia.martins', 'kevin.araujo')
+GROUP BY glpi_tickets_users.users_id
+ORDER BY COUNT(glpi_tickets_users.tickets_id) DESC
 

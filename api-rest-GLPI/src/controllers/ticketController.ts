@@ -75,8 +75,7 @@ export async function ticketController(app: FastifyInstance) {
   // retornar quantiade de chamados associados a uma categoria
   app.get("/tickets-by-categorie", async (req, reply) => {
     const db = await createConnection();
-    const [rows] = await db.query
-    (`
+    const [rows] = await db.query(`
       SELECT c.completename AS category, COUNT(t.id) AS quantity_tickets 
         FROM glpi_tickets t 
       JOIN glpi_itilcategories c ON t.itilcategories_id = c.id GROUP BY c.completename 
@@ -130,7 +129,7 @@ export async function ticketController(app: FastifyInstance) {
       WHERE t.status <> 6 AND t.status <> 5
       GROUP BY t.id
       ORDER BY t.date_mod DESC LIMIT 10;
-  `);
+    `);
     return reply.status(200).send(rows);
   });
 
@@ -195,5 +194,28 @@ export async function ticketController(app: FastifyInstance) {
         glpi_tickets t
       `);
     return reply.status(200).send(rows);
-  })
+  });
+
+  // retornar número de chamados solucionados por técnico
+  app.get("/tickets-by-technician-solution", async (req, reply) => {
+    const db = await createConnection();
+    const [rows] = await db.query(`
+    SELECT 
+      glpi_users.name AS 'Technician Name', 
+      glpi_groups.name AS 'Group Name', 
+      COUNT(glpi_tickets_users.tickets_id) AS 'Number of Tickets'
+    FROM 
+      glpi_tickets_users
+        INNER JOIN 
+      glpi_users ON glpi_tickets_users.users_id = glpi_users.id
+        INNER JOIN 
+      glpi_groups_users ON glpi_tickets_users.users_id = glpi_groups_users.users_id
+        INNER JOIN glpi_groups ON glpi_groups_users.groups_id = glpi_groups.id
+    WHERE 
+      glpi_users.name NOT IN ('luana.yasmim', 'cassia.martins', 'kevin.araujo')
+    GROUP BY glpi_tickets_users.users_id
+    ORDER BY COUNT(glpi_tickets_users.tickets_id) DESC
+    `);
+    return reply.status(200).send(rows);
+  });
 }
