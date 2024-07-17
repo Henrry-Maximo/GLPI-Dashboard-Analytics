@@ -45,6 +45,7 @@
 - [] Utilizar Web Token (JWT) no acesso às operações da aplicação (rotas);
 
 # RULES BUSINESS
+- [] O sistema precisa possuir cargos: self-service/administrador
 - [] Por padrão, o usuário glpi_system recebe permissão de administrador;
 - [] O usuário automáticamente recebe permissão de self-service;
 - [] O adm do sistema pode transformar o usuário em um administrador;
