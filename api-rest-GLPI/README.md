@@ -30,17 +30,24 @@
 - [] Usuário deve poder se autenticar (id, password);
 - [] Usuário deve poder escanear QRCode do MFA;
 - [] Usuário deve poder se autenticar no MFA digitando o código;
-- [] Usuário deve poder visualizar informações de cadastro previamente;
+- [] Usuário deve poder visualizar informações de cadastro previamente no header;
   - [] Nome, Entidade, Localização, Comentário e Picture.
+- [] Usuário deve poder visualizar perfil;
+  - [] Nome, Última Atualização de Senha, Localização, Status, Comentário, Último Login, Data de Criação, User AD, User AD Hash e Picture.
+- [] Usuário deve poder visualizar painel primário sobre suas estatísticas; 
 - [] Usuário deve poder registrar uma tarefa;
 - [] Usuário deve poder modificar uma tarefa;
 - [] Usuário deve poder exluir uma tarefa;
+- [] Usuário deve poder apenas visualizar suas tarefas;
 
 # NON-FUNCTIONAL REQUIREMENTS
 - [] Desempenho: alcançar uma eficiência de resposta de até 5 segundos;
 - [] Utilizar Web Token (JWT) no acesso às operações da aplicação (rotas);
 
 # RULES BUSINESS
-- [] O administrador do sistema precisa liberar o acesso ao novo usuário;
+- [] Por padrão, o usuário glpi_system recebe permissão de administrador;
+- [] O usuário automáticamente recebe permissão de self-service;
+- [] O adm do sistema pode transformar o usuário em um administrador;
+- [] O administrador do sistema precisa liberar o acesso ao usuário (status);
 - [] O usuário da aplicação pode escolher entre tema preto/branco;
 
