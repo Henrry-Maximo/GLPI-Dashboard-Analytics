@@ -2,8 +2,10 @@ USE glpi_database;
 
 show tables;
 
+SELECT * FROM glpi_users;
+
 # retornar todos os usuários por nome / senha / última atualização senha / primeiro nome / setor
-SELECT name, password, password_last_update, firstname, locations_id FROM glpi_users;
+SELECT name, password, password_last_update, firstname, realname, locations_id, is_active, comment, last_login, date_creation, user_dn, user_dn_hash, picture FROM glpi_users;
 
 # retornar todos os chamados por nome
 SELECT 

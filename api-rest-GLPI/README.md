@@ -24,3 +24,23 @@
 - [x] api-glpi/categorie/categories - lista de categorias por nome
 - [x] api-glpi/categorie/categories-by-count - lista com o total de categorias existentes
 
+## REQUIREMENTS
+
+# FUNCTIONAL REQUIREMENTS
+- [] Usuário deve poder se autenticar (id, password);
+- [] Usuário deve poder escanear QRCode do MFA;
+- [] Usuário deve poder se autenticar no MFA digitando o código;
+- [] Usuário deve poder visualizar informações de cadastro previamente;
+- - [] Nome, Entidade, Localização, Comentário e Picture.
+- [] Usuário deve poder registrar uma tarefa;
+- [] Usuário deve poder modificar uma tarefa;
+- [] Usuário deve poder exluir uma tarefa;
+
+# NON-FUNCTIONAL REQUIREMENTS
+- [] Desempenho: alcançar uma eficiência de resposta de até 5 segundos;
+- [] Utilizar Web Token (JWT) no acesso às operações da aplicação (rotas);
+
+# RULES BUSINESS
+- [] O administrador do sistema precisa liberar o acesso ao novo usuário;
+- [] O usuário da aplicação pode escolher entre tema preto/branco;
+
