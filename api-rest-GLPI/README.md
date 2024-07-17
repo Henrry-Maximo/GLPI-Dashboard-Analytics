@@ -31,7 +31,7 @@
 - [] Usuário deve poder escanear QRCode do MFA;
 - [] Usuário deve poder se autenticar no MFA digitando o código;
 - [] Usuário deve poder visualizar informações de cadastro previamente;
-- - [] Nome, Entidade, Localização, Comentário e Picture.
+  - [] Nome, Entidade, Localização, Comentário e Picture.
 - [] Usuário deve poder registrar uma tarefa;
 - [] Usuário deve poder modificar uma tarefa;
 - [] Usuário deve poder exluir uma tarefa;
