@@ -1,0 +1,12 @@
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  padding: 0.50rem;
+  width: 10rem;
+  height: 100vh;
+  color: var(--gray-100);
+  background-color: var(--gray-400);
+  border: 1px solid red;
+}
