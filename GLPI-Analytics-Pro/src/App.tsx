@@ -1,14 +1,9 @@
 import "./App.css";
-import Index from "./pages/login";
-// import Main from "./pages/main";
+import { Router } from "./routes/router";
 
-function App() {
+export default function App() {
   return (
-    <>
-      <Index />
-      {/* <Main /> */}
-    </>
+    <Router />
   );
 }
 
-export default App;
