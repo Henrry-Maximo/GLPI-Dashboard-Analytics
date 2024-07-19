@@ -2,11 +2,25 @@
 .wrapper {
   display: flex;
   flex-direction: column;
-  position: fixed;
   padding: 0.50rem;
-  width: 10rem;
-  height: 100vh;
+  width: 15rem;
+  height: 100vh; /* Use 100vh para garantir que a altura seja 100% da viewport */
+  margin: 0;
   color: var(--gray-100);
   background-color: var(--gray-400);
-  border: 1px solid red;
+}
+
+.wrapper .titleSidebar {
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 0px 0px 0px 15px;
+}
+
+.wrapper .optionsSidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin: 1rem;
+  padding: 0.25rem;
+  text-decoration: underline;
 }
