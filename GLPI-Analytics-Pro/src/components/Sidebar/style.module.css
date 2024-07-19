@@ -4,7 +4,6 @@
   flex-direction: column;
   padding: 0.50rem;
   width: 15rem;
-  height: 100vh; /* Use 100vh para garantir que a altura seja 100% da viewport */
   margin: 0;
   color: var(--gray-100);
   background-color: var(--gray-400);

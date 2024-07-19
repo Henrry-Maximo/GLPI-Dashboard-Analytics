@@ -9,7 +9,7 @@ export default function Index() {
         <div className={styles.imageLogin}>
           <img src={albrasGLPIGraph} alt="logo gestão glpi"></img>
         </div>
-        <form className={styles.formLogin}>
+        <form className={styles.formLogin} action="/home">
           <div className={styles.inputGroup}>
             <div className={styles.inputWrapper}>
               <input type="text" required maxLength={25}/>
