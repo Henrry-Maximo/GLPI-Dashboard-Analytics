@@ -4,6 +4,7 @@ show tables;
 
 SELECT * FROM glpi_users;
 
+
 # retornar todos os usuários por nome / senha / última atualização senha / primeiro nome / sobrenome / localização / status / comentário / último login / data de criação / user AD / user AD hash / imagem
 SELECT name, password, password_last_update, firstname, realname, locations_id, is_active, 	comment, last_login, date_creation, user_dn, user_dn_hash, picture FROM glpi_users;
 

@@ -1,3 +1,11 @@
+import {
+  BellSimple,
+  ChartPie,
+  PresentationChart,
+  Question,
+  Ticket,
+  TrendUp,
+} from "phosphor-react";
 import style from "./style.module.css";
 
 export default function Sidebar() {
@@ -6,12 +14,30 @@ export default function Sidebar() {
       {/* <div className={style.titleSidebar}>Menu</div> */}
       <div className={style.optionsSidebar}>
         <div>
-          <div>Dashboard</div>
-          <div>Chamados</div>
-          <div>Estatísticas</div>
-          <div>Análises</div>
-          <div>Notificações</div>
-          <div>Adicionados</div>
+          <div>
+            <PresentationChart size={16} />
+            Dashboard
+          </div>
+          <div>
+            <Ticket size={16} />
+            Chamados
+          </div>
+          <div>
+            <TrendUp size={16} />
+            Estatísticas
+          </div>
+          <div>
+            <ChartPie size={16} />
+            Análises
+          </div>
+          <div>
+            <BellSimple size={16} />
+            Notificações
+          </div>
+          <div>
+            <Question size={16} />
+            Ajuda
+          </div>
         </div>
         <div>
           <div>Logout</div>
