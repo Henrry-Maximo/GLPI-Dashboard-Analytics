@@ -3,6 +3,7 @@ import {
   ChartPie,
   PresentationChart,
   Question,
+  SignOut,
   Ticket,
   TrendUp,
 } from "phosphor-react";
@@ -40,7 +41,7 @@ export default function Sidebar() {
           </div>
         </div>
         <div>
-          <div>Logout</div>
+          <div><SignOut size={16} />Logout</div>
           <div>Light Mode</div>
         </div>
       </div>
