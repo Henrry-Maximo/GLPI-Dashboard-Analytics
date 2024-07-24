@@ -5,6 +5,7 @@ import {
   Question,
   SignOut,
   Ticket,
+  ToggleRight,
   TrendUp,
 } from "phosphor-react";
 import style from "./style.module.css";
@@ -14,7 +15,7 @@ export default function Sidebar() {
     <div className={style.wrapper}>
       {/* <div className={style.titleSidebar}>Menu</div> */}
       <div className={style.optionsSidebar}>
-        <div>
+        <div className={style.optionsSpacing}>
           <div>
             <PresentationChart size={16} />
             Dashboard
@@ -42,7 +43,7 @@ export default function Sidebar() {
         </div>
         <div>
           <div><SignOut size={16} />Logout</div>
-          <div>Light Mode</div>
+          <div><ToggleRight size={16} />Light Mode</div>
         </div>
       </div>
     </div>
