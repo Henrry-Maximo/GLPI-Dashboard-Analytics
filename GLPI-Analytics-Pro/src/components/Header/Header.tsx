@@ -1,5 +1,5 @@
 /* Icons */
-import { BellSimple, Gear, List, Question, UserCircle } from "phosphor-react";
+import { BellSimple, List, Question, UserCircle } from "phosphor-react";
 
 import iconAlbras from "../../assets/login/logo_albras_slogan.png";
 
@@ -8,20 +8,30 @@ import iconAlbras from "../../assets/login/logo_albras_slogan.png";
 
 export default function Header() {
   return (
-    <div className="flex flex-row p-8 h-16 justify-between items-center bg-gray-100 text-slate-900 border-b">
-      <div className="flex flex-row gap-2">
-        <div>
-          <List size={24} />
-        </div>
+    <div className="flex justify-between items-center p-8 h-16 bg-gray-100 text-slate-900 border-b border-solid border-orange-500">
+      <div className="flex items-center gap-2">
+        <List size={24} />
       </div>
-      <img src={iconAlbras} style={{ height: "50px", width: "170px" }}></img>
-      {/* <div className="text-2xl">Dashboard GLPI Technician</div> */}
-      <div className="flex flex-row m-1 p-2 gap-2">
-        <BellSimple size={24} />
-        <Gear size={24} />
-        <Question size={24} />
-        <UserCircle size={24} />
+      <div className="w-64 flex items-center justify-center">
+        <img
+          src={iconAlbras}
+          style={{ height: "50px", width: "100px" }}
+          alt="Logo"
+        ></img>
       </div>
+      <nav className="flex items-center">
+        <ul className="flex flex-row gap-2">
+          <li>
+            <BellSimple size={24} />
+          </li>
+          <li>
+            <Question size={24} />
+          </li>
+          <li>
+            <UserCircle size={24} />
+          </li>
+        </ul>
+      </nav>
     </div>
   );
 }
