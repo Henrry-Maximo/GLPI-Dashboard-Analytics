@@ -8,11 +8,10 @@ import {
   ToggleRight,
   TrendUp,
 } from "phosphor-react";
-// import style from "./style.module.css";
 
 export default function Sidebar() {
   return (
-<div className="flex flex-col p-6 w-60 m-0 text-gray-100 bg-gray-600 justify-between h-full">
+    <div className="flex flex-col p-6 w-60 m-0 text-gray-100 bg-gray-600 justify-between h-full">
       <nav className="flex flex-col gap-4">
         <ul className="flex flex-col space-y-2">
           <li className="flex items-center gap-2">
