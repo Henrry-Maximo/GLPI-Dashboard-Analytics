@@ -8,12 +8,6 @@
   background-color: var(--gray-400);
 }
 
-.wrapper .titleSidebar {
-  font-size: 2rem;
-  font-weight: bold;
-  margin: 0px 0px 0px 15px;
-}
-
 .wrapper .optionsSidebar {
   display: flex;
   flex-direction: column;

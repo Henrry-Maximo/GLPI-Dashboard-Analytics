@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <>
       <div
-        style={{ display: "flex", flexDirection: "column", height: "100vh" }}
+        className=" flex flex-col h-screen"
       >
         <Header />
         <div style={{ display: "flex", flex: "1" }}>

@@ -8,15 +8,15 @@ import style from "./style.module.css";
 
 export default function Header() {
   return (
-    <div className={style.wrapper}>
-      <div style={{ display: "flex", flexDirection: "row", gap: "2rem" }}>
+    <div className="flex flex-row p-8 h-16 justify-between items-center bg-gray-100 text-slate-900 border-b">
+      <div className="flex flex-row gap-2">
         <div>
           <List size={24} />
         </div>
         <img src={iconAlbras} style={{ height: "30px", width: "100px" }}></img>
       </div>
       <div className={style.titleHeader}>Dashboard GLPI Technician</div>
-      <div className={style.optionsHeader}>
+      <div className="flex flex-row m-1 p-2 gap-2">
         <BellSimple size={24} />
         <Gear size={24} />
         <Question size={24} />
@@ -25,3 +25,11 @@ export default function Header() {
     </div>
   );
 }
+
+/*
+display: flex;
+  flex-direction: row;
+  margin: 0.25rem;
+  padding: 0.50rem;
+  gap: 10px;
+*/

@@ -8,14 +8,13 @@ import {
   ToggleRight,
   TrendUp,
 } from "phosphor-react";
-import style from "./style.module.css";
+// import style from "./style.module.css";
 
 export default function Sidebar() {
   return (
-    <div className={style.wrapper}>
-      {/* <div className={style.titleSidebar}>Menu</div> */}
-      <div className={style.optionsSidebar}>
-        <div className={style.optionsSpacing}>
+    <div className="flex flex-col p-3 w-60 m-0 text-gray-100 bg-gray-600">
+      <div className="flex flex-col flex-1 justify-between gap-4 m-4 p-1">
+        <div className="flex flex-col gap-2">
           <div>
             <PresentationChart size={16} />
             Dashboard
