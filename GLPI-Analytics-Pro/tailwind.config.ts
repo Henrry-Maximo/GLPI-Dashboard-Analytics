@@ -2,9 +2,14 @@
 export default {
   content: ["./index.html", "./src/**/*.tsx"],
   theme: {
-    extend: { colors: {
-      purple: "#a34532"
-    } },
+    extend: {
+      gridTemplateColumns: {
+        app: "minmax(18rem, 20rem) 1fr",
+      },
+      colors: {
+        purple: "#a34532",
+      },
+    },
   },
   plugins: [],
 };
