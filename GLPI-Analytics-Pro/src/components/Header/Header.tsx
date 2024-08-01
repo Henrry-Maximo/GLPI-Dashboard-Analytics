@@ -2,6 +2,7 @@
 import { BellSimple, List, Question, UserCircle } from "phosphor-react";
 
 import iconAlbras from "../../assets/login/logo_albras_slogan.png";
+import { NavItem } from "./NavItem/NavItem";
 
 export default function Header() {
   return (
@@ -16,18 +17,10 @@ export default function Header() {
           alt="Logo"
         ></img>
       </div>
-      <nav className="flex items-center">
-        <ul className="flex flex-row gap-2">
-          <li>
-            <BellSimple size={24} />
-          </li>
-          <li>
-            <Question size={24} />
-          </li>
-          <li>
-            <UserCircle size={24} />
-          </li>
-        </ul>
+      <nav className="flex items-center flex-row gap-2">
+        <NavItem icon={BellSimple}/>
+        <NavItem icon={Question}/>
+        <NavItem icon={UserCircle}/>
       </nav>
     </div>
   );

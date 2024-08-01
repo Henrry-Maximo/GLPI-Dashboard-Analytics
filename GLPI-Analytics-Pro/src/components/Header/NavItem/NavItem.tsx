@@ -12,7 +12,7 @@ export function NavItem({ icon: Icon }: NavItemProps) {
     >
       <Icon
         size={24}
-        className="h-5 w-5 text-gray-500 group-hover:text-orange-500"
+        className="h-5 w-5 text-gray-700 group-hover:text-orange-500"
       />
     </a>
   );
