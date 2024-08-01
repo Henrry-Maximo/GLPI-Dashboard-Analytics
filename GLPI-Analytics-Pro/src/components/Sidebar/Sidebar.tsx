@@ -14,7 +14,7 @@ import { Search } from "./Search/Search";
 
 export default function Sidebar() {
   return (
-    <aside className="flex flex-col gap-6 border-r border-zinc-200 px-5 py-8 bg-zinc-100">
+    <aside className="flex flex-col gap-6 border-r border-zinc-300 px-5 py-8 bg-zinc-100">
       <Search />
 
       <nav className="space-y-0.5">
