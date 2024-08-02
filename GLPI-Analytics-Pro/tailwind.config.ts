@@ -5,6 +5,7 @@ export default {
     extend: {
       gridTemplateColumns: {
         app: "minmax(18rem, 20rem) 1fr",
+        card: 'max-content 1fr min-content',
       },
       colors: {
         purple: "#a34532",
