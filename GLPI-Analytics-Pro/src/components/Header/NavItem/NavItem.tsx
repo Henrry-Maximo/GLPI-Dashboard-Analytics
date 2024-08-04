@@ -8,7 +8,7 @@ export function NavItem({ icon: Icon }: NavItemProps) {
   return (
     <a
       href="#"
-      className="group flex items-center gap-2 bg-slate-100 p-2 rounded hover:bg-white"
+      className="group flex items-center gap-2 bg-slate-100 p-2 rounded hover:bg-white border border-white hover:border-orange-400"
     >
       <Icon
         size={24}
