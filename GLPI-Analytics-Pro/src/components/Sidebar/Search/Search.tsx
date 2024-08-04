@@ -3,10 +3,10 @@ import { MagnifyingGlass } from "phosphor-react";
 export function Search() {
   return (
     <div className="group mx-1 flex w-full items-center gap-2 rounded-lg border border-zinc-300 px-3 py-2 shadow-sm hover:border-orange-400">
-      <MagnifyingGlass className="h-5 w-5 text-zinc-500" />
+      <MagnifyingGlass className="h-5 w-5 text-zinc-500 group-hover:text-orange-400" />
       <input
         className="bg-transparent border-none w-full focus:outline-none flex-1 p-0 text-zinc-900 placeholder-zinc-600"
-        placeholder="Search"
+        placeholder="Pesquisar"
       />
     </div>
   );

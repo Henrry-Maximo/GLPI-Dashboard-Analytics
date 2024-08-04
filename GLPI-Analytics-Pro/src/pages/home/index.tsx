@@ -53,11 +53,23 @@ export default function Home() {
             {/* className="grid md:grid-cols-4 grid-cols-card gap-4" */}
 
             <section className="mb-8">
-              <div className="flex flex-row h-full gap-7">
-              <div className="bg-zinc-50 p-4 rounded shadow text-sm grid-cols-card flex flex-row items-center py-4 gap-4">
-                  <div>
+              <div className="flex flex-row gap-7">
+                <div className="bg-zinc-50 p-4 rounded shadow flex flex-col items-start gap-4 flex-grow">
+                  <div className="flex flex-row items-center justify-between w-full">
                     <p className="">Chamados por Mês</p>
                     <DotsThreeOutline size={24} />
+                  </div>
+                  <div className="h-64 w-full">
+                    {/* <Line data={data} /> */}
+                  </div>
+                </div>
+                <div className="group bg-zinc-50 p-4 rounded shadow flex flex-col items-start gap-4 flex-grow">
+                  <div className="flex flex-row items-center justify-between w-full">
+                    <p className="">Chamados por Urgência</p>
+                    <DotsThreeOutline size={24} />
+                  </div>
+                  <div className="h-64 w-full">
+                    {/* <Pie data={pieData} /> */}
                   </div>
                 </div>
               </div>
