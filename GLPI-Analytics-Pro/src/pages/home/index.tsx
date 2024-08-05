@@ -4,9 +4,9 @@ import {
   DotsThreeOutline,
   EnvelopeSimpleOpen,
   ShieldCheck,
-} from "phosphor-react";
-import Header from "../../components/Header/Header";
-import Sidebar from "../../components/Sidebar/Sidebar";
+} from 'phosphor-react'
+import Header from '../../components/Header/Header'
+import Sidebar from '../../components/Sidebar/Sidebar'
 
 export default function Home() {
   return (
@@ -22,28 +22,28 @@ export default function Home() {
                 <div className="bg-zinc-50 p-4 rounded shadow text-sm grid-cols-card flex flex-row items-center py-4 gap-4">
                   <EnvelopeSimpleOpen className="h-10 w-10 bg-blue-100 text-blue-500 rounded-md p-2" />
                   <div>
-                    <p className="text-2xl font-bold pl-1">128</p>
+                    <p className="text-2xl font-bold pl-1">2</p>
                     <span>Chamados Abertos</span>
                   </div>
                 </div>
                 <div className="bg-zinc-50 p-4 rounded shadow text-sm grid-cols-card flex flex-row items-center py-4 gap-4">
                   <Clock className="h-10 w-10 bg-yellow-100 text-yellow-500 rounded-md p-2" />
                   <div>
-                    <p className="text-2xl font-bold pl-1">128</p>
+                    <p className="text-2xl font-bold pl-1">8</p>
                     <span>Chamados Pendentes</span>
                   </div>
                 </div>
                 <div className="bg-zinc-50 p-4 rounded shadow text-sm grid-cols-card flex flex-row items-center py-4 gap-4">
                   <CheckCircle className="h-10 w-10 bg-red-100 text-red-500 rounded-md p-2" />
                   <div>
-                    <p className="text-2xl font-bold pl-1">128</p>
+                    <p className="text-2xl font-bold pl-1">10</p>
                     <span>Chamados Finalizados</span>
                   </div>
                 </div>
                 <div className="bg-zinc-50 p-4 rounded shadow text-sm grid-cols-card flex flex-row items-center py-4 gap-4">
                   <ShieldCheck className="h-10 w-10 bg-pink-100 text-pink-500 rounded-md p-2" />
                   <div>
-                    <p className="text-2xl font-bold pl-1">128</p>
+                    <p className="text-2xl font-bold pl-1">2500</p>
                     <span>Chamados Solucionados</span>
                   </div>
                 </div>
@@ -52,8 +52,8 @@ export default function Home() {
 
             {/* className="grid md:grid-cols-4 grid-cols-card gap-4" */}
 
-            <section className="mb-8">
-              <div className="flex flex-row gap-7">
+            <section className="mb-8 border flex-grow grid grid-cols-graph">
+              <div className="flex flex-row gap-7 flex-grow">
                 <div className="bg-zinc-50 p-4 rounded shadow flex flex-col items-start gap-4 flex-grow">
                   <div className="flex flex-row items-center justify-between w-full">
                     <p className="">Chamados por Mês</p>
@@ -78,5 +78,5 @@ export default function Home() {
         </div>
       </div>
     </>
-  );
+  )
 }

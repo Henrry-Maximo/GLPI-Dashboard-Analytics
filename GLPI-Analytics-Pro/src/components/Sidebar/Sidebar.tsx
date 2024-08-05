@@ -2,6 +2,7 @@ import {
   BellSimple,
   ChartPie,
   Gear,
+  MagnifyingGlass,
   PresentationChart,
   Question,
   SignOut,
@@ -10,12 +11,17 @@ import {
   TrendUp,
 } from "phosphor-react";
 import { NavItem } from "./NavItem/NavItem";
-import { Search } from "./Search/Search";
+import * as Input from "../Input/Input";
 
 export default function Sidebar() {
   return (
     <aside className="flex flex-col gap-6 border-r border-zinc-300 px-5 py-8 bg-zinc-100">
-      <Search />
+      <Input.Root>
+        <Input.Prefix>
+          <MagnifyingGlass />
+        </Input.Prefix>
+        <Input.Control placeholder="Search" />
+      </Input.Root>
 
       <nav className="space-y-0.5">
         <NavItem icon={PresentationChart} title="Dashboard" />
