@@ -33,8 +33,6 @@
 body {
   background-color: var(--gray-300);
   color: var(--gray-700);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   height: 100%;
   margin: 0;
 }
