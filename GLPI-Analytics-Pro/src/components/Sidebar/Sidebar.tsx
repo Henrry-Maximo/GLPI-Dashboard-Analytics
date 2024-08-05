@@ -9,9 +9,9 @@ import {
   Ticket,
   ToggleLeft,
   TrendUp,
-} from "phosphor-react";
-import { NavItem } from "./NavItem/NavItem";
-import * as Input from "../Input/Input";
+} from 'phosphor-react'
+import { NavItem } from './NavItem/NavItem'
+import * as Input from '../Input/Input'
 
 export default function Sidebar() {
   return (
@@ -40,5 +40,5 @@ export default function Sidebar() {
         </nav>
       </div>
     </aside>
-  );
+  )
 }
