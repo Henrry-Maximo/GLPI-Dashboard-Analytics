@@ -1,7 +1,7 @@
 // import { MagnifyingGlass } from "phosphor-react";
-import { ComponentProps } from "react";
+import { ComponentProps } from 'react'
 
-type InputPrefixProps = ComponentProps<"div">;
+type InputPrefixProps = ComponentProps<'div'>
 
 export function Prefix(props: InputPrefixProps) {
   return (
@@ -9,10 +9,10 @@ export function Prefix(props: InputPrefixProps) {
       className="flex h-5 w-5 text-zinc-500 group-hover:text-orange-400 items-center"
       {...props}
     />
-  );
+  )
 }
 
-type InputControlProps = ComponentProps<"input">;
+type InputControlProps = ComponentProps<'input'>
 
 export function Control(props: InputControlProps) {
   return (
@@ -20,10 +20,10 @@ export function Control(props: InputControlProps) {
       className="bg-transparent border-none w-full focus:outline-none flex-1 p-0 text-zinc-900 placeholder-zinc-600"
       {...props}
     />
-  );
+  )
 }
 
-type InputRootProps = ComponentProps<"div">;
+type InputRootProps = ComponentProps<'div'>
 
 export function Root(props: InputRootProps) {
   return (
@@ -31,5 +31,5 @@ export function Root(props: InputRootProps) {
       className="group mx-1 flex w-full items-center gap-2 rounded-lg border border-zinc-300 px-3 py-2 shadow-sm hover:border-orange-400"
       {...props}
     />
-  );
+  )
 }

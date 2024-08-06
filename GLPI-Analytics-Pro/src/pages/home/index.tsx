@@ -7,15 +7,20 @@ import {
 } from 'phosphor-react'
 import Header from '../../components/Header/Header'
 import Sidebar from '../../components/Sidebar/Sidebar'
+import { SettingsTabs } from '../../components/SettingsTabs'
 
 export default function Home() {
   return (
     <>
-      <div className=" flex flex-col h-screen grid-cols-app ">
+      <div className="flex flex-col h-screen grid-cols-app">
         <Header />
         <div className="flex flex-1">
           <Sidebar />
           <main className="flex flex-1 flex-col px-4 pb-12 pt-14 bg-gray-200">
+            {/* <h1 className=" text-3xl mb-6 font-medium text-zinc-700">
+              Dashboard
+            </h1> */}
+
             <section className="mb-8">
               {/* grid-cols-profile grid items-center gap-3 */}
               <div className="grid md:grid-cols-4 grid-cols-card gap-4">
@@ -49,6 +54,8 @@ export default function Home() {
                 </div>
               </div>
             </section>
+
+            <SettingsTabs />
 
             {/* className="grid md:grid-cols-4 grid-cols-card gap-4" */}
 
