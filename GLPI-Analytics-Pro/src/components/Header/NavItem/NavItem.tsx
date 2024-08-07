@@ -1,7 +1,7 @@
-import { ElementType } from "react";
+import { ElementType } from 'react'
 
 interface NavItemProps {
-  icon: ElementType;
+  icon: ElementType
 }
 
 export function NavItem({ icon: Icon }: NavItemProps) {
@@ -15,5 +15,5 @@ export function NavItem({ icon: Icon }: NavItemProps) {
         className="h-5 w-5 text-gray-700 group-hover:text-orange-500"
       />
     </a>
-  );
+  )
 }

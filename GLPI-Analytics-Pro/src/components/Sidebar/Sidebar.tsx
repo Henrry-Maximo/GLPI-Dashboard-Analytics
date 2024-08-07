@@ -2,6 +2,7 @@ import {
   BellSimple,
   ChartPie,
   Gear,
+  Heartbeat,
   MagnifyingGlass,
   PresentationChart,
   Question,
@@ -25,6 +26,7 @@ export default function Sidebar() {
 
       <nav className="space-y-0.5">
         <NavItem icon={PresentationChart} title="Dashboard" />
+        <NavItem icon={Heartbeat} title="Monitoramento" />
         <NavItem icon={Ticket} title="Chamados" />
         <NavItem icon={TrendUp} title="Estatísticas" />
         <NavItem icon={ChartPie} title="Análises" />

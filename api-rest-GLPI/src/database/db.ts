@@ -5,7 +5,7 @@ export const createConnection = async () => {
     host: 'localhost',
     user: 'root',
     password: '',
-    database: 'db_glpi'
+    database: 'glpi_database'
   });
   return conn;
 };

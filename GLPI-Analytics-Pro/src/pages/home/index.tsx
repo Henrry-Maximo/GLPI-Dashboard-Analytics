@@ -7,7 +7,7 @@ import {
 } from 'phosphor-react'
 import Header from '../../components/Header/Header'
 import Sidebar from '../../components/Sidebar/Sidebar'
-import { SettingsTabs } from '../../components/SettingsTabs'
+// import { SettingsTabs } from '../../components/SettingsTabs'
 
 export default function Home() {
   return (
@@ -55,7 +55,7 @@ export default function Home() {
               </div>
             </section>
 
-            <SettingsTabs />
+            {/* <SettingsTabs /> */}
 
             {/* className="grid md:grid-cols-4 grid-cols-card gap-4" */}
 
