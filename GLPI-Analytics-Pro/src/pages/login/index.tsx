@@ -1,6 +1,6 @@
-import { Password, User } from "phosphor-react";
-import styles from "./style.module.css";
-import albrasGLPIGraph from "../../assets/login/logo_albras_slogan.png"
+import { Password, User } from 'phosphor-react'
+import styles from './style.module.css'
+import albrasGLPIGraph from '../../assets/login/logo_albras_slogan.png'
 
 export default function Index() {
   return (
@@ -12,7 +12,7 @@ export default function Index() {
         <form className={styles.formLogin} action="/home">
           <div className={styles.inputGroup}>
             <div className={styles.inputWrapper}>
-              <input type="text" required maxLength={25}/>
+              <input type="text" required maxLength={25} />
               <label>Usuário</label>
               <User className={styles.svgGroup} size={32} />
             </div>
@@ -34,7 +34,7 @@ export default function Index() {
           <button className={styles.accessLogin}>Acessar</button>
           <div className={styles.accessHelpMargin}>
             <a href="#">
-              Problemas com{" "}
+              Problemas com{' '}
               <span>
                 <strong>acesso</strong>
               </span>
@@ -44,5 +44,5 @@ export default function Index() {
         </form>
       </div>
     </div>
-  );
+  )
 }

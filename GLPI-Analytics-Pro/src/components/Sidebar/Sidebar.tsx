@@ -25,20 +25,20 @@ export default function Sidebar() {
       </Input.Root>
 
       <nav className="space-y-0.5">
-        <NavItem icon={PresentationChart} title="Dashboard" />
-        <NavItem icon={Heartbeat} title="Monitoramento" />
-        <NavItem icon={Ticket} title="Chamados" />
-        <NavItem icon={TrendUp} title="Estatísticas" />
-        <NavItem icon={ChartPie} title="Análises" />
-        <NavItem icon={BellSimple} title="Notificações" />
-        <NavItem icon={Question} title="Ajuda" />
+        <NavItem icon={PresentationChart} title="Dashboard" link="/home" />
+        <NavItem icon={Heartbeat} title="Monitoramento" link="/monitoring" />
+        <NavItem icon={Ticket} title="Chamados" link="" />
+        <NavItem icon={TrendUp} title="Estatísticas" link="" />
+        <NavItem icon={ChartPie} title="Análises" link="" />
+        <NavItem icon={BellSimple} title="Notificações" link="" />
+        <NavItem icon={Question} title="Ajuda" link="" />
       </nav>
 
       <div className="mt-auto">
         <nav className="space-y-0.5">
-          <NavItem icon={Gear} title="Configuração" />
-          <NavItem icon={SignOut} title="Sair" />
-          <NavItem icon={ToggleLeft} title="Modo claro" />
+          <NavItem icon={Gear} title="Configuração" link="" />
+          <NavItem icon={SignOut} title="Sair" link="" />
+          <NavItem icon={ToggleLeft} title="Modo claro" link="" />
         </nav>
       </div>
     </aside>
