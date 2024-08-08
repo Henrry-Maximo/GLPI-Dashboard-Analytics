@@ -6,7 +6,7 @@ export default {
       gridTemplateColumns: {
         app: 'minmax(18rem, 20rem) 1fr',
         card: 'max-content 1fr min-content',
-        graph: '1fr',
+        main: '2fr 1fr',
       },
       colors: {
         purple: '#a34532',

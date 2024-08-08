@@ -1,12 +1,16 @@
 import {
-  CheckCircle,
   Clock,
-  DotsThreeOutline,
-  EnvelopeSimpleOpen,
+  CheckCircle,
   ShieldCheck,
+  Hourglass,
+  UserCirclePlus,
 } from 'phosphor-react'
 import Header from '../../components/Header/Header'
 import Sidebar from '../../components/Sidebar/Sidebar'
+import { Card } from '../../components/Card/Card'
+import { CardGraph } from '../../components/CardGraph/CardGraph'
+import { CardPie } from '../../components/CardPie/CardPie'
+
 // import { SettingsTabs } from '../../components/SettingsTabs'
 
 export default function Home() {
@@ -23,63 +27,47 @@ export default function Home() {
 
             <section className="mb-8">
               {/* grid-cols-profile grid items-center gap-3 */}
-              <div className="grid md:grid-cols-4 grid-cols-card gap-4">
-                <div className="bg-zinc-50 p-4 rounded shadow text-sm grid-cols-card flex flex-row items-center py-4 gap-4">
-                  <EnvelopeSimpleOpen className="h-10 w-10 bg-blue-100 text-blue-500 rounded-md p-2" />
-                  <div>
-                    <p className="text-2xl font-bold pl-1">2</p>
-                    <span>Chamados Abertos</span>
-                  </div>
-                </div>
-                <div className="bg-zinc-50 p-4 rounded shadow text-sm grid-cols-card flex flex-row items-center py-4 gap-4">
-                  <Clock className="h-10 w-10 bg-yellow-100 text-yellow-500 rounded-md p-2" />
-                  <div>
-                    <p className="text-2xl font-bold pl-1">8</p>
-                    <span>Chamados Pendentes</span>
-                  </div>
-                </div>
-                <div className="bg-zinc-50 p-4 rounded shadow text-sm grid-cols-card flex flex-row items-center py-4 gap-4">
-                  <CheckCircle className="h-10 w-10 bg-red-100 text-red-500 rounded-md p-2" />
-                  <div>
-                    <p className="text-2xl font-bold pl-1">10</p>
-                    <span>Chamados Finalizados</span>
-                  </div>
-                </div>
-                <div className="bg-zinc-50 p-4 rounded shadow text-sm grid-cols-card flex flex-row items-center py-4 gap-4">
-                  <ShieldCheck className="h-10 w-10 bg-pink-100 text-pink-500 rounded-md p-2" />
-                  <div>
-                    <p className="text-2xl font-bold pl-1">2500</p>
-                    <span>Chamados Solucionados</span>
-                  </div>
-                </div>
+              <div className="grid md:grid-cols-5 grid-cols-card gap-4 border-b border-zinc-4 00 pb-5">
+                <Card
+                  icon={Clock}
+                  quantity={12}
+                  title="Chamados Abertos"
+                  className="h-10 w-10 bg-yellow-100 text-yellow-500 rounded-md p-2 border border-yellow-500"
+                />
+                <Card
+                  icon={UserCirclePlus}
+                  quantity={2}
+                  title="Chamados Atribuídos"
+                  className="h-10 w-10 bg-blue-100 text-blue-500 rounded-md p-2 border border-blue-500"
+                />
+                <Card
+                  icon={Hourglass}
+                  quantity={10}
+                  title="Chamados Pendentes"
+                  className="h-10 w-10 bg-orange-100 text-orange-500 rounded-md p-2 border border-orange-500"
+                />
+                <Card
+                  icon={CheckCircle}
+                  quantity={25}
+                  title="Chamados Solucionados"
+                  className="h-10 w-10 bg-green-200 text-green-600 rounded-md p-2 border border-green-500"
+                />
+                <Card
+                  icon={ShieldCheck}
+                  quantity={2500}
+                  title="Chamados Fechados"
+                  className="h-10 w-10 bg-green-700 text-green-100 rounded-md p-2 border border-green-500"
+                />
               </div>
             </section>
 
             {/* <SettingsTabs /> */}
 
             {/* className="grid md:grid-cols-4 grid-cols-card gap-4" */}
-
-            <section className="mb-8 border flex-grow grid grid-cols-graph">
-              <div className="flex flex-row gap-7 flex-grow">
-                <div className="bg-zinc-50 p-4 rounded shadow flex flex-col items-start gap-4 flex-grow">
-                  <div className="flex flex-row items-center justify-between w-full">
-                    <p className="">Chamados por Mês</p>
-                    <DotsThreeOutline size={24} />
-                  </div>
-                  <div className="h-64 w-full">
-                    {/* <Line data={data} /> */}
-                  </div>
-                </div>
-                <div className="group bg-zinc-50 p-4 rounded shadow flex flex-col items-start gap-4 flex-grow">
-                  <div className="flex flex-row items-center justify-between w-full">
-                    <p className="">Chamados por Urgência</p>
-                    <DotsThreeOutline size={24} />
-                  </div>
-                  <div className="h-64 w-full">
-                    {/* <Pie data={pieData} /> */}
-                  </div>
-                </div>
-              </div>
+            {/* gap-7 grid flex-row flex-grow md:grid-cols-1 grid-cols-card */}
+            <section className="grid md:grid-flow-row grid-cols-main gap-4">
+              <CardGraph title="Chamados por Mês" />
+              <CardPie title="Chamados por Urgência" />
             </section>
           </main>
         </div>
