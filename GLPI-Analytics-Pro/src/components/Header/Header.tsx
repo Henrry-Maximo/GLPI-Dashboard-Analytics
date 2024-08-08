@@ -8,7 +8,7 @@ export default function Header() {
   return (
     <div className="flex justify-between items-center p-8 h-16 bg-gray-100 text-slate-900 border-b border-solid border-orange-500">
       <div className="flex items-center gap-2">
-        <NavItem icon={List} />
+        <NavItem icon={List} route="#" />
       </div>
       <div className="w-64 flex items-center justify-center">
         <img
@@ -18,9 +18,9 @@ export default function Header() {
         ></img>
       </div>
       <nav className="flex items-center flex-row gap-2">
-        <NavItem icon={BellSimple} />
-        <NavItem icon={Question} />
-        <NavItem icon={UserCircle} />
+        <NavItem icon={BellSimple} route="#" />
+        <NavItem icon={Question} route="#" />
+        <NavItem icon={UserCircle} route="#" />
       </nav>
     </div>
   )

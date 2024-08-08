@@ -6,7 +6,7 @@ export default function MonitoringTicket() {
     <div className="min-h-screen flex flex-col">
       <header className="flex flex-row text-center items-center gap-4 justify-between bg-orange-500 p-4 text-slate-100">
         <div className="">
-          <NavItem icon={ArrowCircleLeft} />
+          <NavItem icon={ArrowCircleLeft} route="/home" />
         </div>
         <h2 className="text-2xl font-medium">Painel de Alerta</h2>
         <p className="flex flex-col">

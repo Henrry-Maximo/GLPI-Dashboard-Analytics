@@ -2,12 +2,13 @@ import { ElementType } from 'react'
 
 interface NavItemProps {
   icon: ElementType
+  route: string
 }
 
-export function NavItem({ icon: Icon }: NavItemProps) {
+export function NavItem({ icon: Icon, route }: NavItemProps) {
   return (
     <a
-      href="#"
+      href={route}
       className="group flex items-center gap-2 bg-slate-100 p-2 rounded hover:bg-white border border-white hover:border-orange-400"
     >
       <Icon
