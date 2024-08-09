@@ -27,13 +27,30 @@ export function CardPie({ title }: CardPie) {
     ],
   }
 
+  // const config = {
+  //   type: 'doughnut',
+  //   data,
+  //   options: {
+  //     responsive: true,
+  //     plugins: {
+  //       legend: {
+  //         position: 'top',
+  //       },
+  //       title: {
+  //         display: true,
+  //         text: 'Chart.js Doughnut Chart',
+  //       },
+  //     },
+  //   },
+  // }
+
   return (
     <div className="bg-zinc-50 p-4 rounded-sm shadow-lg h-full gap-4 border">
       <div className="flex flex-row items-center justify-between mb-8">
         <p className="">{title}</p>
         <DotsThreeOutline
           size={24}
-          className="hover:text-orange-500 hover:bg-white p-1 rounded-xl"
+          className="hover:text-orange-500 hover:bg-white p-1 rounded-xl border border-transparent hover:border-orange-400 transition duration-300 ease-in-out"
         />
       </div>
       <div className="h-full w-full py-2">

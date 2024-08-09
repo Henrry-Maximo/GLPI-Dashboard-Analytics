@@ -25,7 +25,7 @@ export default function Home() {
               Dashboard
             </h1> */}
 
-            <section className="mb-8">
+            <section className="mb-4">
               {/* grid-cols-profile grid items-center gap-3 */}
               <div className="grid md:grid-cols-5 grid-cols-card gap-4 border-b border-zinc-4 00 pb-5">
                 <Card

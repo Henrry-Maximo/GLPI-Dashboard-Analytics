@@ -31,10 +31,28 @@ export function CardGraph({ title }: CardGraph) {
     labels,
     datasets: [
       {
-        label: 'Solucionado',
+        label: 'Aberto',
+        backgroundColor: 'rgb(22, 99, 50)',
+        borderColor: 'rgb(22, 99, 50)',
+        data: [23, 14, 7, 4, 22, 49, 50],
+      },
+      {
+        label: 'Em atendimento',
+        backgroundColor: 'rgb(115, 99, 50)',
+        borderColor: 'rgb(115, 99, 50)',
+        data: [0, 11, 55, 23, 26, 32, 41],
+      },
+      {
+        label: 'Pendente',
         backgroundColor: 'rgb(255, 99, 50)',
         borderColor: 'rgb(255, 99, 50)',
         data: [0, 10, 5, 2, 20, 30, 45],
+      },
+      {
+        label: 'Solucionado',
+        backgroundColor: 'rgb(211, 20, 100)',
+        borderColor: 'rgb(211, 20, 100)',
+        data: [0, 12, 3, 62, 44, 17, 45],
       },
       {
         label: 'Fechado',
@@ -51,7 +69,7 @@ export function CardGraph({ title }: CardGraph) {
         <p className="">{title}</p>
         <DotsThreeOutline
           size={24}
-          className="hover:text-orange-500 hover:bg-white p-1 rounded-xl"
+          className="hover:text-orange-500 hover:bg-white p-1 cursor-pointer rounded-xl border border-transparent hover:border-orange-400 transition duration-300 ease-in-out"
         />
       </div>
       <div className="h-full w-full py-2">
