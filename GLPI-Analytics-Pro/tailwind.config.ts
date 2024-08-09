@@ -7,7 +7,7 @@ export default {
         app: 'minmax(18rem, 20rem) 1fr',
         profile: 'max-content 1fr min-content',
         card: 'max-content 1fr min-content',
-        main: '2fr 1fr',
+        main: '1fr minmax(18rem, 24rem)',
       },
       colors: {
         purple: '#a34532',

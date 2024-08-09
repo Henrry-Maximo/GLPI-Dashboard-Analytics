@@ -10,16 +10,23 @@ import Sidebar from '../../components/Sidebar/Sidebar'
 import { Card } from '../../components/Card/Card'
 import { CardGraph } from '../../components/CardGraph/CardGraph'
 import { CardPie } from '../../components/CardPie/CardPie'
+import { useState } from 'react'
 
 // import { SettingsTabs } from '../../components/SettingsTabs'
 
 export default function Home() {
+  const [menuOpen, setMenuOpen] = useState(true)
+
+  const toggleSidebar = () => {
+    setMenuOpen(!menuOpen)
+  }
+
   return (
     <>
       <div className="flex flex-col h-screen grid-cols-app">
-        <Header />
+        <Header toggleSidebar={toggleSidebar} />
         <div className="flex flex-1">
-          <Sidebar />
+          <Sidebar menuOpen={menuOpen} closeMenu={() => setMenuOpen(false)} />
           <main className="flex flex-1 flex-col px-4 pb-12 pt-14 bg-gray-200">
             {/* <h1 className=" text-3xl mb-6 font-medium text-zinc-700">
               Dashboard
@@ -65,7 +72,7 @@ export default function Home() {
 
             {/* className="grid md:grid-cols-4 grid-cols-card gap-4" */}
             {/* gap-7 grid flex-row flex-grow md:grid-cols-1 grid-cols-card */}
-            <section className="grid md:grid-flow-row grid-cols-main gap-4">
+            <section className="grid-cols-3 gap-4 grid">
               <CardGraph title="Chamados por Mês" />
               <CardPie title="Chamados por Urgência" />
             </section>

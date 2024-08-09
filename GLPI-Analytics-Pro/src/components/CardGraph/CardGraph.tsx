@@ -64,7 +64,7 @@ export function CardGraph({ title }: CardGraph) {
   }
 
   return (
-    <div className="bg-zinc-50 p-4 rounded-sm shadow-lg flex flex-col gap-4">
+    <div className="bg-zinc-50 p-4 rounded-sm shadow-lg flex flex-col gap-4 col-span-2">
       <div className="flex flex-row items-center justify-between">
         <p className="">{title}</p>
         <DotsThreeOutline

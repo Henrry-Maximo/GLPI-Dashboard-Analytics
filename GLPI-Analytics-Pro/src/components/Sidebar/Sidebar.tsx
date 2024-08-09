@@ -14,10 +14,13 @@ import {
 import { NavItem } from './NavItem/NavItem'
 import * as Input from '../Input/Input'
 import { Profile } from './MainProfile'
+import { MainProps } from '../Header/Header'
 
-export default function Sidebar() {
+export default function Sidebar({ menuOpen }: MainProps) {
   return (
-    <aside className="flex flex-col gap-6 border-r border-zinc-300 px-5 py-8 bg-zinc-50">
+    <aside
+      className={`${menuOpen ? 'flex flex-col gap-6 border-r border-zinc-300 px-5 py-8 bg-zinc-100' : 'hidden'} `}
+    >
       <Input.Root>
         <Input.Prefix>
           <MagnifyingGlass />

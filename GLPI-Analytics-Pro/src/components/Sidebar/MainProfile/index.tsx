@@ -3,7 +3,7 @@ export function Profile() {
     <div className="grid grid-cols-profile items-center gap-3 mt-4">
       <img
         src="https://github.com/henrry-maximo.png"
-        className="h-10 w-10 rounded-full"
+        className="h-10 w-10 rounded-full border border-orange-400"
         alt="foto de perfil"
       />
       <div className="flex flex-col truncate">

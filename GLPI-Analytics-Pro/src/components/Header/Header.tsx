@@ -4,12 +4,21 @@ import { BellSimple, List, Question, UserCircle } from 'phosphor-react'
 import iconAlbras from '../../assets/login/logo_albras_slogan.png'
 import { NavItem } from './NavItem/NavItem'
 
-export default function Header() {
+export interface ButtonProps {
+  toggleSidebar: (event: React.MouseEvent<HTMLButtonElement>) => void
+}
+
+export interface MainProps {
+  menuOpen: boolean
+  closeMenu: () => void
+}
+
+export default function Header({ toggleSidebar }: ButtonProps) {
   return (
     <div className="flex justify-between items-center p-8 h-16 bg-gray-100 text-slate-900 border-b border-solid border-orange-500">
-      <div className="flex items-center gap-2">
+      <button className="flex items-center gap-2" onClick={toggleSidebar}>
         <NavItem icon={List} route="#" />
-      </div>
+      </button>
       <div className="w-64 flex items-center justify-center">
         <img
           src={iconAlbras}
