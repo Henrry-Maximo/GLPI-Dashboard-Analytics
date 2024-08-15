@@ -75,6 +75,8 @@ export default function Home() {
             <section className="grid-cols-3 gap-4 grid">
               <CardGraph title="Chamados por Mês" />
               <CardPie title="Chamados por Urgência" />
+              <CardGraph title="Chamados por Mês" />
+              <CardPie title="Chamados por Urgência" />
             </section>
           </main>
         </div>
