@@ -1,29 +1,33 @@
-import { FastifyInstance } from "fastify";
+import { FastifyBodyParser, FastifyInstance, RequestBodyDefault } from "fastify";
 import { createConnection } from "../database/db";
+import { z } from "zod";
 
 export async function ticketController(app: FastifyInstance) {
   // retornar todos os chamados por nome
-  app.get("/tickets", async (req, reply) => {
-    const db = await createConnection();
-    const [rows] = await db.query(`
-    SELECT 
-    id,
-    entities_id,
-    name,
-    date_creation,
-    date_mod,
-    solvedate,
-    closedate,
-    users_id_recipient,
-    status,
-    priority,
-    itilcategories_id,
-    type,
-    locations_id
-  FROM
-    glpi_tickets;`);
-    await db.end();
-    return reply.status(200).send(rows);
+  app.post("/tickets", async (req, reply) => {
+    try {
+      const filter = req.headers["filter"] as String;
+
+      const formatBodyFilter = z.object({
+        filterValue: z.coerce.string() 
+      })
+
+      const { filterValue } = formatBodyFilter.parse(req.body);
+
+      let query = "SELECT id, entities_id, name, date_creation, date_mod, solvedate, closedate, users_id_recipient, status, priority, itilcategories_id,type, locations_id FROM glpi_tickets";
+
+      if (filter && filterValue) {
+        query += ` WHERE ${filter} = ?`;
+      }
+
+      const db = await createConnection();
+      const [rows] = await db.query(query, [filterValue]);
+      await db.end();
+      return reply.status(200).send(rows);
+    } catch (err) {
+      console.error(err);
+      return reply.status(500).send({ message: "Error Internal Server 😢." });
+    }
   });
 
   // retornar número de chamados por status
