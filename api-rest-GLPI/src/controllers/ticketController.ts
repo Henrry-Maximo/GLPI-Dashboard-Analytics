@@ -1,20 +1,32 @@
-import { FastifyBodyParser, FastifyInstance, RequestBodyDefault } from "fastify";
+import {
+  FastifyBodyParser,
+  FastifyInstance,
+  RequestBodyDefault,
+} from "fastify";
 import { createConnection } from "../database/db";
 import { z } from "zod";
+import { knex } from "../database";
 
 export async function ticketController(app: FastifyInstance) {
+  app.get("/", async function (req, reply) {
+    const overviewTicket = await knex("glpi_tickets").select(['id', 'entities_id', 'name', 'date_creation', 'date_mod', 'solvedate']);
+
+    reply.status(200).send(overviewTicket);
+  });
+
   // retornar todos os chamados por nome
   app.post("/tickets", async (req, reply) => {
     try {
       const filter = req.headers["filter"] as String;
 
       const formatBodyFilter = z.object({
-        filterValue: z.coerce.string() 
-      })
+        filterValue: z.coerce.string(),
+      });
 
       const { filterValue } = formatBodyFilter.parse(req.body);
 
-      let query = "SELECT id, entities_id, name, date_creation, date_mod, solvedate, closedate, users_id_recipient, status, priority, itilcategories_id,type, locations_id FROM glpi_tickets";
+      let query =
+        "SELECT id, entities_id, name, date_creation, date_mod, solvedate, closedate, users_id_recipient, status, priority, itilcategories_id,type, locations_id FROM glpi_tickets";
 
       if (filter === "tickets" && filterValue) {
         query += ` WHERE id = ?`;

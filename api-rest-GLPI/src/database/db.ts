@@ -7,5 +7,6 @@ export const createConnection = async () => {
     password: '',
     database: 'glpi_database'
   });
+  
   return conn;
 };
