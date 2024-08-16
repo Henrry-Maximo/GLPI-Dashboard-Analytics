@@ -16,12 +16,13 @@ export async function ticketController(app: FastifyInstance) {
 
       let query = "SELECT id, entities_id, name, date_creation, date_mod, solvedate, closedate, users_id_recipient, status, priority, itilcategories_id,type, locations_id FROM glpi_tickets";
 
-      if (filter && filterValue) {
-        query += ` WHERE ${filter} = ?`;
+      if (filter === "tickets" && filterValue) {
+        query += ` WHERE id = ?`;
       }
 
       const db = await createConnection();
       const [rows] = await db.query(query, [filterValue]);
+
       await db.end();
       return reply.status(200).send(rows);
     } catch (err) {
