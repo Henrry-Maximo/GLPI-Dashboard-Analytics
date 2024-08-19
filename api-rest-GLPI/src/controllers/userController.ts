@@ -1,13 +1,13 @@
 import { FastifyInstance } from "fastify";
 import { createConnection } from "../database/db";
+import { knex } from "../database";
 
 export async function userController(app: FastifyInstance) {
   // retornar o nome de todos os usuários
   app.get("/users", async (req, reply) => {
     try {
-      const conn = await createConnection();
-      const [rows] = await conn.query("SELECT name FROM glpi_users;");
-      await conn.end();
+      const rows = await knex('glpi_users').select('name')
+
       return reply.status(200).send(rows);
     } catch (err) {
       return reply.status(500).send({
