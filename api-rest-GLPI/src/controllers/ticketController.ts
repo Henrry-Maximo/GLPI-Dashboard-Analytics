@@ -8,34 +8,29 @@ import { z } from "zod";
 import { knex } from "../database";
 
 export async function ticketController(app: FastifyInstance) {
-  app.get("/", async function (req, reply) {
-    const overviewTicket = await knex("glpi_tickets").select(['id', 'entities_id', 'name', 'date_creation', 'date_mod', 'solvedate']);
+  app.post("/", async function (req, reply) {
+    const formatBodyFilter = z.object({
+      filterValue: z.coerce.string().optional(),
+    })
 
-    reply.status(200).send(overviewTicket);
-  });
+    const filter = req.headers["filter"] as string;
+    const { data }  = formatBodyFilter.safeParse(req.body);
 
-  // retornar todos os chamados por nome
-  app.post("/tickets", async (req, reply) => {
     try {
-      const filter = req.headers["filter"] as String;
+      let ticketsQuery = knex("glpi_tickets").select([
+        "id",
+        "entities_id",
+        "name",
+        "date_creation",
+        "date_mod",
+        "solvedate",
+      ]);
 
-      const formatBodyFilter = z.object({
-        filterValue: z.coerce.string(),
-      });
-
-      const { filterValue } = formatBodyFilter.parse(req.body);
-
-      let query =
-        "SELECT id, entities_id, name, date_creation, date_mod, solvedate, closedate, users_id_recipient, status, priority, itilcategories_id,type, locations_id FROM glpi_tickets";
-
-      if (filter === "tickets" && filterValue) {
-        query += ` WHERE id = ?`;
+      if (filter === "tickets" && data) {
+        ticketsQuery = ticketsQuery.where({ id: data.filterValue });
       }
-
-      const db = await createConnection();
-      const [rows] = await db.query(query, [filterValue]);
-
-      await db.end();
+    
+      const rows = await ticketsQuery;
       return reply.status(200).send(rows);
     } catch (err) {
       console.error(err);
