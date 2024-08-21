@@ -19,7 +19,7 @@ import { MainProps } from '../Header/Header'
 export default function Sidebar({ menuOpen }: MainProps) {
   return (
     <aside
-      className={`${menuOpen ? 'flex flex-col gap-6 border-r border-zinc-300 px-5 py-8 bg-zinc-50' : 'hidden'} `}
+      className={` ${menuOpen ? 'w-64 px-5 py-8' : 'w-0 opacity-0'} flex flex-col gap-6 border-r border-zinc-300  overflow-hidden transition-all duration-200 ease-in-out `}
     >
       <Input.Root>
         <Input.Prefix>
