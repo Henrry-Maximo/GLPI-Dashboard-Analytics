@@ -4,8 +4,8 @@ import { env } from "./env";
 app
   .listen({
     host: "0.0.0.0",
-    port: env.PORT,
+    port: env.NODE_PORT,
   })
   .then(() => {
-    console.log(`HTTP Server Running, porta: ${env.PORT}`);
+    console.log(`HTTP Server Running, port: ${env.NODE_PORT} (status: ${env.NODE_ENV})`);
   });

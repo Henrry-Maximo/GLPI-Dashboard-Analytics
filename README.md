@@ -1,5 +1,5 @@
 # GLPI Technical Analysis System
-![alt text]()
+
 ![Project Image](GLPI-Analytics-Pro/project-images/login-white.png)
 ![Project Image](GLPI-Analytics-Pro/project-images/login-black.png)
 ![Project Image](GLPI-Analytics-Pro/project-images/dashboard-white.png)
