@@ -1,8 +1,9 @@
 # GLPI Technical Analysis System
-
-![Project Image](image-2.png)
-![Project Image](image-3.png)
-![Project Image](image-1.png)
+![alt text]()
+![Project Image](GLPI-Analytics-Pro/project-images/login-white.png)
+![Project Image](GLPI-Analytics-Pro/project-images/login-black.png)
+![Project Image](GLPI-Analytics-Pro/project-images/dashboard-white.png)
+![Project Image](GLPI-Analytics-Pro/project-images/monitoring-white.png)
 
 Este projeto visa fornecer uma plataforma de análise técnica para a GLPI, oferecendo estatísticas detalhadas, dashboards interativos e gráficos informativos. Inicialmente direcionado para técnicos, com potencial de expansão para incluir clientes.
 
