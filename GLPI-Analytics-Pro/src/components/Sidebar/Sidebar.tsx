@@ -32,7 +32,7 @@ export default function Sidebar({ menuOpen }: MainProps) {
         <NavItem icon={PresentationChart} title="Dashboard" link="/home" />
         <NavItem icon={Heartbeat} title="Monitoramento" link="/monitoring" />
         <NavItem icon={Ticket} title="Chamados" link="" />
-        <NavItem icon={TrendUp} title="Estatísticas" link="" />
+        <NavItem icon={TrendUp} title="Estatísticas" link="/statistics" />
         <NavItem icon={ChartPie} title="Análises" link="" />
         <NavItem icon={BellSimple} title="Notificações" link="" />
         <NavItem icon={Question} title="Ajuda" link="" />
