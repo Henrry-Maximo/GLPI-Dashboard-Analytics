@@ -7,6 +7,6 @@ app
   })
   .then(() => {
     console.log(
-      `🚀 Server Running, port: ${env.NODE_PORT}, status: ${env.NODE_ENV}`
+      `🚀 Server Running, port: ${env.NODE_PORT}, status: ${env.NODE_ENV}`,
     );
   });
