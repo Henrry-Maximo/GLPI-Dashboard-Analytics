@@ -8,17 +8,24 @@ export async function ticketController(app: FastifyInstance) {
       id: z.coerce.string().max(8).optional(),
     });
 
-    const { filter } = req.headers;
+    const filter = req.headers.filter;
     const { id } = getIdTicketParamsSchema.parse(req.params);
 
-    let result = knex("glpi_tickets").select("*");
+    let result = knex("glpi_tickets").select([
+      "id",
+      "entities_id",
+      "name",
+      "date_creation",
+      "date_mod",
+      "solvedate",
+    ]);
 
-    if (filter === "tickets" && id) {
+    if (filter === "true" && id) {
       result = result.where("id", id);
     }
 
     const rows = await result;
-    return reply.status(200).send({ rows });
+    return reply.status(200).send(rows);
   });
 
   // retornar número de chamados por status
