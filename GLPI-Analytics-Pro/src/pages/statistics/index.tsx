@@ -16,9 +16,9 @@ export default function Statistics() {
   }
 
   return (
-    <section className="mt-4">
+    <section className="m-2">
       <div className="flex justify-center items-center bg-slate-100">
-        <div className="bg-white p-8 rounded-lg shadow-md w-full ">
+        <div className="bg-white p-8 rounded-lg w-full ">
           <h2 className="text-2xl font-semibold mb-6 text-gray-800 text-center">
             Ticket Details
           </h2>

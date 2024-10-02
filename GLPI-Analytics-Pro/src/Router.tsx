@@ -8,17 +8,17 @@ import Index from './pages/login'
 export const Router = () => {
   return (
     <Routes>
-      <Route path="/albras" element={<DefaultLayout />}>
+      {/* Rota de Login (padrão) */}
+      <Route path="/login" element={<Index />} />
+
+      <Route path="/" element={<DefaultLayout />}>
         <Route path="home" element={<Home />} />
-        <Route path="monitoring" element={<MonitoringTicket />} />
         <Route path="statistics" element={<Statistics />} />
       </Route>
 
-      {/* Rota de Login (padrão) */}
-      <Route path="/" element={<Index />} />
-
+      <Route path="monitoring" element={<MonitoringTicket />} />
       {/* Redirecionamento para Login se rota não for encontrada */}
-      <Route path="*" element={<Navigate to="/" replace />} />
+      <Route path="*" element={<Navigate to="/login" replace />} />
     </Routes>
   )
 }

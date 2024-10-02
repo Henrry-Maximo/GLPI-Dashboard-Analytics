@@ -19,7 +19,7 @@ import { MainProps } from '../Header/Header'
 export default function Sidebar({ menuOpen }: MainProps) {
   return (
     <aside
-      className={` ${menuOpen ? 'w-64 px-5 py-8' : 'w-0 opacity-0'} flex flex-col gap-6 border-r border-zinc-300  overflow-hidden transition-all duration-200 ease-in-out `}
+      className={`${menuOpen ? 'w-64 px-5 py-8' : 'w-0 opacity-0'} flex flex-col gap-6 border-r border-zinc-300  overflow-hidden transition-all duration-200 ease-in-out`}
     >
       <Input.Root>
         <Input.Prefix>
@@ -31,11 +31,11 @@ export default function Sidebar({ menuOpen }: MainProps) {
       <nav className="space-y-0.5">
         <NavItem icon={PresentationChart} title="Dashboard" link="/home" />
         <NavItem icon={Heartbeat} title="Monitoramento" link="/monitoring" />
-        <NavItem icon={Ticket} title="Chamados" link="" />
+        <NavItem icon={Ticket} title="Chamados" link="/tickets" />
         <NavItem icon={TrendUp} title="Estatísticas" link="/statistics" />
-        <NavItem icon={ChartPie} title="Análises" link="" />
-        <NavItem icon={BellSimple} title="Notificações" link="" />
-        <NavItem icon={Question} title="Ajuda" link="" />
+        <NavItem icon={ChartPie} title="Análises" link="/analytics" />
+        <NavItem icon={BellSimple} title="Notificações" link="/notification" />
+        <NavItem icon={Question} title="Ajuda" link="/help" />
       </nav>
 
       <div className="mt-auto">

@@ -1,4 +1,5 @@
 import { ElementType } from 'react'
+import { Link } from 'react-router-dom'
 
 interface NavItemProps {
   icon: ElementType
@@ -8,8 +9,8 @@ interface NavItemProps {
 
 export function NavItem({ icon: Icon, title, link }: NavItemProps) {
   return (
-    <a
-      href={link}
+    <Link
+      to={link}
       className="group flex items-center gap-2 p-2 rounded hover:bg-white border border-transparent hover:border-orange-400 transition duration-300 ease-in-out"
     >
       <Icon
@@ -19,6 +20,6 @@ export function NavItem({ icon: Icon, title, link }: NavItemProps) {
       <span className="font-medium text-gray-500 group-hover:text-orange-500 transition duration-300 ease-in-out">
         {title}
       </span>
-    </a>
+    </Link>
   )
 }
