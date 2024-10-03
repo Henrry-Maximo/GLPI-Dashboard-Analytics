@@ -72,7 +72,7 @@ export async function ticketController(app: FastifyInstance) {
     return reply.status(200).send(ticketsByStatusCount);
   });
 
-  // retornar número de chamados por status e data
+  // lista de chamados por status/data
   app.get("/date", async (req, reply) => {
     const tickets = await knex("glpi_tickets")
       .select(knex.raw("DATE(date_creation) AS data"), "status")
@@ -80,7 +80,28 @@ export async function ticketController(app: FastifyInstance) {
       .whereNotIn("status", [6])
       .groupByRaw("DATE(date_creation), status")
       .orderByRaw("DATE(date_creation) DESC");
-    reply.status(200).send(tickets);
+    return reply.status(200).send(tickets);
+  });
+
+  app.get("/last", async (req, reply) => {
+    const ticketLastSchema = await knex("glpi_tickets")
+      .select([
+        "glpi_tickets.id",
+        "glpi_tickets.name AS title", // Título do chamado
+        "glpi_tickets.date_creation",
+        "glpi_tickets.status",
+        "glpi_tickets.urgency AS priority", // Prioridade do chamado
+        "glpi_locations.name AS location", // Nome da localização
+      ])
+      .leftJoin(
+        "glpi_locations",
+        "glpi_tickets.locations_id",
+        "glpi_locations.id",
+      )
+      .orderBy("glpi_tickets.date_creation", "desc")
+      .limit(1);
+
+    return reply.status(200).send(ticketLastSchema);
   });
 
   // retornar quantiade de chamados associados a uma categoria
