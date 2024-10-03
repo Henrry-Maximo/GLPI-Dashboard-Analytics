@@ -3,13 +3,14 @@ import { z } from "zod";
 import { knex } from "../../database/knex-config";
 
 export async function ticketController(app: FastifyInstance) {
-  app.post("/:id", async (req, reply) => {
-    const getIdTicketParamsSchema = z.object({
+  // lista de chamados ou chamado específico
+  app.post("/search", async (req, reply) => {
+    const requestIdTicketQuerySchema = z.object({
       id: z.coerce.string().max(8).optional(),
+      filter: z.coerce.string().max(8).optional(),
     });
 
-    const filter = req.headers.filter;
-    const { id } = getIdTicketParamsSchema.parse(req.params);
+    const { id, filter } = requestIdTicketQuerySchema.parse(req.query);
 
     let result = knex("glpi_tickets").select([
       "id",
@@ -28,21 +29,19 @@ export async function ticketController(app: FastifyInstance) {
     return reply.status(200).send(rows);
   });
 
-  // retornar número de chamados por status
-  // app.get("/tickets-by-count-status", async (req, reply) => {
-  //   const db = await createConnection();
-  //   const [rows] = await db.query(`
-  //     SELECT
-  //       COUNT(id) AS total_chamados,
-  //       COUNT(CASE WHEN status = 1 THEN 1 END) AS total_abertos,
-  //       COUNT(CASE WHEN status = 2 THEN 1 END) AS total_atribuidos,
-  //       COUNT(CASE WHEN status = 4 THEN 1 END) AS total_pendentes,
-  //       COUNT(CASE WHEN status = 5 THEN 1 END) AS total_solucionados,
-  //       COUNT(CASE WHEN status = 6 THEN 1 END) AS total_fechados
-  //     FROM glpi_tickets;
-  //   `);
-  //   return reply.status(200).send(rows);
-  // });
+  // lista chamados por status
+  app.get("/status", async (req, reply) => {
+    const ticketsByStatusCount = await knex("glpi_tickets").select([
+      knex.raw("COUNT(id) AS tickets_total"),
+      knex.raw("COUNT(CASE WHEN status = 1 THEN 1 END) AS tickets_open"),
+      knex.raw("COUNT(CASE WHEN status = 2 THEN 1 END) AS tickets_assigned"),
+      knex.raw("COUNT(CASE WHEN status = 4 THEN 1 END) AS tickets_pending"),
+      knex.raw("COUNT(CASE WHEN status = 5 THEN 1 END) AS tickets_solved"),
+      knex.raw("COUNT(CASE WHEN status = 6 THEN 1 END) AS tickets_closed"),
+    ]);
+
+    return reply.status(200).send(ticketsByStatusCount);
+  });
 
   // retornar número de chamados por status e data
   // app.get("/tickets-by-status-date", async (req, reply) => {

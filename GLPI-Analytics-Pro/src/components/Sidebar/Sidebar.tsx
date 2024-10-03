@@ -3,7 +3,7 @@ import {
   ChartPie,
   Gear,
   Heartbeat,
-  MagnifyingGlass,
+  // MagnifyingGlass,
   PresentationChart,
   Question,
   SignOut,
@@ -12,7 +12,7 @@ import {
   TrendUp,
 } from 'phosphor-react'
 import { NavItem } from './NavItem/NavItem'
-import * as Input from '../Input/Input'
+// import * as Input from '../Input/Input'
 import { Profile } from './MainProfile'
 import { MainProps } from '../Header/Header'
 
@@ -21,12 +21,12 @@ export default function Sidebar({ menuOpen }: MainProps) {
     <aside
       className={`${menuOpen ? 'w-64 px-5 py-8' : 'w-0 opacity-0'} flex flex-col gap-6 border-r border-zinc-300  overflow-hidden transition-all duration-200 ease-in-out`}
     >
-      <Input.Root>
+      {/* <Input.Root>
         <Input.Prefix>
           <MagnifyingGlass />
         </Input.Prefix>
         <Input.Control placeholder="Search" />
-      </Input.Root>
+      </Input.Root> */}
 
       <nav className="space-y-0.5">
         <NavItem icon={PresentationChart} title="Dashboard" link="/home" />

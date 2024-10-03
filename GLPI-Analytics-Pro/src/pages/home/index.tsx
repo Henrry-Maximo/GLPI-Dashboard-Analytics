@@ -9,10 +9,36 @@ import {
 import { Card } from '../../components/Card/Card'
 import { CardGraph } from '../../components/CardGraph/CardGraph'
 import { CardPie } from '../../components/CardPie/CardPie'
+import { useEffect, useState } from 'react'
 
 // import { SettingsTabs } from '../../components/SettingsTabs'
 
+interface TicketResponse {
+  tickets_total: number
+  tickets_open: number
+  tickets_assigned: number
+  tickets_pending: number
+  tickets_solved: number
+  tickets_closed: number
+}
+
 export default function Home() {
+  const [tickets, setTickets] = useState<TicketResponse[]>([])
+  useEffect(() => {
+    fetch('http://localhost:5000/api-glpi/ticket/status')
+      .then((response) => {
+        return response.json()
+      })
+      .then((data: TicketResponse[]) => {
+        setTickets(data)
+      })
+      .catch((err) => {
+        console.log(err.message)
+      })
+  }, [])
+
+  const ticket = tickets[0]
+
   return (
     <main className="flex flex-1 flex-col px-4 pb-12 pt-14 bg-gray-200 justify-center">
       <div className="flex flex-row justify-between rounded-md bg-white mb-4 items-center py-2 px-2 shadow-sm">
@@ -27,31 +53,31 @@ export default function Home() {
         <div className="grid md:grid-cols-5 grid-cols-card gap-4 border-b border-zinc-4 00 pb-5">
           <Card
             icon={Clock}
-            quantity={12}
+            quantity={ticket ? ticket.tickets_open : 0}
             title="Chamados Abertos"
             className="h-10 w-10 bg-yellow-100 text-yellow-500 rounded-md p-2 border border-yellow-500"
           />
           <Card
             icon={UserCirclePlus}
-            quantity={2}
+            quantity={ticket ? ticket.tickets_assigned : 0}
             title="Chamados Atribuídos"
             className="h-10 w-10 bg-blue-100 text-blue-500 rounded-md p-2 border border-blue-500"
           />
           <Card
             icon={Hourglass}
-            quantity={10}
+            quantity={ticket ? ticket.tickets_pending : 0}
             title="Chamados Pendentes"
             className="h-10 w-10 bg-orange-100 text-orange-500 rounded-md p-2 border border-orange-500"
           />
           <Card
             icon={CheckCircle}
-            quantity={25}
+            quantity={ticket ? ticket.tickets_solved : 0}
             title="Chamados Solucionados"
             className="h-10 w-10 bg-green-200 text-green-600 rounded-md p-2 border border-green-500"
           />
           <Card
             icon={ShieldCheck}
-            quantity={2500}
+            quantity={ticket ? ticket.tickets_closed : 0}
             title="Chamados Fechados"
             className="h-10 w-10 bg-green-700 text-green-100 rounded-md p-2 border border-green-500"
           />
@@ -64,6 +90,8 @@ export default function Home() {
         <CardGraph title="Chamados por Ano" />
         <CardPie title="Chamados por Ano" />
       </section>
+
+      <section></section>
     </main>
   )
 }
