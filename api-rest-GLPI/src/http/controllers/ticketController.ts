@@ -6,8 +6,8 @@ export async function ticketController(app: FastifyInstance) {
   // lista de chamados ou chamado específico
   app.post("/search", async (req, reply) => {
     const requestIdTicketQuerySchema = z.object({
-      id: z.coerce.string().max(8).optional(),
-      filter: z.coerce.string().max(8).optional(),
+      id: z.coerce.string().optional(),
+      filter: z.coerce.string().optional(),
     });
 
     const { id, filter } = requestIdTicketQuerySchema.parse(req.query);
@@ -29,8 +29,15 @@ export async function ticketController(app: FastifyInstance) {
     return reply.status(200).send(rows);
   });
 
-  // lista chamados por status
+  // lista chamados por status/urgência
   app.get("/status", async (req, reply) => {
+    const requestStatusQuerySchema = z.object({
+      filter: z.coerce.string().optional(),
+      by: z.coerce.string().optional(),
+    });
+
+    const { filter, by } = requestStatusQuerySchema.parse(req.query);
+
     const ticketsByStatusCount = await knex("glpi_tickets").select([
       knex.raw("COUNT(id) AS tickets_total"),
       knex.raw("COUNT(CASE WHEN status = 1 THEN 1 END) AS tickets_open"),
@@ -40,38 +47,41 @@ export async function ticketController(app: FastifyInstance) {
       knex.raw("COUNT(CASE WHEN status = 6 THEN 1 END) AS tickets_closed"),
     ]);
 
+    const ticketsByUrgencyCount = await knex("glpi_tickets").select([
+      knex.raw(
+        "COUNT(CASE WHEN status = 1 AND urgency = 1 THEN 1 END) AS tickets_very_low",
+      ),
+      knex.raw(
+        "COUNT(CASE WHEN status = 2 AND urgency = 2 THEN 1 END) AS tickets_low",
+      ),
+      knex.raw(
+        "COUNT(CASE WHEN status = 3 AND urgency = 3 THEN 1 END) AS tickets_medium",
+      ),
+      knex.raw(
+        "COUNT(CASE WHEN status = 4 AND urgency = 4 THEN 1 END) AS tickets_high",
+      ),
+      knex.raw(
+        "COUNT(CASE WHEN status = 5 AND urgency = 5 THEN 1 END) AS tickets_very_high",
+      ),
+    ]);
+
+    if (filter === "true" && by === "urgency") {
+      return reply.status(200).send(ticketsByUrgencyCount);
+    }
+
     return reply.status(200).send(ticketsByStatusCount);
   });
 
   // retornar número de chamados por status e data
-  // app.get("/tickets-by-status-date", async (req, reply) => {
-  //   const db = await createConnection();
-  //   const [rows] = await db.query(`
-  //   SELECT
-  //     DATE(date_creation) AS data, status, COUNT(id) AS quantidade
-  //   FROM
-  //     glpi_tickets
-  //   WHERE status NOT IN (6)
-  //   GROUP BY DATE(date_creation), status
-  //   ORDER BY DATE(date_creation) DESC;
-  //   `);
-  //   reply.status(200).send(rows);
-  // });
-
-  // retornar número de chamado por urgência
-  // app.get("/tickets-by-count-urgency", async (req, reply) => {
-  //   const db = await createConnection();
-  //   const [rows] = await db.query(`
-  //     SELECT
-  //       COUNT(CASE WHEN status = 1 AND urgency = 1 THEN 1 END) AS muito_baixa_urgencia,
-  //       COUNT(CASE WHEN status = 2 AND urgency = 2 THEN 1 END) AS baixa_urgencia,
-  //       COUNT(CASE WHEN status = 3 AND urgency = 3 THEN 1 END) AS media_urgencia,
-  //       COUNT(CASE WHEN status = 4 AND urgency = 4 THEN 1 END) AS alta_urgencia,
-  //       COUNT(CASE WHEN status = 5 AND urgency = 5 THEN 1 END) AS muito_alta_urgencia
-  //     FROM glpi_tickets;
-  //   `);
-  //   return reply.status(200).send(rows);
-  // });
+  app.get("/date", async (req, reply) => {
+    const tickets = await knex("glpi_tickets")
+      .select(knex.raw("DATE(date_creation) AS data"), "status")
+      .count("id AS quantidade")
+      .whereNotIn("status", [6])
+      .groupByRaw("DATE(date_creation), status")
+      .orderByRaw("DATE(date_creation) DESC");
+    reply.status(200).send(tickets);
+  });
 
   // retornar quantiade de chamados associados a uma categoria
   // app.get("/tickets-by-categorie", async (req, reply) => {
