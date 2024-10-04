@@ -87,17 +87,46 @@ export async function ticketController(app: FastifyInstance) {
     const ticketLastSchema = await knex("glpi_tickets")
       .select([
         "glpi_tickets.id",
-        "glpi_tickets.name AS title", // Título do chamado
+        "glpi_tickets.name AS title",
         "glpi_tickets.date_creation",
-        "glpi_tickets.status",
-        "glpi_tickets.urgency AS priority", // Prioridade do chamado
-        "glpi_locations.name AS location", // Nome da localização
+        knex.raw(`
+      CASE glpi_tickets.status
+        WHEN 1 THEN 'Novo'
+        WHEN 2 THEN 'Em Atendimento (Atribuído)'
+        WHEN 3 THEN 'Em Atendimento (Planejado)'
+        WHEN 4 THEN 'Pendente'
+        WHEN 5 THEN 'Solucionado'
+        WHEN 6 THEN 'Fechado'
+        ELSE 'Unknown'
+      END AS status
+    `),
+        knex.raw(`
+      CASE glpi_tickets.urgency
+        WHEN 1 THEN 'Muito baixo'
+        WHEN 2 THEN 'Baixo'
+        WHEN 3 THEN 'Médio'
+        WHEN 4 THEN 'Alto'
+        WHEN 5 THEN 'Muito Alto'
+        ELSE 'Unknown'
+      END AS priority
+    `),
+        "glpi_locations.name AS location",
+        "glpi_users.firstname",
+        "glpi_users.realname",
       ])
       .leftJoin(
         "glpi_locations",
         "glpi_tickets.locations_id",
         "glpi_locations.id",
       )
+      .leftJoin(
+        "glpi_tickets_users",
+        "glpi_tickets.id",
+        "glpi_tickets_users.tickets_id",
+      )
+      .leftJoin("glpi_users", "glpi_tickets_users.users_id", "glpi_users.id")
+      .where("glpi_tickets_users.type", 2)
+      .whereNot("glpi_tickets.status", 6)
       .orderBy("glpi_tickets.date_creation", "desc")
       .limit(1);
 
