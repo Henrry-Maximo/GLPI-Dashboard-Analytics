@@ -4,7 +4,7 @@ import { knex } from "../../database/knex-config";
 
 export async function ticketController(app: FastifyInstance) {
   // lista de chamados ou chamado específico
-  app.post("/search", async (req, reply) => {
+  app.get("/search", async (req, reply) => {
     const requestIdTicketQuerySchema = z.object({
       id: z.coerce.string().optional(),
       filter: z.coerce.string().optional(),
@@ -29,8 +29,8 @@ export async function ticketController(app: FastifyInstance) {
     return reply.status(200).send(rows);
   });
 
-  // lista chamados por status/urgência
-  app.get("/status", async (req, reply) => {
+  // lista de chamados por status/urgência/categorias
+  app.get("/state", async (req, reply) => {
     const requestStatusQuerySchema = z.object({
       filter: z.coerce.string().optional(),
       by: z.coerce.string().optional(),
@@ -46,6 +46,18 @@ export async function ticketController(app: FastifyInstance) {
       knex.raw("COUNT(CASE WHEN status = 5 THEN 1 END) AS tickets_solved"),
       knex.raw("COUNT(CASE WHEN status = 6 THEN 1 END) AS tickets_closed"),
     ]);
+
+    const ticketsByCategory = await knex("glpi_tickets")
+      .select([
+        "glpi_itilcategories.name AS category_name",
+        knex.raw("COUNT(glpi_tickets.id) AS tickets_count"),
+      ])
+      .innerJoin(
+        "glpi_itilcategories",
+        "glpi_tickets.itilcategories_id",
+        "glpi_itilcategories.id",
+      )
+      .groupBy("glpi_tickets.itilcategories_id", "glpi_itilcategories.name");
 
     const ticketsByUrgencyCount = await knex("glpi_tickets").select([
       knex.raw(
@@ -67,6 +79,10 @@ export async function ticketController(app: FastifyInstance) {
 
     if (filter === "true" && by === "urgency") {
       return reply.status(200).send(ticketsByUrgencyCount);
+    }
+
+    if (filter === "true" && by === "categories") {
+      return reply.status(200).send(ticketsByCategory);
     }
 
     return reply.status(200).send(ticketsByStatusCount);

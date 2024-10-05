@@ -25,7 +25,7 @@ interface TicketResponse {
 export default function Home() {
   const [tickets, setTickets] = useState<TicketResponse[]>([])
   useEffect(() => {
-    fetch('http://10.10.2.93:5000/api-glpi/ticket/status')
+    fetch('http://192.168.0.101:5000/api-glpi/ticket/status')
       .then((response) => {
         return response.json()
       })

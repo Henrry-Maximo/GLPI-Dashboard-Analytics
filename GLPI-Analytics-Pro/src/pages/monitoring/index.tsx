@@ -16,7 +16,7 @@ interface TicketResponse {
 export default function MonitoringTicket() {
   const [ticketLastData, setTicketLastData] = useState<TicketResponse[]>([])
   useEffect(() => {
-    fetch('http://10.10.2.93:5000/api-glpi/ticket/last')
+    fetch('http://192.168.0.101:5000/api-glpi/ticket/last')
       .then((response) => {
         return response.json()
       })
@@ -36,7 +36,7 @@ export default function MonitoringTicket() {
         <div className="">
           <NavItem icon={ArrowCircleLeft} route="/home" />
         </div>
-        <h2 className="text-2xl font-medium">Painel de Alerta</h2>
+        <h2 className="text-3xl font-medium">Painel de Alerta</h2>
         <p className="flex flex-col">
           <span className="text-xs">01/07/2024</span>
           <span className="text-2xl font-semibold">14:37:51</span>
