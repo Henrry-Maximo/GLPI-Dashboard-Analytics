@@ -15,8 +15,9 @@ interface TicketResponse {
 
 export default function MonitoringTicket() {
   const [ticketLastData, setTicketLastData] = useState<TicketResponse[]>([])
+
   useEffect(() => {
-    fetch('http://192.168.0.101:5000/api-glpi/ticket/last')
+    fetch('http://192.168.0.100:5000/api-glpi/tickets/last')
       .then((response) => {
         return response.json()
       })
@@ -27,6 +28,8 @@ export default function MonitoringTicket() {
         console.log(err.message)
       })
   }, [])
+
+  console.log(ticketLastData)
 
   const ticket = ticketLastData[0]
 

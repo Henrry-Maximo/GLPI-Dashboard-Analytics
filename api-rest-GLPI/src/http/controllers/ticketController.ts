@@ -143,7 +143,8 @@ export async function ticketController(app: FastifyInstance) {
       .leftJoin("glpi_users", "glpi_tickets_users.users_id", "glpi_users.id")
       .where("glpi_tickets_users.type", 2)
       .whereNot("glpi_tickets.status", 6)
-      .orderBy("glpi_tickets.date_creation", "desc");
+      .orderBy("glpi_tickets.date_creation", "desc")
+      .limit(1);
 
     return reply.status(200).send(ticketLastSchema);
   });
