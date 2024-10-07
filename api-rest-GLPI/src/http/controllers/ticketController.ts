@@ -141,7 +141,7 @@ export async function ticketController(app: FastifyInstance) {
         "glpi_tickets_users.tickets_id",
       )
       .leftJoin("glpi_users", "glpi_tickets_users.users_id", "glpi_users.id")
-      .where("glpi_tickets_users.type", 2)
+      .where("glpi_tickets_users.type", 1)
       .whereNot("glpi_tickets.status", 6)
       .orderBy("glpi_tickets.date_creation", "desc")
       .first();

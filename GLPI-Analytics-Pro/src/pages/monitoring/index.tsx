@@ -8,7 +8,7 @@ export default function MonitoringTicket() {
     queryKey: ['monitoring'],
     queryFn: getMonitoring,
     staleTime: 1000 * 60,
-    refetchInterval: 1000 * 10, // atualizar a cada 30 segundos
+    refetchInterval: 1000 * 10, // atualizar a cada 10 segundos
     refetchOnWindowFocus: true, // reconsultar quando a janela ganha foco
   })
 
