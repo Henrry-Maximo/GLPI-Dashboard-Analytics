@@ -2,19 +2,38 @@ import { useQuery } from '@tanstack/react-query'
 import { ArrowCircleLeft } from 'phosphor-react'
 import { NavItem } from '../../components/Header/NavItem/NavItem'
 import { getMonitoring } from '../../http/get-monitoring'
+import dayjs from 'dayjs'
+
+import ptBR from 'dayjs/locale/pt-br'
+import relativeTime from 'dayjs/plugin/relativeTime'
+
+dayjs.locale(ptBR)
 
 export default function MonitoringTicket() {
   const { data } = useQuery({
     queryKey: ['monitoring'],
     queryFn: getMonitoring,
     staleTime: 1000 * 60,
-    refetchInterval: 1000 * 10, // atualizar a cada 10 segundos
+    refetchInterval: 1000 * 5, // atualizar a cada 10 segundos
     refetchOnWindowFocus: true, // reconsultar quando a janela ganha foco
   })
 
   if (!data) {
     return null
   }
+
+  const ticketFormattingCreatingNumbers = dayjs(data.date_creation).format(
+    'DD/MM/YYYY HH:mm:ss',
+  )
+
+  const ticketFormattingCreatingString = dayjs(data.date_creation).format(
+    'dddd, D [de] MMMM [de] YYYY',
+  )
+
+  dayjs.extend(relativeTime)
+  const date = dayjs(data.date_creation)
+  const now = dayjs()
+  const ticketFormattingCreatingRelative = date.from(now)
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -59,13 +78,19 @@ export default function MonitoringTicket() {
         </div>
         <div>
           <p className="font-bold flex flex-row gap-2 text-xl justify-center text-gray-600">
-            Descrição do Chamado:
+            Título do Chamado:
             <span className="text-orange-500">{data ? data.title : null}</span>
           </p>
           <p className="font-bold flex flex-row gap-2 text-xl justify-center text-gray-600">
             Data de Criação:
             <span className="text-orange-500">
-              {data ? data.date_creation : null}
+              {ticketFormattingCreatingString || null}
+            </span>
+          </p>
+          <p className="font-bold flex flex-row gap-2 text-xl justify-center text-gray-600">
+            <span className="text-orange-500">
+              {ticketFormattingCreatingNumbers || null} (
+              {ticketFormattingCreatingRelative || null})
             </span>
           </p>
         </div>

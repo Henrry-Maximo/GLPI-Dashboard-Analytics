@@ -104,7 +104,7 @@ export async function ticketController(app: FastifyInstance) {
       .select([
         "glpi_tickets.id",
         "glpi_tickets.name AS title",
-        "glpi_tickets.date_creation",
+        "glpi_tickets.date",
         knex.raw(`
       CASE glpi_tickets.status
         WHEN 1 THEN 'Novo'
@@ -118,11 +118,11 @@ export async function ticketController(app: FastifyInstance) {
     `),
         knex.raw(`
       CASE glpi_tickets.urgency
-        WHEN 1 THEN 'Muito baixo'
-        WHEN 2 THEN 'Baixo'
-        WHEN 3 THEN 'Médio'
-        WHEN 4 THEN 'Alto'
-        WHEN 5 THEN 'Muito Alto'
+        WHEN 1 THEN 'Muito baixa'
+        WHEN 2 THEN 'Baixa'
+        WHEN 3 THEN 'Média'
+        WHEN 4 THEN 'Alta'
+        WHEN 5 THEN 'Muito Alta'
         ELSE 'Unknown'
       END AS priority
     `),
@@ -143,7 +143,7 @@ export async function ticketController(app: FastifyInstance) {
       .leftJoin("glpi_users", "glpi_tickets_users.users_id", "glpi_users.id")
       .where("glpi_tickets_users.type", 1)
       .whereNot("glpi_tickets.status", 6)
-      .orderBy("glpi_tickets.date_creation", "desc")
+      .orderBy("glpi_tickets.date", "desc")
       .first();
 
     if (!ticketLastSchema) {
