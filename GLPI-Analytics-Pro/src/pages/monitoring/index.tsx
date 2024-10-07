@@ -8,6 +8,7 @@ import ptBR from 'dayjs/locale/pt-br'
 import relativeTime from 'dayjs/plugin/relativeTime'
 
 dayjs.locale(ptBR)
+dayjs.extend(relativeTime)
 
 export default function MonitoringTicket() {
   const { data } = useQuery({
@@ -30,10 +31,8 @@ export default function MonitoringTicket() {
     'dddd, D [de] MMMM [de] YYYY',
   )
 
-  dayjs.extend(relativeTime)
   const date = dayjs(data.date_creation)
-  const now = dayjs()
-  const ticketFormattingCreatingRelative = date.from(now)
+  const ticketFormattingCreatingRelative = date.fromNow()
 
   return (
     <div className="min-h-screen flex flex-col">
