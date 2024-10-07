@@ -104,7 +104,7 @@ export async function ticketController(app: FastifyInstance) {
       .select([
         "glpi_tickets.id",
         "glpi_tickets.name AS title",
-        "glpi_tickets.date",
+        "glpi_tickets.date_creation",
         knex.raw(`
       CASE glpi_tickets.status
         WHEN 1 THEN 'Novo'
@@ -143,12 +143,14 @@ export async function ticketController(app: FastifyInstance) {
       .leftJoin("glpi_users", "glpi_tickets_users.users_id", "glpi_users.id")
       .where("glpi_tickets_users.type", 1)
       .whereNot("glpi_tickets.status", 6)
-      .orderBy("glpi_tickets.date", "desc")
+      .whereNot("glpi_tickets.status", 5)
+      .orderBy("glpi_tickets.date_creation", "desc")
       .first();
 
     if (!ticketLastSchema) {
       return reply.status(404).send({ message: "Nenhum ticket encontrado" });
     }
+    console.log(ticketLastSchema);
 
     return reply.status(200).send(ticketLastSchema);
   });

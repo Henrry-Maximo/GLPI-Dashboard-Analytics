@@ -83,13 +83,13 @@ export default function MonitoringTicket() {
           <p className="font-bold flex flex-row gap-2 text-xl justify-center text-gray-600">
             Data de Criação:
             <span className="text-orange-500">
-              {ticketFormattingCreatingString || null}
+              {data ? ticketFormattingCreatingString : null}
             </span>
           </p>
           <p className="font-bold flex flex-row gap-2 text-xl justify-center text-gray-600">
             <span className="text-orange-500">
-              {ticketFormattingCreatingNumbers || null} (
-              {ticketFormattingCreatingRelative || null})
+              {data ? ticketFormattingCreatingNumbers : null} (
+              {data ? ticketFormattingCreatingRelative : null})
             </span>
           </p>
         </div>
