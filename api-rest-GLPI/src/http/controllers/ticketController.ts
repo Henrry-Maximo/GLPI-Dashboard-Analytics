@@ -144,7 +144,11 @@ export async function ticketController(app: FastifyInstance) {
       .where("glpi_tickets_users.type", 2)
       .whereNot("glpi_tickets.status", 6)
       .orderBy("glpi_tickets.date_creation", "desc")
-      .limit(1);
+      .first();
+
+    if (!ticketLastSchema) {
+      return reply.status(404).send({ message: "Nenhum ticket encontrado" });
+    }
 
     return reply.status(200).send(ticketLastSchema);
   });

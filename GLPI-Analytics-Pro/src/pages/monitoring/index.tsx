@@ -1,37 +1,20 @@
+import { useQuery } from '@tanstack/react-query'
 import { ArrowCircleLeft } from 'phosphor-react'
 import { NavItem } from '../../components/Header/NavItem/NavItem'
-import { useEffect, useState } from 'react'
-
-interface TicketResponse {
-  id: number
-  title: string
-  date_creation: string
-  status: string
-  priority: string
-  location: string
-  firstname: string
-  realname: string
-}
+import { getMonitoring } from '../../http/get-monitoring'
 
 export default function MonitoringTicket() {
-  const [ticketLastData, setTicketLastData] = useState<TicketResponse[]>([])
+  const { data } = useQuery({
+    queryKey: ['monitoring'],
+    queryFn: getMonitoring,
+    staleTime: 1000 * 60,
+    refetchInterval: 1000 * 10, // atualizar a cada 30 segundos
+    refetchOnWindowFocus: true, // reconsultar quando a janela ganha foco
+  })
 
-  useEffect(() => {
-    fetch('http://192.168.0.100:5000/api-glpi/tickets/last')
-      .then((response) => {
-        return response.json()
-      })
-      .then((data: TicketResponse[]) => {
-        setTicketLastData(data)
-      })
-      .catch((err) => {
-        console.log(err.message)
-      })
-  }, [])
-
-  console.log(ticketLastData)
-
-  const ticket = ticketLastData[0]
+  if (!data) {
+    return null
+  }
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -48,32 +31,26 @@ export default function MonitoringTicket() {
       <main className="bg-slate-100 flex flex-col flex-grow h-full text-center justify-center">
         <div className="mb-8">
           <h2 className="font-bold flex flex-row gap-2 text-3xl justify-center text-gray-600">
-            <span className="text-orange-500">
-              [{ticket ? ticket.id : null}]
-            </span>
+            <span className="text-orange-500">[{data ? data.id : null}]</span>
             Último Chamado
           </h2>
           <p className="font-medium flex flex-row gap-2 text-2xl justify-center text-gray-600">
             Prioridade:
-            <span className="text-blue-500">
-              {ticket ? ticket.priority : null}
-            </span>
+            <span className="text-blue-500">{data ? data.priority : null}</span>
           </p>
           <p className="font-medium flex flex-row gap-2 text-2xl justify-center text-gray-600">
             Status:
-            <span className="text-blue-500">
-              {ticket ? ticket.status : null}
-            </span>
+            <span className="text-blue-500">{data ? data.status : null}</span>
           </p>
         </div>
         <div className="mb-8">
           <h1 className="mb-2 font-bold flex flex-col gap-2 text-5xl justify-center text-gray-600">
-            {ticket ? ticket.firstname : null} {ticket ? ticket.realname : null}
+            {data ? data.firstname : null} {data ? data.realname : null}
           </h1>
           <p className="font-medium flex flex-row gap-2 text-lg justify-center text-gray-600">
             Local de Atendimento:{' '}
             <span className="text-orange-500">
-              {ticket ? ticket.location : null}
+              {data ? data.location : null}
             </span>
           </p>
           {/* <p className="font-medium flex flex-row gap-2 text-lg justify-center text-gray-600">
@@ -83,14 +60,12 @@ export default function MonitoringTicket() {
         <div>
           <p className="font-bold flex flex-row gap-2 text-xl justify-center text-gray-600">
             Descrição do Chamado:
-            <span className="text-orange-500">
-              {ticket ? ticket.title : null}
-            </span>
+            <span className="text-orange-500">{data ? data.title : null}</span>
           </p>
           <p className="font-bold flex flex-row gap-2 text-xl justify-center text-gray-600">
             Data de Criação:
             <span className="text-orange-500">
-              {ticket ? ticket.date_creation : null}
+              {data ? data.date_creation : null}
             </span>
           </p>
         </div>
