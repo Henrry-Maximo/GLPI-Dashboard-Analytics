@@ -7,9 +7,15 @@
 - [x] api-glpi/user/users-by-tickets - lista de contagem de chamados por usuário
 
 # TICKET
-- [x] api-glpi/ticket/tickets - lista de chamados por nome
+- [x] api-glpi/tickets/search - lista de chamados ou chamado específico:
+  - Modo de uso: passar o valor "true" para `filter` e passar número do chamado para `id`.
 
+- [x] api-glpi/tickets/state - contagem de chamados por status/categories/urgency (default: status):
+  - Modo de uso: passar o valor "true" para `filter` e passar `by` para pesquisar entre urgência ou categorias `urgency || categories`.
 
+- [x] api-glpi/tickets/date - lista de quantidade de chamados por status `solucionado` e data de criação.  
+
+- [x] api-glpi/tickets/last - último chamado cadastrado.
 
 - [x] api-glpi/ticket/tickets-by-count-status - lista de contagem de chamados por status
 - [x] api-glpi/ticket/tickets-by-status-date - lista de contagem de chamados por status ao longo do tempo

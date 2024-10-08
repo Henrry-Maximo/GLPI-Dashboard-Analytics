@@ -93,12 +93,13 @@ export async function ticketController(app: FastifyInstance) {
     const tickets = await knex("glpi_tickets")
       .select(knex.raw("DATE(date_creation) AS data"), "status")
       .count("id AS quantidade")
-      .whereNotIn("status", [6])
+      .whereNotIn("status", [1, 2, 3, 4, 5])
       .groupByRaw("DATE(date_creation), status")
       .orderByRaw("DATE(date_creation) DESC");
     return reply.status(200).send(tickets);
   });
 
+  // último chamado cadastrado
   app.get("/last", async (req, reply) => {
     const ticketLastSchema = await knex("glpi_tickets")
       .select([
