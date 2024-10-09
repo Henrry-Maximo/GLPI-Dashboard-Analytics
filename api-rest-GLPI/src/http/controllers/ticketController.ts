@@ -153,13 +153,12 @@ export async function ticketController(app: FastifyInstance) {
     if (!ticketLastSchema) {
       return reply.status(404).send({ message: "Nenhum ticket encontrado" });
     }
-    console.log(ticketLastSchema);
 
     return reply.status(200).send(ticketLastSchema);
   });
 
   // lista de quantidade de chamados associados a uma categoria
-  app.get("/tickets-by-categorie", async (req, reply) => {
+  app.get("/amount", async (req, reply) => {
     const ticketsByCategories = await knex("glpi_tickets")
       .select([
         "glpi_itilcategories.id",
@@ -178,6 +177,12 @@ export async function ticketController(app: FastifyInstance) {
         "glpi_itilcategories.name",
       )
       .orderBy("tickets_amount", "desc");
+
+    if (!ticketsByCategories) {
+      return reply
+        .status(404)
+        .send({ message: "Nenhuma categoria associada aos chamados." });
+    }
 
     return reply.status(200).send(ticketsByCategories);
   });
