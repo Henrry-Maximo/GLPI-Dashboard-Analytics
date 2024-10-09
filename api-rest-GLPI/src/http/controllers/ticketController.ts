@@ -88,7 +88,7 @@ export async function ticketController(app: FastifyInstance) {
     return reply.status(200).send(ticketsByStatusCount);
   });
 
-  // lista de chamados por status/data
+  // lista de quantidade de chamados por status/data
   app.get("/date", async (req, reply) => {
     const tickets = await knex("glpi_tickets")
       .select(knex.raw("DATE(date_creation) AS data"), "status")
@@ -96,6 +96,7 @@ export async function ticketController(app: FastifyInstance) {
       .whereNotIn("status", [1, 2, 3, 4, 5])
       .groupByRaw("DATE(date_creation), status")
       .orderByRaw("DATE(date_creation) DESC");
+
     return reply.status(200).send(tickets);
   });
 
@@ -106,30 +107,31 @@ export async function ticketController(app: FastifyInstance) {
         "glpi_tickets.id",
         "glpi_tickets.name AS title",
         "glpi_tickets.date_creation",
-        knex.raw(`
-      CASE glpi_tickets.status
-        WHEN 1 THEN 'Novo'
-        WHEN 2 THEN 'Em Atendimento (Atribuído)'
-        WHEN 3 THEN 'Em Atendimento (Planejado)'
-        WHEN 4 THEN 'Pendente'
-        WHEN 5 THEN 'Solucionado'
-        WHEN 6 THEN 'Fechado'
-        ELSE 'Unknown'
-      END AS status
-    `),
-        knex.raw(`
-      CASE glpi_tickets.urgency
-        WHEN 1 THEN 'Muito baixa'
-        WHEN 2 THEN 'Baixa'
-        WHEN 3 THEN 'Média'
-        WHEN 4 THEN 'Alta'
-        WHEN 5 THEN 'Muito Alta'
-        ELSE 'Unknown'
-      END AS priority
-    `),
+
         "glpi_locations.name AS location",
         "glpi_users.firstname",
         "glpi_users.realname",
+        knex.raw(`
+          CASE glpi_tickets.status
+            WHEN 1 THEN 'Novo'
+            WHEN 2 THEN 'Em Atendimento (Atribuído)'
+            WHEN 3 THEN 'Em Atendimento (Planejado)'
+            WHEN 4 THEN 'Pendente'
+            WHEN 5 THEN 'Solucionado'
+            WHEN 6 THEN 'Fechado'
+            ELSE 'Unknown'
+          END AS status
+        `),
+        knex.raw(`
+          CASE glpi_tickets.urgency
+            WHEN 1 THEN 'Muito baixa'
+            WHEN 2 THEN 'Baixa'
+            WHEN 3 THEN 'Média'
+            WHEN 4 THEN 'Alta'
+            WHEN 5 THEN 'Muito Alta'
+            ELSE 'Unknown'
+          END AS priority
+        `),
       ])
       .leftJoin(
         "glpi_locations",
@@ -156,17 +158,29 @@ export async function ticketController(app: FastifyInstance) {
     return reply.status(200).send(ticketLastSchema);
   });
 
-  // retornar quantiade de chamados associados a uma categoria
-  // app.get("/tickets-by-categorie", async (req, reply) => {
-  //   const db = await createConnection();
-  //   const [rows] = await db.query(`
-  //     SELECT c.completename AS category, COUNT(t.id) AS quantity_tickets
-  //       FROM glpi_tickets t
-  //     JOIN glpi_itilcategories c ON t.itilcategories_id = c.id GROUP BY c.completename
-  //       ORDER BY quantity_tickets DESC;
-  //     `);
-  //   return reply.status(200).send(rows);
-  // });
+  // lista de quantidade de chamados associados a uma categoria
+  app.get("/tickets-by-categorie", async (req, reply) => {
+    const ticketsByCategories = await knex("glpi_tickets")
+      .select([
+        "glpi_itilcategories.id",
+        "glpi_itilcategories.name AS name",
+        "glpi_itilcategories.completename AS category",
+      ])
+      .count("glpi_tickets.id AS tickets_amount")
+      .leftJoin(
+        "glpi_itilcategories",
+        "glpi_tickets.itilcategories_id",
+        "glpi_itilcategories.id",
+      )
+      .groupBy(
+        "glpi_itilcategories.id",
+        "glpi_itilcategories.completename",
+        "glpi_itilcategories.name",
+      )
+      .orderBy("tickets_amount", "desc");
+
+    return reply.status(200).send(ticketsByCategories);
+  });
 
   // retornar últimos 10 chamados por categoria (id, name, status, date, category)
   // app.get("/tickets-last-by-categorie", async (req, reply) => {
