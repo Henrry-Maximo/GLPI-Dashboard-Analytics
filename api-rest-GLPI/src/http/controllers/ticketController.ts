@@ -221,44 +221,62 @@ export async function ticketController(app: FastifyInstance) {
   });
 
   // retornar os últimos 10 chamados por entidade/status/urgência/usuário/técnico
-  // app.get("/tickets-line-time", async (req, reply) => {
-  //   const db = await createConnection();
-  //   const [rows] = await db.query(`
-  //     SELECT
-  //         DATE_FORMAT(t.date_creation, "%d/%m/%Y %H:%i") AS "Data de criação",
-  //         e.name AS "Entidade",
-  //         t.id as "ID do chamado",
-  //         t.name AS "Título do chamado",
-  //         GROUP_CONCAT(DISTINCT CONCAT(u.firstname,' ', u.realname)) AS "Requerente",
-  //         GROUP_CONCAT(DISTINCT CONCAT(u2.firstname,' ', u2.realname)) AS "Técnico",
-  //         CASE
-  //             WHEN t.status = 1 THEN 'Novo'
-  //             WHEN t.status = 2 THEN 'Em Atendimento (atribuído)'
-  //             WHEN t.status = 3 THEN 'Em Atendimento (planejado)'
-  //             WHEN t.status = 4 THEN 'Pendente'
-  //             WHEN t.status = 5 THEN 'Solucionado'
-  //             WHEN t.status = 6 THEN 'Fechado'
-  //         END AS "Status Chamado",
-  //         CASE
-  //             WHEN t.priority = 6 THEN 'Crítica'
-  //             WHEN t.priority = 1 THEN 'Muito baixa'
-  //             WHEN t.priority = 2 THEN 'Baixa'
-  //             WHEN t.priority = 3 THEN 'Média'
-  //             WHEN t.priority = 4 THEN 'Alta'
-  //             WHEN t.priority = 5 THEN 'Muito alta'
-  //         END AS "Prioridade"
-  //     FROM glpi_tickets t
-  //     LEFT OUTER JOIN glpi_entities e ON t.entities_id = e.id
-  //     LEFT OUTER JOIN glpi_tickets_users tu1 ON (tu1.tickets_id = t.id AND tu1.type = 1)
-  //     LEFT OUTER JOIN glpi_users u ON u.id = tu1.users_id
-  //     LEFT OUTER JOIN glpi_tickets_users tu2 ON (tu2.tickets_id = t.id AND tu2.type = 2)
-  //     LEFT OUTER JOIN glpi_users u2 ON u2.id = tu2.users_id
-  //     WHERE t.status <> 6 AND t.status <> 5
-  //     GROUP BY t.id
-  //     ORDER BY t.date_mod DESC LIMIT 10;
-  //   `);
-  //   return reply.status(200).send(rows);
-  // });
+  app.get("/tickets-line-time", async (req, reply) => {
+    const tickets = await knex("glpi_tickets as t")
+      .select([
+        knex.raw(
+          'DATE_FORMAT(t.date_creation, "%d/%m/%Y %H:%i") AS "Data de criação"',
+        ), // Formata a data de criação para o formato específico
+        "e.name AS Entidade", // Nome da entidade
+        "t.id AS ID do chamado", // ID do chamado
+        "t.name AS Título do chamado", // Nome
+        knex.raw(`
+      GROUP_CONCAT(DISTINCT CONCAT(u.firstname, ' ', u.realname)) AS "Requerente"
+    `), // Concatena os nomes e sobrenomes dos usuários do tipo "Requerente" e remove duplicatas
+        knex.raw(`
+      GROUP_CONCAT(DISTINCT CONCAT(u2.firstname, ' ', u2.realname)) AS "Técnico"
+    `), // Concatena os nomes e sobrenomes dos usuários do tipo "Técnico" e remove duplicatas
+        knex.raw(`
+      CASE 
+        WHEN t.status = 1 THEN 'Novo'
+        WHEN t.status = 2 THEN 'Em Atendimento (atribuído)'
+        WHEN t.status = 3 THEN 'Em Atendimento (planejado)'
+        WHEN t.status = 4 THEN 'Pendente'
+        WHEN t.status = 5 THEN 'Solucionado'
+        WHEN t.status = 6 THEN 'Fechado'
+      END AS "Status Chamado"
+    `),
+        knex.raw(`
+      CASE 
+        WHEN t.priority = 6 THEN 'Crítica'
+        WHEN t.priority = 1 THEN 'Muito baixa'
+        WHEN t.priority = 2 THEN 'Baixa'
+        WHEN t.priority = 3 THEN 'Média'
+        WHEN t.priority = 4 THEN 'Alta'
+        WHEN t.priority = 5 THEN 'Muito alta'
+      END AS "Prioridade"
+    `),
+      ])
+      .leftJoin("glpi_entities as e", "t.entities_id", "e.id") // Faz a junção com a tabela de entidades
+      .leftJoin("glpi_tickets_users as tu1", function () {
+        this.on("tu1.tickets_id", "t.id").andOn("tu1.type", knex.raw(1)); // Junta a tabela de usuários vinculados ao ticket (tipo 1 = Requerente)
+      })
+      .leftJoin("glpi_users as u", "tu1.users_id", "u.id") // Junta com a tabela de usuários para pegar o nome do Requerente
+      .leftJoin("glpi_tickets_users as tu2", function () {
+        this.on("tu2.tickets_id", "t.id").andOn("tu2.type", knex.raw(2)); // Junta a tabela de usuários vinculados ao ticket (tipo 2 = Técnico)
+      })
+      .leftJoin("glpi_users as u2", "tu2.users_id", "u2.id") // Junta com a tabela de usuários para pegar o nome do Técnico
+      .whereNotIn("t.status", [5, 6]) // Filtra para excluir os chamados com status 5 (Solucionado) e 6 (Fechado)
+      .groupBy("t.id") // Agrupa os resultados por ID do chamado
+      .orderBy("t.date_mod", "desc") // Ordena os resultados pela data de modificação mais recente
+      .limit(10);
+
+    if (!tickets) {
+      return reply.status(404).send({ message: "Nenhuma chamado registrado." });
+    }
+
+    return reply.status(200).send(tickets);
+  });
 
   // retornar chamados que atingiram o prazo do SLA
   // app.get("/tickets-late", async (req, reply) => {
