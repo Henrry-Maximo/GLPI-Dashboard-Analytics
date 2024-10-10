@@ -159,7 +159,14 @@ export async function ticketController(app: FastifyInstance) {
 
   // lista de quantidade de chamados associados a uma categoria
   app.get("/amount", async (req, reply) => {
-    const ticketsByCategories = await knex("glpi_tickets")
+    const requestCategoriesQuerySchema = z.object({
+      filter: z.coerce.string().optional(),
+      by: z.coerce.string().optional(),
+    });
+
+    const { filter, by } = requestCategoriesQuerySchema.parse(req.query);
+
+    const ticketsByAmountCategories = await knex("glpi_tickets")
       .select([
         "glpi_itilcategories.id",
         "glpi_itilcategories.name AS name",
@@ -178,23 +185,40 @@ export async function ticketController(app: FastifyInstance) {
       )
       .orderBy("tickets_amount", "desc");
 
-    if (!ticketsByCategories) {
+    const ticketsByLastCategories = await knex("glpi_tickets")
+      .select([
+        "glpi_tickets.id",
+        "glpi_tickets.name",
+        "glpi_tickets.status ",
+        "glpi_tickets.date",
+        "glpi_itilcategories.name AS category",
+      ])
+      .leftJoin(
+        "glpi_itilcategories",
+        "glpi_tickets.itilcategories_id",
+        "glpi_itilcategories.id",
+      )
+      .whereIn("glpi_tickets.status", [1, 2, 3, 4, 5])
+      .orderBy("glpi_tickets.id", "desc")
+      .limit(10);
+
+    if (filter === "true" && by === "getLastTickets") {
+      if (!ticketsByLastCategories) {
+        return reply
+          .status(404)
+          .send({ message: "Nenhuma categoria associada aos chamados." });
+      }
+
+      return reply.status(200).send(ticketsByLastCategories);
+    }
+
+    if (!ticketsByAmountCategories) {
       return reply
         .status(404)
         .send({ message: "Nenhuma categoria associada aos chamados." });
     }
-
-    return reply.status(200).send(ticketsByCategories);
+    return reply.status(200).send(ticketsByAmountCategories);
   });
-
-  // retornar últimos 10 chamados por categoria (id, name, status, date, category)
-  // app.get("/tickets-last-by-categorie", async (req, reply) => {
-  //   const db = await createConnection();
-  //   const [rows] = await db.query(
-  //     "SELECT t.id, t.name, t.status as status, t.date as date, c.name AS category_name FROM glpi_tickets AS t INNER JOIN glpi_itilcategories AS c ON t.itilcategories_id = c.id WHERE t.status IN (1,2,3,4,5) ORDER BY t.id DESC LIMIT 10;"
-  //   );
-  //   return reply.status(200).send(rows);
-  // });
 
   // retornar os últimos 10 chamados por entidade/status/urgência/usuário/técnico
   // app.get("/tickets-line-time", async (req, reply) => {
