@@ -45,6 +45,7 @@ export default function MonitoringTicket() {
 
   return (
     <div className="h-screen flex flex-col">
+      {/* returno / título / relógio + data */}
       <header className="flex flex-row items-center gap-4 justify-between bg-orange-500 p-4 text-slate-100">
         <div className="mr-24">
           <NavItem icon={ArrowCircleLeft} route="/home" />
@@ -61,22 +62,22 @@ export default function MonitoringTicket() {
 
       <main className="flex flex-col flex-grow">
         {/* container último chamado */}
-        <div className="flex flex-col flex-1  text-center justify-center rounded-sm bg-white shadow-md">
+        <div className="flex flex-col flex-1 text-center justify-center bg-white shadow-md">
           <h2 className="font-bold flex flex-row gap-2 text-3xl justify-center text-gray-600">
-            <span className="text-orange-500">
+            <span className="text-orange-400">
               [{data ? data.id : messageWithoutData}]
             </span>
             Último Chamado
           </h2>
           <div className="mt-4">
-            <h1 className="mb-2 font-bold text-5xl text-gray-600">
+            <h1 className="mb-2 font-bold text-5xl text-orange-500">
               {data ? data.firstname : messageWithoutData}{' '}
               {data ? data.realname : messageWithoutData}
             </h1>
-            <p className="font-medium text-2xl text-gray-600">
+            <p className="font-medium text-lg text-gray-600">
               Status: <span>{data ? data.status : messageWithoutData}</span>
             </p>
-            <p className="font-medium text-2xl text-gray-600">
+            <p className="font-medium text-lg text-gray-600">
               Prioridade:{' '}
               <span>{data ? data.priority : messageWithoutData}</span>
             </p>
