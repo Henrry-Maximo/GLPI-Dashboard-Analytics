@@ -30,6 +30,12 @@ export default function MonitoringTicket() {
     return () => clearInterval(intervalId)
   }, [])
 
+  useEffect(() => {
+    if (data) {
+      console.log(data)
+    }
+  }, [data])
+
   if (!data) {
     return null
   }
@@ -40,8 +46,10 @@ export default function MonitoringTicket() {
   return (
     <div className="h-screen flex flex-col">
       <header className="flex flex-row items-center gap-4 justify-between bg-orange-500 p-4 text-slate-100">
-        <NavItem icon={ArrowCircleLeft} route="/home" />
-        <h2 className="text-4xl font-medium">MONITORAMENTO GLPI</h2>
+        <div className="mr-24">
+          <NavItem icon={ArrowCircleLeft} route="/home" />
+        </div>
+        <h2 className="text-4xl font-medium">GLPI: MONITORAMENTO</h2>
         {/* relógio */}
         <p className="flex flex-col items-end">
           <span className="text-xs">{currentTime.format('DD/MM/YYYY')}</span>
@@ -99,7 +107,7 @@ export default function MonitoringTicket() {
           </div>
         </div>
 
-        {/* lista de chamados com altura fixa e scroll */}
+        {/* lista de chamados (altura fixa/scroll) */}
         <div className="bg-zinc-200 p-4 shadow-md h-80 overflow-y-auto">
           <h2 className="bg-white text-2xl font-bold mb-4 ml-8 inline-flex p-1 rounded-lg">
             Últimas Chamadas
