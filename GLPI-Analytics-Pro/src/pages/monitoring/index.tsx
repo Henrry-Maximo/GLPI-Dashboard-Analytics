@@ -8,6 +8,7 @@ import ptBR from 'dayjs/locale/pt-br'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import { useState, useEffect } from 'react'
 import { getStatusColor } from '../../utils/monitoring-status-color'
+// import { getDetailsTickets } from '../../http/get-details-tickets'
 
 dayjs.locale(ptBR)
 dayjs.extend(relativeTime)
@@ -88,6 +89,15 @@ export default function MonitoringTicket() {
     refetchInterval: 1000 * 5, // 10 segundos
     refetchOnWindowFocus: true, // reconsultar janela em foco
   })
+
+  // const { details } = useQuery({
+  //   queryKey: ['details'],
+  //   queryFn: getDetailsTickets,
+  //   staleTime: 1000 * 60,
+  //   refetchInterval: 1000 * 10, // 20 minuto
+  //   refetchOnWindowFocus: true, // reconsultar janela em foco
+  // })
+  // console.log(details)
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -181,7 +191,7 @@ export default function MonitoringTicket() {
           <div className="flex flex-row p-2 mb-4 bg-white items-center rounded-sm justify-between">
             <h2 className="text-2xl font-light">Últimas Chamadas</h2>
             <p className="text-sm font-mono">
-              <span className="font-bold">última atualização:</span>
+              <span className="font-bold underline">última atualização:</span>
               <span className="text-orange-600 ml-1">05/10/2024 às 13h50</span>
             </p>
           </div>

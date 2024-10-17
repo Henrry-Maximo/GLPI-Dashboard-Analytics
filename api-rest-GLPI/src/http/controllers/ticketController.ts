@@ -225,16 +225,17 @@ export async function ticketController(app: FastifyInstance) {
     const tickets = await knex("glpi_tickets as t")
       .select([
         knex.raw(
-          'DATE_FORMAT(t.date_creation, "%d/%m/%Y %H:%i") AS "Data de criação"',
+          'DATE_FORMAT(t.date_creation, "%d/%m/%Y %H:%i") AS "date_creation"',
         ), // Formata a data de criação para o formato específico
-        "e.name AS Entidade", // Nome da entidade
-        "t.id AS ID do chamado", // ID do chamado
-        "t.name AS Título do chamado", // Nome
+        "e.name AS entities", // Nome da entidade
+        "t.id AS id", // ID do chamado
+        "t.name AS title", // Nome
+        "lo.name AS location", // Setor
         knex.raw(`
-      GROUP_CONCAT(DISTINCT CONCAT(u.firstname, ' ', u.realname)) AS "Requerente"
+      GROUP_CONCAT(DISTINCT CONCAT(u.firstname, ' ', u.realname)) AS "applicant"
     `), // Concatena os nomes e sobrenomes dos usuários do tipo "Requerente" e remove duplicatas
         knex.raw(`
-      GROUP_CONCAT(DISTINCT CONCAT(u2.firstname, ' ', u2.realname)) AS "Técnico"
+      GROUP_CONCAT(DISTINCT CONCAT(u2.firstname, ' ', u2.realname)) AS "technical"
     `), // Concatena os nomes e sobrenomes dos usuários do tipo "Técnico" e remove duplicatas
         knex.raw(`
       CASE 
@@ -244,7 +245,7 @@ export async function ticketController(app: FastifyInstance) {
         WHEN t.status = 4 THEN 'Pendente'
         WHEN t.status = 5 THEN 'Solucionado'
         WHEN t.status = 6 THEN 'Fechado'
-      END AS "Status Chamado"
+      END AS "status"
     `),
         knex.raw(`
       CASE 
@@ -254,7 +255,7 @@ export async function ticketController(app: FastifyInstance) {
         WHEN t.priority = 3 THEN 'Média'
         WHEN t.priority = 4 THEN 'Alta'
         WHEN t.priority = 5 THEN 'Muito alta'
-      END AS "Prioridade"
+      END AS "priority"
     `),
       ])
       .leftJoin("glpi_entities as e", "t.entities_id", "e.id") // Faz a junção com a tabela de entidades
@@ -266,6 +267,7 @@ export async function ticketController(app: FastifyInstance) {
         this.on("tu2.tickets_id", "t.id").andOn("tu2.type", knex.raw(2)); // Junta a tabela de usuários vinculados ao ticket (tipo 2 = Técnico)
       })
       .leftJoin("glpi_users as u2", "tu2.users_id", "u2.id") // Junta com a tabela de usuários para pegar o nome do Técnico
+      .leftJoin("glpi_locations as lo", "t.locations_id", "lo.id")
       .whereNotIn("t.status", [5, 6]) // Filtra para excluir os chamados com status 5 (Solucionado) e 6 (Fechado)
       .groupBy("t.id") // Agrupa os resultados por ID do chamado
       .orderBy("t.date_mod", "desc") // Ordena os resultados pela data de modificação mais recente
