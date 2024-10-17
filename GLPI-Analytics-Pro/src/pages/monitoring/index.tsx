@@ -125,7 +125,7 @@ export default function MonitoringTicket() {
 
       <main className="flex flex-col flex-grow">
         {/* container último chamado */}
-        <div className="flex flex-col flex-1 text-center justify-center bg-white shadow-md border-b-orange-500">
+        <div className="flex flex-col flex-1 text-center justify-center bg-white border-b-orange-500">
           <h2 className="font-bold flex flex-row gap-2 text-4xl justify-center text-gray-600">
             <span className="text-orange-400">
               [{data ? data.id : messageWithoutData}]
@@ -172,7 +172,7 @@ export default function MonitoringTicket() {
         </div>
 
         {/* lista de chamados (altura fixa/scroll) */}
-        <div className="bg-zinc-200 p-4 shadow-md h-80 overflow-y-auto flex flex-col">
+        <div className="border-t-2 p-4 shadow-lg h-80 overflow-y-auto flex flex-col">
           <div className="flex flex-row p-2 mb-4 bg-white items-center rounded-sm justify-between">
             <h2 className="text-2xl font-light">Últimas Chamadas</h2>
             <p className="text-sm font-mono">
@@ -180,7 +180,7 @@ export default function MonitoringTicket() {
               <span className="text-orange-600 ml-1">05/10/2024 às 13h50</span>
             </p>
           </div>
-          <table className="bg-white rounded-sm border-collapse">
+          <table className="bg-white border-collapse">
             <thead className="bg-orange-500 text-white">
               <tr>
                 <th className="py-3 px-4 text-left text-sm font-semibold uppercase">
@@ -200,7 +200,7 @@ export default function MonitoringTicket() {
                 </th>
               </tr>
             </thead>
-            <tbody className="text-center">
+            <tbody className="text-center bg-gray-50">
               {tickets.map((ticket) => {
                 return (
                   <tr
