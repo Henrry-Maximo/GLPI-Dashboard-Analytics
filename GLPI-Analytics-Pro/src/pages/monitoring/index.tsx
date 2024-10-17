@@ -137,37 +137,45 @@ export default function MonitoringTicket() {
               {data ? data.firstname : messageWithoutData}{' '}
               {data ? data.realname : messageWithoutData}
             </h1>
-            <p className="font-medium text-2xl text-gray-600">
-              Status: <span>{data ? data.status : messageWithoutData}</span>
+            <p className="font-normal text-2xl text-gray-600">
+              Status:{' '}
+              <span className="font-semibold text-yellow-500">
+                {data ? data.status : messageWithoutData}
+              </span>
             </p>
-            <p className="font-medium text-2xl text-gray-600">
+            <p className="font-normal text-2xl text-gray-600">
               Prioridade:{' '}
-              <span>{data ? data.priority : messageWithoutData}</span>
+              <span className="font-semibold text-blue-500">
+                {data ? data.priority : messageWithoutData}
+              </span>
             </p>
-            <p className="font-medium text-2xl text-gray-600">
+            <p className="font-normal text-2xl text-gray-600">
               Local de Atendimento:{' '}
-              <span>{data ? data.location : messageWithoutData}</span>
+              <span className="font-semibold">
+                {data ? data.location : messageWithoutData}
+              </span>
             </p>
           </div>
           <div className="mt-4">
-            <p className="font-bold text-2xl text-gray-600">
-              Título do Chamado:{' '}
-              <span>{data ? data.title : messageWithoutData}</span>
-            </p>
-            <p className="font-bold text-2xl text-gray-600">
-              Data de Criação:
-              <span className="text-gray-600 ml-2">
-                {data
-                  ? date.format('dddd, D [de] MMMM [de] YYYY')
-                  : messageWithoutData}
+            <p className="font-normal text-2xl text-gray-600">
+              Título:{' '}
+              <span className="font-semibold">
+                {data ? data.title : messageWithoutData}
               </span>
             </p>
-            <p className="font-bold text-2xl text-gray-600">
-              <span className="text-gray-600">
+            <p className="font-normal text-2xl text-gray-600">
+              Data de Criação:
+              <span className="text-gray-600 ml-2">
                 {data ? date.format('DD/MM/YYYY HH:mm') : messageWithoutData} (
                 {data ? date.fromNow() : messageWithoutData})
               </span>
+              {/* <span className="text-gray-600 ml-2">
+                {data
+                  ? date.format('dddd, D [de] MMMM [de] YYYY')
+                  : messageWithoutData}
+              </span> */}
             </p>
+            <p className="font-bold text-2xl text-gray-600"></p>
           </div>
         </div>
 
