@@ -157,11 +157,8 @@ export default function MonitoringTicket() {
             </p>
           </div>
           <div className="mt-4">
-            <p className="font-normal text-2xl text-gray-600">
-              Título:{' '}
-              <span className="font-semibold">
-                {data ? data.title : messageWithoutData}
-              </span>
+            <p className="font-semibold text-2xl text-gray-600">
+              {data ? data.title : messageWithoutData}
             </p>
             <p className="font-normal text-2xl text-gray-600">
               Data de Criação:
