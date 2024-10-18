@@ -127,8 +127,8 @@ export default function MonitoringTicket() {
         </div>
 
         {/* lista de chamados (altura fixa/scroll) */}
-        <section className="border-t-2 p-4 shadow-lg flex flex-col h-80">
-          <div className="flex flex-row p-2 mb-4 bg-white items-center rounded-sm justify-between">
+        <section className="flex flex-col h-80 p-4 border-t-2">
+          <div className="flex flex-row p-2 bg-white items-center justify-between">
             <h2 className="text-2xl font-light">Últimas Chamadas</h2>
             <p className="text-sm font-mono">
               <span className="font-bold underline">última atualização:</span>
@@ -137,9 +137,9 @@ export default function MonitoringTicket() {
               </span>
             </p>
           </div>
-          <div className="flex overflow-hidden">
-            <table className="bg-white border-collapse min-w-full table-auto">
-              <thead className="bg-orange-500 text-white">
+          <div className="mt-2 overflow-y-auto">
+            <table className="bg-white border-separate">
+              <thead className="bg-orange-500 text-white sticky top-0 left-0 right-0">
                 <tr>
                   <th className="py-3 px-4 text-left text-sm font-semibold uppercase">
                     ID
@@ -164,7 +164,7 @@ export default function MonitoringTicket() {
                   </th>
                 </tr>
               </thead>
-              <tbody className="text-center bg-gray-50 min-w-full overflow-y-auto">
+              <tbody className="bg-gray-50 font-light">
                 {ticketDetailsData.map((ticket) => {
                   return (
                     <tr
