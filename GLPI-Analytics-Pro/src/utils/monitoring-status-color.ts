@@ -1,14 +1,14 @@
 export const getStatusColor = (status: string) => {
   switch (status) {
-    case 'Crítico':
-      return 'text-red-600'
-    case 'Muito alto':
+    case 'Muito alta':
       return 'text-yellow-600'
-    case 'Alto':
+    case 'Alta':
       return 'text-orange-600'
-    case 'Médio':
+    case 'Média':
       return 'text-blue-600'
-    case 'Baixo':
+    case 'Baixa':
+      return 'text-green-600'
+    case 'Muito Baixa':
       return 'text-green-600'
     default:
       return 'text-gray-600'

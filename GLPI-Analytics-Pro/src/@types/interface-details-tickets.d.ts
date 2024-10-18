@@ -1,4 +1,4 @@
-export type DetailsTickets = [
+export type DetailsTicketsResponse = [
   {
     date_creation: string
     entities: string

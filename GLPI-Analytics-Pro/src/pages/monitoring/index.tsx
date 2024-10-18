@@ -8,76 +8,10 @@ import ptBR from 'dayjs/locale/pt-br'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import { useState, useEffect } from 'react'
 import { getStatusColor } from '../../utils/monitoring-status-color'
-// import { getDetailsTickets } from '../../http/get-details-tickets'
+import { getDetailsTickets } from '../../http/get-details-tickets'
 
 dayjs.locale(ptBR)
 dayjs.extend(relativeTime)
-
-const tickets = [
-  {
-    id: 2,
-    name: 'Ana Clara',
-    title: 'Reclamação: Falta de Acesso ao Sistema',
-    local: 'Suporte',
-    status: 'Alto',
-  },
-  {
-    id: 3,
-    name: 'Lucas Silva',
-    title: 'Solicitação: Atualização de Software',
-    local: 'Desenvolvimento',
-    status: 'Médio',
-  },
-  {
-    id: 4,
-    name: 'Beatriz Oliveira',
-    title: 'Problema: Impressora Não Funciona',
-    local: 'Infraestrutura',
-    status: 'Baixo',
-  },
-  {
-    id: 5,
-    name: 'Fernando Souza',
-    title: 'Incidente: Queda de Internet',
-    local: 'Rede',
-    status: 'Muito alto',
-  },
-  {
-    id: 6,
-    name: 'Juliana Lima',
-    title: 'Solicitação: Treinamento de Sistema',
-    local: 'RH',
-    status: 'Médio',
-  },
-  {
-    id: 7,
-    name: 'Roberto Alves',
-    title: 'Reclamação: Falha no Suporte Técnico',
-    local: 'Suporte',
-    status: 'Alto',
-  },
-  {
-    id: 8,
-    name: 'Patrícia Gomes',
-    title: 'Problema: Sistema Lento',
-    local: 'TI',
-    status: 'Muito alto',
-  },
-  {
-    id: 9,
-    name: 'Carlos Martins',
-    title: 'Solicitação: Novo Equipamento',
-    local: 'Infraestrutura',
-    status: 'Médio',
-  },
-  {
-    id: 10,
-    name: 'Isabela Ferreira',
-    title: 'Incidente: Acesso Indevido',
-    local: 'Segurança',
-    status: 'Crítico',
-  },
-]
 
 export default function MonitoringTicket() {
   const [currentTime, setCurrentTime] = useState(dayjs())
@@ -90,14 +24,16 @@ export default function MonitoringTicket() {
     refetchOnWindowFocus: true, // reconsultar janela em foco
   })
 
-  // const { details } = useQuery({
-  //   queryKey: ['details'],
-  //   queryFn: getDetailsTickets,
-  //   staleTime: 1000 * 60,
-  //   refetchInterval: 1000 * 10, // 20 minuto
-  //   refetchOnWindowFocus: true, // reconsultar janela em foco
-  // })
-  // console.log(details)
+  const { data: ticketDetailsData, dataUpdatedAt } = useQuery({
+    queryKey: ['details'],
+    queryFn: getDetailsTickets,
+    staleTime: 1000 * 300, // 5 minutos
+    refetchInterval: 1000 * 10, // 20 minuto
+    refetchOnWindowFocus: true, // reconsultar janela em foco
+  })
+
+  const lastUpdatedTicketsDetails =
+    dayjs(dataUpdatedAt).format(`DD/MM/YYYY HH:mm`)
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -108,6 +44,10 @@ export default function MonitoringTicket() {
   }, [])
 
   if (!data) {
+    return null
+  }
+
+  if (!ticketDetailsData) {
     return null
   }
 
@@ -133,7 +73,7 @@ export default function MonitoringTicket() {
         </p>
       </header>
 
-      <main className="flex flex-col flex-grow">
+      <main className="flex flex-col flex-grow overflow-hidden">
         {/* container último chamado */}
         <div className="flex flex-col flex-1 text-center justify-center bg-white border-b-orange-500">
           <h2 className="font-bold flex flex-row gap-2 text-4xl justify-center text-gray-600">
@@ -187,62 +127,80 @@ export default function MonitoringTicket() {
         </div>
 
         {/* lista de chamados (altura fixa/scroll) */}
-        <div className="border-t-2 p-4 shadow-lg h-80 overflow-y-auto flex flex-col">
+        <section className="border-t-2 p-4 shadow-lg flex flex-col h-80">
           <div className="flex flex-row p-2 mb-4 bg-white items-center rounded-sm justify-between">
             <h2 className="text-2xl font-light">Últimas Chamadas</h2>
             <p className="text-sm font-mono">
               <span className="font-bold underline">última atualização:</span>
-              <span className="text-orange-600 ml-1">05/10/2024 às 13h50</span>
+              <span className="text-orange-600 ml-1">
+                {lastUpdatedTicketsDetails}
+              </span>
             </p>
           </div>
-          <table className="bg-white border-collapse">
-            <thead className="bg-orange-500 text-white">
-              <tr>
-                <th className="py-3 px-4 text-left text-sm font-semibold uppercase">
-                  ID
-                </th>
-                <th className="py-3 px-4 text-left text-sm font-semibold uppercase">
-                  Requerente
-                </th>
-                <th className="py-3 px-4 text-left text-sm font-semibold uppercase">
-                  Título
-                </th>
-                <th className="py-3 px-4 text-left text-sm font-semibold uppercase">
-                  Local
-                </th>
-                <th className="py-3 px-4 text-left text-sm font-semibold uppercase">
-                  Status
-                </th>
-              </tr>
-            </thead>
-            <tbody className="text-center bg-gray-50">
-              {tickets.map((ticket) => {
-                return (
-                  <tr
-                    key={ticket.id}
-                    className="border-b hover:bg-gray-100 transition duration-200"
-                  >
-                    <td className="py-3 px-4 text-left text-sm">{ticket.id}</td>
-                    <td className="py-3 px-4 text-left text-sm">
-                      {ticket.name}
-                    </td>
-                    <td className="py-3 px-4 text-left text-sm">
-                      {ticket.title}
-                    </td>
-                    <td className="py-3 px-4 text-left text-sm">
-                      {ticket.local}
-                    </td>
-                    <td
-                      className={`py-3 px-4 text-left text-sm font-semibold ${getStatusColor(ticket.status)}`}
+          <div className="flex overflow-hidden">
+            <table className="bg-white border-collapse min-w-full table-auto">
+              <thead className="bg-orange-500 text-white">
+                <tr>
+                  <th className="py-3 px-4 text-left text-sm font-semibold uppercase">
+                    ID
+                  </th>
+                  <th className="py-3 px-4 text-left text-sm font-semibold uppercase">
+                    Requerente
+                  </th>
+                  <th className="py-3 px-4 text-left text-sm font-semibold uppercase">
+                    Título
+                  </th>
+                  <th className="py-3 px-4 text-left text-sm font-semibold uppercase">
+                    Status
+                  </th>
+                  <th className="py-3 px-4 text-left text-sm font-semibold uppercase">
+                    Técnico
+                  </th>
+                  <th className="py-3 px-4 text-left text-sm font-semibold uppercase">
+                    Local
+                  </th>
+                  <th className="py-3 px-4 text-left text-sm font-semibold uppercase">
+                    Urgência
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="text-center bg-gray-50 min-w-full overflow-y-auto">
+                {ticketDetailsData.map((ticket) => {
+                  return (
+                    <tr
+                      key={ticket.id}
+                      className="border-b hover:bg-gray-100 transition duration-200"
                     >
-                      {ticket.status}
-                    </td>
-                  </tr>
-                )
-              })}
-            </tbody>
-          </table>
-        </div>
+                      <td className="py-3 px-4 text-left text-sm">
+                        {ticket.id}
+                      </td>
+                      <td className="py-3 px-4 text-left text-sm">
+                        {ticket.applicant}
+                      </td>
+                      <td className="py-3 px-4 text-left text-sm">
+                        {ticket.title}
+                      </td>
+                      <td className="py-3 px-4 text-left text-sm">
+                        {ticket.status}
+                      </td>
+                      <td className="py-3 px-4 text-left text-sm">
+                        {ticket.technical}
+                      </td>
+                      <td className="py-3 px-4 text-left text-sm">
+                        {ticket.location}
+                      </td>
+                      <td
+                        className={`py-3 px-4 text-left text-sm font-semibold ${getStatusColor(ticket.priority)}`}
+                      >
+                        {ticket.priority}
+                      </td>
+                    </tr>
+                  )
+                })}
+              </tbody>
+            </table>
+          </div>
+        </section>
       </main>
     </div>
   )
