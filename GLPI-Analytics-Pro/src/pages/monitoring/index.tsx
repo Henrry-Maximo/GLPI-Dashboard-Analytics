@@ -138,7 +138,7 @@ export default function MonitoringTicket() {
             </p>
           </div>
           <div className="mt-2 overflow-y-auto">
-            <table className="bg-white border-separate">
+            <table className="bg-white border-separate w-full">
               <thead className="bg-orange-500 text-white sticky top-0 left-0 right-0">
                 <tr>
                   <th className="py-3 px-4 text-left text-sm font-semibold uppercase">
