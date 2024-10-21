@@ -29,7 +29,7 @@ export default function MonitoringTicket() {
     queryFn: getDetailsTickets,
     staleTime: 1000 * 300, // 5 minutos
     refetchInterval: 1000 * 10, // 20 minuto
-    refetchOnWindowFocus: true, // reconsultar janela em foco
+    refetchOnWindowFocus: true,
   })
 
   const lastUpdatedTicketsDetails =
@@ -80,19 +80,19 @@ export default function MonitoringTicket() {
             <span className="text-orange-400">
               [{data ? data.id : messageWithoutData}]
             </span>
-            Último Chamado
+            Novo Chamado
           </h2>
           <div className="mt-4">
             <h1 className="mb-2 font-bold text-6xl text-orange-500">
               {data ? data.firstname : messageWithoutData}{' '}
               {data ? data.realname : messageWithoutData}
             </h1>
-            <p className="font-normal text-2xl text-gray-600">
+            {/* <p className="font-normal text-2xl text-gray-600">
               Status:{' '}
               <span className="font-semibold text-yellow-500">
                 {data ? data.status : messageWithoutData}
               </span>
-            </p>
+            </p> */}
             <p className="font-normal text-2xl text-gray-600">
               Prioridade:{' '}
               <span className="font-semibold text-blue-500">
@@ -113,8 +113,8 @@ export default function MonitoringTicket() {
             <p className="font-normal text-2xl text-gray-600">
               Data de Criação:
               <span className="text-gray-600 ml-2">
-                {data ? date.format('DD/MM/YYYY HH:mm') : messageWithoutData} (
-                {data ? date.fromNow() : messageWithoutData})
+                {data ? date.format('DD/MM/YYYY HH:mm') : messageWithoutData}
+                {/* ({data ? date.fromNow() : messageWithoutData}) */}
               </span>
               {/* <span className="text-gray-600 ml-2">
                 {data
@@ -128,15 +128,10 @@ export default function MonitoringTicket() {
 
         {/* lista de chamados (altura fixa/scroll) */}
         <section className="flex flex-col h-80 p-4 border-t-2">
-          <div className="flex flex-row p-2 bg-white items-center justify-between">
-            <h2 className="text-2xl font-light">Últimas Chamadas</h2>
-            <p className="text-sm font-mono">
-              <span className="font-bold underline">última atualização:</span>
-              <span className="text-orange-600 ml-1">
-                {lastUpdatedTicketsDetails}
-              </span>
-            </p>
-          </div>
+          <h2 className="text-2xl font-light text-center p-2">
+            Lista de Chamados
+          </h2>
+
           <div className="mt-2 overflow-y-auto">
             <table className="bg-white border-separate w-full">
               <thead className="bg-orange-500 text-white sticky top-0 left-0 right-0">
@@ -200,6 +195,12 @@ export default function MonitoringTicket() {
               </tbody>
             </table>
           </div>
+          <p className="text-sm font-mono text-end mt-1">
+            <span className="font-bold underline">última atualização:</span>
+            <span className="text-orange-600 ml-1">
+              {lastUpdatedTicketsDetails}
+            </span>
+          </p>
         </section>
       </main>
     </div>
