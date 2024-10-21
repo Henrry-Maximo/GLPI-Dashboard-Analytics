@@ -87,8 +87,8 @@ export default function Home() {
       <section className="grid-cols-3 gap-4 grid">
         <CardGraph title="Chamados por Ano" />
         <CardPie title="Chamados por Ano" />
-        <CardGraph title="Chamados por Ano" />
-        <CardPie title="Chamados por Ano" />
+        {/* <CardGraph title="Chamados por Ano" />
+        <CardPie title="Chamados por Ano" /> */}
       </section>
 
       <section></section>

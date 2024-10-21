@@ -1,14 +1,14 @@
 import { useQuery } from '@tanstack/react-query'
+import dayjs from 'dayjs'
 import { ArrowCircleLeft } from 'phosphor-react'
 import { NavItem } from '../../components/Header/NavItem/NavItem'
 import { getMonitoring } from '../../http/get-monitoring'
-import dayjs from 'dayjs'
 
 import ptBR from 'dayjs/locale/pt-br'
 import relativeTime from 'dayjs/plugin/relativeTime'
-import { useState, useEffect } from 'react'
-import { getStatusColor } from '../../utils/monitoring-status-color'
+import { useEffect, useState } from 'react'
 import { getDetailsTickets } from '../../http/get-details-tickets'
+import { getStatusColor } from '../../utils/monitoring-status-color'
 
 dayjs.locale(ptBR)
 dayjs.extend(relativeTime)
