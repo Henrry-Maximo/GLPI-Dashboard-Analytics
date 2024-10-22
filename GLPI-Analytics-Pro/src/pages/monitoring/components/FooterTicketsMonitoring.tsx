@@ -9,8 +9,8 @@ export function FooterTicketsMonitoring({ timeCheckUpdate }: PropsTimeCheck) {
     dayjs(timeCheckUpdate).format(`DD/MM/YYYY HH:mm`)
 
   return (
-    <p className="text-sm font-mono text-end mt-1">
-      <span className="font-bold underline">última atualização:</span>
+    <p className="text-sm font-light text-end mt-1">
+      <span className="font-semibold">última atualização:</span>
       <span className="text-orange-600 ml-1">{lastUpdatedTicketsDetails}</span>
     </p>
   )
