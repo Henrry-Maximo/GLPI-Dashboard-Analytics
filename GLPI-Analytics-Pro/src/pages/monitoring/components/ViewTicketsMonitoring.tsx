@@ -1,5 +1,7 @@
 import dayjs from 'dayjs'
 import { getValidationColor } from '../../../utils/monitoring-validation-color'
+import { CheckCircle } from 'phosphor-react'
+import { ClockCountdown } from '@phosphor-icons/react'
 
 interface PropsTickets {
   id: number
@@ -23,12 +25,27 @@ export function ViewTicketMonitoring({ data }: TicketsForm) {
 
   return (
     <div className="flex flex-col flex-1 text-center justify-center bg-white border-b-orange-500">
-      <h2 className="font-bold flex flex-row gap-2 text-4xl justify-center text-gray-600">
-        <span className="text-orange-400">
-          [{data ? data.id : messageWithoutData}]
-        </span>
-        Novo Chamado
-      </h2>
+      <div className="flex flex-row items-center justify-center">
+        <h2 className="font-bold flex flex-row flex-1 ml-52 gap-2 text-4xl justify-center text-gray-600">
+          <span className="text-orange-400">
+            [{data ? data.id : messageWithoutData}]
+          </span>
+          Novo Chamado
+        </h2>
+        {data.validation_status ? (
+          <span
+            className={`flex flex-row justify-center items-center font-normal text-xl gap-1 p-4 mr-8 border rounded-lg ${getValidationColor(data.validation_status)}`}
+          >
+            {data.validation_status === 'Aprovado' && <CheckCircle size={24} />}
+            {data.validation_status === 'Recusado' && <CheckCircle size={24} />}
+            {data.validation_status === 'Aguardando' && (
+              <ClockCountdown size={24} />
+            )}
+
+            {data.validation_status}
+          </span>
+        ) : null}
+      </div>
       <div className="mt-4">
         <h1 className="mb-2 font-bold text-6xl text-orange-500">
           {data ? data.firstname : messageWithoutData}{' '}
@@ -52,16 +69,6 @@ export function ViewTicketMonitoring({ data }: TicketsForm) {
             {data ? data.location : messageWithoutData}
           </span>
         </p>
-        {data.validation_status ? (
-          <p className="font-normal text-2xl m-1 text-gray-600">
-            Validação:
-            <span
-              className={`ml-2 uppercase bg-white rounded-md p-1 border  ${getValidationColor(data.validation_status)}`}
-            >
-              {data.validation_status}
-            </span>
-          </p>
-        ) : null}
       </div>
       <div className="mt-4">
         <p className="font-semibold text-2xl text-gray-600">

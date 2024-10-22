@@ -10,7 +10,7 @@ export function FooterTicketsMonitoring({ timeCheckUpdate }: PropsTimeCheck) {
 
   return (
     <p className="text-sm font-light text-end mt-1">
-      <span className="font-semibold">última atualização:</span>
+      <span className="font-semibold">Últimas atualizações:</span>
       <span className="text-orange-600 ml-1">{lastUpdatedTicketsDetails}</span>
     </p>
   )
