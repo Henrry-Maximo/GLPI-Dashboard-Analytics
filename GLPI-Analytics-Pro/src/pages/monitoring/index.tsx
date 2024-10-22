@@ -8,7 +8,8 @@ import ptBR from 'dayjs/locale/pt-br'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import { useEffect, useState } from 'react'
 import { getDetailsTickets } from '../../http/get-details-tickets'
-import { getStatusColor } from '../../utils/monitoring-status-color'
+
+import { ListTicketsMonitoring } from './components/ListTicketsMonitoring'
 
 dayjs.locale(ptBR)
 dayjs.extend(relativeTime)
@@ -132,69 +133,8 @@ export default function MonitoringTicket() {
             Lista de Chamados
           </h2>
 
-          <div className="mt-2 overflow-y-auto">
-            <table className="bg-white border-separate w-full">
-              <thead className="bg-orange-500 text-white sticky top-0 left-0 right-0">
-                <tr>
-                  <th className="py-3 px-4 text-left text-sm font-semibold uppercase">
-                    ID
-                  </th>
-                  <th className="py-3 px-4 text-left text-sm font-semibold uppercase">
-                    Requerente
-                  </th>
-                  <th className="py-3 px-4 text-left text-sm font-semibold uppercase">
-                    Título
-                  </th>
-                  <th className="py-3 px-4 text-left text-sm font-semibold uppercase">
-                    Status
-                  </th>
-                  <th className="py-3 px-4 text-left text-sm font-semibold uppercase">
-                    Técnico
-                  </th>
-                  <th className="py-3 px-4 text-left text-sm font-semibold uppercase">
-                    Local
-                  </th>
-                  <th className="py-3 px-4 text-left text-sm font-semibold uppercase">
-                    Urgência
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="bg-gray-50 font-light">
-                {ticketDetailsData.map((ticket) => {
-                  return (
-                    <tr
-                      key={ticket.id}
-                      className="border-b hover:bg-gray-100 transition duration-200"
-                    >
-                      <td className="py-3 px-4 text-left text-sm">
-                        {ticket.id}
-                      </td>
-                      <td className="py-3 px-4 text-left text-sm">
-                        {ticket.applicant}
-                      </td>
-                      <td className="py-3 px-4 text-left text-sm">
-                        {ticket.title}
-                      </td>
-                      <td className="py-3 px-4 text-left text-sm">
-                        {ticket.status}
-                      </td>
-                      <td className="py-3 px-4 text-left text-sm">
-                        {ticket.technical}
-                      </td>
-                      <td className="py-3 px-4 text-left text-sm">
-                        {ticket.location}
-                      </td>
-                      <td
-                        className={`py-3 px-4 text-left text-sm font-semibold ${getStatusColor(ticket.priority)}`}
-                      >
-                        {ticket.priority}
-                      </td>
-                    </tr>
-                  )
-                })}
-              </tbody>
-            </table>
-          </div>
+          <ListTicketsMonitoring dataTickets={ticketDetailsData} />
+
           <p className="text-sm font-mono text-end mt-1">
             <span className="font-bold underline">última atualização:</span>
             <span className="text-orange-600 ml-1">
