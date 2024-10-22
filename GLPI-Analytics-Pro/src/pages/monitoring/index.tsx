@@ -11,7 +11,7 @@ import { HeaderTicketsMonitoring } from './components/HeaderTicketsMonitoring'
 import { ListTicketsMonitoring } from './components/ListTicketsMonitoring'
 import { ViewTicketMonitoring } from './components/ViewTicketsMonitoring'
 
-import { SpinnerLoadinIcon } from './SpinnerLoadingIcon'
+import { CircleLoadingIcon, SpinnerLoadinIcon } from './SpinnerLoadingIcon'
 
 dayjs.locale(ptBR)
 dayjs.extend(relativeTime)
@@ -42,7 +42,10 @@ export default function TicketMonitoring() {
         {ticketMonitoringData ? (
           <ViewTicketMonitoring data={ticketMonitoringData} />
         ) : (
-          <p className="flex flex-col flex-1 justify-center items-center  text-red-600">
+          <p
+            className="flex flex-col flex-1 justify-center items-center  
+          text-red-600"
+          >
             <SpinnerLoadinIcon />
           </p>
         )}
@@ -59,8 +62,11 @@ export default function TicketMonitoring() {
               <FooterTicketsMonitoring timeCheckUpdate={dataUpdatedAt} />
             </>
           ) : (
-            <p className="flex flex-row m-4 justify-center items-center text-yellow-600">
-              <SpinnerLoadinIcon />
+            <p
+              className="flex flex-row m-4 justify-center items-center 
+            text-yellow-600"
+            >
+              <CircleLoadingIcon />
             </p>
           )}
         </section>
