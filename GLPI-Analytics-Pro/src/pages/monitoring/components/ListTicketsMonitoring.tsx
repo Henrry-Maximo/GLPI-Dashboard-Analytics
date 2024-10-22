@@ -1,17 +1,17 @@
 import { getStatusColor } from '../../../utils/monitoring-status-color'
 
+interface Ticket {
+  id: number
+  applicant: string
+  title: string
+  status: string
+  technical: string
+  location: string
+  priority: string
+}
+
 interface PropsListTickets {
-  dataTickets: [
-    {
-      id: number
-      applicant: string
-      title: string
-      status: string
-      technical: string
-      location: string
-      priority: string
-    },
-  ]
+  dataTickets: Ticket[]
 }
 
 export function ListTicketsMonitoring({ dataTickets }: PropsListTickets) {

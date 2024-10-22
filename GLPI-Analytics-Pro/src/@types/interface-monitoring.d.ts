@@ -7,4 +7,5 @@ export type MonitoringResponse = {
   location: string
   firstname: string
   realname: string
+  validation_status: string
 }

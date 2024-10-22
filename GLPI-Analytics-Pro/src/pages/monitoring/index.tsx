@@ -1,22 +1,21 @@
 import { useQuery } from '@tanstack/react-query'
 import dayjs from 'dayjs'
-import { ArrowCircleLeft } from 'phosphor-react'
-import { NavItem } from '../../components/Header/NavItem/NavItem'
 import { getMonitoring } from '../../http/get-monitoring'
 
 import ptBR from 'dayjs/locale/pt-br'
 import relativeTime from 'dayjs/plugin/relativeTime'
-import { useEffect, useState } from 'react'
 import { getDetailsTickets } from '../../http/get-details-tickets'
 
 import { ListTicketsMonitoring } from './components/ListTicketsMonitoring'
+import { HeaderTicketsMonitoring } from './components/HeaderTicketsMonitoring'
+import { FooterTicketsMonitoring } from './components/FooterTicketsMonitoring'
+
+import { getValidationColor } from '../../utils/monitoring-validation-color'
 
 dayjs.locale(ptBR)
 dayjs.extend(relativeTime)
 
 export default function MonitoringTicket() {
-  const [currentTime, setCurrentTime] = useState(dayjs())
-
   const { data } = useQuery({
     queryKey: ['monitoring'],
     queryFn: getMonitoring,
@@ -33,17 +32,6 @@ export default function MonitoringTicket() {
     refetchOnWindowFocus: true,
   })
 
-  const lastUpdatedTicketsDetails =
-    dayjs(dataUpdatedAt).format(`DD/MM/YYYY HH:mm`)
-
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      setCurrentTime(dayjs())
-    }, 1000)
-
-    return () => clearInterval(intervalId)
-  }, [])
-
   if (!data) {
     return null
   }
@@ -58,21 +46,7 @@ export default function MonitoringTicket() {
   return (
     <div className="h-screen flex flex-col">
       {/* returno / título / relógio + data */}
-      <header className="flex flex-row items-center gap-4 justify-between bg-orange-500 p-4 text-slate-100">
-        <div className="mr-24">
-          <NavItem icon={ArrowCircleLeft} route="/home" />
-        </div>
-        <h2 className="text-4xl font-medium">GLPI: MONITORAMENTO CHAMADOS</h2>
-        {/* relógio */}
-        <p className="flex flex-col items-end">
-          <span className="text-base font-bold">
-            {currentTime.format('DD/MM/YYYY')}
-          </span>
-          <span className="text-3xl font-semibold tabular-nums">
-            {currentTime.format('HH:mm:ss')}
-          </span>
-        </p>
-      </header>
+      <HeaderTicketsMonitoring />
 
       <main className="flex flex-col flex-grow overflow-hidden">
         {/* container último chamado */}
@@ -106,6 +80,16 @@ export default function MonitoringTicket() {
                 {data ? data.location : messageWithoutData}
               </span>
             </p>
+            {data.validation_status ? (
+              <p className="font-normal text-2xl m-1 text-gray-600">
+                Validação:
+                <span
+                  className={`ml-2 uppercase bg-white rounded-md p-1 border  ${getValidationColor(data.validation_status)}`}
+                >
+                  {data.validation_status}
+                </span>
+              </p>
+            ) : null}
           </div>
           <div className="mt-4">
             <p className="font-semibold text-2xl text-gray-600">
@@ -135,12 +119,7 @@ export default function MonitoringTicket() {
 
           <ListTicketsMonitoring dataTickets={ticketDetailsData} />
 
-          <p className="text-sm font-mono text-end mt-1">
-            <span className="font-bold underline">última atualização:</span>
-            <span className="text-orange-600 ml-1">
-              {lastUpdatedTicketsDetails}
-            </span>
-          </p>
+          <FooterTicketsMonitoring timeCheckUpdate={dataUpdatedAt} />
         </section>
       </main>
     </div>
