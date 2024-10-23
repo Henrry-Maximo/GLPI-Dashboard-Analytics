@@ -1,5 +1,5 @@
 import dayjs from 'dayjs'
-import { getValidationColor } from '../../../utils/monitoring-validation-color'
+import { getValidationColor } from '../../../utils/monitoring-validation-color.ts'
 import { CheckCircle, XCircle } from 'phosphor-react'
 import { ClockCountdown } from '@phosphor-icons/react'
 

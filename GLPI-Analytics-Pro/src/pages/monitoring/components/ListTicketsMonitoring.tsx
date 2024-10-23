@@ -1,4 +1,5 @@
-import { getStatusColor } from '../../../utils/monitoring-status-color'
+import { getStatusColor } from '../../../utils/monitoring-priority-color'
+import { getStatusDetails } from '../../../utils/monitoring-status-icon-color'
 
 interface Ticket {
   id: number
@@ -45,6 +46,7 @@ export function ListTicketsMonitoring({ dataTickets }: PropsListTickets) {
         </thead>
         <tbody className="bg-gray-50 font-light">
           {dataTickets.map((ticket) => {
+            const { titleStatus, icon } = getStatusDetails(ticket.status)
             return (
               <tr
                 key={ticket.id}
@@ -56,30 +58,11 @@ export function ListTicketsMonitoring({ dataTickets }: PropsListTickets) {
                 </td>
                 <td className="py-3 px-4 text-left text-sm">{ticket.title}</td>
 
-                {/* <td className="py-3 px-4 text-left text-sm">
-                  {ticket.status === 'Em Atendimento (atribuído)' && (
-                    <span className="flex items-center gap-3">
-                      <Check size={24} /> Em Atendimento (atribuído)
-                    </span>
-                  )}
-                  {ticket.status === 'Novo' && (
-                    <span className="flex items-center gap-3">
-                      <Check size={24} /> Novo
-                    </span>
-                  )}
-                  {ticket.status === 'Pendente' && (
-                    <span className="flex items-center gap-3">
-                      <Check size={24} /> Pendente
-                    </span>
-                  )}
-                  {ticket.status === 'Em Atendimento (planejado)' && (
-                    <span className="flex items-center gap-3">
-                      <Check size={24} /> Em Atendimento (planejado)
-                    </span>
-                  )}
-                </td> */}
-                <td className="py-3 px-4 text-left text-sm">{ticket.status}</td>
-
+                <td className="py-3 px-4 text-left text-sm">
+                  <span className="flex items-center gap-2">
+                    {icon} {titleStatus}
+                  </span>
+                </td>
                 <td className="py-3 px-4 text-left text-sm">
                   {ticket.technical}
                 </td>
