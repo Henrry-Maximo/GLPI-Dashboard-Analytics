@@ -1,6 +1,6 @@
 import dayjs from 'dayjs'
 import { getValidationColor } from '../../../utils/monitoring-validation-color'
-import { CheckCircle } from 'phosphor-react'
+import { CheckCircle, XCircle } from 'phosphor-react'
 import { ClockCountdown } from '@phosphor-icons/react'
 
 interface PropsTickets {
@@ -24,7 +24,7 @@ export function ViewTicketMonitoring({ data }: TicketsForm) {
   const messageWithoutData = '...'
 
   return (
-    <div className="flex flex-col flex-1 text-center justify-center bg-white border-b-orange-500">
+    <div className="flex flex-col flex-1 text-center justify-center bg-white">
       <div className="flex flex-row justify-center items-center">
         <h2 className="flex font-bold text-4xl gap-2 text-gray-600 flex-grow justify-center">
           <span className="text-orange-400">
@@ -34,10 +34,13 @@ export function ViewTicketMonitoring({ data }: TicketsForm) {
         </h2>
         {data.validation_status ? (
           <span
-            className={`flex fixed right-12 font-normal text-xl gap-1 p-4 border rounded-lg items-center  ${getValidationColor(data.validation_status)}`}
+            className={`flex fixed right-12 font-normal text-xl gap-1 p-4 border rounded-lg items-center shadow-xl 
+          ${getValidationColor(data.validation_status)}
+          transition-all duration-1000 ease-in-out transform opacity-0 translate-y-4
+          ${data.validation_status && 'opacity-100 translate-y-0'}`}
           >
             {data.validation_status === 'Aprovado' && <CheckCircle size={24} />}
-            {data.validation_status === 'Recusado' && <CheckCircle size={24} />}
+            {data.validation_status === 'Recusado' && <XCircle size={24} />}
             {data.validation_status === 'Aguardando' && (
               <ClockCountdown size={24} />
             )}
