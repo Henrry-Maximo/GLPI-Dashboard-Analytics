@@ -25,8 +25,8 @@ export function ViewTicketMonitoring({ data }: TicketsForm) {
 
   return (
     <div className="flex flex-col flex-1 text-center justify-center bg-white border-b-orange-500">
-      <div className="flex flex-row items-center justify-center">
-        <h2 className="font-bold flex flex-row flex-1 ml-52 gap-2 text-4xl justify-center text-gray-600">
+      <div className="flex flex-row justify-center items-center">
+        <h2 className="flex font-bold text-4xl gap-2 text-gray-600 flex-grow justify-center">
           <span className="text-orange-400">
             [{data ? data.id : messageWithoutData}]
           </span>
@@ -34,7 +34,7 @@ export function ViewTicketMonitoring({ data }: TicketsForm) {
         </h2>
         {data.validation_status ? (
           <span
-            className={`flex flex-row justify-center items-center font-normal text-xl gap-1 p-4 mr-8 border rounded-lg ${getValidationColor(data.validation_status)}`}
+            className={`flex fixed right-12 font-normal text-xl gap-1 p-4 border rounded-lg items-center  ${getValidationColor(data.validation_status)}`}
           >
             {data.validation_status === 'Aprovado' && <CheckCircle size={24} />}
             {data.validation_status === 'Recusado' && <CheckCircle size={24} />}
@@ -46,6 +46,7 @@ export function ViewTicketMonitoring({ data }: TicketsForm) {
           </span>
         ) : null}
       </div>
+
       <div className="mt-4">
         <h1 className="mb-2 font-bold text-6xl text-orange-500">
           {data ? data.firstname : messageWithoutData}{' '}
