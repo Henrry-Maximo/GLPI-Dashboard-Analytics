@@ -55,7 +55,31 @@ export function ListTicketsMonitoring({ dataTickets }: PropsListTickets) {
                   {ticket.applicant}
                 </td>
                 <td className="py-3 px-4 text-left text-sm">{ticket.title}</td>
+
+                {/* <td className="py-3 px-4 text-left text-sm">
+                  {ticket.status === 'Em Atendimento (atribuído)' && (
+                    <span className="flex items-center gap-3">
+                      <Check size={24} /> Em Atendimento (atribuído)
+                    </span>
+                  )}
+                  {ticket.status === 'Novo' && (
+                    <span className="flex items-center gap-3">
+                      <Check size={24} /> Novo
+                    </span>
+                  )}
+                  {ticket.status === 'Pendente' && (
+                    <span className="flex items-center gap-3">
+                      <Check size={24} /> Pendente
+                    </span>
+                  )}
+                  {ticket.status === 'Em Atendimento (planejado)' && (
+                    <span className="flex items-center gap-3">
+                      <Check size={24} /> Em Atendimento (planejado)
+                    </span>
+                  )}
+                </td> */}
                 <td className="py-3 px-4 text-left text-sm">{ticket.status}</td>
+
                 <td className="py-3 px-4 text-left text-sm">
                   {ticket.technical}
                 </td>

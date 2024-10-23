@@ -21,15 +21,12 @@ interface TicketsForm {
 
 export function ViewTicketMonitoring({ data }: TicketsForm) {
   const date = dayjs(data.date_creation)
-  const messageWithoutData = '...'
 
   return (
     <div className="flex flex-col flex-1 text-center justify-center bg-white">
       <div className="flex flex-row justify-center items-center">
         <h2 className="flex font-bold text-4xl gap-2 text-gray-600 flex-grow justify-center">
-          <span className="text-orange-400">
-            [{data ? data.id : messageWithoutData}]
-          </span>
+          <span className="text-orange-400">[{data && data.id}]</span>
           Novo Chamado
         </h2>
         {data.validation_status ? (
@@ -52,8 +49,7 @@ export function ViewTicketMonitoring({ data }: TicketsForm) {
 
       <div className="mt-4">
         <h1 className="mb-2 font-bold text-6xl text-orange-500">
-          {data ? data.firstname : messageWithoutData}{' '}
-          {data ? data.realname : messageWithoutData}
+          {data && data.firstname} {data && data.realname}
         </h1>
         {/* <p className="font-normal text-2xl text-gray-600">
               Status:{' '}
@@ -64,24 +60,22 @@ export function ViewTicketMonitoring({ data }: TicketsForm) {
         <p className="font-normal text-2xl text-gray-600">
           Prioridade:{' '}
           <span className="font-semibold text-blue-500">
-            {data ? data.priority : messageWithoutData}
+            {data && data.priority}
           </span>
         </p>
         <p className="font-normal text-2xl text-gray-600">
           Local de Atendimento:{' '}
-          <span className="font-semibold">
-            {data ? data.location : messageWithoutData}
-          </span>
+          <span className="font-semibold">{data && data.location}</span>
         </p>
       </div>
       <div className="mt-4">
         <p className="font-semibold text-2xl text-gray-600">
-          {data ? data.title : messageWithoutData}
+          {data && data.title}
         </p>
         <p className="font-normal text-2xl text-gray-600">
           Data de Criação:
           <span className="text-gray-600 ml-2">
-            {data ? date.format('DD/MM/YYYY HH:mm') : messageWithoutData}
+            {data && date.format('DD/MM/YYYY HH:mm')}
             {/* ({data ? date.fromNow() : messageWithoutData}) */}
           </span>
           {/* <span className="text-gray-600 ml-2">
@@ -90,7 +84,6 @@ export function ViewTicketMonitoring({ data }: TicketsForm) {
                   : messageWithoutData}
               </span> */}
         </p>
-        <p className="font-bold text-2xl text-gray-600"></p>
       </div>
     </div>
   )
