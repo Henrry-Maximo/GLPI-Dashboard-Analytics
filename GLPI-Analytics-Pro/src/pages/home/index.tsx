@@ -40,7 +40,7 @@ export default function Home() {
   const ticket = tickets[0]
 
   return (
-    <main className="flex flex-1 flex-col px-4 pb-12 pt-14 bg-gray-200 justify-center">
+    <main className="flex flex-col h-max px-4 pb-12 pt-14 bg-gray-200">
       <div className="flex flex-row justify-between rounded-md bg-white mb-4 items-center py-2 px-2 shadow-sm">
         <h1 className="text-2xl font-light text-zinc-800">
           Dashboard Principal
@@ -84,14 +84,21 @@ export default function Home() {
         </div>
       </section>
 
+      <div className="border-gray-300 border-b-2 mb-4"></div>
+
       <section className="grid-cols-3 gap-4 grid">
         <CardGraph title="Chamados por Ano" />
-        <CardPie title="Chamados por Ano" />
+        <CardPie title="Chamados por Urgência" />
         {/* <CardGraph title="Chamados por Ano" />
-        <CardPie title="Chamados por Ano" /> */}
+        <CardPie title="Chamados por Urgência" /> */}
       </section>
 
-      <section></section>
+      <div className="border-gray-300 border-b-2 mt-4 mb-4"></div>
+
+      <section className="grid-cols-3 gap-4 grid">
+        <CardGraph title="Chamados por Ano" />
+        <CardPie title="Chamados por Urgência" />
+      </section>
     </main>
   )
 }

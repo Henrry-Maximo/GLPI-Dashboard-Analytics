@@ -10,10 +10,10 @@ interface CardPie {
 
 export function CardPie({ title }: CardPie) {
   const data = {
-    labels: ['Alto', 'Muito Alto', 'Médio', 'Baixo', 'Muito Baixo'],
+    labels: ['Alta', 'Muito Alta', 'Média', 'Baixa', 'Muito Baixa'],
     datasets: [
       {
-        label: 'Chamados por Mês',
+        label: title,
         backgroundColor: [
           'rgb(255, 99, 132)',
           'rgb(54, 162, 235)',
@@ -22,30 +22,13 @@ export function CardPie({ title }: CardPie) {
           'rgb(153, 102, 255)',
           'rgb(255, 159, 64)',
         ],
-        data: [12, 19, 3, 5, 2, 3],
+        data: [0, 0, 1, 0, 0, 1],
       },
     ],
   }
 
-  // const config = {
-  //   type: 'doughnut',
-  //   data,
-  //   options: {
-  //     responsive: true,
-  //     plugins: {
-  //       legend: {
-  //         position: 'top',
-  //       },
-  //       title: {
-  //         display: true,
-  //         text: 'Chart.js Doughnut Chart',
-  //       },
-  //     },
-  //   },
-  // }
-
   return (
-    <div className="bg-zinc-50 p-4 rounded-sm shadow-lg h-full gap-4 border">
+    <div className="bg-zinc-50 p-4 rounded-sm shadow-lg  gap-4 border">
       <div className="flex flex-row items-center justify-between mb-8">
         <p className="">{title}</p>
         <DotsThreeOutline
@@ -53,7 +36,7 @@ export function CardPie({ title }: CardPie) {
           className="hover:text-orange-500 hover:bg-white p-1 rounded-xl border border-transparent hover:border-orange-400 transition duration-300 ease-in-out"
         />
       </div>
-      <div className="h-full w-full py-2">
+      <div className="h-max w-full py-2">
         <Pie data={data} />
       </div>
     </div>

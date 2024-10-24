@@ -20,17 +20,17 @@ export default function TicketMonitoring() {
   const { data: ticketMonitoringData } = useQuery({
     queryKey: ['monitoring'],
     queryFn: getMonitoring,
-    staleTime: 1000 * 60,
+    staleTime: 1000 * 60, // 1 minuto
     refetchInterval: 1000 * 5, // 10 segundos
-    refetchOnWindowFocus: true, // reconsultar janela em foco
+    refetchOnWindowFocus: true,
   })
 
   const { data: ticketDetailsData, dataUpdatedAt } = useQuery({
     queryKey: ['details'],
     queryFn: getDetailsTickets,
-    staleTime: 1000 * 300, // 5 minutos
-    refetchInterval: 1000 * 10, // 20 minuto
-    refetchOnWindowFocus: true,
+    staleTime: 1000 * 300, // 5 minutos (dados fresco antes de serem buscados)
+    refetchInterval: 1000 * 60, // 1 minuto (refaz a requisição)
+    refetchOnWindowFocus: true, // reconsultar janela em foco
   })
 
   return (
