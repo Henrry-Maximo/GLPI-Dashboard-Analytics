@@ -40,7 +40,7 @@ export default function Home() {
   const ticket = tickets[0]
 
   return (
-    <main className="flex flex-col h-max px-4 pb-12 pt-14 bg-gray-200">
+    <main className="flex flex-col h-max w-full px-4 pb-12 pt-14 bg-gray-200">
       <div className="flex flex-row justify-between rounded-md bg-white mb-4 items-center py-2 px-2 shadow-sm">
         <h1 className="text-2xl font-light text-zinc-800">
           Dashboard Principal
