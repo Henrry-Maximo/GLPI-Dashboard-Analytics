@@ -10,6 +10,8 @@ import { Card } from '../../components/Card/Card'
 import { CardGraph } from '../../components/CardGraph/CardGraph'
 import { CardPie } from '../../components/CardPie/CardPie'
 import { useEffect, useState } from 'react'
+// import { useQuery } from '@tanstack/react-query'
+// import { fetchTicketsState } from '../../http/fetch-tickets-state'
 
 // import { SettingsTabs } from '../../components/SettingsTabs'
 
@@ -36,6 +38,14 @@ export default function Home() {
         console.log(err.message)
       })
   }, [])
+
+  // const { data } = useQuery({
+  //   queryKey: ['state'],
+  //   queryFn: fetchTicketsState,
+  //   staleTime: 1000 * 60, // 1 minuto
+  //   refetchInterval: 1000 * 5, // 10 segundos
+  //   refetchOnWindowFocus: true,
+  // })
 
   const ticket = tickets[0]
 

@@ -1,6 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
 import dayjs from 'dayjs'
-import { getMonitoring } from '../../http/get-monitoring'
 
 import ptBR from 'dayjs/locale/pt-br'
 import relativeTime from 'dayjs/plugin/relativeTime'
@@ -12,6 +11,7 @@ import { ListTicketsMonitoring } from './components/ListTicketsMonitoring'
 import { ViewTicketMonitoring } from './components/ViewTicketsMonitoring'
 
 import { CircleLoadingIcon, SpinnerLoadinIcon } from './SpinnerLoadingIcon'
+import { fetchTicketsMonitoring } from '../../http/fetch-tickets-monitoring'
 
 dayjs.locale(ptBR)
 dayjs.extend(relativeTime)
@@ -19,7 +19,7 @@ dayjs.extend(relativeTime)
 export default function TicketMonitoring() {
   const { data: ticketMonitoringData } = useQuery({
     queryKey: ['monitoring'],
-    queryFn: getMonitoring,
+    queryFn: fetchTicketsMonitoring,
     staleTime: 1000 * 60, // 1 minuto
     refetchInterval: 1000 * 5, // 10 segundos
     refetchOnWindowFocus: true,
