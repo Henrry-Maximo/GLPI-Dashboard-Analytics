@@ -3,7 +3,6 @@ import dayjs from 'dayjs'
 
 import ptBR from 'dayjs/locale/pt-br'
 import relativeTime from 'dayjs/plugin/relativeTime'
-import { getDetailsTickets } from '../../http/get-details-tickets'
 
 import { FooterTicketsMonitoring } from './components/FooterTicketsMonitoring'
 import { HeaderTicketsMonitoring } from './components/HeaderTicketsMonitoring'
@@ -12,6 +11,7 @@ import { ViewTicketMonitoring } from './components/ViewTicketsMonitoring'
 
 import { CircleLoadingIcon, SpinnerLoadinIcon } from './SpinnerLoadingIcon'
 import { fetchTicketsMonitoring } from '../../http/fetch-tickets-monitoring'
+import { fetchDetailsTickets } from '../../http/fetch-tickets-details'
 
 dayjs.locale(ptBR)
 dayjs.extend(relativeTime)
@@ -27,7 +27,7 @@ export default function TicketMonitoring() {
 
   const { data: ticketDetailsData, dataUpdatedAt } = useQuery({
     queryKey: ['details'],
-    queryFn: getDetailsTickets,
+    queryFn: fetchDetailsTickets,
     staleTime: 1000 * 300, // 5 minutos (dados fresco antes de serem buscados)
     refetchInterval: 1000 * 60, // 1 minuto (refaz a requisição)
     refetchOnWindowFocus: true, // reconsultar janela em foco
