@@ -11,12 +11,12 @@ export default function DefaultLayout() {
   }
 
   return (
-    <div className="grid grid-rows-[auto_1fr] grid-cols-[auto_1fr] h-screen">
+    <div className="grid h-screen grid-rows-[auto_1fr] grid-cols-[auto_1fr]">
       <div className="col-span-2">
         <Header toggleSidebar={() => toggleSidebar()} />
       </div>
       <Sidebar menuOpen={menuOpen} closeMenu={() => setMenuOpen(false)} />
-      <div className="overflow-y-auto flex flex-1">
+      <div className="flex overflow-y-auto bg-gray-200">
         <Outlet />
       </div>
     </div>
