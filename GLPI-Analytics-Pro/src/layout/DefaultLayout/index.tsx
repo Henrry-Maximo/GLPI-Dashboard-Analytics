@@ -16,7 +16,7 @@ export default function DefaultLayout() {
         <Header toggleSidebar={() => toggleSidebar()} />
       </div>
       <Sidebar menuOpen={menuOpen} closeMenu={() => setMenuOpen(false)} />
-      <div className="flex overflow-y-auto bg-gray-200">
+      <div className="flex overflow-y-auto p-4">
         <Outlet />
       </div>
     </div>

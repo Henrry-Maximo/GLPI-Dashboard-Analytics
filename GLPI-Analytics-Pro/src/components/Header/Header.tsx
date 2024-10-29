@@ -15,7 +15,7 @@ export interface MainProps {
 
 export default function Header({ toggleSidebar }: ButtonProps) {
   return (
-    <div className="flex justify-between items-center p-8 h-16 bg-zinc-50 text-slate-900 border-b border-solid border-orange-500">
+    <div className="flex justify-between bg-gray-50 items-center p-8 h-16 text-slate-900 border-b border-solid border-orange-500">
       <button className="flex items-center gap-2" onClick={toggleSidebar}>
         <NavItem icon={List} route="#" />
       </button>

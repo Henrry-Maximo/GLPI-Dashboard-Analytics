@@ -24,29 +24,33 @@
   --danger: #e25858;
 }
 
-* {
+*,
+*::before,
+*::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
 body {
-  /* background-color: var(--gray-300); */
-  color: var(--gray-700);
-  height: 100%;
-  margin: 0;
+  font-family: "Inter", sans-serif;
+  background-color: var(--gray-100);
 }
 
 ::-webkit-scrollbar {
-  display: none;
+  width: 12px; /* largura da barra de rolagem */
 }
 
-body,
-input,
-textarea,
-button,
-p {
-  font-family: "Inter", sans-serif;
-  font-size: 1rem;
+::-webkit-scrollbar-track {
+  background: #ffe5cc; /* cor de fundo do track da barra */
 }
 
+::-webkit-scrollbar-thumb {
+  background-color: #ff8c42;
+  border-radius: 8px;
+  border: 2px solid #ffe5cc; 
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #ff7b24;
+}

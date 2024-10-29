@@ -49,9 +49,13 @@ export default function Home() {
 
   const ticket = tickets[0]
 
+  if (!ticket) {
+    return null
+  }
+
   return (
-    <main className="w-full h-[max-content] p-4">
-      <div className="flex flex-row justify-between rounded-md bg-white mb-4 items-center py-2 px-2 shadow-sm">
+    <main className="w-full h-[max-content]">
+      <div className="flex flex-row bg-gray-50 justify-between mb-4 items-center py-2 px-2 rounded-md shadow-sm">
         <h1 className="text-2xl font-light text-zinc-800">
           Dashboard Principal
         </h1>
@@ -59,17 +63,16 @@ export default function Home() {
       </div>
 
       <section className="mb-4">
-        {/* grid-cols-profile grid items-center gap-3 */}
-        <div className="grid md:grid-cols-5 grid-cols-card gap-4 border-b border-zinc-4 00 pb-5">
+        <div className="grid md:grid-cols-5 gap-4">
           <Card
             icon={Clock}
-            quantity={ticket ? ticket.tickets_open : 0}
+            quantity={ticket && ticket.tickets_open}
             title="Chamados Abertos"
             className="h-10 w-10 bg-yellow-100 text-yellow-500 rounded-md p-2 border border-yellow-500"
           />
           <Card
             icon={UserCirclePlus}
-            quantity={ticket ? ticket.tickets_assigned : 0}
+            quantity={ticket && ticket.tickets_assigned}
             title="Chamados Atribuídos"
             className="h-10 w-10 bg-blue-100 text-blue-500 rounded-md p-2 border border-blue-500"
           />
@@ -101,7 +104,13 @@ export default function Home() {
         <CardPie title="Chamados por Urgência" /> */}
       </section>
 
-      {/* <div className="border-gray-300 border-b-2 mt-4 mb-4"></div> */}
+      <section className="grid-cols-3 gap-4 grid mt-4">
+        <CardPie title="Chamados por Urgência" />
+        <CardGraph title="Chamados por Ano" />
+
+        {/* <CardGraph title="Chamados por Ano" />
+        <CardPie title="Chamados por Urgência" /> */}
+      </section>
     </main>
   )
 }

@@ -28,7 +28,7 @@ export function CardPie({ title }: CardPie) {
   }
 
   return (
-    <div className="bg-zinc-50 p-4 rounded-sm shadow-lg  gap-4 border">
+    <div className="bg-gray-50 p-4 gap-4 rounded-md shadow-sm">
       <div className="flex flex-row items-center justify-between mb-8">
         <p className="">{title}</p>
         <DotsThreeOutline
