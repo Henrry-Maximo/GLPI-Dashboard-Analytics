@@ -23,7 +23,7 @@ export function ViewTicketMonitoring({ data }: TicketsForm) {
   const date = dayjs(data.date_creation)
 
   return (
-    <div className="flex flex-col flex-1 text-center justify-center bg-white">
+    <div className="flex flex-col flex-1 text-center justify-center bg-gray-50">
       <div className="flex flex-row justify-center items-center">
         <h2 className="flex font-bold text-4xl gap-2 text-gray-600 flex-grow justify-center">
           <span className="text-orange-400">[{data && data.id}]</span>
