@@ -50,7 +50,7 @@ export default function TicketMonitoring() {
           </p>
         )}
 
-        <section className="flex flex-col h-80 p-4 border-t-2 bg-gray-100">
+        <section className="flex flex-col h-80 p-4 border-t-2 bg-white">
           <h2 className="text-2xl font-normal text-center p-2">
             Últimos Chamados
           </h2>
