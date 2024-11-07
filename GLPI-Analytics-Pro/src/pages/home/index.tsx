@@ -78,19 +78,19 @@ export default function Home() {
           />
           <Card
             icon={Hourglass}
-            quantity={ticket ? ticket.tickets_pending : 0}
+            quantity={ticket && ticket.tickets_pending}
             title="Chamados Pendentes"
             className="h-10 w-10 bg-orange-100 text-orange-500 rounded-md p-2 border border-orange-500"
           />
           <Card
             icon={CheckCircle}
-            quantity={ticket ? ticket.tickets_solved : 0}
+            quantity={ticket && ticket.tickets_solved}
             title="Chamados Solucionados"
             className="h-10 w-10 bg-green-200 text-green-600 rounded-md p-2 border border-green-500"
           />
           <Card
             icon={ShieldCheck}
-            quantity={ticket ? ticket.tickets_closed : 0}
+            quantity={ticket && ticket.tickets_closed}
             title="Chamados Fechados"
             className="h-10 w-10 bg-green-700 text-green-100 rounded-md p-2 border border-green-500"
           />
@@ -100,16 +100,11 @@ export default function Home() {
       <section className="grid-cols-3 gap-4 grid">
         <CardGraph title="Chamados por Ano" />
         <CardPie title="Chamados por Urgência" />
-        {/* <CardGraph title="Chamados por Ano" />
-        <CardPie title="Chamados por Urgência" /> */}
       </section>
 
       <section className="grid-cols-3 gap-4 grid mt-4">
         <CardPie title="Chamados por Urgência" />
         <CardGraph title="Chamados por Ano" />
-
-        {/* <CardGraph title="Chamados por Ano" />
-        <CardPie title="Chamados por Urgência" /> */}
       </section>
     </main>
   )
