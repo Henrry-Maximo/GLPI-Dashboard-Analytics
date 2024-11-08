@@ -49,10 +49,10 @@ export default function Sidebar({ menuOpen }: MainProps) {
             <Switch className="group relative flex h-5 w-12 cursor-pointer rounded-full bg-white border border-gray-300 p-1 transition-colors duration-200 ease-in-out focus:outline-none data-[focus]:outline-1 data-[focus]:outline-white data-[checked]:bg-white/10">
               <span
                 aria-hidden="true"
-                className="pointer-events-none inline-block size-3 translate-x-0 rounded-full bg-gray-600 ring-0 shadow-lg transition duration-200 ease-in-out group-data-[checked]:translate-x-7"
+                className="pointer-events-none inline-block size-3 translate-x-0 rounded-full bg-gray-300 ring-0 shadow-lg transition duration-200 ease-in-out group-data-[checked]:translate-x-7"
               ></span>
             </Switch>
-            <span>Modo Escuro/Claro</span>
+            <span className="text-gray-300">Modo Escuro/Claro</span>
           </div>
         </nav>
 
