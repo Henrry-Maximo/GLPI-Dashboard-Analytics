@@ -1,8 +1,8 @@
 import { app } from "./app";
 import { env } from "./env";
 
-// Porta padrão: 5000
-// Ambiente padrão: dev
+// port: 5000
+// mode: dev
 
 app
   .listen({
@@ -10,6 +10,6 @@ app
   })
   .then(() => {
     console.log(
-      `🚀 Server Running, port: ${env.NODE_PORT}, status: ${env.NODE_ENV}`,
+      `🚀 Server Running, port: ${env.NODE_PORT}, status: ${env.NODE_ENV}`
     );
   });
