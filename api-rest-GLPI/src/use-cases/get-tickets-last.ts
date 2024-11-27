@@ -1,6 +1,6 @@
 import { knex } from "@/database/knex-config";
 
-export async function searchTicketsLast() {
+export async function getTicketsLast() {
   const ticketLastSchema = await knex("glpi_tickets")
       .select([
         "glpi_tickets.id",
