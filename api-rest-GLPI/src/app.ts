@@ -4,12 +4,16 @@ import fastify from "fastify";
 import { ZodError } from "zod";
 import { env } from "./env";
 import { routes } from "./http/routes";
+import { serializerCompiler, validatorCompiler, ZodTypeProvider } from "fastify-type-provider-zod";
 
-export const app = fastify();
+export const app = fastify().withTypeProvider<ZodTypeProvider>();
 
 app.register(fastifyCors, {
   origin: "*",
 });
+
+app.setValidatorCompiler(validatorCompiler);
+app.setSerializerCompiler(serializerCompiler);
 
 app.register(routes, {
   prefix: "api-glpi",

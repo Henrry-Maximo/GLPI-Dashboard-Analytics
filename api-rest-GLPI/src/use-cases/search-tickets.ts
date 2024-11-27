@@ -1,8 +1,8 @@
 import { knex } from "@/database/knex-config";
 
 interface SearchTicketsRequest {
-  id: string | null;
-  filter: string | null;
+  id: string | undefined;
+  filter: string | undefined;
 }
 
 export async function searchTickets({ id, filter }: SearchTicketsRequest) {

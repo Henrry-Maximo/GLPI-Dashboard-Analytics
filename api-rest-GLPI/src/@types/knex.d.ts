@@ -7,10 +7,11 @@ declare module "knex/types/tables" {
       id: string;
       entities_id: number;
       name: string;
-      status: string;
+      status: number;
       date_creation: number;
       date_mod: number;
       solvedate: number;
+      time_to_resolve: number | null;
     };
   }
 }

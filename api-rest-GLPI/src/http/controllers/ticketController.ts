@@ -1,6 +1,7 @@
 import type { FastifyInstance } from "fastify";
 import { z } from "zod";
 import { knex } from "../../database/knex-config";
+import { searchTickets } from "@/use-cases/search-tickets";
 
 export async function ticketController(app: FastifyInstance) {
   // lista de chamados ou chamado específico
@@ -12,21 +13,9 @@ export async function ticketController(app: FastifyInstance) {
 
     const { id, filter } = requestIdTicketQuerySchema.parse(req.query);
 
-    let result = knex("glpi_tickets").select([
-      "id",
-      "entities_id",
-      "name",
-      "date_creation",
-      "date_mod",
-      "solvedate",
-    ]);
+    const result = await searchTickets({ id, filter })
 
-    if (filter === "true" && id) {
-      result = result.where("id", id);
-    }
-
-    const rows = await result;
-    return reply.status(200).send(rows);
+    return reply.status(200).send({ result });
   });
 
   // lista de chamados por status/urgência/categorias
