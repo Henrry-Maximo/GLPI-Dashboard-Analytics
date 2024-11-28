@@ -1,24 +1,24 @@
 import { knex } from "@/database/knex-config";
+import { InvalidCreatialsError } from "@/http/controllers/errors/invalid-credentials-error";
 
 interface SearchTicketsRequest {
-  id: string | undefined;
-  filter: string | undefined;
+  id?: string | undefined;
 }
 
-export async function searchTickets({ id, filter }: SearchTicketsRequest) {
-  let result = knex("glpi_tickets").select([
+export async function searchTickets({ id }: SearchTicketsRequest) {
+  let query = knex("glpi_tickets").select([
     "id",
     "entities_id",
     "name",
     "date_creation",
-    "date_mod",
     "solvedate",
+    "date_mod",
   ]);
 
-  if (!filter && !id) {
-    return { result };
+  if (id) {
+    query = query.where("id", id);
   }
 
-  const ticket = result.where("id", id);
-  return { ticket }
+  const tickets = await query;
+  return { tickets };
 }

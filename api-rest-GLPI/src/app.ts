@@ -29,7 +29,7 @@ app.setErrorHandler((error, _, reply) => {
   if (error instanceof ZodError) {
     return reply.status(400).send({
       message: "Validation Error.",
-      issues: error.format(), // detalhes da validação
+      issues: error.format(),
     });
   }
 
@@ -38,6 +38,6 @@ app.setErrorHandler((error, _, reply) => {
     // Tarefa: rastreamento de erro
   }
 
-  console.log(error);
-  return reply.status(500).send({ message: "Internal Server Error." });
+  // console.log(error);
+  // return reply.status(500).send({ message: "Internal Server Error." });
 });

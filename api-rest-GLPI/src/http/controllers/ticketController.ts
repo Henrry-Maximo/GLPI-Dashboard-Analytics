@@ -8,14 +8,13 @@ export async function ticketController(app: FastifyInstance) {
   app.get("/search", async (req, reply) => {
     const requestIdTicketQuerySchema = z.object({
       id: z.coerce.string().optional(),
-      filter: z.coerce.string().optional(),
     });
 
-    const { id, filter } = requestIdTicketQuerySchema.parse(req.query);
+    const { id } = requestIdTicketQuerySchema.parse(req.query);
 
-    const result = await searchTickets({ id, filter })
+    const { tickets } = await searchTickets({ id })
 
-    return reply.status(200).send({ result });
+    return reply.status(200).send({ tickets });
   });
 
   // lista de chamados por status/urgência/categorias
