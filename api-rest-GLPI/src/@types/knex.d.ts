@@ -13,5 +13,11 @@ declare module "knex/types/tables" {
       solvedate: number;
       time_to_resolve: number | null;
     };
+
+    glpi_users: {
+      id: number,
+      name: string;
+      password: string;
+    };
   }
 }

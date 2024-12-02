@@ -7,6 +7,7 @@ import { routes } from "./http/routes";
 import { serializerCompiler, validatorCompiler, ZodTypeProvider } from "fastify-type-provider-zod";
 
 export const app = fastify().withTypeProvider<ZodTypeProvider>();
+// export const app = fastify();
 
 app.register(fastifyCors, {
   origin: "*",
@@ -38,6 +39,5 @@ app.setErrorHandler((error, _, reply) => {
     // Tarefa: rastreamento de erro
   }
 
-  // console.log(error);
-  // return reply.status(500).send({ message: "Internal Server Error." });
+  return reply.status(500).send({ message: error.message });
 });

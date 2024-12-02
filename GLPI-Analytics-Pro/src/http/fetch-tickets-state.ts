@@ -30,13 +30,13 @@ type PropsTicketsStateCategories = [
   },
 ]
 
-type PropsTicketsState =
+type RequestTicketsState =
   | PropsTicketsStateStatus
   | PropsTicketsStateUrgency
   | PropsTicketsStateCategories
 
-export async function fetchTicketsState(): Promise<PropsTicketsState> {
-  const response = await fetch('http://localhost:5000/api-glpi/tickets/state')
+export async function fetchTicketsState(): Promise<RequestTicketsState> {
+  const response = await fetch('http://10.10.2.93:5000/api-glpi/tickets/state')
   const data = await response.json()
 
   return data
