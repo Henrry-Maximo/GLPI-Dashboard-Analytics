@@ -5,6 +5,7 @@ import { ZodError } from "zod";
 import { env } from "./env";
 import { routes } from "./http/routes";
 import { serializerCompiler, validatorCompiler, ZodTypeProvider } from "fastify-type-provider-zod";
+import fastifyCookie from "@fastify/cookie";
 
 export const app = fastify().withTypeProvider<ZodTypeProvider>();
 // export const app = fastify();
@@ -19,6 +20,8 @@ app.setSerializerCompiler(serializerCompiler);
 app.register(routes, {
   prefix: "api-glpi",
 });
+
+app.register(fastifyCookie);
 
 /*
   Função `setErrorHandler` utilizada para evidênciar

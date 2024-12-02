@@ -38,7 +38,7 @@ export async function authenticate({
     },
     env.JWT_SECRET,
     {
-      expiresIn: "1h",
+      expiresIn: "10m",
     }
   );
 
