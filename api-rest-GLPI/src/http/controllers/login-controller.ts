@@ -1,17 +1,28 @@
+import { FastifyReply, FastifyRequest } from "fastify";
+
 import { authenticate } from "@/use-cases/authenticate";
-import { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
+import { InvalidCredentialsError } from "./errors/invalid-credentials-error";
+
 import z from "zod";
 
-export const login: FastifyPluginAsyncZod = async (app) => {
-  app.post("/", async (req, reply) => {
-    const userBodyRequest = z.object({
-      name: z.string(),
-      password: z.string(),
-    });
+export async function login(req: FastifyRequest, reply: FastifyReply) {
+  const userBodyRequest = z.object({
+    name: z.string(),
+    password: z.string(),
+  });
 
-    const { name, password } = userBodyRequest.parse(req.body);
+  const { name, password } = userBodyRequest.parse(req.body);
 
-    const { token } = await authenticate({ name, password });
+  try {
+    const { user } = await authenticate({ name, password });
+
+    const token = await reply.jwtSign(
+      {
+        sign: {
+          sub: user.id,
+        },
+      }
+    );
 
     return reply
       .setCookie("refreshToken", token, {
@@ -22,5 +33,11 @@ export const login: FastifyPluginAsyncZod = async (app) => {
       })
       .status(200)
       .send({ token });
-  });
-};
+  } catch (err) {
+    if (err instanceof InvalidCredentialsError) {
+      reply.status(400).send({ message: err.message });
+    }
+
+    throw err;
+  }
+}

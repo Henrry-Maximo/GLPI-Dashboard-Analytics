@@ -1,27 +1,27 @@
 import fastifyCors from "@fastify/cors";
 import fastify from "fastify";
 
+import fastifyCookie from "@fastify/cookie";
+import { fastifyJwt } from "@fastify/jwt";
 import { ZodError } from "zod";
 import { env } from "./env";
 import { routes } from "./http/routes";
-import { serializerCompiler, validatorCompiler, ZodTypeProvider } from "fastify-type-provider-zod";
-import fastifyCookie from "@fastify/cookie";
 
-export const app = fastify().withTypeProvider<ZodTypeProvider>();
-// export const app = fastify();
+export const app = fastify();
 
 app.register(fastifyCors, {
   origin: "*",
 });
 
-app.setValidatorCompiler(validatorCompiler);
-app.setSerializerCompiler(serializerCompiler);
+app.register(fastifyJwt, {
+  secret: env.JWT_SECRET,
+});
+
+app.register(fastifyCookie);
 
 app.register(routes, {
   prefix: "api-glpi",
 });
-
-app.register(fastifyCookie);
 
 /*
   Função `setErrorHandler` utilizada para evidênciar
@@ -38,9 +38,9 @@ app.setErrorHandler((error, _, reply) => {
   }
 
   // * Registrar erros em ambiente de prod
-  if (env.NODE_ENV === "production") {
+  // if (env.NODE_ENV === "production") {
     // Tarefa: rastreamento de erro
-  }
+  // }
 
-  return reply.status(500).send({ message: error.message });
+  return reply.status(500).send({ message: 'Internal Server Error.' });
 });

@@ -1,8 +1,6 @@
 import { knex } from "@/database/knex-config";
-import { env } from "@/env";
-import { InvalidCreatialsError } from "@/http/controllers/errors/invalid-credentials-error";
 import { compare } from "bcryptjs";
-import jwt from "jsonwebtoken";
+import { InvalidCredentialsError } from "./errors/invalid-credentials.error";
 
 interface authenticateUseCaseRequest {
   name: string;
@@ -10,7 +8,11 @@ interface authenticateUseCaseRequest {
 }
 
 interface AuthenticateUseCaseResponse {
-  token: string,
+  user: {
+    id: string;
+    name: string;
+    password: string;
+  };
 }
 
 export async function authenticate({
@@ -22,25 +24,14 @@ export async function authenticate({
     .where("name", name);
 
   if (!user) {
-    throw new InvalidCreatialsError();
+    throw new InvalidCredentialsError();
   }
 
   const passwordMatch = await compare(password, user.password);
 
   if (!passwordMatch) {
-    throw new InvalidCreatialsError();
+    throw new InvalidCredentialsError();
   }
 
-  const token = jwt.sign(
-    {
-      id: user.id,
-      name: user.name,
-    },
-    env.JWT_SECRET,
-    {
-      expiresIn: "10m",
-    }
-  );
-
-  return { token };
+  return { user };
 }

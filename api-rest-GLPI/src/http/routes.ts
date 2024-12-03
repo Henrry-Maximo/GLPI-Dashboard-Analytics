@@ -5,7 +5,7 @@ import { ticketController } from "./controllers/ticketController";
 
 
 export async function routes(app: FastifyInstance) {
-  app.register( login , { prefix: "authenticate" })
+  app.post("/sessions", login)
 
   app.register( ticketController , { prefix: "/tickets" });
 }

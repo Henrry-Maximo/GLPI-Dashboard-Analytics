@@ -15,7 +15,7 @@ declare module "knex/types/tables" {
     };
 
     glpi_users: {
-      id: number,
+      id: string,
       name: string;
       password: string;
     };
