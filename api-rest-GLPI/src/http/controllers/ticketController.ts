@@ -2,10 +2,11 @@ import type { FastifyInstance } from "fastify";
 import { z } from "zod";
 import { knex } from "../../database/knex-config";
 import { searchTickets } from "@/use-cases/search-tickets";
+import { verifyJwt } from "../middlewares/verify-jwt";
 
 export async function ticketController(app: FastifyInstance) {
   // lista de chamados ou chamado específico
-  app.get("/search", async (req, reply) => {
+  app.get("/search", { onRequest: [verifyJwt]} , async (req, reply) => {
     const requestIdTicketQuerySchema = z.object({
       id: z.coerce.string().optional(),
     });

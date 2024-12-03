@@ -1,10 +1,11 @@
-import fastifyCors from "@fastify/cors";
-import fastify from "fastify";
-
-import fastifyCookie from "@fastify/cookie";
+import { fastify } from "fastify";
+import { fastifyCors } from "@fastify/cors";
+import { fastifyCookie } from "@fastify/cookie";
 import { fastifyJwt } from "@fastify/jwt";
-import { ZodError } from "zod";
+
 import { env } from "./env";
+import { ZodError } from "zod";
+
 import { routes } from "./http/routes";
 
 export const app = fastify();
@@ -39,8 +40,8 @@ app.setErrorHandler((error, _, reply) => {
 
   // * Registrar erros em ambiente de prod
   // if (env.NODE_ENV === "production") {
-    // Tarefa: rastreamento de erro
+  // Tarefa: rastreamento de erro
   // }
 
-  return reply.status(500).send({ message: 'Internal Server Error.' });
+  return reply.status(500).send({ message: "Internal Server Error." });
 });
