@@ -28,7 +28,7 @@ export async function authenticate({
   }
 
   const passwordMatch = await compare(password, user.password);
-
+  
   if (!passwordMatch) {
     throw new InvalidCredentialsError();
   }

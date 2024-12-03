@@ -1,7 +1,7 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 
 import { authenticate } from "@/use-cases/authenticate";
-import { InvalidCredentialsError } from "./errors/invalid-credentials-error";
+import { InvalidCredentialsError } from "@/use-cases/errors/invalid-credentials.error";
 
 import z from "zod";
 
@@ -16,13 +16,11 @@ export async function login(req: FastifyRequest, reply: FastifyReply) {
   try {
     const { user } = await authenticate({ name, password });
 
-    const token = await reply.jwtSign(
-      {
-        sign: {
-          sub: user.id,
-        },
-      }
-    );
+    const token = await reply.jwtSign({
+      sign: {
+        sub: user.id,
+      },
+    });
 
     return reply
       .setCookie("refreshToken", token, {
@@ -35,7 +33,7 @@ export async function login(req: FastifyRequest, reply: FastifyReply) {
       .send({ token });
   } catch (err) {
     if (err instanceof InvalidCredentialsError) {
-      reply.status(400).send({ message: err.message });
+      return reply.status(400).send({ message: err.message });
     }
 
     throw err;
