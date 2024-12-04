@@ -14,7 +14,8 @@ export async function register(req: FastifyRequest, reply: FastifyReply) {
 
   try {
     await createdUser({ name, password });
-    return reply.status(204).send();
+
+    return reply.status(201).send({ message: "User creating with successful." });
   } catch (err) {
     if (err instanceof InvalidCredentialsError) {
       return reply.status(400).send({ message: err.message });
