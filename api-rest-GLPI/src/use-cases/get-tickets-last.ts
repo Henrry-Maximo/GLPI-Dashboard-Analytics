@@ -62,9 +62,5 @@ export async function getTicketsLast() {
       .orderBy("glpi_tickets.date_creation", "desc")
       .first();
 
-    if (!ticketLastSchema) {
-      return { message: "Nenhum ticket encontrado" };
-    }
-
     return { ticketLastSchema };
 }

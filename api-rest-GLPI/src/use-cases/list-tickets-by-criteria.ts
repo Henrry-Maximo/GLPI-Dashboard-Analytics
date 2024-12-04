@@ -1,8 +1,8 @@
 import { knex } from "@/database/knex-config";
 
 interface ListTicketsByCriteriaRequest {
-  filter: string | null;
-  by: string | null;
+  filter: string | undefined;
+  by: string | undefined;
 }
 
 export async function listTicketsByCriteria({
@@ -18,7 +18,8 @@ export async function listTicketsByCriteria({
     knex.raw("COUNT(CASE WHEN status = 6 THEN 1 END) AS tickets_closed"),
   ]);
 
-  const ticketsByCategory = await knex("glpi_tickets").select([
+  const ticketsByCategory = await knex("glpi_tickets")
+    .select([
       "glpi_itilcategories.name AS category_name",
       knex.raw("COUNT(glpi_tickets.id) AS tickets_count"),
     ])

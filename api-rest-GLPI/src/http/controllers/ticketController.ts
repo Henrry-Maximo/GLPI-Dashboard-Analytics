@@ -3,6 +3,9 @@ import { z } from "zod";
 import { knex } from "../../database/knex-config";
 import { searchTickets } from "@/use-cases/search-tickets";
 import { verifyJwt } from "../middlewares/verify-jwt";
+import { listTicketsByCriteria } from "@/use-cases/list-tickets-by-criteria";
+import { listTicketsByDate } from "@/use-cases/list-tickets-by-date";
+import { getTicketsLast } from "@/use-cases/get-tickets-last";
 
 export async function ticketController(app: FastifyInstance) {
   // lista de chamados ou chamado específico
@@ -19,7 +22,7 @@ export async function ticketController(app: FastifyInstance) {
   });
 
   // lista de chamados por status/urgência/categorias
-  app.get("/state", async (req, reply) => {
+  app.get("/state", { onRequest: [verifyJwt] }, async (req, reply) => {
     const requestStatusQuerySchema = z.object({
       filter: z.coerce.string().optional(),
       by: z.coerce.string().optional(),
@@ -27,133 +30,24 @@ export async function ticketController(app: FastifyInstance) {
 
     const { filter, by } = requestStatusQuerySchema.parse(req.query);
 
-    const ticketsByStatusCount = await knex("glpi_tickets").select([
-      knex.raw("COUNT(id) AS tickets_total"),
-      knex.raw("COUNT(CASE WHEN status = 1 THEN 1 END) AS tickets_open"),
-      knex.raw("COUNT(CASE WHEN status = 2 THEN 1 END) AS tickets_assigned"),
-      knex.raw("COUNT(CASE WHEN status = 4 THEN 1 END) AS tickets_pending"),
-      knex.raw("COUNT(CASE WHEN status = 5 THEN 1 END) AS tickets_solved"),
-      knex.raw("COUNT(CASE WHEN status = 6 THEN 1 END) AS tickets_closed"),
-    ]);
+    const result = await listTicketsByCriteria({ filter, by });
 
-    const ticketsByCategory = await knex("glpi_tickets")
-      .select([
-        "glpi_itilcategories.name AS category_name",
-        knex.raw("COUNT(glpi_tickets.id) AS tickets_count"),
-      ])
-      .innerJoin(
-        "glpi_itilcategories",
-        "glpi_tickets.itilcategories_id",
-        "glpi_itilcategories.id",
-      )
-      .groupBy("glpi_tickets.itilcategories_id", "glpi_itilcategories.name");
-
-    const ticketsByUrgencyCount = await knex("glpi_tickets").select([
-      knex.raw(
-        "COUNT(CASE WHEN status = 1 AND urgency = 1 THEN 1 END) AS tickets_very_low",
-      ),
-      knex.raw(
-        "COUNT(CASE WHEN status = 2 AND urgency = 2 THEN 1 END) AS tickets_low",
-      ),
-      knex.raw(
-        "COUNT(CASE WHEN status = 3 AND urgency = 3 THEN 1 END) AS tickets_medium",
-      ),
-      knex.raw(
-        "COUNT(CASE WHEN status = 4 AND urgency = 4 THEN 1 END) AS tickets_high",
-      ),
-      knex.raw(
-        "COUNT(CASE WHEN status = 5 AND urgency = 5 THEN 1 END) AS tickets_very_high",
-      ),
-    ]);
-
-    if (filter === "true" && by === "urgency") {
-      return reply.status(200).send(ticketsByUrgencyCount);
-    }
-
-    if (filter === "true" && by === "categories") {
-      return reply.status(200).send(ticketsByCategory);
-    }
-
-    return reply.status(200).send(ticketsByStatusCount);
+    return reply.status(200).send({ result })
   });
 
   // lista de quantidade de chamados por status/data
-  app.get("/date", async (req, reply) => {
-    const tickets = await knex("glpi_tickets")
-      .select(knex.raw("DATE(date_creation) AS data"), "status")
-      .count("id AS quantidade")
-      .whereNotIn("status", [1, 2, 3, 4, 5])
-      .groupByRaw("DATE(date_creation), status")
-      .orderByRaw("DATE(date_creation) DESC");
+  app.get("/date",{ onRequest: [verifyJwt] }, async (_, reply) => {
+    const { tickets } = await listTicketsByDate();
 
-    return reply.status(200).send(tickets);
+    return reply.status(200).send({ tickets });
   });
 
   // último chamado cadastrado
-  app.get("/last", async (req, reply) => {
-    const ticketLastSchema = await knex("glpi_tickets")
-      .select([
-        "glpi_tickets.id",
-        "glpi_tickets.name AS title",
-        "glpi_tickets.date_creation",
-
-        "glpi_locations.name AS location",
-        "glpi_users.firstname",
-        "glpi_users.realname",
-
-        "glpi_ticketvalidations.validation_date",
-        "glpi_ticketvalidations.comment_validation",
-        knex.raw(`
-          CASE glpi_tickets.status
-            WHEN 1 THEN 'Novo'
-            WHEN 2 THEN 'Em Atendimento (Atribuído)'
-            WHEN 3 THEN 'Em Atendimento (Planejado)'
-            WHEN 4 THEN 'Pendente'
-            WHEN 5 THEN 'Solucionado'
-            WHEN 6 THEN 'Fechado'
-          END AS status
-        `),
-        knex.raw(`
-          CASE glpi_tickets.urgency
-            WHEN 1 THEN 'Muito baixa'
-            WHEN 2 THEN 'Baixa'
-            WHEN 3 THEN 'Média'
-            WHEN 4 THEN 'Alta'
-            WHEN 5 THEN 'Muito Alta'
-          END AS priority
-        `),
-        knex.raw(`
-          CASE glpi_ticketvalidations.status
-            WHEN 2 THEN 'Aguardando'
-            WHEN 3 THEN 'Aprovado'
-            WHEN 4 THEN 'Recusado'
-          END AS validation_status
-        `),
-      ])
-      .leftJoin(
-        "glpi_locations",
-        "glpi_tickets.locations_id",
-        "glpi_locations.id",
-      )
-      .leftJoin(
-        "glpi_tickets_users",
-        "glpi_tickets.id",
-        "glpi_tickets_users.tickets_id",
-      )
-      .leftJoin("glpi_users", "glpi_tickets_users.users_id", "glpi_users.id")
-      .leftJoin(
-        "glpi_ticketvalidations",
-        "glpi_tickets.id",
-        "glpi_ticketvalidations.tickets_id",
-      )
-      .where("glpi_tickets_users.type", 1)
-      .whereNot("glpi_tickets.status", 6)
-      .whereNot("glpi_tickets.status", 5)
-      .orderBy("glpi_tickets.date_creation", "desc")
-      .first();
+  app.get("/last", { onRequest: [verifyJwt] }, async (_, reply) => {
+    const { ticketLastSchema } = await getTicketsLast();
 
     if (!ticketLastSchema) {
-      return reply.status(404).send({ message: "Nenhum ticket encontrado" });
+      return reply.status(404).send({ message: "Not found ticket." });
     }
 
     return reply.status(200).send(ticketLastSchema);
