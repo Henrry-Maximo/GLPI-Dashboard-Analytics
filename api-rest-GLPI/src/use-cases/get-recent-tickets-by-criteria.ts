@@ -53,7 +53,7 @@ export async function getRecentTicketsByCriteria() {
       .limit(10);
 
     if (!tickets) {
-      return { message: "Nenhuma chamado registrado." };
+      return { message: "Not found tickets." };
     }
 
     return { tickets }

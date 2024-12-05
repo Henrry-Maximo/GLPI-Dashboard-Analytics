@@ -1,5 +1,4 @@
 import { knex } from "@/database/knex-config";
-import { InvalidCreatialsError } from "@/http/controllers/errors/invalid-credentials-error";
 
 interface SearchTicketsRequest {
   id?: string | undefined;
