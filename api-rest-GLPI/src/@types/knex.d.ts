@@ -18,6 +18,7 @@ declare module "knex/types/tables" {
       id: string,
       name: string;
       password: string;
+      is_active: number;
     };
   }
 }

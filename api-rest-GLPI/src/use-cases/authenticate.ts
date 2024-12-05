@@ -21,7 +21,7 @@ export async function authenticate({
 }: authenticateUseCaseRequest): Promise<AuthenticateUseCaseResponse> {
   const [user] = await knex("glpi_users")
     .select("name", "password", "id")
-    .where("name", name);
+    .where("name", name).andWhere('is_active', 1);
 
   if (!user) {
     throw new InvalidCredentialsError();

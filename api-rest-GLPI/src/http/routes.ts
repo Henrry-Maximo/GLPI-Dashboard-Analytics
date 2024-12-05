@@ -1,9 +1,9 @@
 import type { FastifyInstance } from "fastify";
 
-import { login } from "./controllers/login-controller";
-import { register } from "./controllers/register-controller";
+import { login } from "./controllers/login";
+import { register } from "./controllers/register";
 
-import { ticketController } from "./controllers/ticketController";
+import { ticketController } from "./controllers/tickets";
 
 export async function routes(app: FastifyInstance) {
   app.post("/sessions", login)
