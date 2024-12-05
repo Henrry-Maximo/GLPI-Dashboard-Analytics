@@ -9,6 +9,7 @@ import { listTicketsByDate } from "@/use-cases/list-tickets-by-date";
 import { getTicketsLast } from "@/use-cases/get-tickets-last";
 import { listTicketsAmount } from "@/use-cases/list-tickets-amount";
 import { getRecentTicketsByCriteria } from "@/use-cases/get-recent-tickets-by-criteria";
+import { listTicketsLate } from "@/use-cases/list-tickets-late";
 
 export async function ticketController(app: FastifyInstance) {
   // lista de chamados ou chamado específico
@@ -78,15 +79,11 @@ export async function ticketController(app: FastifyInstance) {
   });
 
   // retornar chamados que atingiram o prazo do SLA
-  // app.get("/tickets-late", async (req, reply) => {
-  //   const db = await createConnection();
-  //   const [rows] =
-  //     await db.query(`SELECT COUNT(*) AS "Chamado Atrasados" FROM glpi_tickets
-  //     WHERE glpi_tickets.status NOT IN (5, 6)
-  //     AND glpi_tickets.solvedate IS NULL
-  //     AND glpi_tickets.time_to_resolve < TIMEDIFF(NOW(), glpi_tickets.date) LIMIT 10`);
-  //   reply.status(200).send(rows);
-  // });
+  app.get("/tickets-late", async (_, reply) => {
+    const { tickets } = await listTicketsLate();
+
+    return reply.status(200).send({ tickets })
+  });
 
   // retornar chamados (quantidade) por status e data
   // app.get("/tickets-line-late-by-status-date", async (req, reply) => {
