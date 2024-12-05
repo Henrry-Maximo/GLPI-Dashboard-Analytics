@@ -1,8 +1,8 @@
 import { knex } from "@/database/knex-config";
 
 interface ListTicketsAmountRequest {
-  filter: string | null;
-  by: string | null;
+  filter?: string;
+  by?: string;
 }
 
 export async function listTicketsAmount({ filter, by }: ListTicketsAmountRequest) {

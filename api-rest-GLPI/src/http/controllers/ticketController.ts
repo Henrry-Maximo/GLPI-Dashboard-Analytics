@@ -6,6 +6,7 @@ import { verifyJwt } from "../middlewares/verify-jwt";
 import { listTicketsByCriteria } from "@/use-cases/list-tickets-by-criteria";
 import { listTicketsByDate } from "@/use-cases/list-tickets-by-date";
 import { getTicketsLast } from "@/use-cases/get-tickets-last";
+import { listTicketsAmount } from "@/use-cases/list-tickets-amount";
 
 export async function ticketController(app: FastifyInstance) {
   // lista de chamados ou chamado específico
@@ -56,64 +57,15 @@ export async function ticketController(app: FastifyInstance) {
   // lista de quantidade de chamados associados a uma categoria
   app.get("/amount", async (req, reply) => {
     const requestCategoriesQuerySchema = z.object({
-      filter: z.coerce.string().optional(),
-      by: z.coerce.string().optional(),
+      filter: z.string().optional(),
+      by: z.string().optional(),
     });
 
     const { filter, by } = requestCategoriesQuerySchema.parse(req.query);
 
-    const ticketsByAmountCategories = await knex("glpi_tickets")
-      .select([
-        "glpi_itilcategories.id",
-        "glpi_itilcategories.name AS name",
-        "glpi_itilcategories.completename AS category",
-      ])
-      .count("glpi_tickets.id AS tickets_amount")
-      .leftJoin(
-        "glpi_itilcategories",
-        "glpi_tickets.itilcategories_id",
-        "glpi_itilcategories.id",
-      )
-      .groupBy(
-        "glpi_itilcategories.id",
-        "glpi_itilcategories.completename",
-        "glpi_itilcategories.name",
-      )
-      .orderBy("tickets_amount", "desc");
-
-    const ticketsByLastCategories = await knex("glpi_tickets")
-      .select([
-        "glpi_tickets.id",
-        "glpi_tickets.name",
-        "glpi_tickets.status ",
-        "glpi_tickets.date",
-        "glpi_itilcategories.name AS category",
-      ])
-      .leftJoin(
-        "glpi_itilcategories",
-        "glpi_tickets.itilcategories_id",
-        "glpi_itilcategories.id",
-      )
-      .whereIn("glpi_tickets.status", [1, 2, 3, 4, 5])
-      .orderBy("glpi_tickets.id", "desc")
-      .limit(10);
-
-    if (filter === "true" && by === "getLastTickets") {
-      if (!ticketsByLastCategories) {
-        return reply
-          .status(404)
-          .send({ message: "Nenhuma categoria associada aos chamados." });
-      }
-
-      return reply.status(200).send(ticketsByLastCategories);
-    }
-
-    if (!ticketsByAmountCategories) {
-      return reply
-        .status(404)
-        .send({ message: "Nenhuma categoria associada aos chamados." });
-    }
-    return reply.status(200).send(ticketsByAmountCategories);
+    const result = await listTicketsAmount({ filter, by });
+    
+    return reply.status(200).send({ result })
   });
 
   // retornar os últimos 10 chamados por entidade/status/urgência/usuário/técnico
