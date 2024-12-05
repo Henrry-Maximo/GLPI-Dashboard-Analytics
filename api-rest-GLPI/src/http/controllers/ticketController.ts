@@ -10,6 +10,7 @@ import { getTicketsLast } from "@/use-cases/get-tickets-last";
 import { listTicketsAmount } from "@/use-cases/list-tickets-amount";
 import { getRecentTicketsByCriteria } from "@/use-cases/get-recent-tickets-by-criteria";
 import { listTicketsLate } from "@/use-cases/list-tickets-late";
+import { listTicketsLateStatusAndDate } from "@/use-cases/list-tickets-late-status-and-date";
 
 export async function ticketController(app: FastifyInstance) {
   // lista de chamados ou chamado específico
@@ -86,21 +87,11 @@ export async function ticketController(app: FastifyInstance) {
   });
 
   // retornar chamados (quantidade) por status e data
-  // app.get("/tickets-line-late-by-status-date", async (req, reply) => {
-  //   const db = await createConnection();
-  //   const [rows] = await db.query(
-  //     `SELECT
-  //       DATE(date_creation) AS data, status, COUNT(id) AS quantidade
-  //     FROM
-  //       glpi_tickets
-  //     WHERE
-  //       status NOT IN (6)
-  //     GROUP BY DATE(date_creation), status
-  //     ORDER BY DATE(date_creation) DESC;`
-  //   );
+  app.get("/tickets-line-late-by-status-date", async (_, reply) => {
+    const { tickets } = await listTicketsLateStatusAndDate();
 
-  //   return reply.status(200).send(rows);
-  // });
+    return reply.status(200).send({ tickets });
+  });
 
   // retornar chamados (quantidade) por técnico
   // app.get("/tickets-by-technician", async (req, reply) => {
