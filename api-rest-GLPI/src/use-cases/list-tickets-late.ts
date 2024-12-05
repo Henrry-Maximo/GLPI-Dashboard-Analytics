@@ -1,16 +1,24 @@
 import { knex } from "@/database/knex-config";
 
 export async function listTicketsLate() {
-  const [tickets] = await knex("glpi_tickets")
-    .select("*", "Tickets Late")
-    .whereNot([5, 6]).andWhere('solvedate', null).whereRaw(
-      "glpi_tickets.time_to_resolve < TIMEDIFF(NOW(), glpi_tickets.date)"
+  const tickets = await knex("glpi_tickets")
+    .select(
+      "id", 
+      "date_creation", 
+      "time_to_resolve", 
+      "status",
+      knex.raw('name AS "Tickets Late"')
+    )
+    .whereNotIn("status", [5, 6])
+    .whereNull("solvedate")
+    .whereRaw(
+      "glpi_tickets.time_to_resolve < TIMEDIFF(NOW(), glpi_tickets.date_creation)"
     )
     .limit(10);
 
-    if (!tickets) {
-      return { message: 'Not found tickets.' }
-    }
+  if (!tickets.length) {
+    return { message: "Not found tickets." };
+  }
 
-    return { tickets };
+  return { tickets };
 }
