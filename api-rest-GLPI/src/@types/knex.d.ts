@@ -12,6 +12,7 @@ declare module "knex/types/tables" {
       date_mod: number;
       solvedate: number;
       time_to_resolve: number | null;
+      type: number;
     };
 
     glpi_users: {

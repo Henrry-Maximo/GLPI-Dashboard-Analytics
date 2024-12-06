@@ -11,6 +11,8 @@ import { getRecentTicketsByCriteria } from "@/use-cases/get-recent-tickets-by-cr
 import { listTicketsLate } from "@/use-cases/list-tickets-late";
 import { listTicketsLateStatusAndDate } from "@/use-cases/list-tickets-late-status-and-date";
 import { getTicketsTechnician } from "@/use-cases/get-tickets-technician";
+import { getTicketsType } from "@/use-cases/get-tickets-type";
+import { getTicketsTechnicianSolution } from "@/use-cases/get-tickets-technician-solution";
 
 export async function ticketController(app: FastifyInstance) {
   // lista de chamados ou chamado específico
@@ -101,38 +103,16 @@ export async function ticketController(app: FastifyInstance) {
   });
 
   // retornar número de chamados por tipo (requisição/incidente)
-  // app.get("/tickets-by-type", async (req, reply) => {
-  //   const db = await createConnection();
-  //   const [rows] = await db.query(`
-  //     SELECT
-  //       COUNT(CASE WHEN t.type = 1 THEN 1 END) AS 'incident',
-  //       COUNT(CASE WHEN t.type = 2 THEN 1 END) AS 'request'
-  //     FROM
-  //       glpi_tickets t
-  //     `);
-  //   return reply.status(200).send(rows);
-  // });
+  app.get("/tickets-by-type", async (req, reply) => {
+    const { result } = await getTicketsType();
+
+    return reply.status(200).send({ result });
+  });
 
   // retornar número de chamados solucionados por técnico
-  // app.get("/tickets-by-technician-solution", async (req, reply) => {
-  //   const db = await createConnection();
-  //   const [rows] = await db.query(`
-  //   SELECT
-  //     glpi_users.name AS 'Technician Name',
-  //     glpi_groups.name AS 'Group Name',
-  //     COUNT(glpi_tickets_users.tickets_id) AS 'Number of Tickets'
-  //   FROM
-  //     glpi_tickets_users
-  //       INNER JOIN
-  //     glpi_users ON glpi_tickets_users.users_id = glpi_users.id
-  //       INNER JOIN
-  //     glpi_groups_users ON glpi_tickets_users.users_id = glpi_groups_users.users_id
-  //       INNER JOIN glpi_groups ON glpi_groups_users.groups_id = glpi_groups.id
-  //   WHERE
-  //     glpi_users.name NOT IN ('luana.yasmim', 'cassia.martins', 'kevin.araujo')
-  //   GROUP BY glpi_tickets_users.users_id
-  //   ORDER BY COUNT(glpi_tickets_users.tickets_id) DESC
-  //   `);
-  //   return reply.status(200).send(rows);
-  // });
+  app.get("/tickets-by-technician-solution", async (req, reply) => {
+    const { result } = await getTicketsTechnicianSolution();
+
+    return reply.status(200).send({ result });
+  });
 }
