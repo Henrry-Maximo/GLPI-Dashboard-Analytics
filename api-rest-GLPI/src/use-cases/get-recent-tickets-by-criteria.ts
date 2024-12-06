@@ -56,5 +56,5 @@ export async function getRecentTicketsByCriteria() {
       return { message: "Not found tickets." };
     }
 
-    return { tickets }
+    return tickets
 }

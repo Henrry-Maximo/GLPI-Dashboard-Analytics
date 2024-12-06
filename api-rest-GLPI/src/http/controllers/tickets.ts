@@ -1,6 +1,5 @@
 import type { FastifyInstance } from "fastify";
 import { z } from "zod";
-import { knex } from "../../database/knex-config";
 import { verifyJwt } from "../middlewares/verify-jwt";
 
 import { searchTickets } from "@/use-cases/search-tickets";
@@ -11,6 +10,7 @@ import { listTicketsAmount } from "@/use-cases/list-tickets-amount";
 import { getRecentTicketsByCriteria } from "@/use-cases/get-recent-tickets-by-criteria";
 import { listTicketsLate } from "@/use-cases/list-tickets-late";
 import { listTicketsLateStatusAndDate } from "@/use-cases/list-tickets-late-status-and-date";
+import { getTicketsTechnician } from "@/use-cases/get-tickets-technician";
 
 export async function ticketController(app: FastifyInstance) {
   // lista de chamados ou chamado específico
@@ -48,7 +48,7 @@ export async function ticketController(app: FastifyInstance) {
   });
 
   // último chamado cadastrado
-  app.get("/last", { onRequest: [verifyJwt] }, async (_, reply) => {
+  app.get("/last", async (_, reply) => {
     const { ticketLastSchema } = await getTicketsLast();
 
     if (!ticketLastSchema) {
@@ -73,10 +73,10 @@ export async function ticketController(app: FastifyInstance) {
   });
 
   // retornar os últimos 10 chamados por entidade/status/urgência/usuário/técnico
-  app.get("/tickets-line-time", { onRequest: [verifyJwt] }, async (_, reply) => {
-    const { tickets } = await getRecentTicketsByCriteria();
+  app.get("/tickets-line-time", async (_, reply) => {
+    const tickets  = await getRecentTicketsByCriteria();
 
-    return reply.status(200).send({ tickets });
+    return reply.status(200).send(tickets);
   });
 
   // retornar chamados que atingiram o prazo do SLA
@@ -94,26 +94,11 @@ export async function ticketController(app: FastifyInstance) {
   });
 
   // retornar chamados (quantidade) por técnico
-  // app.get("/tickets-by-technician", async (req, reply) => {
-  //   const db = await createConnection();
-  //   const [rows] = await db.query(`
-  //     SELECT
-  //       b.name AS technician, COUNT(a.id) AS quantity_tickets
-  //     FROM
-  //       glpi_tickets a
-  //     JOIN
-  //       glpi_tickets_users c ON a.id = c.tickets_id
-  //     JOIN
-  //       glpi_users b ON c.users_id = b.id
-  //     WHERE
-  //       c.type = 2
-  //     GROUP BY
-  //       b.name
-  //     ORDER BY
-  //       quantity_tickets DESC;
-  //     `);
-  //   return reply.status(200).send(rows);
-  // });
+  app.get("/tickets-by-technician", async (_, reply) => {
+    const { rows } = await getTicketsTechnician();
+
+    return reply.status(200).send(rows);
+  });
 
   // retornar número de chamados por tipo (requisição/incidente)
   // app.get("/tickets-by-type", async (req, reply) => {
