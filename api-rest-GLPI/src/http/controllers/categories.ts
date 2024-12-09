@@ -1,5 +1,6 @@
 import { FastifyInstance } from "fastify";
 import { getCategories } from "@/use-cases/get-categories";
+import { categoriesByCount } from "@/use-cases/categories-by-count";
 
 export async function categorieController(app: FastifyInstance) {
   // retornar nome de todas as categorias
@@ -11,10 +12,8 @@ export async function categorieController(app: FastifyInstance) {
 
   // retornar total de categorias
   app.get("/categories-by-count", async (req, reply) => {
-    // const [rows] = await db.execute(
-    //   "SELECT COUNT(id) as count FROM glpi_itilcategories;"
-    // );
+    const { categoriesQuantity } = await categoriesByCount();
 
-    // return reply.status(200).send(rows);
+    return reply.status(200).send({ categoriesQuantity })
   });
 }
