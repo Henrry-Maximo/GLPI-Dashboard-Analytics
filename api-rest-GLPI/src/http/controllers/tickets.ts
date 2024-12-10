@@ -14,7 +14,7 @@ import { getTicketsTechnician } from "@/use-cases/get-tickets-technician";
 import { getTicketsType } from "@/use-cases/get-tickets-type";
 import { getTicketsTechnicianSolution } from "@/use-cases/get-tickets-technician-solution";
 
-export async function ticketController(app: FastifyInstance) {
+export async function ticketsController(app: FastifyInstance) {
   // lista de chamados ou chamado específico
   app.get("/search", { onRequest: [verifyJwt]} , async (req, reply) => {
     const requestIdTicketQuerySchema = z.object({
@@ -103,14 +103,14 @@ export async function ticketController(app: FastifyInstance) {
   });
 
   // retornar número de chamados por tipo (requisição/incidente)
-  app.get("/tickets-by-type", async (req, reply) => {
+  app.get("/tickets-by-type", async (_, reply) => {
     const { result } = await getTicketsType();
 
     return reply.status(200).send({ result });
   });
 
   // retornar número de chamados solucionados por técnico
-  app.get("/tickets-by-technician-solution", async (req, reply) => {
+  app.get("/tickets-by-technician-solution", async (_, reply) => {
     const { result } = await getTicketsTechnicianSolution();
 
     return reply.status(200).send({ result });

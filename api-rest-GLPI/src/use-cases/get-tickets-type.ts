@@ -1,6 +1,5 @@
 import { knex } from "@/database/knex-config";
 
-
 export async function getTicketsType() {
   const result = await knex('glpi_tickets').select([ 
     knex.raw("COUNT(CASE WHEN type = 1 THEN 1 END) AS 'incident'"), 
