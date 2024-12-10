@@ -15,17 +15,19 @@
 //   // retornar número de chamados por usuário
 //   app.get("/users-by-tickets", async (req, reply) => {
 //     const db = await createConnection();
+
 //     const [rows] = await db.query(`
 //     SELECT
-//       b.name AS usuario,
-//       COUNT(a.id) AS quantidade_chamados
+//       glpi_users.name AS usuario,
+//       COUNT(glpi_tickets.id) AS quantidade_chamados
 //     FROM
-//       glpi_tickets a
+//       glpi_tickets
 //     JOIN
-//       glpi_users b ON a.users_id_recipient = b.id
+//       glpi_users ON glpi_tickets.users_id_recipient = glpi_users.id
 //     GROUP BY
-//       b.name
+//       glpi_users.name
 //     ORDER BY
 //       quantidade_chamados DESC;`);
+
 //     return reply.status(200).send(rows);
 //   });
