@@ -8,7 +8,7 @@ export async function getUsersByTickets() {
       knex.raw(["COUNT(a.id) AS total"])
     )
     .groupBy("b.name")
-    .orderBy("total");
+    .orderBy("total", "desc");
 
   if (!getTotalTickets) {
     return { message: "Not found total tickets for users." }
