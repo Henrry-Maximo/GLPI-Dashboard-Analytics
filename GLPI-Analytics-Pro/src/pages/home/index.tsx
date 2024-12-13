@@ -4,40 +4,40 @@ import {
   ShieldCheck,
   Hourglass,
   UserCirclePlus,
-} from 'phosphor-react'
+} from "phosphor-react";
 
-import { Card } from '../../components/Card/Card'
-import { CardGraph } from '../../components/CardGraph/CardGraph'
-import { CardPie } from '../../components/CardPie/CardPie'
-import { useEffect, useState } from 'react'
+import { Card } from "../../components/Card/Card";
+import { CardGraph } from "../../components/CardGraph/CardGraph";
+import { CardPie } from "../../components/CardPie/CardPie";
+import { useEffect, useState } from "react";
 // import { useQuery } from '@tanstack/react-query'
 // import { fetchTicketsState } from '../../http/fetch-tickets-state'
 
 // import { SettingsTabs } from '../../components/SettingsTabs'
 
 interface TicketResponse {
-  tickets_total: number
-  tickets_open: number
-  tickets_assigned: number
-  tickets_pending: number
-  tickets_solved: number
-  tickets_closed: number
+  tickets_total: number;
+  tickets_open: number;
+  tickets_assigned: number;
+  tickets_pending: number;
+  tickets_solved: number;
+  tickets_closed: number;
 }
 
 export default function Home() {
-  const [tickets, setTickets] = useState<TicketResponse[]>([])
+  const [tickets, setTickets] = useState<TicketResponse[]>([]);
   useEffect(() => {
-    fetch('http://10.10.2.93:5000/api-glpi/tickets/state')
+    fetch("http://10.10.2.93:5000/api-glpi/tickets/state")
       .then((response) => {
-        return response.json()
+        return response.json();
       })
       .then((data: TicketResponse[]) => {
-        setTickets(data)
+        setTickets(data);
       })
       .catch((err) => {
-        console.log(err.message)
-      })
-  }, [])
+        console.log(err.message);
+      });
+  }, []);
 
   // const { data } = useQuery({
   //   queryKey: ['state'],
@@ -47,10 +47,10 @@ export default function Home() {
   //   refetchOnWindowFocus: true,
   // })
 
-  const ticket = tickets[0]
+  const ticket = tickets[0];
 
   if (!ticket) {
-    return null
+    return null;
   }
 
   return (
@@ -107,5 +107,5 @@ export default function Home() {
         <CardGraph title="Chamados por Ano" />
       </section>
     </main>
-  )
+  );
 }

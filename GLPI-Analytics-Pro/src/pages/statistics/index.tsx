@@ -2,9 +2,9 @@ export default function Statistics() {
   const ticketData = {
     id: 5,
     entities_id: 1,
-    name: 'Teste Wilka 4',
-    date_creation: '2022-04-20T15:56:53.000Z',
-    date_mod: '2023-01-26T19:56:43.000Z',
+    name: "Teste Wilka 4",
+    date_creation: "2022-04-20T15:56:53.000Z",
+    date_mod: "2023-01-26T19:56:43.000Z",
     solvedate: null,
     closedate: null,
     users_id_recipient: 2,
@@ -13,7 +13,7 @@ export default function Statistics() {
     itilcategories_id: 0,
     type: 2,
     locations_id: 0,
-  }
+  };
 
   return (
     <section className="m-2">
@@ -37,7 +37,7 @@ export default function Statistics() {
 
           <div className="mb-4">
             <p className="text-gray-600">
-              <span className="font-semibold">Priority:</span>{' '}
+              <span className="font-semibold">Priority:</span>{" "}
               {ticketData.priority}
             </p>
           </div>
@@ -50,26 +50,26 @@ export default function Statistics() {
 
           <div className="mb-4">
             <p className="text-gray-600">
-              <span className="font-semibold">Date Created:</span>{' '}
+              <span className="font-semibold">Date Created:</span>{" "}
               {new Date(ticketData.date_creation).toLocaleDateString()}
             </p>
           </div>
 
           <div className="mb-4">
             <p className="text-gray-600">
-              <span className="font-semibold">Last Modified:</span>{' '}
+              <span className="font-semibold">Last Modified:</span>{" "}
               {new Date(ticketData.date_mod).toLocaleDateString()}
             </p>
           </div>
 
           <div className="mb-4">
             <p className="text-gray-600">
-              <span className="font-semibold">User ID Recipient:</span>{' '}
+              <span className="font-semibold">User ID Recipient:</span>{" "}
               {ticketData.users_id_recipient}
             </p>
           </div>
         </div>
       </div>
     </section>
-  )
+  );
 }

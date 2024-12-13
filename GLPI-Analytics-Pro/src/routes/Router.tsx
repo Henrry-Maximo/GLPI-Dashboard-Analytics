@@ -1,9 +1,9 @@
-import { Navigate, Route, Routes } from 'react-router-dom'
-import Home from './pages/home'
-import MonitoringTicket from './pages/monitoring'
-import Statistics from './pages/statistics'
-import DefaultLayout from './layout/DefaultLayout'
-import Index from './pages/login'
+import { Navigate, Route, Routes } from "react-router-dom";
+import Home from "../pages/home";
+import MonitoringTicket from "../pages/monitoring";
+import Statistics from "../pages/statistics";
+import DefaultLayout from "../layout/DefaultLayout";
+import Index from "../pages/login";
 
 export const Router = () => {
   return (
@@ -20,5 +20,5 @@ export const Router = () => {
       {/* Redirecionamento para Login se rota não for encontrada */}
       <Route path="*" element={<Navigate to="/login" replace />} />
     </Routes>
-  )
-}
+  );
+};
