@@ -1,4 +1,3 @@
-// import { MagnifyingGlass } from "phosphor-react";
 import { ComponentProps } from 'react'
 
 type InputPrefixProps = ComponentProps<'div'>
