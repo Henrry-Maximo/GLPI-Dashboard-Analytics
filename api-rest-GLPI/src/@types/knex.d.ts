@@ -4,7 +4,7 @@ import { Knex } from "knex";
 declare module "knex/types/tables" {
   export interface Tables {
     glpi_tickets: {
-      id: string;
+      id: number;
       entities_id: number;
       name: string;
       status: number;

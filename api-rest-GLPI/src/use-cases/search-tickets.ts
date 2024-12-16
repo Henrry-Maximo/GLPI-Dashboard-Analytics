@@ -1,7 +1,7 @@
 import { knex } from "@/database/knex-config";
 
 interface SearchTicketsRequest {
-  id?: string | undefined;
+  id?: number | undefined;
 }
 
 export async function searchTickets({ id }: SearchTicketsRequest) {
@@ -16,8 +16,12 @@ export async function searchTickets({ id }: SearchTicketsRequest) {
 
   if (id) {
     query = query.where("id", id);
+    const ticket = await query.first();
+
+    return { ticket }; 
   }
 
   const tickets = await query;
+
   return { tickets };
 }

@@ -18,14 +18,14 @@ export async function ticketsController(app: FastifyInstance) {
   // lista de chamados ou chamado específico
   app.get("/search", { onRequest: [verifyJwt]} , async (req, reply) => {
     const requestIdTicketQuerySchema = z.object({
-      id: z.coerce.string().optional(),
+      id: z.coerce.number().optional(),
     });
 
     const { id } = requestIdTicketQuerySchema.parse(req.query);
 
-    const { tickets } = await searchTickets({ id })
+    const { tickets, ticket } = await searchTickets({ id })
 
-    return reply.status(200).send({ tickets });
+    return reply.status(200).send({ tickets, ticket });
   });
 
   // lista de chamados por status/urgência/categorias
