@@ -12,8 +12,10 @@
   "dependencies": {
     "@headlessui/react": "2.2.0",
     "@phosphor-icons/react": "2.1.7",
+    "@radix-ui/react-tabs": "1.1.2",
     "@tanstack/react-query": "5.62.7",
     "autoprefixer": "10.4.20",
+    "chart.js": "4.4.7",
     "dayjs": "1.11.13",
     "phosphor-react": "1.4.1",
     "postcss": "8.4.49",
