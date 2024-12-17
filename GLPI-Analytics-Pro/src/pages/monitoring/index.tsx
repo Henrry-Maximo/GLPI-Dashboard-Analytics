@@ -9,9 +9,9 @@ import { HeaderTicketsMonitoring } from "./components/HeaderTicketsMonitoring";
 import { ListTicketsMonitoring } from "./components/ListTicketsMonitoring";
 import { ViewTicketMonitoring } from "./components/ViewTicketsMonitoring";
 
-import { CircleLoadingIcon, SpinnerLoadinIcon } from "./SpinnerLoadingIcon";
-import { fetchTicketsMonitoring } from "../../http/fetch-tickets-monitoring";
 import { fetchDetailsTickets } from "../../http/fetch-tickets-details";
+import { fetchTicketsMonitoring } from "../../http/fetch-tickets-monitoring";
+import { CircleLoadingIcon, SpinnerLoadinIcon } from "./SpinnerLoadingIcon";
 
 dayjs.locale(ptBR);
 dayjs.extend(relativeTime);
@@ -35,7 +35,7 @@ export default function TicketMonitoring() {
 
   return (
     <div className="h-screen flex flex-col">
-      {/* returno / título / relógio + data */}
+      {/* retorno / título / relógio + data */}
       <HeaderTicketsMonitoring />
 
       <main className="flex flex-col flex-grow overflow-hidden">

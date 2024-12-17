@@ -1,46 +1,117 @@
 import { Password, User } from "phosphor-react";
 import styles from "./style.module.css";
-import albrasGLPIGraph from "../../assets/login/logo_albras_slogan.png";
+
+import { useState } from "react";
+import logo_glpi from "../../assets/login/logo_glpi_slogan.png";
+
+import { useMutation } from "@tanstack/react-query";
+import { login } from "../../http/auth";
+import { useNavigate } from "react-router-dom";
 
 export default function Index() {
+  const navigate = useNavigate();
+
+  const [user, setUser] = useState("");
+  const [password, setPassword] = useState("");
+
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const mutation = useMutation({
+    mutationFn: login,
+
+    onSuccess: (data) => {
+      if (data.token) {
+        sessionStorage.setItem("jwt", data.token);
+
+        // Redireciona o usuário
+        navigate("/main/home");
+      }
+    },
+
+    onError: (error: Error) => {
+      // Captura a mensagem do erro e exibe
+      setErrorMessage(error.message);
+    },
+  });
+
+  // Handler do envio do formulário
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const dataLogin = {
+      username: user,
+      password: password,
+    };
+
+    // Chama a mutação para fazer o login
+    mutation.mutate(dataLogin);
+  };
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.container}>
         <div className={styles.imageLogin}>
-          <img src={albrasGLPIGraph} alt="logo gestão glpi"></img>
+          <img src={logo_glpi} alt="" />
         </div>
-        <form className={styles.formLogin} action="/home">
+
+        <form className={styles.formLogin} onSubmit={handleSubmit}>
           <div className={styles.inputGroup}>
             <div className={styles.inputWrapper}>
-              <input type="text" required maxLength={25} />
-              <label>Usuário</label>
+              <input
+                type="text"
+                id="user"
+                required
+                maxLength={25}
+                value={user}
+                onChange={(e) => setUser(e.target.value)}
+              />
+              <label htmlFor="text">Usuário</label>
               <User className={styles.svgGroup} size={32} />
             </div>
+
             <div className={styles.inputWrapper}>
-              <input type="text" required maxLength={16} />
-              <label>Senha</label>
+              <input
+                type="password"
+                required
+                maxLength={16}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <label htmlFor="text">Senha</label>
               <Password className={styles.svgGroup} size={32} />
             </div>
           </div>
+
           <div className={styles.rememberAndPassword}>
             <div className={styles.wrapperRememberMe}>
               <input type="checkbox" />
-              <label>Lembrar de mim.</label>
+              <label htmlFor="text">Lembrar de mim.</label>
             </div>
+
             <div>
-              <a href="#">Esqueci minha senha.</a>
+              <a href="/">Esqueci minha senha.</a>
             </div>
           </div>
-          <button className={styles.accessLogin}>Acessar</button>
-          <div className={styles.accessHelpMargin}>
-            <a href="#">
+
+          <button type="submit" className={styles.accessLogin}>
+            Acessar
+          </button>
+
+          {errorMessage && (
+            <p className="bg-red-600 text-white p-2 border-x-2 rounded-md">
+              {errorMessage}
+            </p>
+          )}
+
+          {/* <div className={styles.accessHelpMargin}>
+            <a href="/">
               Problemas com{" "}
               <span>
                 <strong>acesso</strong>
               </span>
               ?
             </a>
-          </div>
+          </div> */}
         </form>
       </div>
     </div>

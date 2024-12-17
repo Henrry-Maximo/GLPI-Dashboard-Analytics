@@ -1,20 +1,20 @@
-export default function Statistics() {
-  const ticketData = {
-    id: 5,
-    entities_id: 1,
-    name: "Teste Wilka 4",
-    date_creation: "2022-04-20T15:56:53.000Z",
-    date_mod: "2023-01-26T19:56:43.000Z",
-    solvedate: null,
-    closedate: null,
-    users_id_recipient: 2,
-    status: 2,
-    priority: 3,
-    itilcategories_id: 0,
-    type: 2,
-    locations_id: 0,
-  };
+const ticketData = {
+  id: 5,
+  entities_id: 1,
+  name: "Teste Wilka 4",
+  date_creation: "2022-04-20T15:56:53.000Z",
+  date_mod: "2023-01-26T19:56:43.000Z",
+  solvedate: null,
+  closedate: null,
+  users_id_recipient: 2,
+  status: 2,
+  priority: 3,
+  itilcategories_id: 0,
+  type: 2,
+  locations_id: 0,
+};
 
+export default function Statistics() {
   return (
     <section className="m-2">
       <div className="flex justify-center items-center bg-slate-100">

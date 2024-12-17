@@ -1,5 +1,5 @@
 import { CalendarDots } from "@phosphor-icons/react";
-import { XCircle, Circle } from "phosphor-react"; // Importando ícones
+import { XCircle, Circle } from "phosphor-react";
 
 export const getStatusDetails = (status: string) => {
   switch (status) {

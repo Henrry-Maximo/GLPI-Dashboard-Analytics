@@ -86,9 +86,11 @@
 }
 
 .rememberAndPassword {
-  width: 100%;
   display: flex;
+  width: 100%;
+
   gap: 50px;
+
   justify-content: space-between;
   align-items: center;
 }
@@ -96,6 +98,8 @@
 .wrapperRememberMe {
   display: flex;
   gap: 5px;
+
+  align-items: center;
 }
 
 .rememberAndPassword input {
@@ -160,17 +164,17 @@
 @media (max-width: 930px) {
   .container {
     flex-direction: column;
-    gap: 2rem; 
-    padding: 1rem; 
+    gap: 2rem;
+    padding: 1rem;
   }
 
   .container .imageLogin img {
-    width: 20rem; 
-    height: auto; 
+    width: 20rem;
+    height: auto;
   }
 
   .container .formLogin {
-    width: 100%; 
+    width: 100%;
     gap: 2rem;
   }
 
@@ -179,15 +183,15 @@
   }
 
   .rememberAndPassword {
-    gap: 20px; 
+    gap: 20px;
   }
 
   .wrapperRememberMe {
-    flex-direction: row; 
-    gap: 5px; 
+    flex-direction: row;
+    gap: 5px;
   }
 
   .accessLogin {
-    width: 100%; 
+    width: 100%;
   }
 }
