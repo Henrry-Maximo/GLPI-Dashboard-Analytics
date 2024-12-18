@@ -30,6 +30,7 @@ app.register(routes, {
     - Tratar erros de validação retornados pelo tipo `ZodError`
     - Retorna erro genérico (500) para outros tipos de erros
 */
+
 app.setErrorHandler((error, _, reply) => {
   if (error instanceof ZodError) {
     return reply.status(400).send({

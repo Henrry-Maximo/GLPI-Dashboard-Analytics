@@ -9,9 +9,9 @@ import {
 import { Card } from "../../components/Card/Card";
 import { CardGraph } from "../../components/CardGraph/CardGraph";
 import { CardPie } from "../../components/CardPie/CardPie";
-import { useEffect, useState } from "react";
-// import { useQuery } from '@tanstack/react-query'
-// import { fetchTicketsState } from '../../http/fetch-tickets-state'
+import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { fetchTicketsState } from "../../http/fetch-tickets-state";
 
 // import { SettingsTabs } from '../../components/SettingsTabs'
 
@@ -25,33 +25,15 @@ interface TicketResponse {
 }
 
 export default function Home() {
-  const [tickets, setTickets] = useState<TicketResponse[]>([]);
-  useEffect(() => {
-    fetch("http://10.10.2.93:5000/api-glpi/tickets/state")
-      .then((response) => {
-        return response.json();
-      })
-      .then((data: TicketResponse[]) => {
-        setTickets(data);
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
-  }, []);
+  const { data } = useQuery({
+    queryKey: ["state"],
+    queryFn: fetchTicketsState,
+    staleTime: 1000 * 60, // 1 minuto
+    refetchInterval: 1000 * 5, // 10 segundos
+    refetchOnWindowFocus: true,
+  });
 
-  // const { data } = useQuery({
-  //   queryKey: ['state'],
-  //   queryFn: fetchTicketsState,
-  //   staleTime: 1000 * 60, // 1 minuto
-  //   refetchInterval: 1000 * 5, // 10 segundos
-  //   refetchOnWindowFocus: true,
-  // })
-
-  const ticket = tickets[0];
-
-  if (!ticket) {
-    return null;
-  }
+  console.log(data);
 
   return (
     <main className="w-full h-[max-content]">
@@ -66,31 +48,31 @@ export default function Home() {
         <div className="grid md:grid-cols-5 gap-4">
           <Card
             icon={Clock}
-            quantity={ticket && ticket.tickets_open}
+            quantity={10}
             title="Chamados Abertos"
             className="h-10 w-10 bg-yellow-100 text-yellow-500 rounded-md p-2 border border-yellow-500"
           />
           <Card
             icon={UserCirclePlus}
-            quantity={ticket && ticket.tickets_assigned}
+            quantity={10}
             title="Chamados Atribuídos"
             className="h-10 w-10 bg-blue-100 text-blue-500 rounded-md p-2 border border-blue-500"
           />
           <Card
             icon={Hourglass}
-            quantity={ticket && ticket.tickets_pending}
+            quantity={10}
             title="Chamados Pendentes"
             className="h-10 w-10 bg-orange-100 text-orange-500 rounded-md p-2 border border-orange-500"
           />
           <Card
             icon={CheckCircle}
-            quantity={ticket && ticket.tickets_solved}
+            quantity={10}
             title="Chamados Solucionados"
             className="h-10 w-10 bg-green-200 text-green-600 rounded-md p-2 border border-green-500"
           />
           <Card
             icon={ShieldCheck}
-            quantity={ticket && ticket.tickets_closed}
+            quantity={10}
             title="Chamados Fechados"
             className="h-10 w-10 bg-green-700 text-green-100 rounded-md p-2 border border-green-500"
           />

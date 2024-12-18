@@ -16,18 +16,30 @@ export async function login(req: FastifyRequest, reply: FastifyReply) {
   try {
     const { user } = await authenticate({ name, password });
 
-    const token = await reply.jwtSign({
-      sign: {
+    const token = await reply.jwtSign(
+      {
         sub: user.id,
       },
-    });
-
+      {
+        expiresIn: "15m", // Token de acesso curto (15 minutos)
+      }
+    );
+    
+    const refreshToken = await reply.jwtSign(
+      {
+        sub: user.id,
+      },
+      {
+        expiresIn: "7d", // Token de refresh mais longo
+      }
+    );
+    
     return reply
-      .setCookie("refreshToken", token, {
+      .setCookie("refreshToken", refreshToken, {
         path: "/",
         secure: true,
-        sameSite: true,
-        httpOnly: true,
+        sameSite: "strict", // seguro para cookies
+        httpOnly: true, // protege contra XSS
       })
       .status(200)
       .send({ token });

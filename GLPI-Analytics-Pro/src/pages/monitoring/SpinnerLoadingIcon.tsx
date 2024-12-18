@@ -5,6 +5,7 @@ export function SpinnerLoadinIcon() {
       height="64"
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
+      
     >
       <style>
         {`
@@ -24,7 +25,7 @@ export function SpinnerLoadinIcon() {
         className="spinner"
       />
     </svg>
-  )
+  );
 }
 
 export function CircleLoadingIcon() {
@@ -60,5 +61,5 @@ export function CircleLoadingIcon() {
       <circle className="spinner_b2T7 spinner_YRVV" cx="12" cy="12" r="3" />
       <circle className="spinner_b2T7 spinner_c9oY" cx="20" cy="12" r="3" />
     </svg>
-  )
+  );
 }

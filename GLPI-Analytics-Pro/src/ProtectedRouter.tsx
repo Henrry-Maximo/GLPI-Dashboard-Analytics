@@ -7,7 +7,7 @@ export function ProtectedRouter() {
 }
 
 function userAuth() {
-  const user = sessionStorage.getItem("jwt");
+  const userToken = sessionStorage.getItem("jwt");
 
-  return user && user;
+  return userToken && userToken;
 }

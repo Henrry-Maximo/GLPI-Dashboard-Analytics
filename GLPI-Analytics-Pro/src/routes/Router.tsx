@@ -25,10 +25,15 @@ export const Router = () => {
           <Route path="home" element={<Home />} />
 
           <Route path="tickets" element={<Tickets />} />
+
           <Route path="statistics" element={<Statistics />} />
+
           <Route path="analytics" element={<Analytics />} />
+
           <Route path="notification" element={<Notification />} />
+
           <Route path="help" element={<Help />} />
+
           <Route path="system" element={<System />} />
         </Route>
 
