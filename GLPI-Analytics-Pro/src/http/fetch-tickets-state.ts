@@ -25,13 +25,15 @@ type TicketsStateResponse = {
     | PropsTicketsStateCategories;
 };
 
-export async function fetchTicketsState() {
-  const userJWT = sessionStorage.getItem("jwt");
+export async function fetchTicketsState(): Promise<{
+  ticketsStateInDatabase: TicketsStateResponse[];
+}> {
+  const userJWT = sessionStorage.getItem('jwt');
 
   const response = await fetch(
-    "http://10.10.2.93:5000/api-glpi/tickets/state",
+    "http://192.168.0.100:5000/api-glpi/tickets/state",
     {
-      method: "POST",
+      method: "GET",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${userJWT}`,
@@ -39,17 +41,22 @@ export async function fetchTicketsState() {
     }
   );
 
-  if (!response.ok) {
-    throw new Error("Erro ao buscar os dados dos chamados");
-  }
+  const { result } = await response.json();
 
-  const data = await response.json();
-  console.log(data);
+  const ticketsStateInDatabase = result.ticketsByStatusCount;
+  return { ticketsStateInDatabase };
 
-  // Certifique-se de que o retorno tenha o formato correto
-  if (!data.type || !data.data) {
-    throw new Error("Resposta da API fora do formato esperado");
-  }
+  // if (!response.ok) {
+  //   throw new Error("Erro ao buscar os dados dos chamados");
+  // }
 
-  return data;
+  // const data = await response.json();
+  // console.log(data);
+
+  // // Certifique-se de que o retorno tenha o formato correto
+  // if (!data.type || !data.data) {
+  //   throw new Error("Resposta da API fora do formato esperado");
+  // }
+
+  // return data;
 }

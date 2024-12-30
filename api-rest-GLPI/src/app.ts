@@ -21,7 +21,7 @@ app.register(fastifyJwt, {
 app.register(fastifyCookie);
 
 app.register(routes, {
-  prefix: "api-glpi",
+  prefix: "/api-glpi"
 });
 
 /*

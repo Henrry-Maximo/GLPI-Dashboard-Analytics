@@ -11,7 +11,7 @@ export async function routes(app: FastifyInstance) {
   app.post("/sessions", login)
   app.post("/register", register)
 
-  app.register(usersController, { prefix: "users" });
-  app.register(ticketsController, { prefix: "tickets" });
-  app.register(categoriesController, { prefix: "categories" });
+  app.register(usersController, { prefix: "/users" });
+  app.register(ticketsController, { prefix: "/tickets" });
+  app.register(categoriesController, { prefix: "/categories" });
 }

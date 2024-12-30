@@ -9,7 +9,6 @@ import {
 import { Card } from "../../components/Card/Card";
 import { CardGraph } from "../../components/CardGraph/CardGraph";
 import { CardPie } from "../../components/CardPie/CardPie";
-import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { fetchTicketsState } from "../../http/fetch-tickets-state";
 
@@ -25,15 +24,13 @@ interface TicketResponse {
 }
 
 export default function Home() {
-  const { data } = useQuery({
+  const { ticketsStateInDatabase } = useQuery({
     queryKey: ["state"],
     queryFn: fetchTicketsState,
     staleTime: 1000 * 60, // 1 minuto
     refetchInterval: 1000 * 5, // 10 segundos
     refetchOnWindowFocus: true,
   });
-
-  console.log(data);
 
   return (
     <main className="w-full h-[max-content]">
@@ -48,7 +45,7 @@ export default function Home() {
         <div className="grid md:grid-cols-5 gap-4">
           <Card
             icon={Clock}
-            quantity={10}
+            quantity={ticketsStateInDatabase ? ticketsStateInDatabase.tickets_total : '0'}
             title="Chamados Abertos"
             className="h-10 w-10 bg-yellow-100 text-yellow-500 rounded-md p-2 border border-yellow-500"
           />

@@ -9,7 +9,7 @@ export async function login({
   username,
   password,
 }: AuthPropsRequest): Promise<authPropsResponse> {
-  const response = await fetch("http://10.10.2.93:5000/api-glpi/sessions", {
+  const response = await fetch("http://172.29.64.1:5000/api-glpi/sessions", {
     method: "POST",
 
     headers: {

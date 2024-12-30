@@ -1,4 +1,4 @@
-import { FastifyReply, FastifyRequest } from "fastify";
+import type { FastifyReply, FastifyRequest } from "fastify";
 
 import { authenticate } from "@/use-cases/authenticate";
 import { InvalidCredentialsError } from "@/use-cases/errors/invalid-credentials.error";
@@ -21,28 +21,21 @@ export async function login(req: FastifyRequest, reply: FastifyReply) {
         sub: user.id,
       },
       {
-        expiresIn: "15m", // Token de acesso curto (15 minutos)
+        expiresIn: "15m",
       }
     );
     
-    const refreshToken = await reply.jwtSign(
-      {
-        sub: user.id,
-      },
-      {
-        expiresIn: "7d", // Token de refresh mais longo
-      }
-    );
-    
-    return reply
-      .setCookie("refreshToken", refreshToken, {
-        path: "/",
-        secure: true,
-        sameSite: "strict", // seguro para cookies
-        httpOnly: true, // protege contra XSS
-      })
-      .status(200)
-      .send({ token });
+    // return reply
+    //   .setCookie("refreshToken", refreshToken, {
+    //     path: "/",
+    //     secure: true,
+    //     sameSite: "strict",
+    //     httpOnly: true, 
+    //   })
+    //   .status(200)
+    //   .send({ token });
+
+    return reply.status(200).send({ token });
   } catch (err) {
     if (err instanceof InvalidCredentialsError) {
       return reply.status(400).send({ message: err.message });

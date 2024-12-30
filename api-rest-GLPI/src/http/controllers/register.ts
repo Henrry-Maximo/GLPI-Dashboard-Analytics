@@ -1,4 +1,4 @@
-import { FastifyReply, FastifyRequest } from "fastify";
+import type { FastifyReply, FastifyRequest } from "fastify";
 import z from "zod";
 
 import { createdUser } from "@/use-cases/created-user";
