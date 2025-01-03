@@ -1,5 +1,3 @@
-import { SpinnerBall } from '@phosphor-icons/react'
-
 export default function Notifications() {
   const notifications = [
     {
