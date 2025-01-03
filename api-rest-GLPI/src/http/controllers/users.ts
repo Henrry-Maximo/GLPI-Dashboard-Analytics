@@ -12,17 +12,20 @@ export async function usersController(app: FastifyInstance) {
     return reply.status(200).send(users);
   });
 
-  app.get("/users-by-count", async (req, reply) => {
+  app.get("/users-by-count", { onRequest: [verifyJwt] }, async (req, reply) => {
     const { sumTotalUsersFromDatabase: totalUsers } =
       await getUsersIdCountList();
 
     return reply.status(200).send(totalUsers);
   });
 
-  app.get("/users-by-tickets", async (req, reply) => {
-    const { getTotalTickets: totalTicketsUsers } =
-      await getUsersByTickets();
+  app.get(
+    "/users-by-tickets",
+    { onRequest: [verifyJwt] },
+    async (req, reply) => {
+      const { getTotalTickets: totalTicketsUsers } = await getUsersByTickets();
 
-    return reply.status(200).send(totalTicketsUsers);
-  });
+      return reply.status(200).send(totalTicketsUsers);
+    }
+  );
 }

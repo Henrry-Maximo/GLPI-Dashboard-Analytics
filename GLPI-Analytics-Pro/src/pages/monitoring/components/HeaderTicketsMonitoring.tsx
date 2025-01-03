@@ -17,7 +17,7 @@ export function HeaderTicketsMonitoring() {
   return (
     <header className="flex flex-row items-center gap-4 justify-between bg-orange-500 p-4 text-slate-100">
       <div className="mr-24">
-        <NavItem icon={ArrowCircleLeft} route="/main" />
+        <NavItem icon={ArrowCircleLeft} route="/main/home" />
       </div>
 
       <h2 className="text-4xl font-medium">GLPI: MONITORAMENTO CHAMADOS</h2>

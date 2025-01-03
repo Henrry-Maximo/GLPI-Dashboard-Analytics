@@ -25,16 +25,6 @@ export async function login(req: FastifyRequest, reply: FastifyReply) {
       }
     );
     
-    // return reply
-    //   .setCookie("refreshToken", refreshToken, {
-    //     path: "/",
-    //     secure: true,
-    //     sameSite: "strict",
-    //     httpOnly: true, 
-    //   })
-    //   .status(200)
-    //   .send({ token });
-
     return reply.status(200).send({ token });
   } catch (err) {
     if (err instanceof InvalidCredentialsError) {

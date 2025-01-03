@@ -51,7 +51,7 @@ export default function Index() {
     <div className={styles.wrapper}>
       <div className={styles.container}>
         <div className={styles.imageLogin}>
-          <img src={logo_glpi} alt="" />
+          <img src={logo_glpi} alt="logo glpi" />
         </div>
 
         <form className={styles.formLogin} onSubmit={handleSubmit}>

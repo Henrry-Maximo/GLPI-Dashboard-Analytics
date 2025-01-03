@@ -50,7 +50,7 @@ export async function ticketsController(app: FastifyInstance) {
   });
 
   // último chamado cadastrado
-  app.get("/last", async (_, reply) => {
+  app.get("/last",  { onRequest: [verifyJwt]}, async (_, reply) => {
     const { ticketLastSchema } = await getTicketsLast();
 
     if (!ticketLastSchema) {
@@ -75,42 +75,42 @@ export async function ticketsController(app: FastifyInstance) {
   });
 
   // retornar os últimos 10 chamados por entidade/status/urgência/usuário/técnico
-  app.get("/tickets-line-time", async (_, reply) => {
+  app.get("/tickets-line-time", { onRequest: [verifyJwt]}, async (_, reply) => {
     const tickets  = await getRecentTicketsByCriteria();
 
     return reply.status(200).send(tickets);
   });
 
   // retornar chamados que atingiram o prazo do SLA
-  app.get("/tickets-late", async (_, reply) => {
+  app.get("/tickets-late", { onRequest: [verifyJwt]}, async (_, reply) => {
     const { tickets } = await listTicketsLate();
 
     return reply.status(200).send({ tickets })
   });
 
   // retornar chamados (quantidade) por status e data
-  app.get("/tickets-line-late-by-status-date", async (_, reply) => {
+  app.get("/tickets-line-late-by-status-date", { onRequest: [verifyJwt]}, async (_, reply) => {
     const { tickets } = await listTicketsLateStatusAndDate();
 
     return reply.status(200).send({ tickets });
   });
 
   // retornar chamados (quantidade) por técnico
-  app.get("/tickets-by-technician", async (_, reply) => {
+  app.get("/tickets-by-technician", { onRequest: [verifyJwt]}, async (_, reply) => {
     const { rows } = await getTicketsTechnician();
 
     return reply.status(200).send(rows);
   });
 
   // retornar número de chamados por tipo (requisição/incidente)
-  app.get("/tickets-by-type", async (_, reply) => {
+  app.get("/tickets-by-type", { onRequest: [ verifyJwt ] }, async (_, reply) => {
     const { result } = await getTicketsType();
 
     return reply.status(200).send({ result });
   });
 
   // retornar número de chamados solucionados por técnico
-  app.get("/tickets-by-technician-solution", async (_, reply) => {
+  app.get("/tickets-by-technician-solution", { onRequest: [ verifyJwt ] }, async (_, reply) => {
     const { result } = await getTicketsTechnicianSolution();
 
     return reply.status(200).send({ result });

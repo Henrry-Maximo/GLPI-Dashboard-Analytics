@@ -37,7 +37,7 @@ export const Router = () => {
           <Route path="system" element={<System />} />
         </Route>
 
-        <Route path="monitoring" element={<MonitoringTicket />} />
+        <Route path="/monitoring" element={<MonitoringTicket />} />
       </Route>
 
       {/* Redirecionamento para Login se rota não for encontrada (catch-all route) */}
