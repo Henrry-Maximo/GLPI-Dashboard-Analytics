@@ -102,7 +102,7 @@ export default function CallsPage() {
                 </Badge>
 
                 <Badge
-                  variant="solid"
+                  variant="outline"
                   className={`${
                     call.priority === "Alta"
                       ? "bg-red-100 text-red-700"

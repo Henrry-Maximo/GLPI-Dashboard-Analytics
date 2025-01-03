@@ -31,9 +31,9 @@ export default function Header({ toggleSidebar }: ButtonProps) {
         />
       </div>
       <nav className="flex items-center flex-row gap-2">
-        <NavItem icon={BellSimple} route="#" />
-        <NavItem icon={Question} route="#" />
-        <NavItem icon={UserCircle} route="#" />
+        <NavItem icon={BellSimple} route="/main/notification" />
+        <NavItem icon={Question} route="/main/help" />
+        <NavItem icon={UserCircle} route="/main/system" />
       </nav>
     </div>
   );
