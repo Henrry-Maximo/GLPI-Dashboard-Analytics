@@ -1,75 +1,59 @@
-const ticketData = {
-  id: 5,
-  entities_id: 1,
-  name: "Teste Wilka 4",
-  date_creation: "2022-04-20T15:56:53.000Z",
-  date_mod: "2023-01-26T19:56:43.000Z",
-  solvedate: null,
-  closedate: null,
-  users_id_recipient: 2,
-  status: 2,
-  priority: 3,
-  itilcategories_id: 0,
-  type: 2,
-  locations_id: 0,
-};
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 export default function Statistics() {
   return (
-    <section className="m-2">
-      <div className="flex justify-center items-center bg-slate-100">
-        <div className="bg-white p-8 rounded-lg w-full ">
-          <h2 className="text-2xl font-semibold mb-6 text-gray-800 text-center">
-            Ticket Details
-          </h2>
+    <div className="w-full space-y-6">
+      {/* Título e Resumo Geral */}
+      <header className="text-center space-y-2">
+        <h1 className="text-3xl font-bold text-slate-800">Estatísticas Gerais</h1>
+        <p className="text-sm text-gray-500">
+          Visualize dados detalhados sobre técnicos, requerentes e chamados.
+        </p>
+      </header>
 
-          <div className="mb-4">
-            <p className="text-gray-600">
-              <span className="font-semibold">Name:</span> {ticketData.name}
-            </p>
-          </div>
+      {/* Cards Resumidos */}
+      <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <Card>
+          <CardHeader>
+            <CardTitle>Total de Chamados</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-4xl font-bold text-blue-500">1,234</p>
+          </CardContent>
+        </Card>
 
-          <div className="mb-4">
-            <p className="text-gray-600">
-              <span className="font-semibold">Status:</span> {ticketData.status}
-            </p>
-          </div>
+        <Card>
+          <CardHeader>
+            <CardTitle>Técnicos Ativos</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-4xl font-bold text-green-500">45</p>
+          </CardContent>
+        </Card>
 
-          <div className="mb-4">
-            <p className="text-gray-600">
-              <span className="font-semibold">Priority:</span>{" "}
-              {ticketData.priority}
-            </p>
-          </div>
+        <Card>
+          <CardHeader>
+            <CardTitle>Média de Resolução</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-4xl font-bold text-yellow-500">3h 15m</p>
+          </CardContent>
+        </Card>
 
-          <div className="mb-4">
-            <p className="text-gray-600">
-              <span className="font-semibold">Type:</span> {ticketData.type}
-            </p>
-          </div>
-
-          <div className="mb-4">
-            <p className="text-gray-600">
-              <span className="font-semibold">Date Created:</span>{" "}
-              {new Date(ticketData.date_creation).toLocaleDateString()}
-            </p>
-          </div>
-
-          <div className="mb-4">
-            <p className="text-gray-600">
-              <span className="font-semibold">Last Modified:</span>{" "}
-              {new Date(ticketData.date_mod).toLocaleDateString()}
-            </p>
-          </div>
-
-          <div className="mb-4">
-            <p className="text-gray-600">
-              <span className="font-semibold">User ID Recipient:</span>{" "}
-              {ticketData.users_id_recipient}
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
+        <Card>
+          <CardHeader>
+            <CardTitle>Chamados Pendentes</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-4xl font-bold text-red-500">67</p>
+          </CardContent>
+        </Card>
+      </section>
+    </div>
   );
 }

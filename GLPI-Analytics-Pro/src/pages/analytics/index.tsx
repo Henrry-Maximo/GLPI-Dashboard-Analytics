@@ -17,7 +17,7 @@ export default function AnalyticsPage() {
 
       {/* Filtros */}
       <Card className="p-4">
-        <div className="flex flex-wrap gap-4">
+        <div className="flex justify-center gap-4">
           <Select>
             <SelectTrigger className="w-56">
               <SelectValue placeholder="Selecione o Período" />
