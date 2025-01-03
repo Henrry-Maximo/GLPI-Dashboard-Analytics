@@ -9,7 +9,9 @@ export async function login({
   username,
   password,
 }: AuthPropsRequest): Promise<authPropsResponse> {
-  const response = await fetch("http://172.29.64.1:5000/api-glpi/sessions", {
+  const API_URL = import.meta.env.VITE_API_URL;
+
+  const response = await fetch(`${API_URL}/api-glpi/sessions`, {
     method: "POST",
 
     headers: {

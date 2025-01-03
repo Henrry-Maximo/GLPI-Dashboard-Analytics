@@ -24,13 +24,15 @@ interface TicketResponse {
 }
 
 export default function Home() {
-  const { ticketsStateInDatabase } = useQuery({
+  const { data } = useQuery({
     queryKey: ["state"],
     queryFn: fetchTicketsState,
     staleTime: 1000 * 60, // 1 minuto
     refetchInterval: 1000 * 5, // 10 segundos
     refetchOnWindowFocus: true,
   });
+
+  const amountStatusTickets = data?.ticketsStateInDatabase[0];
 
   return (
     <main className="w-full h-[max-content]">
@@ -45,31 +47,31 @@ export default function Home() {
         <div className="grid md:grid-cols-5 gap-4">
           <Card
             icon={Clock}
-            quantity={ticketsStateInDatabase ? ticketsStateInDatabase.tickets_total : '0'}
+            quantity={amountStatusTickets ? amountStatusTickets.tickets_open : 0}
             title="Chamados Abertos"
             className="h-10 w-10 bg-yellow-100 text-yellow-500 rounded-md p-2 border border-yellow-500"
           />
           <Card
             icon={UserCirclePlus}
-            quantity={10}
+            quantity={amountStatusTickets ? amountStatusTickets.tickets_assigned : 0}
             title="Chamados Atribuídos"
             className="h-10 w-10 bg-blue-100 text-blue-500 rounded-md p-2 border border-blue-500"
           />
           <Card
             icon={Hourglass}
-            quantity={10}
+            quantity={amountStatusTickets ? amountStatusTickets.tickets_pending : 0}
             title="Chamados Pendentes"
             className="h-10 w-10 bg-orange-100 text-orange-500 rounded-md p-2 border border-orange-500"
           />
           <Card
             icon={CheckCircle}
-            quantity={10}
+            quantity={amountStatusTickets ? amountStatusTickets.tickets_solved : 0}
             title="Chamados Solucionados"
             className="h-10 w-10 bg-green-200 text-green-600 rounded-md p-2 border border-green-500"
           />
           <Card
             icon={ShieldCheck}
-            quantity={10}
+            quantity={amountStatusTickets ? amountStatusTickets.tickets_closed : 0}
             title="Chamados Fechados"
             className="h-10 w-10 bg-green-700 text-green-100 rounded-md p-2 border border-green-500"
           />

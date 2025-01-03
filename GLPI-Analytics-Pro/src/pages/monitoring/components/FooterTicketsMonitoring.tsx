@@ -6,7 +6,7 @@ interface PropsTimeCheck {
 
 export function FooterTicketsMonitoring({ timeCheckUpdate }: PropsTimeCheck) {
   const lastUpdatedTicketsDetails =
-    dayjs(timeCheckUpdate).format(`DD/MM/YYYY HH:mm:ss`)
+    dayjs(timeCheckUpdate).format('DD/MM/YYYY HH:mm:ss')
 
   return (
     <p className="text-sm font-light text-end mt-1">

@@ -1,5 +1,5 @@
 
-import { ElementType } from 'react'
+import type { ElementType } from 'react'
 
 interface CardProps {
   icon: ElementType

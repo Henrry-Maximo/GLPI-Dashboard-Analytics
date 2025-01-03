@@ -13,8 +13,8 @@ export async function fetchWithAuth(
 
   if (response.status === 401) {
     // Token expirado, redireciona para a área de logout
-    sessionStorage.removeItem("jwt"); // Limpa o token
-    window.location.href = "/"; // Redireciona para a página de login
+    sessionStorage.removeItem("jwt");
+    window.location.href = "/";
   }
 
   return response;

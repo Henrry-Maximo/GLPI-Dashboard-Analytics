@@ -2,8 +2,10 @@ import type { DetailsMonitoringResponse } from "../@types/interface-monitoring";
 import { fetchWithAuth } from "./middlewares/verify-jwt-authenticate";
 
 export async function fetchTicketsMonitoring(): Promise<DetailsMonitoringResponse> {
+  const API_URL = import.meta.env.VITE_API_URL;
+
   const response = await fetchWithAuth(
-    "http://192.168.0.100:5000/api-glpi/tickets/last",
+    `${API_URL}/api-glpi/tickets/last`,
     {
       method: "GET",
       headers: {

@@ -1,3 +1,5 @@
+import { fetchWithAuth } from "./middlewares/verify-jwt-authenticate";
+
 type PropsTicketsStateStatus = {
   tickets_total: number;
   tickets_open: number;
@@ -26,17 +28,16 @@ type TicketsStateResponse = {
 };
 
 export async function fetchTicketsState(): Promise<{
-  ticketsStateInDatabase: TicketsStateResponse[];
+  ticketsStateInDatabase: PropsTicketsStateStatus[];
 }> {
-  const userJWT = sessionStorage.getItem('jwt');
+  const API_URL = import.meta.env.VITE_API_URL;
 
-  const response = await fetch(
-    "http://192.168.0.100:5000/api-glpi/tickets/state",
+  const response = await fetchWithAuth(
+    `${API_URL}/api-glpi/tickets/state`,
     {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${userJWT}`,
       },
     }
   );
