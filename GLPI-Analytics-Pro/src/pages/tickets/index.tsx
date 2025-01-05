@@ -3,6 +3,7 @@ import { Badge } from '@/components/ui/badge'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { fetchTicketsAll } from '@/http/fetch-tickets-all'
 import { useQuery } from '@tanstack/react-query'
+import dayjs from 'dayjs'
 import { CircleNotch, WarningCircle } from 'phosphor-react'
 
 export default function Tickets() {
@@ -93,7 +94,7 @@ export default function Tickets() {
                   Requerente: {data.applicant} | Técnico: {data.technical}
                 </p>
                 <p className="text-xs text-gray-400">
-                  Criado em: {data.date_creation}
+                  Criado em: {data.date_creation} ({dayjs(data.date_creation).fromNow()})
                 </p>
               </div>
 
