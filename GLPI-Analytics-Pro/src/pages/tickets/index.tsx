@@ -1,82 +1,95 @@
-import type { Ticket } from "@/@types/interface-tickets";
-import { Badge } from "@/components/ui/badge";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { fetchTicketsAll } from "@/http/fetch-tickets-all";
-import { useQuery } from "@tanstack/react-query";
+import type { Ticket } from '@/@types/interface-tickets'
+import { Badge } from '@/components/ui/badge'
+import { ScrollArea } from '@/components/ui/scroll-area'
+import { fetchTicketsAll } from '@/http/fetch-tickets-all'
+import { useQuery } from '@tanstack/react-query'
+import { CircleNotch, WarningCircle } from 'phosphor-react'
 
 export default function Tickets() {
   const calls = [
     {
       id: 1,
-      title: "Permissão: Requisição de Acesso ao Sistema X.",
-      requester: "João Silva",
-      technician: "Henrique Maximo",
-      status: "Pendente",
-      priority: "Alta",
-      location: "Almoxarifado",
-      createdAt: "2025-01-02 14:32",
+      title: 'Permissão: Requisição de Acesso ao Sistema X.',
+      requester: 'João Silva',
+      technician: 'Henrique Maximo',
+      status: 'Pendente',
+      priority: 'Alta',
+      location: 'Almoxarifado',
+      createdAt: '2025-01-02 14:32',
     },
     {
       id: 2,
-      title: "Solicitação de acesso",
-      requester: "Ana Costa",
-      technician: "Carlos Lima",
-      status: "Resolvido",
-      priority: "Média",
-      createdAt: "2025-01-01 10:45",
+      title: 'Solicitação de acesso',
+      requester: 'Ana Costa',
+      technician: 'Carlos Lima',
+      status: 'Resolvido',
+      priority: 'Média',
+      createdAt: '2025-01-01 10:45',
     },
     {
       id: 3,
-      title: "Aceso",
-      requester: "Ana Costa",
-      technician: "Carlos Lima",
-      status: "Resolvido",
-      priority: "Média",
-      createdAt: "2025-01-01 10:45",
+      title: 'Aceso',
+      requester: 'Ana Costa',
+      technician: 'Carlos Lima',
+      status: 'Resolvido',
+      priority: 'Média',
+      createdAt: '2025-01-01 10:45',
     },
     {
       id: 4,
-      title: "Aceso",
-      requester: "Ana Costa",
-      technician: "Carlos Lima",
-      status: "Resolvido",
-      priority: "Média",
-      createdAt: "2025-01-01 10:45",
+      title: 'Aceso',
+      requester: 'Ana Costa',
+      technician: 'Carlos Lima',
+      status: 'Resolvido',
+      priority: 'Média',
+      createdAt: '2025-01-01 10:45',
     },
     {
       id: 5,
-      title: "Aceso",
-      requester: "Ana Costa",
-      technician: "Carlos Lima",
-      status: "Resolvido",
-      priority: "Média",
-      createdAt: "2025-01-01 10:45",
+      title: 'Aceso',
+      requester: 'Ana Costa',
+      technician: 'Carlos Lima',
+      status: 'Resolvido',
+      priority: 'Média',
+      createdAt: '2025-01-01 10:45',
     },
     {
       id: 6,
-      title: "Aceso",
-      requester: "Ana Costa",
-      technician: "Carlos Lima",
-      status: "Resolvido",
-      priority: "Média",
-      createdAt: "2025-01-01 10:45",
+      title: 'Aceso',
+      requester: 'Ana Costa',
+      technician: 'Carlos Lima',
+      status: 'Resolvido',
+      priority: 'Média',
+      createdAt: '2025-01-01 10:45',
     },
-  ];
+  ]
 
   const { data, isLoading, isError } = useQuery<Ticket[]>({
-    queryKey: ["tickets"],
+    queryKey: ['tickets'],
     queryFn: fetchTicketsAll,
     staleTime: 1000 * 300, // 5 minutos
     refetchInterval: 1000 * 60, // 1 minuto
     refetchOnWindowFocus: true, // reconsultar janela em foco
-  });
+  })
 
   if (isLoading) {
-    return <p>Carregando...</p>;
+    return (
+      <p
+        className="flex flex-col flex-1 justify-center items-center  
+  text-red-600"
+      >
+        <CircleNotch className="text-zinc-800 animate-spin size-10" />
+      </p>
+    )
   }
 
   if (isError) {
-    return <p>Erro ao carregar os chamados.</p>;
+    return (
+      <p className="flex flex-col flex-1 justify-center items-center m-auto animate-pulse">
+        <WarningCircle className="text-zinc-800 size-10" />
+        Erro ao carregar os chamados.
+      </p>
+    )
   }
 
   return (
@@ -92,7 +105,7 @@ export default function Tickets() {
 
       <ScrollArea className="h-[calc(95vh-200px)] border rounded-md bg-gray-100">
         <ul className="divide-y divide-gray-300">
-          {data?.map((data) => (
+          {data?.map(data => (
             <li
               key={data.id}
               className="p-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4 hover:bg-gray-50 transition-colors"
@@ -101,13 +114,15 @@ export default function Tickets() {
                 <h2 className="font-semibold text-lg text-slate-800">
                   {data.name}
                 </h2>
-                {/* <p className="text-sm text-gray-500">
-                  Requerente: {data.requester} | Técnico: {data.technician}
-                </p> */}
-                <p className="text-xs text-gray-400">Criado em: {data.date_creation}</p>
+                <p className="text-sm text-gray-500">
+                  Requerente: {data.requerent} | Técnico: {data.technical}
+                </p>
+                <p className="text-xs text-gray-400">
+                  Criado em: {new Date(data.date_creation).toLocaleDateString()}
+                </p>
               </div>
 
-              {/* <div className="flex items-center gap-4">
+              <div className="flex items-center gap-4">
                 <Badge
                   variant="outline"
                   className={`${
@@ -138,11 +153,11 @@ export default function Tickets() {
                 >
                   {data.location}
                 </Badge>) : (null)}
-              </div> */}
+              </div>
             </li>
           ))}
         </ul>
       </ScrollArea>
     </section>
-  );
+  )
 }

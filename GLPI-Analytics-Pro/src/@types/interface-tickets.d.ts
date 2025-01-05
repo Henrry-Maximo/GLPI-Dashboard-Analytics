@@ -5,4 +5,9 @@ export type Ticket = {
   date_creation: string;
   solvedate: string | null;
   date_mod: string;
+  location: string;
+  requerent: string;
+  technical: string;
+  status: string;
+  priority: string;
 };
