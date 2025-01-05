@@ -1,7 +1,5 @@
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-
-import { Switch } from "@headlessui/react";
+import { Button } from '@/components/ui/button'
+import { Switch } from '@headlessui/react'
 
 export default function SettingsPage() {
   return (
@@ -10,7 +8,7 @@ export default function SettingsPage() {
         <h1 className="text-2xl font-semibold text-gray-700">Configurações</h1>
 
         <form className="space-y-6 mt-6">
-          <div>
+          {/* <div>
             <label className="block text-sm font-medium text-gray-700" htmlFor="username">
               Nome de usuário
             </label>
@@ -44,15 +42,22 @@ export default function SettingsPage() {
               className="mt-2 w-full px-4 py-2 border rounded-md text-gray-700"
               placeholder="Digite uma nova senha"
             />
-          </div>
+          </div> */}
 
           <div>
-            <label className="block text-sm font-medium text-gray-700" htmlFor="notifications">
+            <label
+              className="block text-sm font-medium text-gray-700"
+              htmlFor="notifications"
+            >
               Notificações
             </label>
             <div className="mt-2 flex items-center space-x-4">
-              <Button className="bg-blue-500 text-white px-4 py-2 rounded">Ativar</Button>
-              <Button className="bg-gray-500 text-white px-4 py-2 rounded">Desativar</Button>
+              <Button className="bg-blue-500 text-white px-4 py-2 rounded">
+                Ativar
+              </Button>
+              <Button className="bg-gray-500 text-white px-4 py-2 rounded">
+                Desativar
+              </Button>
             </div>
           </div>
 
@@ -67,12 +72,15 @@ export default function SettingsPage() {
           </div>
 
           <div>
-            <Button type="submit" className="w-full bg-green-500 text-white px-4 py-2 rounded">
+            <Button
+              type="submit"
+              className="w-full bg-green-500 text-white px-4 py-2 rounded"
+            >
               Salvar alterações
             </Button>
           </div>
         </form>
       </div>
     </div>
-  );
+  )
 }

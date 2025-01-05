@@ -2,15 +2,16 @@ export default function Help() {
   return (
     <section className="text-gray-700">
       {/* Hero Section */}
-      <div className="bg-gradient-to-r from-orange-500 to-orange-700 text-white py-16 rounded-md">
+      {/* bg-gradient-to-r from-orange-500 to-orange-700 */}
+      <div className="text-gray-500 py-16 rounded-md">
         <div className="mx-auto text-center">
-          <h1 className="text-4xl font-bold mb-4">Bem-vindo à Central de Ajuda</h1>
+          <h1 className="bg-white p-4 rounded-sm text-4xl font-bold mb-4">Bem-vindo à Central de Ajuda</h1>
           <p className="text-lg">Tudo o que você precisa saber para aproveitar ao máximo nossa aplicação.</p>
         </div>
       </div>
 
       {/* Section: Sobre Técnicos */}
-      <div className="py-12 bg-slate-100">
+      <div className="py-12">
         <div className="mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-6">Estatísticas de Técnicos</h2>
           <p className="text-center mb-8 text-gray-600">
@@ -59,7 +60,7 @@ export default function Help() {
       </div>
 
       {/* Section: Ajuda sobre Chamados */}
-      <div className="py-12 bg-slate-100">
+      <div className="py-12">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-6">Ajuda com Chamados</h2>
           <p className="text-center mb-8 text-gray-600">
