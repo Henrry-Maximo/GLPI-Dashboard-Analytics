@@ -6,7 +6,7 @@ export type Ticket = {
   solvedate: string | null;
   date_mod: string;
   location: string;
-  requerent: string;
+  applicant: string;
   technical: string;
   status: string;
   priority: string;

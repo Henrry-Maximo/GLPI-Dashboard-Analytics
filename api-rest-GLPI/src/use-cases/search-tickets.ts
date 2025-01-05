@@ -21,7 +21,7 @@ export async function searchTickets({ id }: SearchTicketsRequest) {
     ), // Formata a data de modificação
     "lo.name AS location", // Nome da localização
     knex.raw(`
-      GROUP_CONCAT(DISTINCT CONCAT(u.firstname, ' ', u.realname)) AS "requerent"
+      GROUP_CONCAT(DISTINCT CONCAT(u.firstname, ' ', u.realname)) AS "applicant"
     `), // Requerente(s)
     knex.raw(`
       GROUP_CONCAT(DISTINCT CONCAT(u2.firstname, ' ', u2.realname)) AS "technical"

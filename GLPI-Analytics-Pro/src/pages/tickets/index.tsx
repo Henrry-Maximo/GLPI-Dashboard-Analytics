@@ -115,7 +115,7 @@ export default function Tickets() {
                   {data.name}
                 </h2>
                 <p className="text-sm text-gray-500">
-                  Requerente: {data.requerent} | Técnico: {data.technical}
+                  Requerente: {data.applicant} | Técnico: {data.technical}
                 </p>
                 <p className="text-xs text-gray-400">
                   Criado em: {new Date(data.date_creation).toLocaleDateString()}
