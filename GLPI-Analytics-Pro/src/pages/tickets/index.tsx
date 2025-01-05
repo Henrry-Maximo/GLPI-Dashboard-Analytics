@@ -160,7 +160,9 @@ export default function Tickets() {
         >
           Anterior
         </Button>
+
         <span>Página {currentPage} de {totalPages}</span>
+        
         <Button
           disabled={currentPage === totalPages}
           onClick={() => setCurrentPage((prev) => prev + 1)}

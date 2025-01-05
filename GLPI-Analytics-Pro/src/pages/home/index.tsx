@@ -33,6 +33,7 @@ export default function Home() {
   });
 
   const amountStatusTickets = data?.ticketsStateInDatabase[0];
+  const nameUserAuth = sessionStorage.getItem("name");
 
   return (
     <main className="w-full h-[max-content]">
@@ -40,7 +41,7 @@ export default function Home() {
         <h1 className="text-2xl font-light text-zinc-800">
           Dashboard Principal
         </h1>
-        <span className="text-2 font-light text-zinc-800">Olá, Henrique!</span>
+        <span className="text-2 font-light text-zinc-800">Olá, {`${nameUserAuth}`}!</span>
       </div>
 
       <section className="mb-4">
@@ -78,7 +79,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="grid-cols-3 gap-4 grid">
+      {/* <section className="grid-cols-3 gap-4 grid">
         <CardGraph title="Chamados por Ano" />
         <CardPie title="Chamados por Urgência" />
       </section>
@@ -86,7 +87,7 @@ export default function Home() {
       <section className="grid-cols-3 gap-4 grid mt-4">
         <CardPie title="Chamados por Urgência" />
         <CardGraph title="Chamados por Ano" />
-      </section>
+      </section> */}
     </main>
   );
 }

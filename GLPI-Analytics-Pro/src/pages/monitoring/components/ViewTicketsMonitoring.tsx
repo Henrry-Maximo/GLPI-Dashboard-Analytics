@@ -72,7 +72,7 @@ export function ViewTicketMonitoring({ data }: TicketsForm) {
           Data de Criação:
           <span className="text-gray-600 ml-2">
             {date?.format('DD/MM/YYYY HH:mm')}
-            ({data ? date.fromNow() : null})
+            {/* ({data ? date.fromNow() : null}) */}
           </span>
           {/* <span className="text-gray-600 ml-2">
                 {data

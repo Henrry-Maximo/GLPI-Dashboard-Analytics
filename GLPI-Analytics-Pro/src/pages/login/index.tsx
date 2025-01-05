@@ -8,6 +8,13 @@ import { useMutation } from "@tanstack/react-query";
 import { login } from "../../http/auth";
 import { useNavigate } from "react-router-dom";
 
+import { jwtDecode } from "jwt-decode";
+import type { JwtPayload } from "jwt-decode";
+interface CustomJwtPayload extends JwtPayload {
+  token: string;
+  name: string; // Defina aqui o campo 'name'
+}
+
 export default function Index() {
   const navigate = useNavigate();
 
@@ -21,7 +28,11 @@ export default function Index() {
 
     onSuccess: (data) => {
       if (data.token) {
+        const decoded = jwtDecode<CustomJwtPayload>(data.token);
+        const { name } = decoded;
+
         sessionStorage.setItem("jwt", data.token);
+        sessionStorage.setItem("name", name)
 
         // Redireciona o usuário
         navigate("/main/home");

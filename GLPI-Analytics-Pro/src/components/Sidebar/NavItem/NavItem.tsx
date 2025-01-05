@@ -17,9 +17,9 @@ export function NavItem({ icon: Icon, title, link, onClick }: NavItemProps) {
     >
       <Icon
         size={16}
-        className="h-5 w-5 text-gray-500 group-hover:text-orange-500 transition duration-300 ease-in-out"
+        className="h-5 w-5 text-gray-500 group-hover:text-orange-500 group-hover:animate-bounce transition duration-300 ease-in-out"
       />
-      <span className="font-medium text-gray-500 group-hover:text-orange-500 transition duration-300 ease-in-out">
+      <span className="font-medium text-gray-500 group-hover:text-orange-500 group-hover:animate-bounce transition duration-300 ease-in-out">
         {title}
       </span>
     </Link>
