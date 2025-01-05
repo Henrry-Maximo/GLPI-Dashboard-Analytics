@@ -1,44 +1,49 @@
 import type { Ticket } from '@/@types/interface-tickets'
 import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { fetchTicketsAll } from '@/http/fetch-tickets-all'
 import { useQuery } from '@tanstack/react-query'
 import dayjs from 'dayjs'
 import { CircleNotch, WarningCircle } from 'phosphor-react'
+import { useState } from 'react'
+
+const statusTicketsOperation = [
+  { 
+    status: "Novo", className: "bg-green-100 text-green-700" },
+  { 
+    status: "Pendente", className: "bg-yellow-100 text-yellow-700" },
+  { 
+    status: "Em Atendimento (atribuído)", className: "bg-blue-100 text-blue-700" },
+  { 
+    status: "Em Atendimento (planejado)", className: "bg-pink-100 text-pink-700" },
+  { 
+    status: "Fechado", className: "bg-gray-200 text-gray-700" },
+  { 
+    status: "Solucionado", className: "bg-green-500 text-white" },
+];
+
+const priorityTicketsOperations = [
+  {
+    priority: "Muito alta", className: "bg-red-600 text-red-100",
+  },
+  {
+    priority: "Alta", className: "bg-red-500 text-red-100",
+  },
+  {
+    priority: "Média", className: "bg-orange-500 text-red-100",
+  },
+  {
+    priority: "Baixa", className: "bg-blue-600 text-red-100",
+  },
+  {
+    priority: "Muito baixa", className: "bg-blue-400 text-red-100",
+  },
+]
 
 export default function Tickets() {
-  const statusTicketsOperation = [
-    { 
-      status: "Novo", className: "bg-green-100 text-green-700" },
-    { 
-      status: "Pendente", className: "bg-yellow-100 text-yellow-700" },
-    { 
-      status: "Em Atendimento (atribuído)", className: "bg-blue-100 text-blue-700" },
-    { 
-      status: "Em Atendimento (planejado)", className: "bg-pink-100 text-pink-700" },
-    { 
-      status: "Fechado", className: "bg-gray-200 text-gray-700" },
-    { 
-      status: "Solucionado", className: "bg-green-500 text-white" },
-  ];
-
-  const priorityTicketsOperations = [
-    {
-      priority: "Muito alta", className: "bg-red-600 text-red-100",
-    },
-    {
-      priority: "Alta", className: "bg-red-500 text-red-100",
-    },
-    {
-      priority: "Média", className: "bg-orange-500 text-red-100",
-    },
-    {
-      priority: "Baixa", className: "bg-blue-600 text-red-100",
-    },
-    {
-      priority: "Muito baixa", className: "bg-blue-400 text-red-100",
-    },
-  ]
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
   const { data, isLoading, isError } = useQuery<Ticket[]>({
     queryKey: ['tickets'],
@@ -68,6 +73,12 @@ export default function Tickets() {
     )
   }
 
+  const totalPages = Math.ceil((data?.length || 0) / itemsPerPage);
+  const paginatedData = data?.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
   return (
     <section className="w-full space-y-6">
       <header className="text-center">
@@ -79,9 +90,9 @@ export default function Tickets() {
         </p>
       </header>
 
-      <ScrollArea className="h-[calc(95vh-200px)] border rounded-md bg-gray-100">
+      <ScrollArea className="h-[calc(85vh-200px)] border rounded-md bg-gray-100">
         <ul className="divide-y divide-gray-300">
-          {data?.map(data => (
+          {paginatedData?.map(data => (
             <li
               key={data.id}
               className="p-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4 hover:bg-gray-50 transition-colors"
@@ -140,6 +151,25 @@ export default function Tickets() {
           ))}
         </ul>
       </ScrollArea>
+
+      <div className="flex justify-center items-center gap-4 mt-4">
+        <Button
+          disabled={currentPage === 1}
+          onClick={() => setCurrentPage((prev) => prev - 1)}
+          className="px-4 py-2 border rounded bg-gray-600 hover:bg-gray-300 disabled:opacity-50"
+        >
+          Anterior
+        </Button>
+        <span>Página {currentPage} de {totalPages}</span>
+        <Button
+          disabled={currentPage === totalPages}
+          onClick={() => setCurrentPage((prev) => prev + 1)}
+          className="px-4 py-2 border rounded bg-gray-600 hover:bg-gray-300 disabled:opacity-50"
+        >
+          Próxima
+        </Button>
+      </div>
+
     </section>
   )
 }
