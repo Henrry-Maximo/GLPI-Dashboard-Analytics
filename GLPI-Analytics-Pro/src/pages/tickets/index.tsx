@@ -6,61 +6,36 @@ import { useQuery } from '@tanstack/react-query'
 import { CircleNotch, WarningCircle } from 'phosphor-react'
 
 export default function Tickets() {
-  const calls = [
+  const statusTicketsOperation = [
+    { 
+      status: "Novo", className: "bg-green-100 text-green-700" },
+    { 
+      status: "Pendente", className: "bg-yellow-100 text-yellow-700" },
+    { 
+      status: "Em Atendimento (atribuído)", className: "bg-blue-100 text-blue-700" },
+    { 
+      status: "Em Atendimento (planejado)", className: "bg-pink-100 text-pink-700" },
+    { 
+      status: "Fechado", className: "bg-gray-200 text-gray-700" },
+    { 
+      status: "Solucionado", className: "bg-green-500 text-white" },
+  ];
+
+  const priorityTicketsOperations = [
     {
-      id: 1,
-      title: 'Permissão: Requisição de Acesso ao Sistema X.',
-      requester: 'João Silva',
-      technician: 'Henrique Maximo',
-      status: 'Pendente',
-      priority: 'Alta',
-      location: 'Almoxarifado',
-      createdAt: '2025-01-02 14:32',
+      priority: "Muito alta", className: "bg-red-600 text-red-100",
     },
     {
-      id: 2,
-      title: 'Solicitação de acesso',
-      requester: 'Ana Costa',
-      technician: 'Carlos Lima',
-      status: 'Resolvido',
-      priority: 'Média',
-      createdAt: '2025-01-01 10:45',
+      priority: "Alta", className: "bg-red-500 text-red-100",
     },
     {
-      id: 3,
-      title: 'Aceso',
-      requester: 'Ana Costa',
-      technician: 'Carlos Lima',
-      status: 'Resolvido',
-      priority: 'Média',
-      createdAt: '2025-01-01 10:45',
+      priority: "Média", className: "bg-orange-500 text-red-100",
     },
     {
-      id: 4,
-      title: 'Aceso',
-      requester: 'Ana Costa',
-      technician: 'Carlos Lima',
-      status: 'Resolvido',
-      priority: 'Média',
-      createdAt: '2025-01-01 10:45',
+      priority: "Baixa", className: "bg-blue-600 text-red-100",
     },
     {
-      id: 5,
-      title: 'Aceso',
-      requester: 'Ana Costa',
-      technician: 'Carlos Lima',
-      status: 'Resolvido',
-      priority: 'Média',
-      createdAt: '2025-01-01 10:45',
-    },
-    {
-      id: 6,
-      title: 'Aceso',
-      requester: 'Ana Costa',
-      technician: 'Carlos Lima',
-      status: 'Resolvido',
-      priority: 'Média',
-      createdAt: '2025-01-01 10:45',
+      priority: "Muito baixa", className: "bg-blue-400 text-red-100",
     },
   ]
 
@@ -118,19 +93,22 @@ export default function Tickets() {
                   Requerente: {data.applicant} | Técnico: {data.technical}
                 </p>
                 <p className="text-xs text-gray-400">
-                  Criado em: {new Date(data.date_creation).toLocaleDateString()}
+                  Criado em: {data.date_creation}
                 </p>
               </div>
 
               <div className="flex items-center gap-4">
                 <Badge
                   variant="outline"
+                  // className={`${
+                  //   data.status === "Pendente"
+                  //     ? "bg-yellow-100 text-yellow-700"
+                  //     : data.status === "Resolvido"
+                  //     ? "bg-green-100 text-green-700"
+                  //     : "bg-gray-100 text-gray-700"
+                  // }`}
                   className={`${
-                    data.status === "Pendente"
-                      ? "bg-yellow-100 text-yellow-700"
-                      : data.status === "Resolvido"
-                      ? "bg-green-100 text-green-700"
-                      : "bg-gray-100 text-gray-700"
+                    statusTicketsOperation.find((item) => item.status === data.status)?.className || "bg-gray-100 text-gray-700"
                   }`}
                 >
                   {data.status}
@@ -139,12 +117,15 @@ export default function Tickets() {
                 <Badge
                   variant="outline"
                   className={`${
-                    data.priority === "Alta"
-                      ? "bg-red-100 text-red-700"
-                      : data.priority === "Média"
-                      ? "bg-orange-100 text-orange-700"
-                      : "bg-blue-100 text-blue-700"
+                    priorityTicketsOperations.find((row) => row.priority === data.priority)?.className || "bg-gray-100 text-gray-700"
                   }`}
+                  // className={`${
+                  //   data.priority === "Alta"
+                  //     ? "bg-red-100 text-red-700"
+                  //     : data.priority === "Média"
+                  //     ? "bg-orange-100 text-orange-700"
+                  //     : "bg-blue-100 text-blue-700"
+                  // }`}
                 >
                   {data.priority}
                 </Badge>
