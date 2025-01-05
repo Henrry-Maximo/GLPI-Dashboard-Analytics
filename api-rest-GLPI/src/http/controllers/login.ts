@@ -21,7 +21,7 @@ export async function login(req: FastifyRequest, reply: FastifyReply) {
         sub: user.id,
       },
       {
-        expiresIn: "15m",
+        expiresIn: "1h",
       }
     );
     

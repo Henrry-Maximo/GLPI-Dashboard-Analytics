@@ -16,9 +16,9 @@ export async function searchTickets({ id }: SearchTicketsRequest) {
 
   if (id) {
     query = query.where("id", id);
-    const ticket = await query.first();
+    const tickets = await query.first();
 
-    return { ticket }; 
+    return { tickets }; 
   }
 
   const tickets = await query;

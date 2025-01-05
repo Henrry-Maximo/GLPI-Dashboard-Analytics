@@ -23,9 +23,9 @@ export async function ticketsController(app: FastifyInstance) {
 
     const { id } = requestIdTicketQuerySchema.parse(req.query);
 
-    const { tickets, ticket } = await searchTickets({ id })
+    const { tickets } = await searchTickets({ id })
 
-    return reply.status(200).send({ tickets, ticket });
+    return reply.status(200).send(tickets);
   });
 
   // lista de chamados por status/urgência/categorias

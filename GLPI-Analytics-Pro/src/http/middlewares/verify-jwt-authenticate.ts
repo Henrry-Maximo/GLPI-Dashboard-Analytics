@@ -12,7 +12,6 @@ export async function fetchWithAuth(
   const response = await fetch(url, { ...options, headers });
 
   if (response.status === 401) {
-    // Token expirado, redireciona para a área de logout
     sessionStorage.removeItem("jwt");
     window.location.href = "/";
   }

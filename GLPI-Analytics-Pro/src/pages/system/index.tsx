@@ -5,7 +5,7 @@ import { Switch } from "@headlessui/react";
 
 export default function SettingsPage() {
   return (
-    <div className="w-full m-auto bg-gray-100">
+    <div className="w-full m-auto">
       <div className="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-md">
         <h1 className="text-2xl font-semibold text-gray-700">Configurações</h1>
 
