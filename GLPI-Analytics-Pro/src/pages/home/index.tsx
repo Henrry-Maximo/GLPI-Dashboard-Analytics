@@ -37,7 +37,7 @@ export default function Home() {
 
   return (
     <main className="w-full h-[max-content]">
-      <div className="flex flex-row bg-gray-50 justify-between mb-4 items-center py-2 px-2 rounded-md shadow-sm">
+      <div className="flex flex-row bg-gray-50 justify-between mb-4 items-center py-2 px-2 rounded-md shadow-md">
         <h1 className="text-2xl font-light text-zinc-800">
           Dashboard Principal
         </h1>

@@ -99,7 +99,7 @@ export default function Tickets() {
   return (
     <section className="w-full space-y-6">
       <header className="text-center">
-        <h1 className="text-3xl font-bold text-slate-700">
+        <h1 className="text-3xl font-bold text-slate-800">
           Gerenciamento de Chamadas
         </h1>
         <p className="text-gray-600 mt-2">
@@ -107,12 +107,12 @@ export default function Tickets() {
         </p>
       </header>
 
-      <ScrollArea className="h-[calc(85vh-200px)] border rounded-md bg-gray-100">
+      <ScrollArea className="h-[calc(85vh-200px)] border rounded-md bg-gray-50 shadow-sm">
         <ul className="divide-y divide-gray-300">
           {paginatedData?.map((data) => (
             <li
               key={data.id}
-              className="p-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4 hover:bg-gray-50 transition-colors"
+              className="p-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4 hover:bg-gray-100 transition-colors"
             >
               <div>
                 <h2 className="font-semibold text-lg text-slate-800">

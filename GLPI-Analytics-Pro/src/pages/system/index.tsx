@@ -1,9 +1,9 @@
-import { Button } from '@/components/ui/button'
-import { Switch } from '@headlessui/react'
+import { Button } from "@/components/ui/button";
+import { Switch } from "@headlessui/react";
 
 export default function SettingsPage() {
   return (
-    <div className="w-full m-auto">
+    <div className="w-full m-24">
       <div className="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-md">
         <h1 className="text-2xl font-semibold text-gray-700">Configurações</h1>
 
@@ -82,5 +82,5 @@ export default function SettingsPage() {
         </form>
       </div>
     </div>
-  )
+  );
 }
