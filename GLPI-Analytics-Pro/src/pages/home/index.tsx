@@ -41,38 +41,50 @@ export default function Home() {
         <h1 className="text-2xl font-light text-zinc-800">
           Dashboard Principal
         </h1>
-        <span className="text-2 font-light text-zinc-800">Olá, {`${nameUserAuth}`}!</span>
+        <span className="text-2 font-light text-zinc-800">
+          Olá, {`${nameUserAuth}`}!
+        </span>
       </div>
 
       <section className="mb-4">
         <div className="grid md:grid-cols-5 gap-4">
           <Card
             icon={Clock}
-            quantity={amountStatusTickets ? amountStatusTickets.tickets_open : 0}
+            quantity={
+              amountStatusTickets ? amountStatusTickets.tickets_open : 0
+            }
             title="Chamados Abertos"
             className="h-10 w-10 bg-yellow-100 text-yellow-500 rounded-md p-2 border border-yellow-500"
           />
           <Card
             icon={UserCirclePlus}
-            quantity={amountStatusTickets ? amountStatusTickets.tickets_assigned : 0}
+            quantity={
+              amountStatusTickets ? amountStatusTickets.tickets_assigned : 0
+            }
             title="Chamados Atribuídos"
             className="h-10 w-10 bg-blue-100 text-blue-500 rounded-md p-2 border border-blue-500"
           />
           <Card
             icon={Hourglass}
-            quantity={amountStatusTickets ? amountStatusTickets.tickets_pending : 0}
+            quantity={
+              amountStatusTickets ? amountStatusTickets.tickets_pending : 0
+            }
             title="Chamados Pendentes"
             className="h-10 w-10 bg-orange-100 text-orange-500 rounded-md p-2 border border-orange-500"
           />
           <Card
             icon={CheckCircle}
-            quantity={amountStatusTickets ? amountStatusTickets.tickets_solved : 0}
+            quantity={
+              amountStatusTickets ? amountStatusTickets.tickets_solved : 0
+            }
             title="Chamados Solucionados"
             className="h-10 w-10 bg-green-200 text-green-600 rounded-md p-2 border border-green-500"
           />
           <Card
             icon={ShieldCheck}
-            quantity={amountStatusTickets ? amountStatusTickets.tickets_closed : 0}
+            quantity={
+              amountStatusTickets ? amountStatusTickets.tickets_closed : 0
+            }
             title="Chamados Fechados"
             className="h-10 w-10 bg-green-700 text-green-100 rounded-md p-2 border border-green-500"
           />

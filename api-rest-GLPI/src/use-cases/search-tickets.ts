@@ -60,7 +60,7 @@ export async function searchTickets({ id }: SearchTicketsRequest) {
   .orderBy("t.id", "desc");
 
   if (id) {
-    query = query.where("id", id);
+    query = query.where("t.id", id);
     const tickets = await query.first();
 
     return { tickets }; 

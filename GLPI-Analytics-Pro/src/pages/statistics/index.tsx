@@ -1,16 +1,13 @@
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function Statistics() {
   return (
     <div className="w-full space-y-6">
       {/* Título e Resumo Geral */}
       <header className="text-center space-y-2">
-        <h1 className="text-3xl font-bold text-slate-800">Estatísticas Gerais</h1>
+        <h1 className="text-3xl font-bold text-slate-800">
+          Estatísticas Gerais
+        </h1>
         <p className="text-sm text-gray-500">
           Visualize dados detalhados sobre técnicos, requerentes e chamados.
         </p>
