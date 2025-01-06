@@ -1,57 +1,74 @@
-import type { Ticket } from '@/@types/interface-tickets'
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
-import { ScrollArea } from '@/components/ui/scroll-area'
-import { fetchTicketsAll } from '@/http/fetch-tickets-all'
-import { useQuery } from '@tanstack/react-query'
-import dayjs from 'dayjs'
-import { CircleNotch, WarningCircle } from 'phosphor-react'
-import { useState } from 'react'
+import type { Ticket } from "@/@types/interface-tickets";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { fetchTicketsAll } from "@/http/fetch-tickets-all";
+import { useQuery } from "@tanstack/react-query";
+import dayjs from "dayjs";
+import { CircleNotch, WarningCircle } from "phosphor-react";
+import { useState } from "react";
 
 const statusTicketsOperation = [
-  { 
-    status: "Novo", className: "bg-green-100 text-green-700" },
-  { 
-    status: "Pendente", className: "bg-yellow-100 text-yellow-700" },
-  { 
-    status: "Em Atendimento (atribuído)", className: "bg-blue-100 text-blue-700" },
-  { 
-    status: "Em Atendimento (planejado)", className: "bg-pink-100 text-pink-700" },
-  { 
-    status: "Fechado", className: "bg-gray-200 text-gray-700" },
-  { 
-    status: "Solucionado", className: "bg-green-500 text-white" },
+  {
+    status: "Novo",
+    className: "bg-green-100 text-green-700",
+  },
+  {
+    status: "Pendente",
+    className: "bg-yellow-100 text-yellow-700",
+  },
+  {
+    status: "Em Atendimento (atribuído)",
+    className: "bg-blue-100 text-blue-700",
+  },
+  {
+    status: "Em Atendimento (planejado)",
+    className: "bg-pink-100 text-pink-700",
+  },
+  {
+    status: "Fechado",
+    className: "bg-gray-200 text-gray-700",
+  },
+  {
+    status: "Solucionado",
+    className: "bg-green-500 text-white",
+  },
 ];
 
 const priorityTicketsOperations = [
   {
-    priority: "Muito alta", className: "bg-red-600 text-red-100",
+    priority: "Muito alta",
+    className: "bg-red-600 text-red-100",
   },
   {
-    priority: "Alta", className: "bg-red-500 text-red-100",
+    priority: "Alta",
+    className: "bg-red-500 text-red-100",
   },
   {
-    priority: "Média", className: "bg-orange-500 text-red-100",
+    priority: "Média",
+    className: "bg-orange-500 text-red-100",
   },
   {
-    priority: "Baixa", className: "bg-blue-600 text-red-100",
+    priority: "Baixa",
+    className: "bg-blue-600 text-red-100",
   },
   {
-    priority: "Muito baixa", className: "bg-blue-400 text-red-100",
+    priority: "Muito baixa",
+    className: "bg-blue-400 text-red-100",
   },
-]
+];
 
 export default function Tickets() {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
   const { data, isLoading, isError } = useQuery<Ticket[]>({
-    queryKey: ['tickets'],
+    queryKey: ["tickets"],
     queryFn: fetchTicketsAll,
     staleTime: 1000 * 300, // 5 minutos
     refetchInterval: 1000 * 60, // 1 minuto
     refetchOnWindowFocus: true, // reconsultar janela em foco
-  })
+  });
 
   if (isLoading) {
     return (
@@ -61,7 +78,7 @@ export default function Tickets() {
       >
         <CircleNotch className="text-zinc-800 animate-spin size-10" />
       </p>
-    )
+    );
   }
 
   if (isError) {
@@ -70,7 +87,7 @@ export default function Tickets() {
         <WarningCircle className="text-zinc-800 size-10" />
         Erro ao carregar os chamados.
       </p>
-    )
+    );
   }
 
   const totalPages = Math.ceil((data?.length || 0) / itemsPerPage);
@@ -92,7 +109,7 @@ export default function Tickets() {
 
       <ScrollArea className="h-[calc(85vh-200px)] border rounded-md bg-gray-100">
         <ul className="divide-y divide-gray-300">
-          {paginatedData?.map(data => (
+          {paginatedData?.map((data) => (
             <li
               key={data.id}
               className="p-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4 hover:bg-gray-50 transition-colors"
@@ -105,7 +122,8 @@ export default function Tickets() {
                   Requerente: {data.applicant} | Técnico: {data.technical}
                 </p>
                 <p className="text-xs text-gray-400">
-                  Criado em: {data.date_creation} ({dayjs(data.date_creation).fromNow()})
+                  Criado em: {data.date_creation} (
+                  {dayjs(data.date_creation).fromNow()})
                 </p>
               </div>
 
@@ -119,8 +137,10 @@ export default function Tickets() {
                   //     ? "bg-green-100 text-green-700"
                   //     : "bg-gray-100 text-gray-700"
                   // }`}
-                  className={`${
-                    statusTicketsOperation.find((item) => item.status === data.status)?.className || "bg-gray-100 text-gray-700"
+                  className={`min-w-[120px] justify-center ${
+                    statusTicketsOperation.find(
+                      (item) => item.status === data.status
+                    )?.className || "bg-gray-100 text-gray-700"
                   }`}
                 >
                   {data.status}
@@ -128,8 +148,10 @@ export default function Tickets() {
 
                 <Badge
                   variant="outline"
-                  className={`${
-                    priorityTicketsOperations.find((row) => row.priority === data.priority)?.className || "bg-gray-100 text-gray-700"
+                  className={`min-w-[120px] justify-center ${
+                    priorityTicketsOperations.find(
+                      (row) => row.priority === data.priority
+                    )?.className || "bg-gray-100 text-gray-700"
                   }`}
                   // className={`${
                   //   data.priority === "Alta"
@@ -141,11 +163,15 @@ export default function Tickets() {
                 >
                   {data.priority}
                 </Badge>
-                {data.location ? (<Badge
-                  variant="outline"
-                >
-                  {data.location}
-                </Badge>) : (null)}
+
+                {data.location ? (
+                  <Badge
+                    variant="outline"
+                    className="min-w-[120px] justify-center"
+                  >
+                    {data.location}
+                  </Badge>
+                ) : null}
               </div>
             </li>
           ))}
@@ -161,8 +187,10 @@ export default function Tickets() {
           Anterior
         </Button>
 
-        <span>Página {currentPage} de {totalPages}</span>
-        
+        <span>
+          Página {currentPage} de {totalPages}
+        </span>
+
         <Button
           disabled={currentPage === totalPages}
           onClick={() => setCurrentPage((prev) => prev + 1)}
@@ -171,7 +199,6 @@ export default function Tickets() {
           Próxima
         </Button>
       </div>
-
     </section>
-  )
+  );
 }
