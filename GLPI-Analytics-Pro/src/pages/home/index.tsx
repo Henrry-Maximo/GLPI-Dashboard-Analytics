@@ -86,18 +86,18 @@ const chartConfigPie = {
 } satisfies ChartConfig;
 
 const urgencyData = [
-  { urgency: "Muito baixa", tickets: 6 },
-  { urgency: "Baixa", tickets: 2 },
-  { urgency: "Médio", tickets: 10 },
-  { urgency: "Alta", tickets: 3 },
-  { urgency: "Muito Alta", tickets: 0 },
+  { urgency: "Muito baixa", tickets: 30 },
+  { urgency: "Baixa", tickets: 120 },
+  { urgency: "Médio", tickets: 523 },
+  { urgency: "Alta", tickets: 340 },
+  { urgency: "Muito Alta", tickets: 90 },
 ];
 
 const chartData = [
-  { browser: "chrome", visitors: 275, fill: "var(--color-chrome)" },
-  { browser: "safari", visitors: 200, fill: "var(--color-safari)" },
-  { browser: "firefox", visitors: 287, fill: "var(--color-firefox)" },
-  { browser: "edge", visitors: 173, fill: "var(--color-edge)" },
+  { browser: "Amanda", visitors: 275, fill: "var(--color-chrome)" },
+  { browser: "Natalha", visitors: 200, fill: "var(--color-safari)" },
+  { browser: "Karina", visitors: 287, fill: "var(--color-firefox)" },
+  { browser: "Priscila", visitors: 173, fill: "var(--color-edge)" },
   { browser: "other", visitors: 190, fill: "var(--color-other)" },
 ];
 
@@ -255,6 +255,7 @@ export default function Home() {
               Resumo das Categorias por Chamados
             </CardDescription>
           </CardHeader>
+
           <CardContent>
             <ChartContainer config={chartConfig}>
               <BarChart accessibilityLayer data={ticketData}>
@@ -276,12 +277,10 @@ export default function Home() {
               </BarChart>
             </ChartContainer>
           </CardContent>
+
           <CardFooter className="flex-col items-start gap-2 text-sm">
-            <div className="flex gap-2 font-medium leading-none">
-              Trending up by 12.3% this month <TrendUp className="h-4 w-4" />
-            </div>
             <div className="leading-none text-muted-foreground">
-              Showing ticket counts for major categories
+              Mostrar contagem de chamados por categoria
             </div>
           </CardFooter>
         </CardRoot>
@@ -291,6 +290,7 @@ export default function Home() {
             <CardTitle>Chamados Por Urgência</CardTitle>
             <CardDescription>Resumo dos Chamados Por Urgência</CardDescription>
           </CardHeader>
+
           <CardContent>
             <ChartContainer config={urgencyConfig}>
               <BarChart accessibilityLayer data={urgencyData}>
@@ -309,61 +309,22 @@ export default function Home() {
               </BarChart>
             </ChartContainer>
           </CardContent>
+
           <CardFooter className="flex-col items-start gap-2 text-sm">
-            <div className="flex gap-2 font-medium leading-none">
-              Trending up by 3% this month <TrendUp className="h-4 w-4" />
-            </div>
             <div className="leading-none text-muted-foreground">
-              Showing tickets distributed by urgency
+              Mostrar chamados distribuidos por urgência.
             </div>
           </CardFooter>
         </CardRoot>
       </div>
 
       <div className="flex gap-4 mt-6">
-        <CardRoot className="shadow-lg bg-gray-50 w-1/4">
+        <CardRoot className="shadow-lg bg-gray-50 w-1/2">
           <CardHeader>
-            <CardTitle>Chamados por Categoria</CardTitle>
-            <CardDescription>
-              Resumo das Categorias por Chamados
-            </CardDescription>
+            <CardTitle>Chamados Atrasados</CardTitle>
+            <CardDescription>Resumo dos Chamados Por Atraso</CardDescription>
           </CardHeader>
-          <CardContent>
-            <ChartContainer config={chartConfig}>
-              <BarChart accessibilityLayer data={ticketData}>
-                <CartesianGrid vertical={false} />
-                <XAxis
-                  dataKey="category"
-                  tickLine={false}
-                  tickMargin={2}
-                  axisLine={false}
-                  tickFormatter={(value) =>
-                    value.length > 10 ? `${value.slice(0, 10)}...` : value
-                  }
-                />
-                <ChartTooltip
-                  cursor={false}
-                  content={<ChartTooltipContent indicator="dashed" />}
-                />
-                <Bar dataKey="count" fill="var(--color-tickets)" radius={4} />
-              </BarChart>
-            </ChartContainer>
-          </CardContent>
-          <CardFooter className="flex-col items-start gap-2 text-sm">
-            <div className="flex gap-2 font-medium leading-none">
-              Trending up by 12.3% this month <TrendUp className="h-4 w-4" />
-            </div>
-            <div className="leading-none text-muted-foreground">
-              Showing ticket counts for major categories
-            </div>
-          </CardFooter>
-        </CardRoot>
 
-        <CardRoot className="shadow-lg bg-gray-50 w-1/4">
-          <CardHeader>
-            <CardTitle>Chamados Por Urgência</CardTitle>
-            <CardDescription>Resumo dos Chamados Por Urgência</CardDescription>
-          </CardHeader>
           <CardContent>
             <ChartContainer config={urgencyConfig}>
               <BarChart accessibilityLayer data={urgencyData}>
@@ -382,54 +343,20 @@ export default function Home() {
               </BarChart>
             </ChartContainer>
           </CardContent>
+
           <CardFooter className="flex-col items-start gap-2 text-sm">
-            <div className="flex gap-2 font-medium leading-none">
-              Trending up by 3% this month <TrendUp className="h-4 w-4" />
-            </div>
             <div className="leading-none text-muted-foreground">
-              Showing tickets distributed by urgency
+              Exibir chamados atrasados quanto ao prazo do SLA.
             </div>
           </CardFooter>
         </CardRoot>
 
-        <CardRoot className="shadow-lg bg-gray-50 w-1/4">
-          <CardHeader>
-            <CardTitle>Chamados Por Urgência</CardTitle>
-            <CardDescription>Resumo dos Chamados Por Urgência</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <ChartContainer config={urgencyConfig}>
-              <BarChart accessibilityLayer data={urgencyData}>
-                <CartesianGrid vertical={false} />
-                <XAxis
-                  dataKey="urgency"
-                  tickLine={false}
-                  tickMargin={10}
-                  axisLine={false}
-                />
-                <ChartTooltip
-                  cursor={false}
-                  content={<ChartTooltipContent indicator="dashed" />}
-                />
-                <Bar dataKey="tickets" fill="var(--color-tickets)" radius={4} />
-              </BarChart>
-            </ChartContainer>
-          </CardContent>
-          <CardFooter className="flex-col items-start gap-2 text-sm">
-            <div className="flex gap-2 font-medium leading-none">
-              Trending up by 3% this month <TrendUp className="h-4 w-4" />
-            </div>
-            <div className="leading-none text-muted-foreground">
-              Showing tickets distributed by urgency
-            </div>
-          </CardFooter>
-        </CardRoot>
-
-        <CardRoot className="shadow-lg bg-gray-50 w-1/4">
+        <CardRoot className="grid shadow-lg bg-gray-50 w-1/4">
           <CardHeader className="items-center pb-0">
-            <CardTitle>Pie Chart - Donut with Text</CardTitle>
-            <CardDescription>January - June 2024</CardDescription>
+            <CardTitle>Últimos Chamados</CardTitle>
+            <CardDescription>Período Completo</CardDescription>
           </CardHeader>
+
           <CardContent className="flex-1 pb-0">
             <ChartContainer
               config={chartConfigPie}
@@ -480,12 +407,74 @@ export default function Home() {
               </PieChart>
             </ChartContainer>
           </CardContent>
-          <CardFooter className="flex-col gap-2 text-sm">
-            <div className="flex items-center gap-2 font-medium leading-none">
-              Trending up by 5.2% this month <TrendUp className="h-4 w-4" />
-            </div>
+
+          <CardFooter className="flex-col items-start gap-2 text-sm">
             <div className="leading-none text-muted-foreground">
-              Showing total visitors for the last 6 months
+              Exibir últimos 10 chamados por categoria.
+            </div>
+          </CardFooter>
+        </CardRoot>
+
+        <CardRoot className="grid shadow-lg bg-gray-50 w-1/4">
+          <CardHeader className="items-center pb-0">
+            <CardTitle>Chamados Por Usuários</CardTitle>
+            <CardDescription>Período Completo</CardDescription>
+          </CardHeader>
+
+          <CardContent className="flex-1 pb-0">
+            <ChartContainer
+              config={chartConfigPie}
+              className="mx-auto aspect-square max-h-[250px]"
+            >
+              <PieChart>
+                <ChartTooltip
+                  cursor={false}
+                  content={<ChartTooltipContent hideLabel />}
+                />
+                <Pie
+                  data={chartData}
+                  dataKey="visitors"
+                  nameKey="browser"
+                  innerRadius={60}
+                  strokeWidth={5}
+                >
+                  <Label
+                    content={({ viewBox }) => {
+                      if (viewBox && "cx" in viewBox && "cy" in viewBox) {
+                        return (
+                          <text
+                            x={viewBox.cx}
+                            y={viewBox.cy}
+                            textAnchor="middle"
+                            dominantBaseline="middle"
+                          >
+                            <tspan
+                              x={viewBox.cx}
+                              y={viewBox.cy}
+                              className="fill-foreground text-3xl font-bold"
+                            >
+                              {totalVisitors.toLocaleString()}
+                            </tspan>
+                            <tspan
+                              x={viewBox.cx}
+                              y={(viewBox.cy || 0) + 24}
+                              className="fill-muted-foreground"
+                            >
+                              Usuários
+                            </tspan>
+                          </text>
+                        );
+                      }
+                    }}
+                  />
+                </Pie>
+              </PieChart>
+            </ChartContainer>
+          </CardContent>
+
+          <CardFooter className="flex-col items-start gap-2 text-sm">
+            <div className="leading-none text-muted-foreground">
+              Exibir quantiade de chamados por usuários.
             </div>
           </CardFooter>
         </CardRoot>
