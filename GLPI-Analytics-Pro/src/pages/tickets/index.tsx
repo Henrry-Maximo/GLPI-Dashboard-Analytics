@@ -76,7 +76,6 @@ export default function Tickets() {
 
   useEffect(() => {
     if (data) {
-      // Debounced filtering logic
       const filteredItems = data.filter((ticket) =>
         ticket.name.toLowerCase().includes(searchItem.toLowerCase())
       );
