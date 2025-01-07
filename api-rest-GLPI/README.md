@@ -8,7 +8,7 @@
 
 # TICKET
 - [x] api-glpi/tickets/search - lista de chamados ou chamado específico:
-  - Modo de uso: passar o valor "true" para `filter` e passar número do chamado para `id`.
+  - Modo de uso: passar número do chamado para `id`.
 
 - [x] api-glpi/tickets/state - contagem de chamados por status/categories/urgency (default: status):
   - Modo de uso: passar o valor "true" para `filter` e passar `by` para pesquisar entre urgência ou categorias `urgency || categories`.
