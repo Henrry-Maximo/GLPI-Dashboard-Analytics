@@ -1,25 +1,30 @@
 ("use client");
 
 import {
-  Clock,
   CheckCircle,
-  ShieldCheck,
+  Clock,
   Hourglass,
+  ShieldCheck,
+  TrendUp,
   UserCirclePlus,
 } from "phosphor-react";
 
-import { TrendingUp } from "lucide-react";
-import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
+import { useQuery } from "@tanstack/react-query";
+import { fetchTicketsState } from "../../http/fetch-tickets-state";
 
+import { Card } from "@/components/Card/Card";
+// import { SettingsTabs } from '../../components/SettingsTabs'
+
+import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
+import { Label, Pie, PieChart } from "recharts";
 import {
-  Card as CardRoot,
   CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
+  Card as CardRoot,
   CardTitle,
 } from "@/components/ui/card";
-
 // biome-ignore lint/style/useImportType: <explanation>
 import {
   ChartConfig,
@@ -27,13 +32,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-
-import { useQuery } from "@tanstack/react-query";
-import { fetchTicketsState } from "../../http/fetch-tickets-state";
-
-import { Card } from "@/components/Card/Card";
-
-// import { SettingsTabs } from '../../components/SettingsTabs'
+import { useMemo } from "react";
 
 interface TicketResponse {
   tickets_total: number;
@@ -60,12 +59,46 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
+const chartConfigPie = {
+  visitors: {
+    label: "Visitors",
+  },
+  chrome: {
+    label: "Chrome",
+    color: "hsl(var(--chart-1))",
+  },
+  safari: {
+    label: "Safari",
+    color: "hsl(var(--chart-2))",
+  },
+  firefox: {
+    label: "Firefox",
+    color: "hsl(var(--chart-3))",
+  },
+  edge: {
+    label: "Edge",
+    color: "hsl(var(--chart-4))",
+  },
+  other: {
+    label: "Other",
+    color: "hsl(var(--chart-5))",
+  },
+} satisfies ChartConfig;
+
 const urgencyData = [
   { urgency: "Muito baixa", tickets: 6 },
   { urgency: "Baixa", tickets: 2 },
   { urgency: "Médio", tickets: 10 },
   { urgency: "Alta", tickets: 3 },
   { urgency: "Muito Alta", tickets: 0 },
+];
+
+const chartData = [
+  { browser: "chrome", visitors: 275, fill: "var(--color-chrome)" },
+  { browser: "safari", visitors: 200, fill: "var(--color-safari)" },
+  { browser: "firefox", visitors: 287, fill: "var(--color-firefox)" },
+  { browser: "edge", visitors: 173, fill: "var(--color-edge)" },
+  { browser: "other", visitors: 190, fill: "var(--color-other)" },
 ];
 
 const urgencyConfig = {
@@ -105,8 +138,12 @@ export default function Home() {
   const amountStatusTickets = data?.ticketsStateInDatabase[0];
   const nameUserAuth = sessionStorage.getItem("name");
 
+  const totalVisitors = useMemo(() => {
+    return chartData.reduce((acc, curr) => acc + curr.visitors, 0);
+  }, []);
+
   return (
-    <main className="w-full h-[max-content]">
+    <main className="w-full h-[max-content] mt-6">
       {/* header */}
       <div className="flex flex-row bg-gray-50 justify-between mb-4 items-center py-2 px-2 rounded-md shadow-md">
         <h1 className="text-2xl font-light text-zinc-800">
@@ -210,8 +247,8 @@ export default function Home() {
         </div> */}
       {/* </section> */}
 
-      <div className="flex gap-4">
-        <CardRoot className="w-3/6 shadow-lg bg-gray-50">
+      <div className="grid grid-cols-2 gap-4">
+        <CardRoot className="shadow-lg bg-gray-50">
           <CardHeader>
             <CardTitle>Chamados por Categoria</CardTitle>
             <CardDescription>
@@ -241,7 +278,7 @@ export default function Home() {
           </CardContent>
           <CardFooter className="flex-col items-start gap-2 text-sm">
             <div className="flex gap-2 font-medium leading-none">
-              Trending up by 12.3% this month <TrendingUp className="h-4 w-4" />
+              Trending up by 12.3% this month <TrendUp className="h-4 w-4" />
             </div>
             <div className="leading-none text-muted-foreground">
               Showing ticket counts for major categories
@@ -249,7 +286,7 @@ export default function Home() {
           </CardFooter>
         </CardRoot>
 
-        <CardRoot className="w-3/6 shadow-lg bg-gray-50">
+        <CardRoot className="shadow-lg bg-gray-50">
           <CardHeader>
             <CardTitle>Chamados Por Urgência</CardTitle>
             <CardDescription>Resumo dos Chamados Por Urgência</CardDescription>
@@ -274,10 +311,181 @@ export default function Home() {
           </CardContent>
           <CardFooter className="flex-col items-start gap-2 text-sm">
             <div className="flex gap-2 font-medium leading-none">
-              Trending up by 3% this month <TrendingUp className="h-4 w-4" />
+              Trending up by 3% this month <TrendUp className="h-4 w-4" />
             </div>
             <div className="leading-none text-muted-foreground">
               Showing tickets distributed by urgency
+            </div>
+          </CardFooter>
+        </CardRoot>
+      </div>
+
+      <div className="flex gap-4 mt-6">
+        <CardRoot className="shadow-lg bg-gray-50 w-1/4">
+          <CardHeader>
+            <CardTitle>Chamados por Categoria</CardTitle>
+            <CardDescription>
+              Resumo das Categorias por Chamados
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <ChartContainer config={chartConfig}>
+              <BarChart accessibilityLayer data={ticketData}>
+                <CartesianGrid vertical={false} />
+                <XAxis
+                  dataKey="category"
+                  tickLine={false}
+                  tickMargin={2}
+                  axisLine={false}
+                  tickFormatter={(value) =>
+                    value.length > 10 ? `${value.slice(0, 10)}...` : value
+                  }
+                />
+                <ChartTooltip
+                  cursor={false}
+                  content={<ChartTooltipContent indicator="dashed" />}
+                />
+                <Bar dataKey="count" fill="var(--color-tickets)" radius={4} />
+              </BarChart>
+            </ChartContainer>
+          </CardContent>
+          <CardFooter className="flex-col items-start gap-2 text-sm">
+            <div className="flex gap-2 font-medium leading-none">
+              Trending up by 12.3% this month <TrendUp className="h-4 w-4" />
+            </div>
+            <div className="leading-none text-muted-foreground">
+              Showing ticket counts for major categories
+            </div>
+          </CardFooter>
+        </CardRoot>
+
+        <CardRoot className="shadow-lg bg-gray-50 w-1/4">
+          <CardHeader>
+            <CardTitle>Chamados Por Urgência</CardTitle>
+            <CardDescription>Resumo dos Chamados Por Urgência</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <ChartContainer config={urgencyConfig}>
+              <BarChart accessibilityLayer data={urgencyData}>
+                <CartesianGrid vertical={false} />
+                <XAxis
+                  dataKey="urgency"
+                  tickLine={false}
+                  tickMargin={10}
+                  axisLine={false}
+                />
+                <ChartTooltip
+                  cursor={false}
+                  content={<ChartTooltipContent indicator="dashed" />}
+                />
+                <Bar dataKey="tickets" fill="var(--color-tickets)" radius={4} />
+              </BarChart>
+            </ChartContainer>
+          </CardContent>
+          <CardFooter className="flex-col items-start gap-2 text-sm">
+            <div className="flex gap-2 font-medium leading-none">
+              Trending up by 3% this month <TrendUp className="h-4 w-4" />
+            </div>
+            <div className="leading-none text-muted-foreground">
+              Showing tickets distributed by urgency
+            </div>
+          </CardFooter>
+        </CardRoot>
+
+        <CardRoot className="shadow-lg bg-gray-50 w-1/4">
+          <CardHeader>
+            <CardTitle>Chamados Por Urgência</CardTitle>
+            <CardDescription>Resumo dos Chamados Por Urgência</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <ChartContainer config={urgencyConfig}>
+              <BarChart accessibilityLayer data={urgencyData}>
+                <CartesianGrid vertical={false} />
+                <XAxis
+                  dataKey="urgency"
+                  tickLine={false}
+                  tickMargin={10}
+                  axisLine={false}
+                />
+                <ChartTooltip
+                  cursor={false}
+                  content={<ChartTooltipContent indicator="dashed" />}
+                />
+                <Bar dataKey="tickets" fill="var(--color-tickets)" radius={4} />
+              </BarChart>
+            </ChartContainer>
+          </CardContent>
+          <CardFooter className="flex-col items-start gap-2 text-sm">
+            <div className="flex gap-2 font-medium leading-none">
+              Trending up by 3% this month <TrendUp className="h-4 w-4" />
+            </div>
+            <div className="leading-none text-muted-foreground">
+              Showing tickets distributed by urgency
+            </div>
+          </CardFooter>
+        </CardRoot>
+
+        <CardRoot className="shadow-lg bg-gray-50 w-1/4">
+          <CardHeader className="items-center pb-0">
+            <CardTitle>Pie Chart - Donut with Text</CardTitle>
+            <CardDescription>January - June 2024</CardDescription>
+          </CardHeader>
+          <CardContent className="flex-1 pb-0">
+            <ChartContainer
+              config={chartConfigPie}
+              className="mx-auto aspect-square max-h-[250px]"
+            >
+              <PieChart>
+                <ChartTooltip
+                  cursor={false}
+                  content={<ChartTooltipContent hideLabel />}
+                />
+                <Pie
+                  data={chartData}
+                  dataKey="visitors"
+                  nameKey="browser"
+                  innerRadius={60}
+                  strokeWidth={5}
+                >
+                  <Label
+                    content={({ viewBox }) => {
+                      if (viewBox && "cx" in viewBox && "cy" in viewBox) {
+                        return (
+                          <text
+                            x={viewBox.cx}
+                            y={viewBox.cy}
+                            textAnchor="middle"
+                            dominantBaseline="middle"
+                          >
+                            <tspan
+                              x={viewBox.cx}
+                              y={viewBox.cy}
+                              className="fill-foreground text-3xl font-bold"
+                            >
+                              {totalVisitors.toLocaleString()}
+                            </tspan>
+                            <tspan
+                              x={viewBox.cx}
+                              y={(viewBox.cy || 0) + 24}
+                              className="fill-muted-foreground"
+                            >
+                              Usuários
+                            </tspan>
+                          </text>
+                        );
+                      }
+                    }}
+                  />
+                </Pie>
+              </PieChart>
+            </ChartContainer>
+          </CardContent>
+          <CardFooter className="flex-col gap-2 text-sm">
+            <div className="flex items-center gap-2 font-medium leading-none">
+              Trending up by 5.2% this month <TrendUp className="h-4 w-4" />
+            </div>
+            <div className="leading-none text-muted-foreground">
+              Showing total visitors for the last 6 months
             </div>
           </CardFooter>
         </CardRoot>
