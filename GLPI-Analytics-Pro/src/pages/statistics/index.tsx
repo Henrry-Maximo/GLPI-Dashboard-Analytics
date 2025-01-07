@@ -1,6 +1,40 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ChartLegend, ChartTooltip } from "@/components/ui/chart";
+import { Legend, Tooltip } from "chart.js";
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  Line,
+  LineChart,
+  ResponsiveContainer,
+  XAxis,
+  YAxis,
+} from "recharts";
 
 export default function Statistics() {
+  const ticketsByTechnicians = [
+    { name: "Técnico A", tickets: 120 },
+    { name: "Técnico B", tickets: 95 },
+    { name: "Técnico C", tickets: 140 },
+    { name: "Técnico D", tickets: 75 },
+  ];
+
+  const ticketsByRequesters = [
+    { name: "Requerente X", tickets: 200 },
+    { name: "Requerente Y", tickets: 180 },
+    { name: "Requerente Z", tickets: 150 },
+    { name: "Requerente W", tickets: 130 },
+  ];
+
+  const ticketsOverTime = [
+    { date: "2023-12-01", tickets: 50 },
+    { date: "2023-12-02", tickets: 65 },
+    { date: "2023-12-03", tickets: 45 },
+    { date: "2023-12-04", tickets: 80 },
+    { date: "2023-12-05", tickets: 100 },
+  ];
+
   return (
     <div className="w-full space-y-6">
       {/* Título e Resumo Geral */}
@@ -48,6 +82,66 @@ export default function Statistics() {
           </CardHeader>
           <CardContent>
             <p className="text-4xl font-bold text-red-500">67</p>
+          </CardContent>
+        </Card>
+      </section>
+
+      {/* Gráficos */}
+      <section className="space-y-6">
+        {/* Gráfico de Barras - Chamados por Técnico */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Chamados por Técnico</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ResponsiveContainer width="100%" height={300}>
+              <BarChart data={ticketsByTechnicians}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" />
+                <YAxis />
+                <ChartTooltip />
+                <ChartLegend />
+                <Bar dataKey="tickets" fill="#8884d8" />
+              </BarChart>
+            </ResponsiveContainer>
+          </CardContent>
+        </Card>
+
+        {/* Gráfico de Barras Horizontais - Chamados por Requerente */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Chamados por Requerente</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ResponsiveContainer width="100%" height={300}>
+              <BarChart layout="vertical" data={ticketsByRequesters}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis type="number" />
+                <YAxis type="category" dataKey="name" />
+                <ChartTooltip />
+                <ChartLegend />
+                <Bar dataKey="tickets" fill="#82ca9d" />
+              </BarChart>
+            </ResponsiveContainer>
+          </CardContent>
+        </Card>
+
+        {/* Gráfico de Linhas - Chamados ao Longo do Tempo */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Tendência de Chamados</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ResponsiveContainer width="100%" height={300}>
+              <LineChart data={ticketsOverTime}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="date" />
+                <YAxis />
+                <ChartTooltip />
+                <ChartLegend />
+                <Line type="monotone" dataKey="tickets" stroke="#8884d8" />
+              </LineChart>
+            </ResponsiveContainer>
           </CardContent>
         </Card>
       </section>

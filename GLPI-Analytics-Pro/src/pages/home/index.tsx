@@ -3,9 +3,9 @@
 import {
   CheckCircle,
   Clock,
+  DotsThree,
   Hourglass,
   ShieldCheck,
-  TrendUp,
   UserCirclePlus,
 } from "phosphor-react";
 
@@ -15,8 +15,6 @@ import { fetchTicketsState } from "../../http/fetch-tickets-state";
 import { Card } from "@/components/Card/Card";
 // import { SettingsTabs } from '../../components/SettingsTabs'
 
-import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
-import { Label, Pie, PieChart } from "recharts";
 import {
   CardContent,
   CardDescription,
@@ -33,6 +31,8 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import { useMemo } from "react";
+import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
+import { Label, Pie, PieChart } from "recharts";
 
 interface TicketResponse {
   tickets_total: number;
@@ -417,7 +417,15 @@ export default function Home() {
 
         <CardRoot className="grid shadow-lg bg-gray-50 w-1/4">
           <CardHeader className="items-center pb-0">
-            <CardTitle>Chamados Por Usuários</CardTitle>
+            <CardTitle className="flex items-center gap-2">
+              Chamados Por Usuários
+              <div className="flex flex-row items-center justify-between">
+                <DotsThree
+                  size={24}
+                  className="hover:text-orange-500 hover:bg-white p-1 cursor-pointer rounded-xl border border-transparent hover:border-orange-400 transition duration-300 ease-in-out"
+                />
+              </div>
+            </CardTitle>
             <CardDescription>Período Completo</CardDescription>
           </CardHeader>
 

@@ -1,12 +1,13 @@
 import type { Ticket } from "@/@types/interface-tickets";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { fetchTicketsAll } from "@/http/fetch-tickets-all";
 import { useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { CircleNotch, WarningCircle } from "phosphor-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const statusTicketsOperation = [
   {
@@ -62,6 +63,9 @@ export default function Tickets() {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
+  const [searchItem, setSearchItem] = useState("");
+  const [filteredData, setFilteredData] = useState<Ticket[]>([]);
+
   const { data, isLoading, isError } = useQuery<Ticket[]>({
     queryKey: ["tickets"],
     queryFn: fetchTicketsAll,
@@ -69,6 +73,26 @@ export default function Tickets() {
     refetchInterval: 1000 * 60, // 1 minuto
     refetchOnWindowFocus: true, // reconsultar janela em foco
   });
+
+  useEffect(() => {
+    if (data) {
+      // Debounced filtering logic
+      const filteredItems = data.filter((ticket) =>
+        ticket.name.toLowerCase().includes(searchItem.toLowerCase())
+      );
+      setFilteredData(filteredItems);
+    }
+  }, [searchItem, data]);
+
+  const totalPages = Math.ceil((data?.length || 0) / itemsPerPage);
+  const paginatedData = filteredData?.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchItem(e.target.value);
+  };
 
   if (isLoading) {
     return (
@@ -90,12 +114,6 @@ export default function Tickets() {
     );
   }
 
-  const totalPages = Math.ceil((data?.length || 0) / itemsPerPage);
-  const paginatedData = data?.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
-
   return (
     <section className="w-full space-y-6">
       <header className="text-center">
@@ -106,6 +124,18 @@ export default function Tickets() {
           Acompanhe todos os chamadas abertos, em andamento e resolvidos.
         </p>
       </header>
+
+      {/* Campo de Pesquisa */}
+      <div className="flex justify-center my-4 gap-2">
+        <Input
+          placeholder="Pesquisar por nome, requerente ou técnico..."
+          className="w-full max-w-xl"
+          type="text"
+          value={searchItem}
+          onChange={handleInputChange}
+        />
+        {/* <Button type="submit">Pesquisar</Button> */}
+      </div>
 
       <ScrollArea className="h-[calc(85vh-200px)] border rounded-md bg-gray-50 shadow-sm">
         <ul className="divide-y divide-gray-300">
