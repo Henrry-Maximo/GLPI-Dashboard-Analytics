@@ -18,7 +18,7 @@ const statusTicketsOperation = [
   },
   {
     status: "Pendente",
-    className: "bg-yellow-100 text-yellow-700",
+    className: "bg-transparent text-yellow-400",
   },
   {
     status: "Em Atendimento (atribuído)",
@@ -165,7 +165,7 @@ export default function Tickets() {
         <table className="">
           <tbody className="divide-y divide-gray-300">
             {paginatedData?.map((ticket) => {
-              const { titleStatus, icon } = getStatusDetails(ticket.status);
+              const { icon } = getStatusDetails(ticket.status);
 
               return (
                 <tr
