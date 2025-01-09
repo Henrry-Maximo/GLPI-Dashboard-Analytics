@@ -1,5 +1,5 @@
 import { CalendarDots } from "@phosphor-icons/react";
-import { XCircle, Circle } from "phosphor-react";
+import { XCircle, Circle, CheckCircle, LockKey } from "phosphor-react";
 
 export const getStatusDetails = (status: string) => {
   switch (status) {
@@ -32,6 +32,16 @@ export const getStatusDetails = (status: string) => {
             className="bg-yellow-400 text-yellow-400 rounded-full"
           />
         ),
+      };
+    case "Solucionado":
+      return {
+        titleStatus: "Solucionado",
+        icon: <CheckCircle size={18} className="text-green-100 rounded-full" />,
+      };
+    case "Fechado":
+      return {
+        titleStatus: "Fechado",
+        icon: <LockKey size={18} className=" text-green-400 rounded-full" />,
       };
     default:
       return {

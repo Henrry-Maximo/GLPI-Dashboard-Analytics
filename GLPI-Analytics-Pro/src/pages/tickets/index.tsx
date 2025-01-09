@@ -8,6 +8,8 @@ import { useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { CircleNotch, WarningCircle, X } from "phosphor-react";
 import { useEffect, useState } from "react";
+import { FooterTicketsMonitoring } from "../monitoring/components/FooterTicketsMonitoring";
+import { getStatusDetails } from "@/utils/monitoring-status-icon-color";
 
 const statusTicketsOperation = [
   {
@@ -27,12 +29,12 @@ const statusTicketsOperation = [
     className: "bg-pink-100 text-pink-700",
   },
   {
-    status: "Fechado",
-    className: "bg-gray-200 text-gray-700",
-  },
-  {
     status: "Solucionado",
     className: "bg-green-500 text-white",
+  },
+  {
+    status: "Fechado",
+    className: "bg-gray-100 text-gray-700",
   },
 ];
 
@@ -66,7 +68,7 @@ export default function Tickets() {
   const [searchItem, setSearchItem] = useState("");
   const [filteredData, setFilteredData] = useState<Ticket[]>([]);
 
-  const { data, isLoading, isError } = useQuery<Ticket[]>({
+  const { data, isLoading, isError, dataUpdatedAt } = useQuery<Ticket[]>({
     queryKey: ["tickets"],
     queryFn: fetchTicketsAll,
     staleTime: 1000 * 300, // 5 minutos
@@ -82,7 +84,13 @@ export default function Tickets() {
         (ticket) =>
           ticket.name.toLowerCase().includes(searchItem.toLowerCase()) ||
           ticket.applicant?.toLowerCase().includes(searchItem.toLowerCase()) ||
-          ticket.technical?.toLowerCase().includes(searchItem.toLowerCase())
+          ticket.technical?.toLowerCase().includes(searchItem.toLowerCase()) ||
+          ticket.location?.toLowerCase().includes(searchItem.toLowerCase()) ||
+          ticket.date_creation
+            ?.toLowerCase()
+            .includes(searchItem.toLowerCase()) ||
+          ticket.priority?.toLowerCase().includes(searchItem.toLowerCase()) ||
+          ticket.status?.toLowerCase().includes(searchItem.toLowerCase())
       );
       setFilteredData(filteredItems);
     }
@@ -134,94 +142,90 @@ export default function Tickets() {
       </header>
 
       {/* Campo de Pesquisa */}
-      <div className="flex justify-center my-4 gap-2">
-        <Input
-          placeholder="Pesquisar por nome, requerente ou técnico..."
-          className="w-full max-w-xl bg-white"
-          type="text"
-          value={searchItem}
-          onChange={handleInputChange}
-        />
-        <Button
-          onClick={handleClear}
-          disabled={!searchItem}
-          className="bg-orange-300 hover:bg-orange-600"
-        >
-          <X size={32} />
-        </Button>
-        {/* <Button type="submit">Pesquisar</Button> */}
+      <div className="flex justify-center">
+        <div className="relative w-full max-w-xl">
+          <Input
+            placeholder="Pesquisar por nome, requerente ou técnico..."
+            className="w-full bg-white pr-12"
+            type="text"
+            value={searchItem}
+            onChange={handleInputChange}
+          />
+          <Button
+            onClick={handleClear}
+            disabled={!searchItem}
+            className="absolute top-1/2 right-0 transform -translate-y-1/2 bg-transparent rounded-full shadow-none text-gray-500 hover:bg-gray-300 hover:text-gray-800 hover:rounded-full p-3"
+          >
+            <X size={20} />
+          </Button>
+        </div>
       </div>
 
       <ScrollArea className="h-[calc(90%-200px)] border rounded-md bg-gray-50 shadow-sm">
-        <ul className="divide-y divide-gray-300">
-          {paginatedData?.map((data) => (
-            <li
-              key={data.id}
-              className="p-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4 hover:bg-gray-100 transition-colors"
-            >
-              <div>
-                <h2 className="font-semibold text-lg text-slate-800">
-                  {data.name}
-                </h2>
-                <p className="text-sm text-gray-500">
-                  Requerente: {data.applicant} | Técnico: {data.technical}
-                </p>
-                <p className="text-xs text-gray-400">
-                  Criado em: {data.date_creation} (
-                  {dayjs(data.date_creation).fromNow()})
-                </p>
-              </div>
+        <table className="">
+          <tbody className="divide-y divide-gray-300">
+            {paginatedData?.map((ticket) => {
+              const { titleStatus, icon } = getStatusDetails(ticket.status);
 
-              <div className="flex items-center gap-4">
-                <Badge
-                  variant="outline"
-                  // className={`${
-                  //   data.status === "Pendente"
-                  //     ? "bg-yellow-100 text-yellow-700"
-                  //     : data.status === "Resolvido"
-                  //     ? "bg-green-100 text-green-700"
-                  //     : "bg-gray-100 text-gray-700"
-                  // }`}
-                  className={`min-w-[120px] justify-center ${
-                    statusTicketsOperation.find(
-                      (item) => item.status === data.status
-                    )?.className || "bg-gray-100 text-gray-700"
-                  }`}
+              return (
+                <tr
+                  key={ticket.id}
+                  className="hover:bg-gray-100 transition-colors"
                 >
-                  {data.status}
-                </Badge>
-
-                <Badge
-                  variant="outline"
-                  className={`min-w-[120px] justify-center ${
-                    priorityTicketsOperations.find(
-                      (row) => row.priority === data.priority
-                    )?.className || "bg-gray-100 text-gray-700"
-                  }`}
-                  // className={`${
-                  //   data.priority === "Alta"
-                  //     ? "bg-red-100 text-red-700"
-                  //     : data.priority === "Média"
-                  //     ? "bg-orange-100 text-orange-700"
-                  //     : "bg-blue-100 text-blue-700"
-                  // }`}
-                >
-                  {data.priority}
-                </Badge>
-
-                {data.location ? (
-                  <Badge
-                    variant="outline"
-                    className="min-w-[120px] justify-center"
-                  >
-                    {data.location}
-                  </Badge>
-                ) : null}
-              </div>
-            </li>
-          ))}
-        </ul>
+                  <td className="p-4">
+                    <h2 className="text-sm text-slate-800">{ticket.name}</h2>
+                  </td>
+                  <td className="p-4 text-xs text-gray-500">
+                    Requerente: {ticket.applicant} <br /> Técnico:{" "}
+                    {ticket.technical}
+                  </td>
+                  <td className="p-4 text-xs text-gray-400">
+                    Criado em: {ticket.date_creation} (
+                    {dayjs(ticket.date_creation).fromNow()})
+                  </td>
+                  <td className="p-4">
+                    <Badge
+                      variant="outline"
+                      className={`min-w-full gap-2 justify-center ${
+                        statusTicketsOperation.find(
+                          (item) => item.status === ticket.status
+                        )?.className || "bg-gray-0 text-gray-700"
+                      }`}
+                    >
+                      {/* {ticket.status} */}
+                      {icon}
+                    </Badge>
+                  </td>
+                  <td className="p-4">
+                    <Badge
+                      variant="outline"
+                      className={`min-w-[120px] justify-center ${
+                        priorityTicketsOperations.find(
+                          (row) => row.priority === ticket.priority
+                        )?.className || "bg-gray-100 text-gray-700"
+                      }`}
+                    >
+                      {ticket.priority}
+                    </Badge>
+                  </td>
+                  <td className="p-4">
+                    {ticket.location ? (
+                      <Badge
+                        variant="outline"
+                        className="min-w-[120px] justify-center"
+                      >
+                        {ticket.location}
+                      </Badge>
+                    ) : null}
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
       </ScrollArea>
+
+      <FooterTicketsMonitoring timeCheckUpdate={dataUpdatedAt} />
 
       <div className="flex justify-center items-center gap-4 mt-4">
         <Button
