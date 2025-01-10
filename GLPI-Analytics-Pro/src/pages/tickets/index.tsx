@@ -130,6 +130,8 @@ export default function Tickets() {
     setSearchItem("");
   }
 
+  // const dateCreatedTicket = formatDistance;
+
   return (
     <section className="w-full space-y-6">
       <header className="text-center">
@@ -165,27 +167,30 @@ export default function Tickets() {
         <table className="table-auto w-full">
           <tbody className="divide-y divide-gray-300">
             {paginatedData?.map((ticket) => {
-              const { titleStatus, icon } = getStatusDetails(ticket.status);
-
+              const { icon } = getStatusDetails(ticket.status);
               return (
                 <tr
                   key={ticket.id}
+                  title={ticket.id.toString()}
                   className="hover:bg-gray-100 transition-colors"
                 >
                   <td className="p-4">
                     <h2 className="text-sm text-slate-800">{ticket.name}</h2>
                   </td>
                   <td className="p-4 text-xs text-gray-500">
-                    Requerente: {ticket.applicant} <br /> Técnico:{" "}
-                    {ticket.technical} <br /> Setor: {ticket.location}
+                    Requerente: {ticket.applicant} <br /> Setor:{" "}
+                    {ticket.location} <br /> Técnico: {ticket.technical}
                   </td>
-                  <td className="p-4 text-xs text-gray-400">
-                    Criado em: {ticket.date_creation} (
-                    {dayjs(ticket.date_creation).fromNow()})
+                  <td
+                    title={dayjs(ticket.date_creation).fromNow()}
+                    className="p-4 text-xs text-gray-400"
+                  >
+                    Criado em: {ticket.date_creation}
                   </td>
                   <td className="p-4">
                     <Badge
                       variant="outline"
+                      title={ticket.status}
                       className={`min-w-full gap-2 justify-center ${
                         statusTicketsOperation.find(
                           (item) => item.status === ticket.status
@@ -198,13 +203,14 @@ export default function Tickets() {
                   <td className="p-4">
                     <Badge
                       variant="outline"
-                      className={`min-w-[120px] justify-center ${
+                      title={ticket.priority}
+                      className={`min-w-full gap-2 justify-center ${
                         priorityTicketsOperations.find(
                           (row) => row.priority === ticket.priority
                         )?.className || "bg-gray-100 text-gray-700"
                       }`}
                     >
-                      {ticket.priority}
+                      {/* {ticket.priority} */}
                     </Badge>
                   </td>
                   {/* <td className="p-4">
