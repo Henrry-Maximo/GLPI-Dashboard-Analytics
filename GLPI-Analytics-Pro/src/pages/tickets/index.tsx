@@ -6,7 +6,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { fetchTicketsAll } from "@/http/fetch-tickets-all";
 import { useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
-import { CircleNotch, WarningCircle, X } from "phosphor-react";
+import { CircleNotch, Clock, Hand, WarningCircle, X } from "phosphor-react";
 import { useEffect, useState } from "react";
 import { FooterTicketsMonitoring } from "../monitoring/components/FooterTicketsMonitoring";
 import { getStatusDetails } from "@/utils/monitoring-status-icon-color";
@@ -17,16 +17,16 @@ const statusTicketsOperation = [
     className: "bg-green-100 text-green-700",
   },
   {
-    status: "Pendente",
-    className: "bg-transparent text-yellow-400",
-  },
-  {
     status: "Em Atendimento (atribuído)",
     className: "bg-blue-100 text-blue-700",
   },
   {
     status: "Em Atendimento (planejado)",
     className: "bg-pink-100 text-pink-700",
+  },
+  {
+    status: "Pendente",
+    className: "bg-yellow-50 text-yellow-500",
   },
   {
     status: "Solucionado",
@@ -162,10 +162,10 @@ export default function Tickets() {
       </div>
 
       <ScrollArea className="h-[calc(90%-200px)] border rounded-md bg-gray-50 shadow-sm">
-        <table className="">
+        <table className="table-auto w-full">
           <tbody className="divide-y divide-gray-300">
             {paginatedData?.map((ticket) => {
-              const { icon } = getStatusDetails(ticket.status);
+              const { titleStatus, icon } = getStatusDetails(ticket.status);
 
               return (
                 <tr
@@ -177,7 +177,7 @@ export default function Tickets() {
                   </td>
                   <td className="p-4 text-xs text-gray-500">
                     Requerente: {ticket.applicant} <br /> Técnico:{" "}
-                    {ticket.technical}
+                    {ticket.technical} <br /> Setor: {ticket.location}
                   </td>
                   <td className="p-4 text-xs text-gray-400">
                     Criado em: {ticket.date_creation} (
@@ -189,11 +189,10 @@ export default function Tickets() {
                       className={`min-w-full gap-2 justify-center ${
                         statusTicketsOperation.find(
                           (item) => item.status === ticket.status
-                        )?.className || "bg-gray-0 text-gray-700"
+                        )?.className || "bg-gray-100 text-gray-700"
                       }`}
                     >
-                      {/* {ticket.status} */}
-                      {icon}
+                      {ticket.status === "Pendente" ? <Hand size={18} /> : icon}
                     </Badge>
                   </td>
                   <td className="p-4">
@@ -208,7 +207,7 @@ export default function Tickets() {
                       {ticket.priority}
                     </Badge>
                   </td>
-                  <td className="p-4">
+                  {/* <td className="p-4">
                     {ticket.location ? (
                       <Badge
                         variant="outline"
@@ -217,7 +216,7 @@ export default function Tickets() {
                         {ticket.location}
                       </Badge>
                     ) : null}
-                  </td>
+                  </td> */}
                 </tr>
               );
             })}
