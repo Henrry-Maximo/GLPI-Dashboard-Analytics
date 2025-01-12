@@ -9,19 +9,27 @@ export const getStatusDetails = (status: string) => {
         icon: (
           <Circle
             size={18}
-            className="bg-green-500 text-green-500 rounded-full"
+            color="#22c55e"
+            weight="fill"
+            // className="bg-green-500 text-green-500 rounded-full"
           />
         ),
       };
     case "Em Atendimento (atribuído)":
       return {
         titleStatus: "Em Atendimento (atribuído)",
-        icon: <Circle size={18} className="text-green-500" />,
+        icon: <Circle 
+          size={18} 
+          color="#22c55e" 
+          // className="text-green-500" 
+        />,
       };
     case "Em Atendimento (planejado)":
       return {
         titleStatus: "Em Atendimento (planejado)",
-        icon: <CalendarDots size={18} />,
+        icon: <CalendarDots 
+          size={18} 
+        />,
       };
     case "Pendente":
       return {

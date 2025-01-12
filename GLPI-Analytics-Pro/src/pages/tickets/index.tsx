@@ -6,7 +6,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { fetchTicketsAll } from "@/http/fetch-tickets-all";
 import { useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
-import { CircleNotch, Clock, Hand, WarningCircle, X } from "phosphor-react";
+import { CircleNotch, Hand, WarningCircle, X } from "phosphor-react";
 import { useEffect, useState } from "react";
 import { FooterTicketsMonitoring } from "../monitoring/components/FooterTicketsMonitoring";
 import { getStatusDetails } from "@/utils/monitoring-status-icon-color";
@@ -34,7 +34,7 @@ const statusTicketsOperation = [
   },
   {
     status: "Fechado",
-    className: "bg-gray-100 text-gray-700",
+    className: "bg-green-100 text-gray-700",
   },
 ];
 
@@ -163,7 +163,7 @@ export default function Tickets() {
         </div>
       </div>
 
-      <ScrollArea className="h-[calc(90%-200px)] border rounded-md bg-gray-50 shadow-sm">
+      <ScrollArea className="h-[calc(85%-200px)] border rounded-md bg-gray-50 shadow-sm">
         <table className="table-auto w-full">
           <tbody className="divide-y divide-gray-300">
             {paginatedData?.map((ticket) => {
