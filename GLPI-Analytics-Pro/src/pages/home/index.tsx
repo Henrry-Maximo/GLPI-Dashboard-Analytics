@@ -1,9 +1,9 @@
 ("use client");
 
 import {
+  ChartLine,
   CheckCircle,
   Clock,
-  DotsThree,
   Hourglass,
   ShieldCheck,
   UserCirclePlus,
@@ -30,9 +30,16 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { useMemo } from "react";
 import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
-import { Label, Pie, PieChart } from "recharts";
 
 interface TicketResponse {
   tickets_total: number;
@@ -146,8 +153,9 @@ export default function Home() {
     <main className="w-full h-[max-content] mt-6">
       {/* header */}
       <div className="flex flex-row bg-gray-50 justify-between mb-4 items-center py-2 px-2 rounded-md shadow-md">
-        <h1 className="text-2xl font-light text-zinc-800">
-          Dashboard Principal
+        <h1 className="text-2xl font-light text-zinc-800 flex gap-2 items-center">
+          <ChartLine size={30} />
+          Dashboard
         </h1>
         <span className="text-2 font-light text-zinc-800">
           Olá, {`${nameUserAuth}`}!
@@ -254,6 +262,18 @@ export default function Home() {
             <CardDescription>
               Resumo das Categorias por Chamados
             </CardDescription>
+            {/* 
+            <DropdownMenu>
+              <DropdownMenuTrigger>...</DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>Profile</DropdownMenuItem>
+                <DropdownMenuItem>Billing</DropdownMenuItem>
+                <DropdownMenuItem>Team</DropdownMenuItem>
+                <DropdownMenuItem>Subscription</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu> */}
           </CardHeader>
 
           <CardContent>
@@ -318,7 +338,7 @@ export default function Home() {
         </CardRoot>
       </div>
 
-      <div className="flex gap-4 mt-6">
+      {/* <div className="flex gap-4 mt-6">
         <CardRoot className="shadow-lg bg-gray-50 w-1/2">
           <CardHeader>
             <CardTitle>Chamados Atrasados</CardTitle>
@@ -486,7 +506,7 @@ export default function Home() {
             </div>
           </CardFooter>
         </CardRoot>
-      </div>
+      </div> */}
 
       {/* <section className="grid-cols-3 gap-4 grid">
         <CardGraph title="Chamados por Ano" />

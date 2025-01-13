@@ -10,6 +10,7 @@ import { CircleNotch, Hand, WarningCircle, X } from "phosphor-react";
 import { useEffect, useState } from "react";
 import { FooterTicketsMonitoring } from "../monitoring/components/FooterTicketsMonitoring";
 import { getStatusDetails } from "@/utils/monitoring-status-icon-color";
+import { ExclamationMark } from "@phosphor-icons/react";
 
 const statusTicketsOperation = [
   {
@@ -41,23 +42,23 @@ const statusTicketsOperation = [
 const priorityTicketsOperations = [
   {
     priority: "Muito alta",
-    className: "bg-red-600 text-red-100",
+    className: "bg-red-800 text-white",
   },
   {
     priority: "Alta",
-    className: "bg-red-500 text-red-100",
+    className: "bg-red-500 text-white",
   },
   {
     priority: "Média",
-    className: "bg-orange-500 text-red-100",
+    className: "bg-red-400 text-white",
   },
   {
     priority: "Baixa",
-    className: "bg-blue-600 text-red-100",
+    className: "bg-red-300 text-white",
   },
   {
     priority: "Muito baixa",
-    className: "bg-blue-400 text-red-100",
+    className: "bg-red-200 text-white",
   },
 ];
 
@@ -204,12 +205,13 @@ export default function Tickets() {
                     <Badge
                       variant="outline"
                       title={ticket.priority}
-                      className={`min-w-full gap-2 justify-center ${
+                      className={`rounded-full min-w-full gap-2 justify-center ${
                         priorityTicketsOperations.find(
                           (row) => row.priority === ticket.priority
                         )?.className || "bg-gray-100 text-gray-700"
                       }`}
                     >
+                      <ExclamationMark size={20} />
                       {/* {ticket.priority} */}
                     </Badge>
                   </td>
