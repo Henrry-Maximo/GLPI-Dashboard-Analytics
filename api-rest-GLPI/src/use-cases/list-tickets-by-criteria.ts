@@ -1,15 +1,7 @@
 import { knex } from "@/database/knex-config";
 
-interface ListTicketsByCriteriaRequest {
-  filter: string | undefined;
-  by: string | undefined;
-}
-
-export async function listTicketsByCriteria({
-  filter,
-  by,
-}: ListTicketsByCriteriaRequest) {
-  const ticketsByStatusCount = await knex("glpi_tickets").select([
+export async function statusPriorityCategoriesObject() {
+  const [status] = await knex("glpi_tickets").select([
     knex.raw("COUNT(id) AS tickets_total"),
     knex.raw("COUNT(CASE WHEN status = 1 THEN 1 END) AS tickets_open"),
     knex.raw("COUNT(CASE WHEN status = 2 THEN 1 END) AS tickets_assigned"),
@@ -18,19 +10,7 @@ export async function listTicketsByCriteria({
     knex.raw("COUNT(CASE WHEN status = 6 THEN 1 END) AS tickets_closed"),
   ]);
 
-  const ticketsByCategory = await knex("glpi_tickets")
-    .select([
-      "glpi_itilcategories.name AS category_name",
-      knex.raw("COUNT(glpi_tickets.id) AS tickets_count"),
-    ])
-    .innerJoin(
-      "glpi_itilcategories",
-      "glpi_tickets.itilcategories_id",
-      "glpi_itilcategories.id"
-    )
-    .groupBy("glpi_tickets.itilcategories_id", "glpi_itilcategories.name");
-
-  const ticketsByUrgencyCount = await knex("glpi_tickets").select([
+  const [priority] = await knex("glpi_tickets").select([
     knex.raw(
       "COUNT(CASE WHEN status = 1 AND urgency = 1 THEN 1 END) AS tickets_very_low"
     ),
@@ -48,13 +28,21 @@ export async function listTicketsByCriteria({
     ),
   ]);
 
-  if (filter === "true" && by === "urgency") {
-    return { ticketsByUrgencyCount };
-  }
+  const categories = await knex("glpi_tickets")
+    .select([
+      "glpi_itilcategories.completename",
+      knex.raw("COUNT(glpi_tickets.id) AS tickets_count"),
+    ])
+    .innerJoin(
+      "glpi_itilcategories",
+      "glpi_tickets.itilcategories_id",
+      "glpi_itilcategories.id"
+    )
+    .groupBy(
+      "glpi_itilcategories.itilcategories_id",
+      "glpi_itilcategories.name"
+    )
+    .orderBy("tickets_count", "asc");
 
-  if (filter === "true" && by === "categories") {
-    return { ticketsByCategory };
-  }
-
-  return { ticketsByStatusCount };
+  return { status, priority, categories };
 }

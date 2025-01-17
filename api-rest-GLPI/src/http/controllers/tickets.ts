@@ -3,7 +3,7 @@ import { z } from "zod";
 import { verifyJwt } from "../middlewares/verify-jwt";
 
 import { searchTickets } from "@/use-cases/search-tickets";
-import { listTicketsByCriteria } from "@/use-cases/list-tickets-by-criteria";
+import { statusPriorityCategoriesObject } from "@/use-cases/list-tickets-by-criteria";
 import { listTicketsByDate } from "@/use-cases/list-tickets-by-date";
 import { getTicketsLast } from "@/use-cases/get-tickets-last";
 import { listTicketsAmount } from "@/use-cases/list-tickets-amount";
@@ -29,17 +29,10 @@ export async function ticketsController(app: FastifyInstance) {
   });
 
   // lista de chamados por status/urgência/categorias
-  app.get("/state", { onRequest: [verifyJwt] }, async (req, reply) => {
-    const requestStatusQuerySchema = z.object({
-      filter: z.coerce.string().optional(),
-      by: z.coerce.string().optional(),
-    });
+  app.get("/state", { onRequest: [verifyJwt] }, async (_, reply) => {
+    const result = await statusPriorityCategoriesObject();
 
-    const { filter, by } = requestStatusQuerySchema.parse(req.query);
-
-    const result = await listTicketsByCriteria({ filter, by });
-
-    return reply.status(200).send({ result })
+    return reply.status(200).send(result);
   });
 
   // lista de quantidade de chamados por status/data

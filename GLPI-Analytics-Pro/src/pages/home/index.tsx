@@ -39,7 +39,15 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useMemo } from "react";
-import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  LabelList,
+  XAxis,
+  YAxis,
+} from "recharts";
+import { TrendingUp } from "lucide-react";
 
 interface TicketResponse {
   tickets_total: number;
@@ -112,6 +120,26 @@ const urgencyConfig = {
   tickets: {
     label: "Tickets",
     color: "hsl(var(--chart-1))",
+  },
+} satisfies ChartConfig;
+
+const chartDataLabel = [
+  { technician: "Washington.Dantas", tickets: 186 },
+  { technician: "Henrique.Maximo", tickets: 305 },
+  { technician: "Bruno.Camargo", tickets: 237 },
+  { technician: "Luis.Santos", tickets: 73 },
+];
+const chartConfigLabel = {
+  tickets: {
+    label: "tickets",
+    color: "hsl(var(--chart-1))",
+  },
+  mobile: {
+    label: "Mobile",
+    color: "hsl(var(--chart-2))",
+  },
+  label: {
+    color: "hsl(var(--background))",
   },
 } satisfies ChartConfig;
 
@@ -333,6 +361,67 @@ export default function Home() {
           <CardFooter className="flex-col items-start gap-2 text-sm">
             <div className="leading-none text-muted-foreground">
               Mostrar chamados distribuidos por urgência.
+            </div>
+          </CardFooter>
+        </CardRoot>
+
+        <CardRoot>
+          <CardHeader>
+            <CardTitle>Chamados por Técnico</CardTitle>
+            <CardDescription>Total de Chamados por Técnico</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <ChartContainer config={chartConfigLabel}>
+              <BarChart
+                accessibilityLayer
+                data={chartDataLabel}
+                layout="vertical"
+                margin={{
+                  right: 16,
+                }}
+              >
+                <CartesianGrid horizontal={false} />
+                <YAxis
+                  dataKey="technician"
+                  type="category"
+                  tickLine={false}
+                  tickMargin={10}
+                  axisLine={false}
+                  tickFormatter={(value) => value.slice(0, 3)}
+                  hide
+                />
+                <XAxis dataKey="tickets" type="number" hide />
+                <ChartTooltip
+                  cursor={false}
+                  content={<ChartTooltipContent indicator="line" />}
+                />
+                <Bar
+                  dataKey="tickets"
+                  layout="vertical"
+                  fill="var(--color-tickets)"
+                  radius={4}
+                >
+                  <LabelList
+                    dataKey="technician"
+                    position="insideLeft"
+                    offset={8}
+                    className="fill-[--color-label]"
+                    fontSize={12}
+                  />
+                  <LabelList
+                    dataKey="tickets"
+                    position="right"
+                    offset={8}
+                    className="fill-foreground"
+                    fontSize={12}
+                  />
+                </Bar>
+              </BarChart>
+            </ChartContainer>
+          </CardContent>
+          <CardFooter className="flex-col items-start gap-2 text-sm">
+            <div className="leading-none text-muted-foreground">
+              Mostrar total de chamados atribuídos por técnico
             </div>
           </CardFooter>
         </CardRoot>
