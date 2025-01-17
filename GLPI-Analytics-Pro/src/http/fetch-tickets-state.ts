@@ -27,25 +27,25 @@ type TicketsStateResponse = {
     | PropsTicketsStateCategories;
 };
 
-export async function fetchTicketsState(): Promise<{
-  ticketsStateInDatabase: PropsTicketsStateStatus[];
-}> {
+type PropsTicketsState = {
+  status: object;
+  priority: object;
+  categories: Array<Object>;
+};
+
+export async function fetchTicketsState(): Promise<PropsTicketsState> {
   const API_URL = import.meta.env.VITE_API_URL;
 
-  const response = await fetchWithAuth(
-    `${API_URL}/api-glpi/tickets/state`,
-    {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }
-  );
+  const response = await fetchWithAuth(`${API_URL}/api-glpi/tickets/state`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
 
-  const { result } = await response.json();
+  const result = await response.json();
 
-  const ticketsStateInDatabase = result.ticketsByStatusCount;
-  return { ticketsStateInDatabase };
+  return result;
 
   // if (!response.ok) {
   //   throw new Error("Erro ao buscar os dados dos chamados");
