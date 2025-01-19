@@ -3,10 +3,15 @@
 import {
   ChartLine,
   CheckCircle,
+  Circle,
+  CircleHalf,
   Clock,
+  Flame,
   Hourglass,
   ShieldCheck,
   UserCirclePlus,
+  Warning,
+  WarningCircle,
 } from "phosphor-react";
 
 import { useQuery } from "@tanstack/react-query";
@@ -153,6 +158,8 @@ const chartConfigLabel = {
 // const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#FF3333']
 
 export default function Home() {
+  const nameUserAuth = sessionStorage.getItem("name");
+
   const { data, isLoading, isError } = useQuery({
     queryKey: ["state"],
     queryFn: fetchTicketsState,
@@ -161,15 +168,15 @@ export default function Home() {
     refetchOnWindowFocus: true,
   });
 
-  const amountStatusTickets = data?.status;
-  const nameUserAuth = sessionStorage.getItem("name");
+  const statusTicketsAmount = data?.status; 
+  const priorityTicketsAmount = data?.priority; 
 
-  const totalVisitors = useMemo(() => {
-    return chartData.reduce((acc, curr) => acc + curr.visitors, 0);
-  }, []);
+  // const totalVisitors = useMemo(() => {
+  //   return chartData.reduce((acc, curr) => acc + curr.visitors, 0);
+  // }, []);
 
   return (
-    <main className="w-full h-[max-content] mt-6">
+    <main className="w-full h-[max-content] mt-4">
       {/* header */}
       <div className="flex flex-row bg-gray-50 justify-between mb-4 items-center py-2 px-2 rounded-md shadow-md">
         <h1 className="text-2xl font-light text-zinc-800 flex gap-2 items-center">
@@ -181,13 +188,13 @@ export default function Home() {
         </span>
       </div>
 
-      {/* cards */}
+      {/* cards: status */}
       <section className="mb-4">
         <div className="grid md:grid-cols-5 gap-4">
           <Card
             icon={Clock}
             quantity={
-              amountStatusTickets ? amountStatusTickets.tickets_open : 0
+              statusTicketsAmount ? statusTicketsAmount.tickets_open : 0
             }
             title="Chamados Abertos"
             className="h-10 w-10 bg-yellow-100 text-yellow-500 rounded-md p-2 border border-yellow-500"
@@ -195,7 +202,7 @@ export default function Home() {
           <Card
             icon={UserCirclePlus}
             quantity={
-              amountStatusTickets ? amountStatusTickets.tickets_assigned : 0
+              statusTicketsAmount ? statusTicketsAmount.tickets_assigned : 0
             }
             title="Chamados Atribuídos"
             className="h-10 w-10 bg-blue-100 text-blue-500 rounded-md p-2 border border-blue-500"
@@ -203,7 +210,7 @@ export default function Home() {
           <Card
             icon={Hourglass}
             quantity={
-              amountStatusTickets ? amountStatusTickets.tickets_pending : 0
+              statusTicketsAmount ? statusTicketsAmount.tickets_pending : 0
             }
             title="Chamados Pendentes"
             className="h-10 w-10 bg-orange-100 text-orange-500 rounded-md p-2 border border-orange-500"
@@ -211,7 +218,7 @@ export default function Home() {
           <Card
             icon={CheckCircle}
             quantity={
-              amountStatusTickets ? amountStatusTickets.tickets_solved : 0
+              statusTicketsAmount ? statusTicketsAmount.tickets_solved : 0
             }
             title="Chamados Solucionados"
             className="h-10 w-10 bg-green-200 text-green-600 rounded-md p-2 border border-green-500"
@@ -219,7 +226,7 @@ export default function Home() {
           <Card
             icon={ShieldCheck}
             quantity={
-              amountStatusTickets ? amountStatusTickets.tickets_closed : 0
+              statusTicketsAmount ? statusTicketsAmount.tickets_closed : 0
             }
             title="Chamados Fechados"
             className="h-10 w-10 bg-green-700 text-green-100 rounded-md p-2 border border-green-500"
@@ -227,47 +234,48 @@ export default function Home() {
         </div>
       </section>
 
+      {/* cards: priority */}
       <section className="mb-4">
         <div className="grid md:grid-cols-5 gap-4">
           <Card
-            icon={Clock}
+            icon={Circle}
             quantity={
-              amountStatusTickets ? amountStatusTickets.tickets_open : 0
+              priorityTicketsAmount ? priorityTicketsAmount.tickets_very_low : 0
             }
-            title="Chamados Abertos"
-            className="h-10 w-10 bg-yellow-100 text-yellow-500 rounded-md p-2 border border-yellow-500"
+            title="Muito baixa"
+            className="h-10 w-10 bg-blue-600 text-blue-100 rounded-md p-2 border border-blue-700"
           />
           <Card
-            icon={UserCirclePlus}
+            icon={CircleHalf}
             quantity={
-              amountStatusTickets ? amountStatusTickets.tickets_assigned : 0
+              priorityTicketsAmount ? priorityTicketsAmount.tickets_low : 0
             }
-            title="Chamados Atribuídos"
-            className="h-10 w-10 bg-blue-100 text-blue-500 rounded-md p-2 border border-blue-500"
+            title="Baixa"
+            className="h-10 w-10 bg-blue-400 text-blue-100 rounded-md p-2 border border-blue-700"
           />
           <Card
-            icon={Hourglass}
+            icon={WarningCircle}
             quantity={
-              amountStatusTickets ? amountStatusTickets.tickets_pending : 0
+              priorityTicketsAmount ? priorityTicketsAmount.tickets_medium : 0
             }
-            title="Chamados Pendentes"
-            className="h-10 w-10 bg-orange-100 text-orange-500 rounded-md p-2 border border-orange-500"
+            title="Média"
+            className="h-10 w-10 bg-orange-400 text-orange-100 rounded-md p-2 border border-orange-500"
           />
           <Card
-            icon={CheckCircle}
+            icon={Warning}
             quantity={
-              amountStatusTickets ? amountStatusTickets.tickets_solved : 0
+              priorityTicketsAmount ? priorityTicketsAmount.tickets_high : 0
             }
-            title="Chamados Solucionados"
-            className="h-10 w-10 bg-green-200 text-green-600 rounded-md p-2 border border-green-500"
+            title="Alta"
+            className="h-10 w-10 bg-yellow-400 text-yellow-100 rounded-md p-2 border border-yellow-500"
           />
           <Card
-            icon={ShieldCheck}
+            icon={Flame}
             quantity={
-              amountStatusTickets ? amountStatusTickets.tickets_closed : 0
+              priorityTicketsAmount ? priorityTicketsAmount.tickets_very_high : 0
             }
-            title="Chamados Fechados"
-            className="h-10 w-10 bg-green-700 text-green-100 rounded-md p-2 border border-green-500"
+            title="Muito Alta"
+            className="h-10 w-10 bg-red-600 text-red-100 rounded-md p-2 border border-red-700"
           />
         </div>
       </section>
