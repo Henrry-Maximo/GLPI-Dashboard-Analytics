@@ -31,7 +31,7 @@ export async function statusPriorityCategoriesObject() {
   const categories = await knex("glpi_tickets")
     .select([
       "glpi_itilcategories.completename",
-      knex.raw("COUNT(glpi_tickets.id) AS tickets_count"),
+      knex.raw("COUNT(glpi_tickets.id) AS amount"),
     ])
     .innerJoin(
       "glpi_itilcategories",
@@ -42,7 +42,7 @@ export async function statusPriorityCategoriesObject() {
       "glpi_itilcategories.itilcategories_id",
       "glpi_itilcategories.name"
     )
-    .orderBy("tickets_count", "asc");
+    .orderBy("amount", "asc");
 
   return { status, priority, categories };
 }

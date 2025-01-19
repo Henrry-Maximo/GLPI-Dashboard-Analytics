@@ -8,10 +8,10 @@ import {
   Clock,
   Flame,
   Hourglass,
-  ShieldCheck,
-  UserCirclePlus,
+  ShieldCheck, UserCirclePlus,
   Warning,
   WarningCircle,
+  WarningOctagon
 } from "phosphor-react";
 
 import { useQuery } from "@tanstack/react-query";
@@ -35,7 +35,6 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { useMemo } from "react";
 import {
   Bar,
   BarChart,
@@ -44,15 +43,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-
-interface TicketResponse {
-  tickets_total: number;
-  tickets_open: number;
-  tickets_assigned: number;
-  tickets_pending: number;
-  tickets_solved: number;
-  tickets_closed: number;
-}
+import { SpinnerBall } from "@phosphor-icons/react";
 
 const ticketData = [
   { category: "Anfe", count: 7 },
@@ -63,12 +54,46 @@ const ticketData = [
   { category: "Liberar Acesso", count: 35 },
 ];
 
-const chartConfig = {
-  count: {
-    label: "Tickets",
-    color: "hsl(var(--chart-1))",
-  },
-} satisfies ChartConfig;
+const urgencyData = [
+  { urgency: "Muito baixa", tickets: 30 },
+  { urgency: "Baixa", tickets: 120 },
+  { urgency: "Médio", tickets: 523 },
+  { urgency: "Alta", tickets: 340 },
+  { urgency: "Muito Alta", tickets: 90 },
+];
+
+const chartData = [
+  { browser: "Amanda", visitors: 275, fill: "var(--color-chrome)" },
+  { browser: "Natalha", visitors: 200, fill: "var(--color-safari)" },
+  { browser: "Karina", visitors: 287, fill: "var(--color-firefox)" },
+  { browser: "Priscila", visitors: 173, fill: "var(--color-edge)" },
+  { browser: "other", visitors: 190, fill: "var(--color-other)" },
+];
+
+const chartDataLabel = [
+  { technician: "Washington.Dantas", tickets: 186 },
+  { technician: "Henrique.Maximo", tickets: 305 },
+  { technician: "Bruno.Camargo", tickets: 237 },
+  { technician: "Luis.Santos", tickets: 73 },
+];
+
+// const dataTicketsByCategory = [
+//   { category_name: 'Anfe', tickets_count: 7 },
+//   { category_name: 'BI', tickets_count: 23 },
+//   { category_name: 'Instalar Programas', tickets_count: 15 },
+//   { category_name: 'Falha na impressora', tickets_count: 10 },
+//   { category_name: 'Criar Acesso', tickets_count: 75 },
+// ]
+
+// const dataTicketsByUrgency = [
+//   { name: 'Muito Baixa', value: 0 },
+//   { name: 'Baixa', value: 5 },
+//   { name: 'Média', value: 12 },
+//   { name: 'Alta', value: 20 },
+//   { name: 'Muito Alta', value: 8 },
+// ]
+
+
 
 const chartConfigPie = {
   visitors: {
@@ -96,22 +121,6 @@ const chartConfigPie = {
   },
 } satisfies ChartConfig;
 
-const urgencyData = [
-  { urgency: "Muito baixa", tickets: 30 },
-  { urgency: "Baixa", tickets: 120 },
-  { urgency: "Médio", tickets: 523 },
-  { urgency: "Alta", tickets: 340 },
-  { urgency: "Muito Alta", tickets: 90 },
-];
-
-const chartData = [
-  { browser: "Amanda", visitors: 275, fill: "var(--color-chrome)" },
-  { browser: "Natalha", visitors: 200, fill: "var(--color-safari)" },
-  { browser: "Karina", visitors: 287, fill: "var(--color-firefox)" },
-  { browser: "Priscila", visitors: 173, fill: "var(--color-edge)" },
-  { browser: "other", visitors: 190, fill: "var(--color-other)" },
-];
-
 const urgencyConfig = {
   tickets: {
     label: "Tickets",
@@ -119,12 +128,7 @@ const urgencyConfig = {
   },
 } satisfies ChartConfig;
 
-const chartDataLabel = [
-  { technician: "Washington.Dantas", tickets: 186 },
-  { technician: "Henrique.Maximo", tickets: 305 },
-  { technician: "Bruno.Camargo", tickets: 237 },
-  { technician: "Luis.Santos", tickets: 73 },
-];
+
 const chartConfigLabel = {
   tickets: {
     label: "tickets",
@@ -139,22 +143,6 @@ const chartConfigLabel = {
   },
 } satisfies ChartConfig;
 
-// const dataTicketsByCategory = [
-//   { category_name: 'Anfe', tickets_count: 7 },
-//   { category_name: 'BI', tickets_count: 23 },
-//   { category_name: 'Instalar Programas', tickets_count: 15 },
-//   { category_name: 'Falha na impressora', tickets_count: 10 },
-//   { category_name: 'Criar Acesso', tickets_count: 75 },
-// ]
-
-// const dataTicketsByUrgency = [
-//   { name: 'Muito Baixa', value: 0 },
-//   { name: 'Baixa', value: 5 },
-//   { name: 'Média', value: 12 },
-//   { name: 'Alta', value: 20 },
-//   { name: 'Muito Alta', value: 8 },
-// ]
-
 // const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#FF3333']
 
 export default function Home() {
@@ -168,8 +156,34 @@ export default function Home() {
     refetchOnWindowFocus: true,
   });
 
+  if (isError) {
+    return (
+      <div className="w-full flex flex-col gap-2 items-center justify-center">
+        <WarningOctagon className="text-red-500 animate-bounce size-10" />
+        <span className="text-xs font-light">Erro na consulta de dados.</span>
+      </div>
+    )
+  }
+
+  if (isLoading || !data) {
+    return (
+      <div className="w-full flex flex-col gap-2 items-center justify-center">
+        <SpinnerBall className="text-zinc-700 animate-spin size-10" />
+        <span className="text-xs font-light">Loading...</span>
+      </div>
+    )
+  }
+
   const statusTicketsAmount = data?.status; 
   const priorityTicketsAmount = data?.priority; 
+  const categoriesTicketsAmount = data?.categories;
+  
+  const chartConfig = {
+    tickets: {
+      label: "chamados",
+      color: "hsl(var(--chart-4))",
+    },
+  } satisfies ChartConfig;
 
   // const totalVisitors = useMemo(() => {
   //   return chartData.reduce((acc, curr) => acc + curr.visitors, 0);
@@ -179,8 +193,8 @@ export default function Home() {
     <main className="w-full h-[max-content] mt-4">
       {/* header */}
       <div className="flex flex-row bg-gray-50 justify-between mb-4 items-center py-2 px-2 rounded-md shadow-md">
-        <h1 className="text-2xl font-light text-zinc-800 flex gap-2 items-center">
-          <ChartLine size={30} />
+        <h1 className="text-2xl font-light text-orange-500 flex gap-2 items-center">
+          <ChartLine size={30} className="text-orange-500" />
           Dashboard
         </h1>
         <span className="text-2 font-light text-zinc-800">
@@ -280,8 +294,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* <section className="grid grid-cols-1 md:grid-cols-2 gap-4"> */}
       {/* Gráfico de Barras */}
+      {/* <section className="grid grid-cols-1 md:grid-cols-2 gap-4"> */}
       {/* <div className="bg-white shadow-md rounded-lg p-4">
           <h2 className="text-lg font-semibold mb-2">Tickets por Categoria</h2>
           <ResponsiveContainer width="100%" height={300}>
@@ -334,38 +348,33 @@ export default function Home() {
             <CardDescription>
               Resumo das Categorias por Chamados
             </CardDescription>
-            {/* 
-            <DropdownMenu>
-              <DropdownMenuTrigger>...</DropdownMenuTrigger>
-              <DropdownMenuContent>
-                <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>Profile</DropdownMenuItem>
-                <DropdownMenuItem>Billing</DropdownMenuItem>
-                <DropdownMenuItem>Team</DropdownMenuItem>
-                <DropdownMenuItem>Subscription</DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu> */}
           </CardHeader>
 
           <CardContent>
             <ChartContainer config={chartConfig}>
-              <BarChart accessibilityLayer data={ticketData}>
+              <BarChart accessibilityLayer data={categoriesTicketsAmount}>
                 <CartesianGrid vertical={false} />
+
                 <XAxis
-                  dataKey="category"
-                  tickLine={false}
-                  tickMargin={2}
-                  axisLine={false}
+                  dataKey="completename" // rotular pontos no eixo
+                  tickLine={false} // corta-os e adiciona `...`
+                  tickMargin={10} // Adiciona margem aos rótulos
+                  axisLine={false}  // Remove a linha do eixo
                   tickFormatter={(value) =>
-                    value.length > 10 ? `${value.slice(0, 10)}...` : value
+                    value.length > 10 ? `${value.slice(0, 10)}...` : value // Encurta rótulos longos
                   }
                 />
+
                 <ChartTooltip
-                  cursor={false}
-                  content={<ChartTooltipContent indicator="dashed" />}
+                  cursor={true}
+                  content={<ChartTooltipContent indicator="line" />}
                 />
-                <Bar dataKey="count" fill="var(--color-tickets)" radius={4} />
+
+                <Bar 
+                  dataKey="amount" // Usa "count" para definir altura das barras
+                  fill="var(--color-tickets)" // Cor dinâmica do chartConfig
+                  radius={4}  // Borda arredondada nas barras
+                />
               </BarChart>
             </ChartContainer>
           </CardContent>
@@ -377,7 +386,7 @@ export default function Home() {
           </CardFooter>
         </CardRoot>
 
-        <CardRoot className="shadow-lg bg-gray-50">
+        {/* <CardRoot className="shadow-lg bg-gray-50">
           <CardHeader>
             <CardTitle>Chamados Por Urgência</CardTitle>
             <CardDescription>Resumo dos Chamados Por Urgência</CardDescription>
@@ -385,7 +394,7 @@ export default function Home() {
 
           <CardContent>
             <ChartContainer config={urgencyConfig}>
-              <BarChart accessibilityLayer data={urgencyData}>
+              <BarChart accessibilityLayer data={categoriesTicketsAmount}>
                 <CartesianGrid vertical={false} />
                 <XAxis
                   dataKey="urgency"
@@ -407,9 +416,9 @@ export default function Home() {
               Mostrar chamados distribuidos por urgência.
             </div>
           </CardFooter>
-        </CardRoot>
+        </CardRoot> */}
 
-        <CardRoot>
+        {/* <CardRoot>
           <CardHeader>
             <CardTitle>Chamados por Técnico</CardTitle>
             <CardDescription>Total de Chamados por Técnico</CardDescription>
@@ -468,7 +477,7 @@ export default function Home() {
               Mostrar total de chamados atribuídos por técnico
             </div>
           </CardFooter>
-        </CardRoot>
+        </CardRoot> */}
       </div>
 
       {/* <div className="flex gap-4 mt-6">

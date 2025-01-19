@@ -19,7 +19,7 @@ type PropsTicketsState = {
 	categories: [
 		{
 			completename: string;
-			tickets_count: number;
+			count: number;
 		},
 	];
 };
