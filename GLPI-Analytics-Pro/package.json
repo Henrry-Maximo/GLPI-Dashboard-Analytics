@@ -34,7 +34,8 @@
     "react-router-dom": "7.0.2",
     "recharts": "2.15.0",
     "tailwind-merge": "2.6.0",
-    "tailwindcss-animate": "1.0.7"
+    "tailwindcss-animate": "1.0.7",
+    "tailwindcss-animated": "1.1.2"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",

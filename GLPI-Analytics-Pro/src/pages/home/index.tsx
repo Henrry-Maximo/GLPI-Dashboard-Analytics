@@ -37,15 +37,14 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+import { SpinnerBall } from "@phosphor-icons/react";
 import {
   Bar,
   BarChart,
-  CartesianGrid,
-  LabelList,
-  XAxis,
-  YAxis,
+  CartesianGrid, LabelList, XAxis,
+  YAxis
 } from "recharts";
-import { SpinnerBall } from "@phosphor-icons/react";
+import { Header } from "./components/Header";
 
 const ticketData = [
   { category: "Anfe", count: 7 },
@@ -138,7 +137,7 @@ const chartConfigLabel = {
 // const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#FF3333']
 
 export default function Home() {
-  const nameUserAuth = sessionStorage.getItem("name");
+  
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ["state"],
@@ -170,6 +169,7 @@ export default function Home() {
   const priorityTicketsAmount = data?.priority;
   const categoriesTicketsAmount = data?.categories;
 
+  // associando a uma chave para uso posterior
   const transformedData = [
     { urgency: "Muito Baixa", tickets: priorityTicketsAmount.tickets_very_low },
     { urgency: "Baixa", tickets: priorityTicketsAmount.tickets_low },
@@ -191,16 +191,7 @@ export default function Home() {
 
   return (
     <main className="w-full h-[max-content]">
-      {/* header */}
-      <div className="flex flex-row bg-gray-50 justify-between mb-4 items-center py-2 px-2 rounded-md shadow-md">
-        <h1 className="text-2xl font-light text-orange-500 flex gap-2 items-center">
-          <ChartLine size={30} className="text-orange-500" />
-          Dashboard
-        </h1>
-        <span className="text-2 font-light text-zinc-800">
-          Olá, {`${nameUserAuth}`}!
-        </span>
-      </div>
+      <Header />
 
       {/* cards: status */}
       <section className="mb-4">
@@ -248,8 +239,10 @@ export default function Home() {
         </div>
       </section>
 
-      {/* cards: priority */}
+      {/* cards: priority / type */}
       <section className="mb-4 flex gap-4">
+        <div className="h-auto border-l-4 border-orange-400 rounded-lg" />
+
         {/* Cards de Prioridade */}
         <div className="grid md:grid-cols-5 gap-4 flex-grow">
           <Card
@@ -285,7 +278,7 @@ export default function Home() {
         </div>
 
         {/* Separador */}
-        <div className="h-auto border-l-4 border-orange-400 rounded-lg"></div>
+        <div className="h-auto border-l-4 border-orange-400 rounded-lg" />
 
         {/* Cards de Requisição/Incidente */}
         <div className="flex gap-2">
@@ -303,53 +296,6 @@ export default function Home() {
           />
         </div>
       </section>
-
-      {/* Gráfico de Barras */}
-      {/* <section className="grid grid-cols-1 md:grid-cols-2 gap-4"> */}
-      {/* <div className="bg-white shadow-md rounded-lg p-4">
-          <h2 className="text-lg font-semibold mb-2">Tickets por Categoria</h2>
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={dataTicketsByCategory}>
-              <XAxis
-                dataKey="category_name"
-                tick={{ fontSize: 12 }}
-                interval={0}
-                angle={-45}
-                textAnchor="end"
-              />
-              <YAxis />
-              <Tooltip />
-              <Bar dataKey="tickets_count" fill="#8884d8" />
-            </BarChart>
-          </ResponsiveContainer>
-        </div> */}
-
-      {/* Gráfico de Pizza */}
-      {/* <div className="bg-white shadow-md rounded-lg p-4">
-          <h2 className="text-lg font-semibold mb-2">Tickets por Urgência</h2>
-          <ResponsiveContainer width="100%" height={300}>
-            <PieChart>
-              <Pie
-                data={dataTicketsByUrgency}
-                dataKey="value"
-                nameKey="name"
-                cx="50%"
-                cy="50%"
-                outerRadius={100}
-                label
-              >
-                {dataTicketsByUrgency.map((entry, index) => (
-                  <Cell
-                    key={`cell-${index}`}
-                    fill={COLORS[index % COLORS.length]}
-                  />
-                ))}
-              </Pie>
-              <Tooltip />
-            </PieChart>
-          </ResponsiveContainer>
-        </div> */}
-      {/* </section> */}
 
       <div className="grid grid-cols-2 gap-4">
         <CardRoot className="shadow-lg bg-gray-50">
@@ -430,7 +376,7 @@ export default function Home() {
           </CardFooter>
         </CardRoot>
 
-        {/* <CardRoot>
+        <CardRoot>
           <CardHeader>
             <CardTitle>Chamados por Técnico</CardTitle>
             <CardDescription>Total de Chamados por Técnico</CardDescription>
@@ -489,18 +435,16 @@ export default function Home() {
               Mostrar total de chamados atribuídos por técnico
             </div>
           </CardFooter>
-        </CardRoot> */}
-      </div>
+        </CardRoot>
 
-      {/* <div className="flex gap-4 mt-6">
-        <CardRoot className="shadow-lg bg-gray-50 w-1/2">
+        <CardRoot className="shadow-lg bg-gray-50 ">
           <CardHeader>
             <CardTitle>Chamados Atrasados</CardTitle>
             <CardDescription>Resumo dos Chamados Por Atraso</CardDescription>
           </CardHeader>
 
           <CardContent>
-            <ChartContainer config={urgencyConfig}>
+            <ChartContainer config={chartConfig}>
               <BarChart accessibilityLayer data={urgencyData}>
                 <CartesianGrid vertical={false} />
                 <XAxis
@@ -525,7 +469,7 @@ export default function Home() {
           </CardFooter>
         </CardRoot>
 
-        <CardRoot className="grid shadow-lg bg-gray-50 w-1/4">
+        {/* <CardRoot className="grid shadow-lg bg-gray-50 w-1/4">
           <CardHeader className="items-center pb-0">
             <CardTitle>Últimos Chamados</CardTitle>
             <CardDescription>Período Completo</CardDescription>
@@ -542,7 +486,7 @@ export default function Home() {
                   content={<ChartTooltipContent hideLabel />}
                 />
                 <Pie
-                  data={chartData}
+                  data={priorityTicketsAmount}
                   dataKey="visitors"
                   nameKey="browser"
                   innerRadius={60}
@@ -587,9 +531,9 @@ export default function Home() {
               Exibir últimos 10 chamados por categoria.
             </div>
           </CardFooter>
-        </CardRoot>
+        </CardRoot> */}
 
-        <CardRoot className="grid shadow-lg bg-gray-50 w-1/4">
+        {/* <CardRoot className="grid shadow-lg bg-gray-50 w-1/4">
           <CardHeader className="items-center pb-0">
             <CardTitle className="flex items-center gap-2">
               Chamados Por Usuários
@@ -659,18 +603,8 @@ export default function Home() {
               Exibir quantiade de chamados por usuários.
             </div>
           </CardFooter>
-        </CardRoot>
-      </div> */}
-
-      {/* <section className="grid-cols-3 gap-4 grid">
-        <CardGraph title="Chamados por Ano" />
-        <CardPie title="Chamados por Urgência" />
-      </section>
-
-      <section className="grid-cols-3 gap-4 grid mt-4">
-        <CardPie title="Chamados por Urgência" />
-        <CardGraph title="Chamados por Ano" />
-      </section> */}
+        </CardRoot> */}
+      </div>
     </main>
   );
 }
