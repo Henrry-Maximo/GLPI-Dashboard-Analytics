@@ -43,11 +43,13 @@ export async function statusPriorityCategoriesObject() {
       "glpi_tickets.itilcategories_id",
       "glpi_itilcategories.id"
     )
+    .whereNot("glpi_itilcategories.name", "Anfe")
     .groupBy(
       "glpi_itilcategories.itilcategories_id",
       "glpi_itilcategories.name"
     )
-    .orderBy("amount", "asc");
+    .orderBy("amount", "desc")
+    .limit(10);
     
   return { status, priority, type, categories };
 }
