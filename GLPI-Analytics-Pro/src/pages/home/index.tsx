@@ -250,65 +250,56 @@ export default function Home() {
 
       {/* cards: priority */}
       <section className="mb-4 flex gap-4">
-        <div className="grid md:grid-cols-5 gap-4">
+        {/* Cards de Prioridade */}
+        <div className="grid md:grid-cols-5 gap-4 flex-grow">
           <Card
             icon={Circle}
-            quantity={
-              priorityTicketsAmount ? priorityTicketsAmount.tickets_very_low : 0
-            }
+            quantity={priorityTicketsAmount?.tickets_very_low || 0}
             title="Muito baixa"
             className="h-10 w-10 bg-blue-600 text-blue-100 rounded-md p-2 border border-blue-700"
           />
           <Card
             icon={CircleHalf}
-            quantity={
-              priorityTicketsAmount ? priorityTicketsAmount.tickets_low : 0
-            }
+            quantity={priorityTicketsAmount?.tickets_low || 0}
             title="Baixa"
             className="h-10 w-10 bg-blue-400 text-blue-100 rounded-md p-2 border border-blue-700"
           />
           <Card
             icon={WarningCircle}
-            quantity={
-              priorityTicketsAmount ? priorityTicketsAmount.tickets_medium : 0
-            }
+            quantity={priorityTicketsAmount?.tickets_medium || 0}
             title="Média"
             className="h-10 w-10 bg-orange-400 text-orange-100 rounded-md p-2 border border-orange-500"
           />
           <Card
             icon={Warning}
-            quantity={
-              priorityTicketsAmount ? priorityTicketsAmount.tickets_high : 0
-            }
+            quantity={priorityTicketsAmount?.tickets_high || 0}
             title="Alta"
             className="h-10 w-10 bg-yellow-400 text-yellow-100 rounded-md p-2 border border-yellow-500"
           />
           <Card
             icon={Flame}
-            quantity={
-              priorityTicketsAmount
-                ? priorityTicketsAmount.tickets_very_high
-                : 0
-            }
+            quantity={priorityTicketsAmount?.tickets_very_high || 0}
             title="Muito Alta"
             className="h-10 w-10 bg-red-600 text-red-100 rounded-md p-2 border border-red-700"
           />
         </div>
 
-        <div className="h-auto border-l-4 border-orange-400 rounded-lg" />
+        {/* Separador */}
+        <div className="h-auto border-l-4 border-orange-400 rounded-lg"></div>
 
+        {/* Cards de Requisição/Incidente */}
         <div className="flex gap-2">
           <Card
             icon={CheckCircle}
             quantity={1565}
             title="Requisição"
-            className="h-10 w-10 bg-blue-600 text-blue-100 rounded-md p-2 border border-blue-700"
+            className="size-10 bg-blue-600 text-blue-100 rounded-md p-2 border border-blue-700 flex-grow"
           />
           <Card
             icon={XCircle}
             quantity={560}
             title="Incidente"
-            className="h-10 w-10 bg-red-600 text-blue-100 rounded-md p-2 border border-red-700"
+            className="size-10 bg-red-600 text-blue-100 rounded-md p-2 border border-red-700 flex-grow"
           />
         </div>
       </section>
