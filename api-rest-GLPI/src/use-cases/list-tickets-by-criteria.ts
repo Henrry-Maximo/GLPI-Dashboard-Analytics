@@ -12,19 +12,19 @@ export async function statusPriorityCategoriesObject() {
 
   const [priority] = await knex("glpi_tickets").select([
     knex.raw(
-      "COUNT(CASE WHEN status = 1 AND urgency = 1 THEN 1 END) AS tickets_very_low"
+      "COUNT(CASE WHEN urgency = 1 THEN 1 END) AS tickets_very_low"
     ),
     knex.raw(
-      "COUNT(CASE WHEN status = 2 AND urgency = 2 THEN 1 END) AS tickets_low"
+      "COUNT(CASE WHEN urgency = 2 THEN 1 END) AS tickets_low"
     ),
     knex.raw(
-      "COUNT(CASE WHEN status = 3 AND urgency = 3 THEN 1 END) AS tickets_medium"
+      "COUNT(CASE WHEN urgency = 3 THEN 1 END) AS tickets_medium"
     ),
     knex.raw(
-      "COUNT(CASE WHEN status = 4 AND urgency = 4 THEN 1 END) AS tickets_high"
+      "COUNT(CASE WHEN urgency = 4 THEN 1 END) AS tickets_high"
     ),
     knex.raw(
-      "COUNT(CASE WHEN status = 5 AND urgency = 5 THEN 1 END) AS tickets_very_high"
+      "COUNT(CASE WHEN urgency = 5 THEN 1 END) AS tickets_very_high"
     ),
   ]);
 
