@@ -13,6 +13,7 @@ import {
   Warning,
   WarningCircle,
   WarningOctagon,
+  XCircle,
 } from "phosphor-react";
 
 import { useQuery } from "@tanstack/react-query";
@@ -294,24 +295,20 @@ export default function Home() {
           />
         </div>
 
-        <div className="h-auto border-l-8 border-orange-400 rounded-lg" />
+        <div className="h-auto border-l-4 border-orange-400 rounded-lg" />
 
         <div className="flex gap-2">
           <Card
-            icon={Circle}
-            quantity={
-              priorityTicketsAmount ? priorityTicketsAmount.tickets_very_low : 0
-            }
+            icon={CheckCircle}
+            quantity={1565}
             title="Requisição"
             className="h-10 w-10 bg-blue-600 text-blue-100 rounded-md p-2 border border-blue-700"
           />
           <Card
-            icon={Circle}
-            quantity={
-              priorityTicketsAmount ? priorityTicketsAmount.tickets_very_low : 0
-            }
+            icon={XCircle}
+            quantity={560}
             title="Incidente"
-            className="h-10 w-10 bg-blue-600 text-blue-100 rounded-md p-2 border border-blue-700"
+            className="h-10 w-10 bg-red-600 text-blue-100 rounded-md p-2 border border-red-700"
           />
         </div>
       </section>
