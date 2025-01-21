@@ -1,25 +1,12 @@
 ("use client");
 
 import {
-  ChartLine,
-  CheckCircle,
-  Circle,
-  CircleHalf,
-  Clock,
-  Flame,
-  Hourglass,
-  ShieldCheck,
-  UserCirclePlus,
-  Warning,
-  WarningCircle,
-  WarningOctagon,
-  XCircle,
+  WarningOctagon
 } from "phosphor-react";
 
 import { useQuery } from "@tanstack/react-query";
 import { fetchTicketsState } from "../../http/fetch-tickets-state";
 
-import { Card } from "@/components/Card/Card";
 // import { SettingsTabs } from '../../components/SettingsTabs'
 
 import {
@@ -45,15 +32,16 @@ import {
   YAxis
 } from "recharts";
 import { Header } from "./components/Header";
+import { CardPriorityAndTypeTickets, CardStatusTickets } from "./components/CardsCheck";
 
-const ticketData = [
-  { category: "Anfe", count: 7 },
-  { category: "BI", count: 23 },
-  { category: "Instalar Programas", count: 15 },
-  { category: "Configuração", count: 12 },
-  { category: "Criar Acesso", count: 75 },
-  { category: "Liberar Acesso", count: 35 },
-];
+// const ticketData = [
+//   { category: "Anfe", count: 7 },
+//   { category: "BI", count: 23 },
+//   { category: "Instalar Programas", count: 15 },
+//   { category: "Configuração", count: 12 },
+//   { category: "Criar Acesso", count: 75 },
+//   { category: "Liberar Acesso", count: 35 },
+// ];
 
 const urgencyData = [
   { urgency: "Muito baixa", tickets: 30 },
@@ -63,13 +51,13 @@ const urgencyData = [
   { urgency: "Muito Alta", tickets: 90 },
 ];
 
-const chartData = [
-  { browser: "Amanda", visitors: 275, fill: "var(--color-chrome)" },
-  { browser: "Natalha", visitors: 200, fill: "var(--color-safari)" },
-  { browser: "Karina", visitors: 287, fill: "var(--color-firefox)" },
-  { browser: "Priscila", visitors: 173, fill: "var(--color-edge)" },
-  { browser: "other", visitors: 190, fill: "var(--color-other)" },
-];
+// const chartData = [
+//   { browser: "Amanda", visitors: 275, fill: "var(--color-chrome)" },
+//   { browser: "Natalha", visitors: 200, fill: "var(--color-safari)" },
+//   { browser: "Karina", visitors: 287, fill: "var(--color-firefox)" },
+//   { browser: "Priscila", visitors: 173, fill: "var(--color-edge)" },
+//   { browser: "other", visitors: 190, fill: "var(--color-other)" },
+// ];
 
 const chartDataLabel = [
   { technician: "Washington.Dantas", tickets: 186 },
@@ -94,31 +82,31 @@ const chartDataLabel = [
 //   { name: 'Muito Alta', value: 8 },
 // ]
 
-const chartConfigPie = {
-  visitors: {
-    label: "Visitors",
-  },
-  chrome: {
-    label: "Chrome",
-    color: "hsl(var(--chart-1))",
-  },
-  safari: {
-    label: "Safari",
-    color: "hsl(var(--chart-2))",
-  },
-  firefox: {
-    label: "Firefox",
-    color: "hsl(var(--chart-3))",
-  },
-  edge: {
-    label: "Edge",
-    color: "hsl(var(--chart-4))",
-  },
-  other: {
-    label: "Other",
-    color: "hsl(var(--chart-5))",
-  },
-} satisfies ChartConfig;
+// const chartConfigPie = {
+//   visitors: {
+//     label: "Visitors",
+//   },
+//   chrome: {
+//     label: "Chrome",
+//     color: "hsl(var(--chart-1))",
+//   },
+//   safari: {
+//     label: "Safari",
+//     color: "hsl(var(--chart-2))",
+//   },
+//   firefox: {
+//     label: "Firefox",
+//     color: "hsl(var(--chart-3))",
+//   },
+//   edge: {
+//     label: "Edge",
+//     color: "hsl(var(--chart-4))",
+//   },
+//   other: {
+//     label: "Other",
+//     color: "hsl(var(--chart-5))",
+//   },
+// } satisfies ChartConfig;
 
 const chartConfigLabel = {
   tickets: {
@@ -137,8 +125,6 @@ const chartConfigLabel = {
 // const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#FF3333']
 
 export default function Home() {
-  
-
   const { data, isLoading, isError } = useQuery({
     queryKey: ["state"],
     queryFn: fetchTicketsState,
@@ -193,109 +179,8 @@ export default function Home() {
     <main className="w-full h-[max-content]">
       <Header />
 
-      {/* cards: status */}
-      <section className="mb-4">
-        <div className="grid md:grid-cols-5 gap-4">
-          <Card
-            icon={Clock}
-            quantity={
-              statusTicketsAmount ? statusTicketsAmount.tickets_open : 0
-            }
-            title="Chamados Abertos"
-            className="h-10 w-10 bg-yellow-100 text-yellow-500 rounded-md p-2 border border-yellow-500"
-          />
-          <Card
-            icon={UserCirclePlus}
-            quantity={
-              statusTicketsAmount ? statusTicketsAmount.tickets_assigned : 0
-            }
-            title="Chamados Atribuídos"
-            className="h-10 w-10 bg-blue-100 text-blue-500 rounded-md p-2 border border-blue-500"
-          />
-          <Card
-            icon={Hourglass}
-            quantity={
-              statusTicketsAmount ? statusTicketsAmount.tickets_pending : 0
-            }
-            title="Chamados Pendentes"
-            className="h-10 w-10 bg-orange-100 text-orange-500 rounded-md p-2 border border-orange-500"
-          />
-          <Card
-            icon={CheckCircle}
-            quantity={
-              statusTicketsAmount ? statusTicketsAmount.tickets_solved : 0
-            }
-            title="Chamados Solucionados"
-            className="h-10 w-10 bg-green-200 text-green-600 rounded-md p-2 border border-green-500"
-          />
-          <Card
-            icon={ShieldCheck}
-            quantity={
-              statusTicketsAmount ? statusTicketsAmount.tickets_closed : 0
-            }
-            title="Chamados Fechados"
-            className="h-10 w-10 bg-green-700 text-green-100 rounded-md p-2 border border-green-500"
-          />
-        </div>
-      </section>
-
-      {/* cards: priority / type */}
-      <section className="mb-4 flex gap-4">
-        <div className="h-auto border-l-4 border-orange-400 rounded-lg" />
-
-        {/* Cards de Prioridade */}
-        <div className="grid md:grid-cols-5 gap-4 flex-grow">
-          <Card
-            icon={Circle}
-            quantity={priorityTicketsAmount?.tickets_very_low || 0}
-            title="Muito baixa"
-            className="h-10 w-10 bg-blue-600 text-blue-100 rounded-md p-2 border border-blue-700"
-          />
-          <Card
-            icon={CircleHalf}
-            quantity={priorityTicketsAmount?.tickets_low || 0}
-            title="Baixa"
-            className="h-10 w-10 bg-blue-400 text-blue-100 rounded-md p-2 border border-blue-700"
-          />
-          <Card
-            icon={WarningCircle}
-            quantity={priorityTicketsAmount?.tickets_medium || 0}
-            title="Média"
-            className="h-10 w-10 bg-orange-400 text-orange-100 rounded-md p-2 border border-orange-500"
-          />
-          <Card
-            icon={Warning}
-            quantity={priorityTicketsAmount?.tickets_high || 0}
-            title="Alta"
-            className="h-10 w-10 bg-yellow-400 text-yellow-100 rounded-md p-2 border border-yellow-500"
-          />
-          <Card
-            icon={Flame}
-            quantity={priorityTicketsAmount?.tickets_very_high || 0}
-            title="Muito Alta"
-            className="h-10 w-10 bg-red-600 text-red-100 rounded-md p-2 border border-red-700"
-          />
-        </div>
-
-        {/* Separador */}
-        <div className="h-auto border-l-4 border-orange-400 rounded-lg" />
-
-        {/* Cards de Requisição/Incidente */}
-        <div className="flex gap-2">
-          <Card
-            icon={CheckCircle}
-            quantity={1565}
-            title="Requisição"
-            className="size-10 bg-blue-600 text-blue-100 rounded-md p-2 border border-blue-700 flex-grow"
-          />
-          <Card
-            icon={XCircle}
-            quantity={560}
-            title="Incidente"
-            className="size-10 bg-red-600 text-blue-100 rounded-md p-2 border border-red-700 flex-grow"
-          />
-        </div>
-      </section>
+      <CardStatusTickets data={statusTicketsAmount} />
+      <CardPriorityAndTypeTickets data={priorityTicketsAmount} />
 
       <div className="grid grid-cols-2 gap-4">
         <CardRoot className="shadow-lg bg-gray-50">
