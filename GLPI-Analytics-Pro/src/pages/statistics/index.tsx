@@ -1,39 +1,27 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ChartLegend, ChartTooltip } from "@/components/ui/chart";
-import { Legend, Tooltip } from "chart.js";
-import {
-  Bar,
-  BarChart,
-  CartesianGrid,
-  Line,
-  LineChart,
-  ResponsiveContainer,
-  XAxis,
-  YAxis,
-} from "recharts";
 
 export default function Statistics() {
-  const ticketsByTechnicians = [
-    { name: "Técnico A", tickets: 120 },
-    { name: "Técnico B", tickets: 95 },
-    { name: "Técnico C", tickets: 140 },
-    { name: "Técnico D", tickets: 75 },
-  ];
+  // const ticketsByTechnicians = [
+  //   { name: 'Técnico A', tickets: 120 },
+  //   { name: 'Técnico B', tickets: 95 },
+  //   { name: 'Técnico C', tickets: 140 },
+  //   { name: 'Técnico D', tickets: 75 },
+  // ]
 
-  const ticketsByRequesters = [
-    { name: "Requerente X", tickets: 200 },
-    { name: "Requerente Y", tickets: 180 },
-    { name: "Requerente Z", tickets: 150 },
-    { name: "Requerente W", tickets: 130 },
-  ];
+  // const ticketsByRequesters = [
+  //   { name: 'Requerente X', tickets: 200 },
+  //   { name: 'Requerente Y', tickets: 180 },
+  //   { name: 'Requerente Z', tickets: 150 },
+  //   { name: 'Requerente W', tickets: 130 },
+  // ]
 
-  const ticketsOverTime = [
-    { date: "2023-12-01", tickets: 50 },
-    { date: "2023-12-02", tickets: 65 },
-    { date: "2023-12-03", tickets: 45 },
-    { date: "2023-12-04", tickets: 80 },
-    { date: "2023-12-05", tickets: 100 },
-  ];
+  // const ticketsOverTime = [
+  //   { date: '2023-12-01', tickets: 50 },
+  //   { date: '2023-12-02', tickets: 65 },
+  //   { date: '2023-12-03', tickets: 45 },
+  //   { date: '2023-12-04', tickets: 80 },
+  //   { date: '2023-12-05', tickets: 100 },
+  // ]
 
   return (
     <div className="w-full space-y-6">
@@ -89,7 +77,7 @@ export default function Statistics() {
       {/* Gráficos */}
       <section className="space-y-6">
         {/* Gráfico de Barras - Chamados por Técnico */}
-        <Card>
+        {/* <Card>
           <CardHeader>
             <CardTitle>Chamados por Técnico</CardTitle>
           </CardHeader>
@@ -105,10 +93,10 @@ export default function Statistics() {
               </BarChart>
             </ResponsiveContainer>
           </CardContent>
-        </Card>
+        </Card> */}
 
         {/* Gráfico de Barras Horizontais - Chamados por Requerente */}
-        <Card>
+        {/* <Card>
           <CardHeader>
             <CardTitle>Chamados por Requerente</CardTitle>
           </CardHeader>
@@ -124,10 +112,10 @@ export default function Statistics() {
               </BarChart>
             </ResponsiveContainer>
           </CardContent>
-        </Card>
+        </Card> */}
 
         {/* Gráfico de Linhas - Chamados ao Longo do Tempo */}
-        <Card>
+        {/* <Card>
           <CardHeader>
             <CardTitle>Tendência de Chamados</CardTitle>
           </CardHeader>
@@ -143,8 +131,8 @@ export default function Statistics() {
               </LineChart>
             </ResponsiveContainer>
           </CardContent>
-        </Card>
+        </Card> */}
       </section>
     </div>
-  );
+  )
 }
