@@ -48,10 +48,6 @@ export async function statusPriorityCategoriesObject() {
       "glpi_itilcategories.name"
     )
     .orderBy("amount", "asc");
-
-
     
-  
-
   return { status, priority, type, categories };
 }

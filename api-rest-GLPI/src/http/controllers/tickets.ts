@@ -11,7 +11,6 @@ import { getRecentTicketsByCriteria } from "@/use-cases/get-recent-tickets-by-cr
 import { listTicketsLate } from "@/use-cases/list-tickets-late";
 import { listTicketsLateStatusAndDate } from "@/use-cases/list-tickets-late-status-and-date";
 import { getTicketsTechnician } from "@/use-cases/get-tickets-technician";
-import { getTicketsType } from "@/use-cases/get-tickets-type";
 import { getTicketsTechnicianSolution } from "@/use-cases/get-tickets-technician-solution";
 
 export async function ticketsController(app: FastifyInstance) {
@@ -93,13 +92,6 @@ export async function ticketsController(app: FastifyInstance) {
     const { rows } = await getTicketsTechnician();
 
     return reply.status(200).send(rows);
-  });
-
-  // retornar número de chamados por tipo (requisição/incidente)
-  app.get("/tickets-by-type", { onRequest: [ verifyJwt ] }, async (_, reply) => {
-    const { result } = await getTicketsType();
-
-    return reply.status(200).send({ result });
   });
 
   // retornar número de chamados solucionados por técnico
