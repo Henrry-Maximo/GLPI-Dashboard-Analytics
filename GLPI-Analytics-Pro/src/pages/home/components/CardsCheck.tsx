@@ -25,12 +25,18 @@ interface PropsStatusTickets {
 }
 
 interface PropsPriorityAndTypeTickets {
+  type: 
+    {
+      incident: number;
+      request: number;
+    }
+
   data: {
     tickets_very_low: number;
-		tickets_low: number;
-		tickets_medium: number;
-		tickets_high: number;
-		tickets_very_high: number;
+    tickets_low: number;
+    tickets_medium: number;
+    tickets_high: number;
+    tickets_very_high: number;
   };
 }
 
@@ -73,63 +79,65 @@ export function CardStatusTickets({ data }: PropsStatusTickets) {
   );
 }
 
-export function CardPriorityAndTypeTickets({ data }: PropsPriorityAndTypeTickets) {
+export function CardPriorityAndTypeTickets({
+  data, type
+}: PropsPriorityAndTypeTickets) {
   return (
     <section className="mb-4 flex gap-4">
-        <div className="h-auto border-l-4 border-orange-400 rounded-lg" />
+      <div className="h-auto border-l-4 border-orange-400 rounded-lg" />
 
-        {/* Cards de Prioridade */}
-        <div className="grid md:grid-cols-5 gap-4 flex-grow">
-          <Card
-            icon={Circle}
-            quantity={data?.tickets_very_low || 0}
-            title="Muito baixa"
-            className="h-10 w-10 bg-blue-600 text-blue-100 rounded-md p-2 border border-blue-700"
-          />
-          <Card
-            icon={CircleHalf}
-            quantity={data?.tickets_low || 0}
-            title="Baixa"
-            className="h-10 w-10 bg-blue-400 text-blue-100 rounded-md p-2 border border-blue-700"
-          />
-          <Card
-            icon={WarningCircle}
-            quantity={data?.tickets_medium || 0}
-            title="Média"
-            className="h-10 w-10 bg-orange-400 text-orange-100 rounded-md p-2 border border-orange-500"
-          />
-          <Card
-            icon={Warning}
-            quantity={data?.tickets_high || 0}
-            title="Alta"
-            className="h-10 w-10 bg-yellow-400 text-yellow-100 rounded-md p-2 border border-yellow-500"
-          />
-          <Card
-            icon={Flame}
-            quantity={data?.tickets_very_high || 0}
-            title="Muito Alta"
-            className="h-10 w-10 bg-red-600 text-red-100 rounded-md p-2 border border-red-700"
-          />
-        </div>
+      {/* Cards de Prioridade */}
+      <div className="grid md:grid-cols-5 gap-4 flex-grow">
+        <Card
+          icon={Circle}
+          quantity={data?.tickets_very_low || 0}
+          title="Muito baixa"
+          className="h-10 w-10 bg-blue-600 text-blue-100 rounded-md p-2 border border-blue-700"
+        />
+        <Card
+          icon={CircleHalf}
+          quantity={data?.tickets_low || 0}
+          title="Baixa"
+          className="h-10 w-10 bg-blue-400 text-blue-100 rounded-md p-2 border border-blue-700"
+        />
+        <Card
+          icon={WarningCircle}
+          quantity={data?.tickets_medium || 0}
+          title="Média"
+          className="h-10 w-10 bg-orange-400 text-orange-100 rounded-md p-2 border border-orange-500"
+        />
+        <Card
+          icon={Warning}
+          quantity={data?.tickets_high || 0}
+          title="Alta"
+          className="h-10 w-10 bg-yellow-400 text-yellow-100 rounded-md p-2 border border-yellow-500"
+        />
+        <Card
+          icon={Flame}
+          quantity={data?.tickets_very_high || 0}
+          title="Muito Alta"
+          className="h-10 w-10 bg-red-600 text-red-100 rounded-md p-2 border border-red-700"
+        />
+      </div>
 
-        {/* Separador */}
-        <div className="h-auto border-l-4 border-orange-400 rounded-lg" />
+      {/* Separador */}
+      <div className="h-auto border-l-4 border-orange-400 rounded-lg" />
 
-        {/* Cards de Requisição/Incidente */}
-        <div className="flex gap-2">
-          <Card
-            icon={CheckCircle}
-            quantity={1565}
-            title="Requisição"
-            className="size-10 bg-blue-600 text-blue-100 rounded-md p-2 border border-blue-700 flex-grow"
-          />
-          <Card
-            icon={XCircle}
-            quantity={560}
-            title="Incidente"
-            className="size-10 bg-red-600 text-blue-100 rounded-md p-2 border border-red-700 flex-grow"
-          />
-        </div>
-      </section>
+      {/* Cards de Requisição/Incidente */}
+      <div className="flex gap-2">
+        <Card
+          icon={CheckCircle}
+          quantity={type && type.request}
+          title="Requisição"
+          className="size-10 bg-blue-600 text-blue-100 rounded-md p-2 border border-blue-700 flex-grow"
+        />
+        <Card
+          icon={XCircle}
+          quantity={type && type.incident}
+          title="Incidente"
+          className="size-10 bg-red-600 text-blue-100 rounded-md p-2 border border-red-700 flex-grow"
+        />
+      </div>
+    </section>
   );
 }

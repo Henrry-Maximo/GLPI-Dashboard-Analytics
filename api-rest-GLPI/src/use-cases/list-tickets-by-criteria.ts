@@ -28,6 +28,11 @@ export async function statusPriorityCategoriesObject() {
     ),
   ]);
 
+  const [type] = await knex('glpi_tickets').select([ 
+    knex.raw("COUNT(CASE WHEN type = 1 THEN 1 END) AS 'incident'"), 
+    knex.raw("COUNT(CASE WHEN type = 2 THEN 1 END) AS 'request'") 
+  ]);
+
   const categories = await knex("glpi_tickets")
     .select([
       "glpi_itilcategories.completename",
@@ -44,5 +49,9 @@ export async function statusPriorityCategoriesObject() {
     )
     .orderBy("amount", "asc");
 
-  return { status, priority, categories };
+
+    
+  
+
+  return { status, priority, type, categories };
 }
