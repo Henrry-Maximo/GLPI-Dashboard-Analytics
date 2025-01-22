@@ -1,6 +1,6 @@
 import { knex } from "@/database/knex-config";
 
-export async function statusPriorityCategoriesObject() {
+export async function summary() {
   const [status] = await knex("glpi_tickets").select([
     knex.raw("COUNT(id) AS tickets_total"),
     knex.raw("COUNT(CASE WHEN status = 1 THEN 1 END) AS tickets_open"),

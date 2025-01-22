@@ -1,6 +1,6 @@
 import { fetchWithAuth } from "./middlewares/verify-jwt-authenticate";
 
-type PropsTicketsState = {
+type PropsTicketsSummary = {
   status: {
     tickets_total: number;
     tickets_open: number;
@@ -28,10 +28,10 @@ type PropsTicketsState = {
   ];
 };
 
-export async function fetchTicketsState(): Promise<PropsTicketsState> {
+export async function fetchTicketsSummary(): Promise<PropsTicketsSummary> {
   const API_URL = import.meta.env.VITE_API_URL;
 
-  const response = await fetchWithAuth(`${API_URL}/api-glpi/tickets/state`, {
+  const response = await fetchWithAuth(`${API_URL}/api/tickets/summary`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

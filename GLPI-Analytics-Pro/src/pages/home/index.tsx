@@ -1,7 +1,7 @@
 ("use client");
 
 import { useQuery } from "@tanstack/react-query";
-import { fetchTicketsState } from "../../http/fetch-tickets-state";
+import { fetchTicketsSummary } from "../../http/fetch-tickets-summary";
 
 import { BarChartsTickets } from "./components/BarCharts";
 import {
@@ -16,7 +16,7 @@ import { SpinnerBall, WarningOctagon } from "@phosphor-icons/react";
 export default function Home() {
   const { data, isLoading, isError } = useQuery({
     queryKey: ["state"],
-    queryFn: fetchTicketsState,
+    queryFn: fetchTicketsSummary,
     staleTime: 1000 * 60, // 1 minuto
     refetchInterval: 1000 * 5, // 10 segundos
     refetchOnWindowFocus: true,
@@ -51,7 +51,10 @@ export default function Home() {
 
       <CardStatusTickets data={statusTicketsAmount} />
 
-      <CardPriorityAndTypeTickets data={priorityTicketsAmount} type={typeTicketsAmount} />
+      <CardPriorityAndTypeTickets
+        data={priorityTicketsAmount}
+        type={typeTicketsAmount}
+      />
 
       <BarChartsTickets
         data={categoriesTicketsAmount}

@@ -11,7 +11,7 @@ export async function login({
 }: AuthPropsRequest): Promise<authPropsResponse> {
   const API_URL = import.meta.env.VITE_API_URL;
 
-  const response = await fetch(`${API_URL}/api-glpi/sessions`, {
+  const response = await fetch(`${API_URL}/api/sessions`, {
     method: "POST",
 
     headers: {

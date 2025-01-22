@@ -3,7 +3,7 @@ import { z } from "zod";
 import { verifyJwt } from "../middlewares/verify-jwt";
 
 import { searchTickets } from "@/use-cases/search-tickets";
-import { statusPriorityCategoriesObject } from "@/use-cases/list-tickets-by-criteria";
+import { summary } from "@/use-cases/list-tickets-by-criteria";
 import { listTicketsByDate } from "@/use-cases/list-tickets-by-date";
 import { getTicketsLast } from "@/use-cases/get-tickets-last";
 import { listTicketsAmount } from "@/use-cases/list-tickets-amount";
@@ -28,8 +28,8 @@ export async function ticketsController(app: FastifyInstance) {
   });
 
   // lista de chamados por status/urgência/categorias
-  app.get("/state", { onRequest: [verifyJwt] }, async (_, reply) => {
-    const result = await statusPriorityCategoriesObject();
+  app.get("/summary", { onRequest: [verifyJwt] }, async (_, reply) => {
+    const result = await summary();
 
     return reply.status(200).send(result);
   });
