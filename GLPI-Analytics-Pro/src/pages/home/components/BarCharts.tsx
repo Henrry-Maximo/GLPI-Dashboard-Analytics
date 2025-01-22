@@ -13,6 +13,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+import React from "react";
 
 import {
   Bar,
@@ -116,15 +117,36 @@ interface PropsBarChartsTickets {
     tickets_high: number;
     tickets_very_high: number;
   };
-  data: [
+  categorie: [
     {
       completename: string;
       count: number;
     }
   ];
+  concludes: [
+    {
+      date_creation: string;
+      status: string;
+      count: number;
+    }
+  ];
+  delayed: [
+    {
+      id: number;
+      date_creation: string;
+      time_to_resolve: string;
+      status: number;
+      name: string;
+    }
+  ];
 }
 
-export function BarChartsTickets({ data, priority }: PropsBarChartsTickets) {
+export function BarChartsTickets({
+  categorie,
+  priority,
+  concludes,
+  delayed,
+}: PropsBarChartsTickets) {
   // associando a uma chave para uso posterior
   const transformedData = [
     { urgency: "Muito Baixa", tickets: priority.tickets_very_low },
@@ -141,187 +163,274 @@ export function BarChartsTickets({ data, priority }: PropsBarChartsTickets) {
     },
   } satisfies ChartConfig;
 
-  // const totalVisitors = useMemo(() => {
-  //   return chartData.reduce((acc, curr) => acc + curr.visitors, 0);
-  // }, []);
+  const totalTickets = React.useMemo(
+    () => concludes.reduce((acc, curr) => acc + curr.count, 0),
+    []
+  );
 
   return (
-    <div className="grid grid-cols-2 gap-4">
-      <CardRoot className="shadow-lg bg-gray-50">
-        <CardHeader>
-          <CardTitle>Chamados por Categoria</CardTitle>
-          <CardDescription>Resumo das Categorias por Chamados</CardDescription>
-        </CardHeader>
+    <div className="flex flex-col gap-4">
+      <div className="grid grid-cols-2 gap-4">
+        <CardRoot className="shadow-lg bg-gray-50">
+          <CardHeader>
+            <CardTitle>Chamados por Categoria</CardTitle>
+            <CardDescription>
+              Resumo das Categorias por Chamados
+            </CardDescription>
+          </CardHeader>
 
-        <CardContent>
-          <ChartContainer config={chartConfig}>
-            <BarChart accessibilityLayer data={data}>
-              <CartesianGrid vertical={true} />
+          <CardContent>
+            <ChartContainer config={chartConfig}>
+              <BarChart accessibilityLayer data={categorie}>
+                <CartesianGrid vertical={true} />
 
-              <XAxis
-                dataKey="completename" // rotular pontos no eixo
-                tickLine={false} // corta-os e adiciona `...`
-                tickMargin={10} // Adiciona margem aos rótulos
-                axisLine={false} // Remove a linha do eixo
-                tickFormatter={
-                  (value) =>
-                    value.length > 10 ? `${value.slice(0, 10)}...` : value // Encurta rótulos longos
-                }
-              />
-
-              <ChartTooltip
-                cursor={true}
-                content={<ChartTooltipContent indicator="line" />}
-              />
-
-              <Bar
-                dataKey="amount" // Usa "count" para definir altura das barras
-                fill="var(--color-tickets)" // Cor dinâmica do chartConfig
-                radius={4} // Borda arredondada nas barras
-              >
-                <LabelList
-                  dataKey="amount" // Adicionado dataKey para mostrar os valores
-                  position="top"
-                  offset={12}
-                  className="fill-foreground"
-                  fontSize={12}
+                <XAxis
+                  dataKey="completename" // rotular pontos no eixo
+                  tickLine={false} // corta-os e adiciona `...`
+                  tickMargin={10} // Adiciona margem aos rótulos
+                  axisLine={false} // Remove a linha do eixo
+                  tickFormatter={
+                    (value) =>
+                      value.length > 10 ? `${value.slice(0, 10)}...` : value // Encurta rótulos longos
+                  }
                 />
-              </Bar>
-            </BarChart>
-          </ChartContainer>
-        </CardContent>
 
-        <CardFooter className="flex-col items-start gap-2 text-sm">
-          <div className="leading-none text-muted-foreground">
-            Mostrar contagem de chamados por categoria
-          </div>
-        </CardFooter>
-      </CardRoot>
+                <ChartTooltip
+                  cursor={true}
+                  content={<ChartTooltipContent indicator="line" />}
+                />
 
-      <CardRoot className="shadow-lg bg-gray-50">
-        <CardHeader>
-          <CardTitle>Chamados Por Urgência</CardTitle>
-          <CardDescription>Resumo dos Chamados Por Urgência</CardDescription>
-        </CardHeader>
+                <Bar
+                  dataKey="amount" // Usa "count" para definir altura das barras
+                  fill="var(--color-tickets)" // Cor dinâmica do chartConfig
+                  radius={4} // Borda arredondada nas barras
+                >
+                  <LabelList
+                    dataKey="amount" // Adicionado dataKey para mostrar os valores
+                    position="top"
+                    offset={12}
+                    className="fill-foreground"
+                    fontSize={12}
+                  />
+                </Bar>
+              </BarChart>
+            </ChartContainer>
+          </CardContent>
 
-        <CardContent>
-          <ChartContainer config={chartConfig}>
-            <BarChart accessibilityLayer data={transformedData}>
-              <CartesianGrid vertical={true} />
+          <CardFooter className="flex-col items-start gap-2 text-sm">
+            <div className="leading-none text-muted-foreground">
+              Mostrar contagem de chamados por categoria
+            </div>
+          </CardFooter>
+        </CardRoot>
 
-              <XAxis
-                dataKey="urgency" // Usa "urgency" como rótulo
-                tickLine={false} // Remove linhas menores
-                tickMargin={10}
-                axisLine={true} // Remove a linha do eixo
-              />
-              <ChartTooltip
-                cursor={true}
-                content={<ChartTooltipContent indicator="line" />}
-              />
-              <Bar dataKey="tickets" fill="var(--color-tickets)" radius={4} />
-            </BarChart>
-          </ChartContainer>
-        </CardContent>
+        <CardRoot className="shadow-lg bg-gray-50">
+          <CardHeader>
+            <CardTitle>Chamados Por Urgência</CardTitle>
+            <CardDescription>Resumo dos Chamados Por Urgência</CardDescription>
+          </CardHeader>
 
-        <CardFooter className="flex-col items-start gap-2 text-sm">
-          <div className="leading-none text-muted-foreground">
-            Mostrar chamados distribuidos por urgência.
-          </div>
-        </CardFooter>
-      </CardRoot>
+          <CardContent>
+            <ChartContainer config={chartConfig}>
+              <BarChart accessibilityLayer data={transformedData}>
+                <CartesianGrid vertical={true} />
+
+                <XAxis
+                  dataKey="urgency" // Usa "urgency" como rótulo
+                  tickLine={false} // Remove linhas menores
+                  tickMargin={10}
+                  axisLine={true} // Remove a linha do eixo
+                />
+                <ChartTooltip
+                  cursor={true}
+                  content={<ChartTooltipContent indicator="line" />}
+                />
+                <Bar dataKey="tickets" fill="var(--color-tickets)" radius={4}>
+                  <LabelList
+                    dataKey="tickets" // Adicionado dataKey para mostrar os valores
+                    position="top"
+                    offset={12}
+                    className="fill-foreground"
+                    fontSize={12}
+                  />
+                </Bar>
+              </BarChart>
+            </ChartContainer>
+          </CardContent>
+
+          <CardFooter className="flex-col items-start gap-2 text-sm">
+            <div className="leading-none text-muted-foreground">
+              Mostrar chamados distribuidos por urgência.
+            </div>
+          </CardFooter>
+        </CardRoot>
+
+        <CardRoot>
+          <CardHeader>
+            <CardTitle>Chamados por Técnico</CardTitle>
+            <CardDescription>Total de Chamados por Técnico</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <ChartContainer config={chartConfigLabel}>
+              <BarChart
+                accessibilityLayer
+                data={chartDataLabel}
+                layout="vertical"
+                margin={{
+                  right: 16,
+                }}
+              >
+                <CartesianGrid horizontal={false} />
+                <YAxis
+                  dataKey="technician"
+                  type="category"
+                  tickLine={false}
+                  tickMargin={10}
+                  axisLine={false}
+                  tickFormatter={(value) => value.slice(0, 3)}
+                  hide
+                />
+                <XAxis dataKey="tickets" type="number" hide />
+                <ChartTooltip
+                  cursor={false}
+                  content={<ChartTooltipContent indicator="line" />}
+                />
+                <Bar
+                  dataKey="tickets"
+                  layout="vertical"
+                  fill="var(--color-tickets)"
+                  radius={4}
+                >
+                  <LabelList
+                    dataKey="technician"
+                    position="insideLeft"
+                    offset={8}
+                    className="fill-[--color-label]"
+                    fontSize={12}
+                  />
+                  <LabelList
+                    dataKey="tickets"
+                    position="right"
+                    offset={8}
+                    className="fill-foreground"
+                    fontSize={12}
+                  />
+                </Bar>
+              </BarChart>
+            </ChartContainer>
+          </CardContent>
+          <CardFooter className="flex-col items-start gap-2 text-sm">
+            <div className="leading-none text-muted-foreground">
+              Mostrar total de chamados atribuídos por técnico
+            </div>
+          </CardFooter>
+        </CardRoot>
+
+        <CardRoot className="shadow-lg bg-gray-50 ">
+          <CardHeader>
+            <CardTitle>Chamados Atrasados</CardTitle>
+            <CardDescription>Resumo dos Chamados Por Atraso</CardDescription>
+          </CardHeader>
+
+          <CardContent>
+            <ChartContainer config={chartConfig}>
+              <BarChart accessibilityLayer data={urgencyData}>
+                <CartesianGrid vertical={false} />
+                <XAxis
+                  dataKey="urgency"
+                  tickLine={false}
+                  tickMargin={10}
+                  axisLine={false}
+                />
+                <ChartTooltip
+                  cursor={false}
+                  content={<ChartTooltipContent indicator="dashed" />}
+                />
+                <Bar dataKey="tickets" fill="var(--color-tickets)" radius={4} />
+              </BarChart>
+            </ChartContainer>
+          </CardContent>
+
+          <CardFooter className="flex-col items-start gap-2 text-sm">
+            <div className="leading-none text-muted-foreground">
+              Exibir chamados atrasados quanto ao prazo do SLA.
+            </div>
+          </CardFooter>
+        </CardRoot>
+      </div>
 
       <CardRoot>
-        <CardHeader>
-          <CardTitle>Chamados por Técnico</CardTitle>
-          <CardDescription>Total de Chamados por Técnico</CardDescription>
+        <CardHeader className="flex flex-col items-stretch space-y-0 border-b p-0 sm:flex-row">
+          <div className="flex flex-1 flex-col justify-center gap-1 px-6 py-5 sm:py-6">
+            <CardTitle>Chamados Fechados</CardTitle>
+            <CardDescription>
+              Exibindo o total de tickets fechados por dia
+            </CardDescription>
+          </div>
+          <div className="flex">
+            <button
+              className="relative z-30 flex flex-1 flex-col justify-center gap-1 border-t px-6 py-4 text-left sm:border-l sm:border-t-0 sm:px-8 sm:py-6"
+              data-active={true}
+            >
+              <span className="text-xs text-muted-foreground">
+                {chartConfig.tickets.label}
+              </span>
+              <span className="text-lg font-bold leading-none sm:text-3xl">
+                {totalTickets}
+              </span>
+            </button>
+          </div>
         </CardHeader>
-        <CardContent>
-          <ChartContainer config={chartConfigLabel}>
+        <CardContent className="px-2 sm:p-6">
+          <ChartContainer
+            config={chartConfig}
+            className="aspect-auto h-[250px] w-full"
+          >
             <BarChart
               accessibilityLayer
-              data={chartDataLabel}
-              layout="vertical"
+              data={concludes.map((d) => ({
+                date: new Date(d.date_creation).toISOString(),
+                count: d.count,
+              }))}
               margin={{
-                right: 16,
+                left: 12,
+                right: 12,
               }}
             >
-              <CartesianGrid horizontal={false} />
-              <YAxis
-                dataKey="technician"
-                type="category"
-                tickLine={false}
-                tickMargin={10}
-                axisLine={false}
-                tickFormatter={(value) => value.slice(0, 3)}
-                hide
-              />
-              <XAxis dataKey="tickets" type="number" hide />
-              <ChartTooltip
-                cursor={false}
-                content={<ChartTooltipContent indicator="line" />}
-              />
-              <Bar
-                dataKey="tickets"
-                layout="vertical"
-                fill="var(--color-tickets)"
-                radius={4}
-              >
-                <LabelList
-                  dataKey="technician"
-                  position="insideLeft"
-                  offset={8}
-                  className="fill-[--color-label]"
-                  fontSize={12}
-                />
-                <LabelList
-                  dataKey="tickets"
-                  position="right"
-                  offset={8}
-                  className="fill-foreground"
-                  fontSize={12}
-                />
-              </Bar>
-            </BarChart>
-          </ChartContainer>
-        </CardContent>
-        <CardFooter className="flex-col items-start gap-2 text-sm">
-          <div className="leading-none text-muted-foreground">
-            Mostrar total de chamados atribuídos por técnico
-          </div>
-        </CardFooter>
-      </CardRoot>
-
-      <CardRoot className="shadow-lg bg-gray-50 ">
-        <CardHeader>
-          <CardTitle>Chamados Atrasados</CardTitle>
-          <CardDescription>Resumo dos Chamados Por Atraso</CardDescription>
-        </CardHeader>
-
-        <CardContent>
-          <ChartContainer config={chartConfig}>
-            <BarChart accessibilityLayer data={urgencyData}>
-              <CartesianGrid vertical={false} />
+              <CartesianGrid vertical={true} />
               <XAxis
-                dataKey="urgency"
+                dataKey="date"
                 tickLine={false}
-                tickMargin={10}
-                axisLine={false}
+                axisLine={true}
+                tickMargin={8}
+                minTickGap={32}
+                tickFormatter={(value) => {
+                  const date = new Date(value);
+                  return date.toLocaleDateString("en-US", {
+                    month: "short",
+                    day: "numeric",
+                  });
+                }}
               />
               <ChartTooltip
-                cursor={false}
-                content={<ChartTooltipContent indicator="dashed" />}
+                content={
+                  <ChartTooltipContent
+                    className="w-[150px]"
+                    nameKey="count"
+                    labelFormatter={(value) => {
+                      return new Date(value).toLocaleDateString("en-US", {
+                        month: "short",
+                        day: "numeric",
+                        year: "numeric",
+                      });
+                    }}
+                  />
+                }
               />
-              <Bar dataKey="tickets" fill="var(--color-tickets)" radius={4} />
+              <Bar dataKey="count" fill="var(--color-tickets)" />
             </BarChart>
           </ChartContainer>
         </CardContent>
-
-        <CardFooter className="flex-col items-start gap-2 text-sm">
-          <div className="leading-none text-muted-foreground">
-            Exibir chamados atrasados quanto ao prazo do SLA.
-          </div>
-        </CardFooter>
       </CardRoot>
 
       {/* <CardRoot className="grid shadow-lg bg-gray-50 w-1/4">

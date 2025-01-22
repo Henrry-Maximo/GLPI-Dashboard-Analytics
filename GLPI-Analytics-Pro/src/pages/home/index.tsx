@@ -41,9 +41,13 @@ export default function Home() {
   }
 
   const statusTicketsAmount = data?.status;
-  const priorityTicketsAmount = data?.priority;
   const typeTicketsAmount = data?.type;
+
+  const priorityTicketsAmount = data?.priority;
   const categoriesTicketsAmount = data?.categories;
+
+  const concludesTicketsAmount = data?.concludes;
+  const delayedTicketsAmount = data?.delayed;
 
   return (
     <main className="w-full h-[max-content]">
@@ -57,8 +61,10 @@ export default function Home() {
       />
 
       <BarChartsTickets
-        data={categoriesTicketsAmount}
         priority={priorityTicketsAmount}
+        categorie={categoriesTicketsAmount}
+        concludes={concludesTicketsAmount}
+        delayed={delayedTicketsAmount}
       />
     </main>
   );

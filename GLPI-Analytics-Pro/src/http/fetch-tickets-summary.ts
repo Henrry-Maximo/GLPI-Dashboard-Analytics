@@ -26,6 +26,22 @@ type PropsTicketsSummary = {
       count: number;
     }
   ];
+  concludes: [
+    {
+      date_creation: string;
+      status: string;
+      count: number;
+    }
+  ];
+  delayed: [
+    {
+      id: number;
+      date_creation: string;
+      time_to_resolve: string;
+      status: number;
+      name: string;
+    }
+  ];
 };
 
 export async function fetchTicketsSummary(): Promise<PropsTicketsSummary> {

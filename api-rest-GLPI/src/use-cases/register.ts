@@ -8,7 +8,7 @@ interface authenticateUseCaseRequest {
   password: string;
 }
 
-export async function createdUser({
+export async function registerUser({
   name,
   password,
 }: authenticateUseCaseRequest) {

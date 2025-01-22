@@ -5,10 +5,10 @@ export async function getTicketsTechnician() {
     .leftJoin("glpi_tickets_users AS c", "a.id", "c.tickets_id")
     .leftJoin("glpi_users AS b", "c.users_id", "b.id")
     .select("b.name as technician")
-    .count("a.id as quantity_tickets")
+    .count("a.id as quantity")
     .where("c.type", 2)
     .groupBy("b.name")
-    .orderBy("quantity_tickets", "desc");
+    .orderBy("quantity", "desc");
 
     const ticketsAmountTechnicianSolution = await knex("glpi_tickets_users")
     .innerJoin("glpi_users", "glpi_tickets_users.users_id", "glpi_users.id")
@@ -19,17 +19,17 @@ export async function getTicketsTechnician() {
     )
     .innerJoin("glpi_groups", "glpi_groups_users.groups_id", "glpi_groups.id")
     .select(
-      "glpi_users.name as Technician Name",
-      "glpi_groups.name as Group Name"
+      "glpi_users.name as technician",
+      "glpi_groups.name as group"
     )
-    .count("glpi_tickets_users.tickets_id as Number of Tickets")
+    .count("glpi_tickets_users.tickets_id as count")
     .whereNotIn("glpi_users.name", [
       "luana.yasmim",
       "cassia.martins",
       "kevin.araujo",
     ])
     .groupBy("glpi_tickets_users.users_id")
-    .orderBy("Number of Tickets", "desc");
+    .orderBy("count", "desc");
   
   //   if (!rows.length) {
   //   return { message: "Not found tickets." }

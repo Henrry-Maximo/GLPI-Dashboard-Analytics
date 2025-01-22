@@ -7,7 +7,12 @@ interface CardProps {
   className: string;
 }
 
-export function Card({ icon: Icon, quantity, title, className }: CardProps) {
+export function Card({
+  icon: Icon,
+  quantity = 0,
+  title,
+  className,
+}: CardProps) {
   return (
     <div className="bg-gray-50 p-4 text-sm grid-cols-card flex flex-row items-center py-4 gap-4 rounded-md shadow-lg">
       <Icon className={className} />
