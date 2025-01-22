@@ -111,17 +111,17 @@ const chartConfigLabel = {
 interface PropsBarChartsTickets {
   priority: {
     tickets_very_low: number;
-		tickets_low: number;
-		tickets_medium: number;
-		tickets_high: number;
-		tickets_very_high: number;
-  }; 
+    tickets_low: number;
+    tickets_medium: number;
+    tickets_high: number;
+    tickets_very_high: number;
+  };
   data: [
-		{
-			completename: string;
-			count: number;
-		},
-	];
+    {
+      completename: string;
+      count: number;
+    }
+  ];
 }
 
 export function BarChartsTickets({ data, priority }: PropsBarChartsTickets) {
@@ -156,7 +156,7 @@ export function BarChartsTickets({ data, priority }: PropsBarChartsTickets) {
         <CardContent>
           <ChartContainer config={chartConfig}>
             <BarChart accessibilityLayer data={data}>
-              <CartesianGrid vertical={false} />
+              <CartesianGrid vertical={true} />
 
               <XAxis
                 dataKey="completename" // rotular pontos no eixo
@@ -178,7 +178,15 @@ export function BarChartsTickets({ data, priority }: PropsBarChartsTickets) {
                 dataKey="amount" // Usa "count" para definir altura das barras
                 fill="var(--color-tickets)" // Cor dinâmica do chartConfig
                 radius={4} // Borda arredondada nas barras
-              />
+              >
+                <LabelList
+                  dataKey="amount" // Adicionado dataKey para mostrar os valores
+                  position="top"
+                  offset={12}
+                  className="fill-foreground"
+                  fontSize={12}
+                />
+              </Bar>
             </BarChart>
           </ChartContainer>
         </CardContent>
@@ -199,17 +207,17 @@ export function BarChartsTickets({ data, priority }: PropsBarChartsTickets) {
         <CardContent>
           <ChartContainer config={chartConfig}>
             <BarChart accessibilityLayer data={transformedData}>
-              <CartesianGrid vertical={false} />
+              <CartesianGrid vertical={true} />
 
               <XAxis
                 dataKey="urgency" // Usa "urgency" como rótulo
                 tickLine={false} // Remove linhas menores
                 tickMargin={10}
-                axisLine={false} // Remove a linha do eixo
+                axisLine={true} // Remove a linha do eixo
               />
               <ChartTooltip
-                cursor={false}
-                content={<ChartTooltipContent indicator="dashed" />}
+                cursor={true}
+                content={<ChartTooltipContent indicator="line" />}
               />
               <Bar dataKey="tickets" fill="var(--color-tickets)" radius={4} />
             </BarChart>

@@ -1,6 +1,6 @@
 import { knex } from "@/database/knex-config";
 
-export async function listTicketsLateStatusAndDate() {
+export async function getTicketsDateTime() {
   const tickets = await knex("glpi_tickets")
     .select([
       knex.raw("DATE(date_creation) AS date_creation"),
