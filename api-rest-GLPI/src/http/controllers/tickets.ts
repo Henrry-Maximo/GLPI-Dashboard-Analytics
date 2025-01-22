@@ -2,16 +2,14 @@ import type { FastifyInstance } from "fastify";
 import { z } from "zod";
 import { verifyJwt } from "../middlewares/verify-jwt";
 
-import { searchTickets } from "@/use-cases/search-tickets";
-import { summary } from "@/use-cases/list-tickets-by-criteria";
-import { listTicketsByDate } from "@/use-cases/list-tickets-by-date";
+import { getTicketsSearch } from "@/use-cases/get-tickets-search";
 import { getTicketsLast } from "@/use-cases/get-tickets-last";
-import { listTicketsAmount } from "@/use-cases/list-tickets-amount";
-import { getRecentTicketsByCriteria } from "@/use-cases/get-recent-tickets-by-criteria";
-import { listTicketsLate } from "@/use-cases/list-tickets-late";
+import { getTicketsOverview } from "@/use-cases/get-tickets-overview";
 import { listTicketsLateStatusAndDate } from "@/use-cases/list-tickets-late-status-and-date";
 import { getTicketsTechnician } from "@/use-cases/get-tickets-technician";
 import { getTicketsTechnicianSolution } from "@/use-cases/get-tickets-technician-solution";
+import { getTicketsSummary } from "@/use-cases/get-tickets-summary";
+import { getTicketsCategories } from "@/use-cases/get-tickets-categories";
 
 export async function ticketsController(app: FastifyInstance) {
   // lista de chamados ou chamado específico
@@ -22,23 +20,16 @@ export async function ticketsController(app: FastifyInstance) {
 
     const { id } = requestIdTicketQuerySchema.parse(req.query);
 
-    const { tickets } = await searchTickets({ id })
+    const { tickets } = await getTicketsSearch({ id })
 
     return reply.status(200).send(tickets);
   });
 
   // lista de chamados por status/urgência/categorias
   app.get("/summary", { onRequest: [verifyJwt] }, async (_, reply) => {
-    const result = await summary();
+    const result = await getTicketsSummary();
 
     return reply.status(200).send(result);
-  });
-
-  // lista de quantidade de chamados por status/data
-  app.get("/date",{ onRequest: [verifyJwt] }, async (_, reply) => {
-    const { tickets } = await listTicketsByDate();
-
-    return reply.status(200).send({ tickets });
   });
 
   // último chamado cadastrado
@@ -53,31 +44,17 @@ export async function ticketsController(app: FastifyInstance) {
   });
 
   // lista de quantidade de chamados associados a uma categoria
-  app.get("/amount", { onRequest: [verifyJwt] }, async (req, reply) => {
-    const requestCategoriesQuerySchema = z.object({
-      filter: z.string().optional(),
-      by: z.string().optional(),
-    });
-
-    const { filter, by } = requestCategoriesQuerySchema.parse(req.query);
-
-    const result = await listTicketsAmount({ filter, by });
+  app.get("/categories", { onRequest: [verifyJwt] }, async (req, reply) => {
+    const result = await getTicketsCategories();
     
-    return reply.status(200).send({ result })
+    return reply.status(200).send(result);
   });
 
   // retornar os últimos 10 chamados por entidade/status/urgência/usuário/técnico
-  app.get("/tickets-line-time", { onRequest: [verifyJwt]}, async (_, reply) => {
-    const tickets  = await getRecentTicketsByCriteria();
+  app.get("/overview", { onRequest: [verifyJwt]}, async (_, reply) => {
+    const tickets  = await getTicketsOverview();
 
     return reply.status(200).send(tickets);
-  });
-
-  // retornar chamados que atingiram o prazo do SLA
-  app.get("/tickets-late", { onRequest: [verifyJwt]}, async (_, reply) => {
-    const { tickets } = await listTicketsLate();
-
-    return reply.status(200).send({ tickets })
   });
 
   // retornar chamados (quantidade) por status e data

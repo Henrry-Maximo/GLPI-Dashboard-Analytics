@@ -1,6 +1,6 @@
 import { knex } from "@/database/knex-config";
 
-export async function summary() {
+export async function getTicketsSummary() {
   const [status] = await knex("glpi_tickets").select([
     knex.raw("COUNT(id) AS tickets_total"),
     knex.raw("COUNT(CASE WHEN status = 1 THEN 1 END) AS tickets_open"),
@@ -33,6 +33,28 @@ export async function summary() {
     knex.raw("COUNT(CASE WHEN type = 2 THEN 1 END) AS 'request'") 
   ]);
 
+  const delayed = await knex("glpi_tickets")
+    .select(
+      "id", 
+      "date_creation", 
+      "time_to_resolve", 
+      "status",
+      knex.raw('name AS "Tickets Late"')
+    )
+    .whereNotIn("status", [5, 6])
+    .whereNull("solvedate")
+    .whereRaw(
+      "glpi_tickets.time_to_resolve < TIMEDIFF(NOW(), glpi_tickets.date_creation)"
+    )
+    .limit(10);
+
+  const conclude = await knex("glpi_tickets")
+    .select(knex.raw("DATE(date_creation)"), "status")
+    .count("id AS count")
+    .whereNotIn("status", [1, 2, 3, 4, 5])
+    .groupByRaw("DATE(date_creation), status")
+    .orderByRaw("DATE(date_creation) DESC");
+
   const categories = await knex("glpi_tickets")
     .select([
       "glpi_itilcategories.completename",
@@ -51,5 +73,5 @@ export async function summary() {
     .orderBy("amount", "desc")
     .limit(10);
     
-  return { status, priority, type, categories };
+  return { status, priority, type, categories, conclude, delayed };
 }

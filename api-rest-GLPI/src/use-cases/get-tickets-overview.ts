@@ -1,6 +1,6 @@
 import { knex } from "@/database/knex-config";
 
-export async function getRecentTicketsByCriteria() {
+export async function getTicketsOverview() {
   const tickets = await knex("glpi_tickets as t")
       .select([
         knex.raw(

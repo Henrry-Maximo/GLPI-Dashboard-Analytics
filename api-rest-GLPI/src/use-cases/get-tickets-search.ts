@@ -4,7 +4,7 @@ interface SearchTicketsRequest {
   id?: number | undefined;
 }
 
-export async function searchTickets({ id }: SearchTicketsRequest) {
+export async function getTicketsSearch({ id }: SearchTicketsRequest) {
   let query = knex("glpi_tickets as t")
   .select([
     "t.id", // ID do chamado

@@ -1,12 +1,7 @@
 import { knex } from "@/database/knex-config";
 
-interface ListTicketsAmountRequest {
-  filter?: string;
-  by?: string;
-}
-
-export async function listTicketsAmount({ filter, by }: ListTicketsAmountRequest) {
-  const ticketsByAmountCategories = await knex("glpi_tickets")
+export async function getTicketsCategories() {
+  const categories_amount = await knex("glpi_tickets")
       .select([
         "glpi_itilcategories.id",
         "glpi_itilcategories.name AS name",
@@ -25,7 +20,7 @@ export async function listTicketsAmount({ filter, by }: ListTicketsAmountRequest
       )
       .orderBy("tickets_amount", "desc");
 
-    const ticketsByLastCategories = await knex("glpi_tickets")
+    const categories_last_tickets = await knex("glpi_tickets")
       .select([
         "glpi_tickets.id",
         "glpi_tickets.name",
@@ -42,18 +37,18 @@ export async function listTicketsAmount({ filter, by }: ListTicketsAmountRequest
       .orderBy("glpi_tickets.id", "desc")
       .limit(10);
 
-    if (filter === "true" && by === "getLastTickets") {
+    // if (filter === "true" && by === "getLastTickets") {
       
-      if (!ticketsByLastCategories) {
-        return { message: "Nenhuma categoria associada aos chamados." };
-      }
+    //   if (!categories_last_tickets) {
+    //     return { message: "Nenhuma categoria associada aos chamados." };
+    //   }
 
-      return { ticketsByLastCategories };
-    }
+    //   return { categories_last_tickets };
+    // }
 
-    if (!ticketsByAmountCategories) {
-      return { message: "Nenhuma categoria associada aos chamados." };
-    }
+    // if (!categories_amount) {
+    //   return { message: "Nenhuma categoria associada aos chamados." };
+    // }
 
-    return { ticketsByAmountCategories };
+    return { categories_amount, categories_last_tickets };
 }
