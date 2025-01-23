@@ -10,6 +10,7 @@ import {
 } from "./components/CardsCheck";
 import { Header } from "./components/Header";
 import { SpinnerBall, WarningOctagon } from "@phosphor-icons/react";
+import { fetchTicketsTechnician } from "@/http/fetch-tickets-technician";
 
 // import { SettingsTabs } from '../../components/SettingsTabs'
 
@@ -17,6 +18,14 @@ export default function Home() {
   const { data, isLoading, isError } = useQuery({
     queryKey: ["state"],
     queryFn: fetchTicketsSummary,
+    staleTime: 1000 * 60, // 1 minuto
+    refetchInterval: 1000 * 5, // 10 segundos
+    refetchOnWindowFocus: true,
+  });
+
+  const { data: dataTicketsTechnician } = useQuery({
+    queryKey: ["technician"],
+    queryFn: fetchTicketsTechnician,
     staleTime: 1000 * 60, // 1 minuto
     refetchInterval: 1000 * 5, // 10 segundos
     refetchOnWindowFocus: true,
@@ -31,7 +40,7 @@ export default function Home() {
     );
   }
 
-  if (isLoading || !data) {
+  if (isLoading || !data || !dataTicketsTechnician) {
     return (
       <div className="w-full flex flex-col gap-2 items-center justify-center">
         <SpinnerBall className="text-zinc-700 animate-spin size-10" />
@@ -49,6 +58,8 @@ export default function Home() {
   const concludesTicketsAmount = data?.concludes;
   const delayedTicketsAmount = data?.delayed;
 
+  const ticketsTechnician = dataTicketsTechnician;
+
   return (
     <main className="w-full h-[max-content]">
       <Header />
@@ -65,6 +76,7 @@ export default function Home() {
         categorie={categoriesTicketsAmount}
         concludes={concludesTicketsAmount}
         delayed={delayedTicketsAmount}
+        technician={ticketsTechnician}
       />
     </main>
   );

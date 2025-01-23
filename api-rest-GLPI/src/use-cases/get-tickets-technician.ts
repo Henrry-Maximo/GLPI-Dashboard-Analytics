@@ -23,11 +23,11 @@ export async function getTicketsTechnician() {
       "glpi_groups.name as group"
     )
     .count("glpi_tickets_users.tickets_id as count")
-    .whereNotIn("glpi_users.name", [
-      "luana.yasmim",
-      "cassia.martins",
-      "kevin.araujo",
-    ])
+    // .whereNotIn("glpi_users.name", [
+    //   "luana.yasmim",
+    //   "cassia.martins",
+    //   "kevin.araujo",
+    // ])
     .groupBy("glpi_tickets_users.users_id")
     .orderBy("count", "desc");
   

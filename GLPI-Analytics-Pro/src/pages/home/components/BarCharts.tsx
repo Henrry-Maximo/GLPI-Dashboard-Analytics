@@ -16,6 +16,8 @@ import {
 import React from "react";
 
 import {
+  Area,
+  AreaChart,
   Bar,
   BarChart,
   CartesianGrid,
@@ -139,6 +141,21 @@ interface PropsBarChartsTickets {
       name: string;
     }
   ];
+  technician: {
+    ticketsAmountTechnician: [
+      {
+        technician: string;
+        quantity_tickets: number;
+      }
+    ];
+    ticketsAmountTechnicianSolution: [
+      {
+        technician: string;
+        group: string;
+        count: number;
+      }
+    ];
+  };
 }
 
 export function BarChartsTickets({
@@ -146,6 +163,7 @@ export function BarChartsTickets({
   priority,
   concludes,
   delayed,
+  technician,
 }: PropsBarChartsTickets) {
   // associando a uma chave para uso posterior
   const transformedData = [
@@ -167,6 +185,9 @@ export function BarChartsTickets({
     () => concludes.reduce((acc, curr) => acc + curr.count, 0),
     []
   );
+
+  const dataTicketsTechnicianSolution =
+    technician.ticketsAmountTechnicianSolution;
 
   return (
     <div className="flex flex-col gap-4">
@@ -267,14 +288,14 @@ export function BarChartsTickets({
 
         <CardRoot>
           <CardHeader>
-            <CardTitle>Chamados por Técnico</CardTitle>
+            <CardTitle>Chamados Solucionados por Técnico</CardTitle>
             <CardDescription>Total de Chamados por Técnico</CardDescription>
           </CardHeader>
           <CardContent>
             <ChartContainer config={chartConfigLabel}>
               <BarChart
                 accessibilityLayer
-                data={chartDataLabel}
+                data={dataTicketsTechnicianSolution}
                 layout="vertical"
                 margin={{
                   right: 16,
@@ -290,13 +311,13 @@ export function BarChartsTickets({
                   tickFormatter={(value) => value.slice(0, 3)}
                   hide
                 />
-                <XAxis dataKey="tickets" type="number" hide />
+                <XAxis dataKey="count" type="number" hide />
                 <ChartTooltip
                   cursor={false}
                   content={<ChartTooltipContent indicator="line" />}
                 />
                 <Bar
-                  dataKey="tickets"
+                  dataKey="count"
                   layout="vertical"
                   fill="var(--color-tickets)"
                   radius={4}
@@ -309,7 +330,7 @@ export function BarChartsTickets({
                     fontSize={12}
                   />
                   <LabelList
-                    dataKey="tickets"
+                    dataKey="count"
                     position="right"
                     offset={8}
                     className="fill-foreground"
@@ -334,20 +355,71 @@ export function BarChartsTickets({
 
           <CardContent>
             <ChartContainer config={chartConfig}>
-              <BarChart accessibilityLayer data={urgencyData}>
-                <CartesianGrid vertical={false} />
+              <AreaChart
+                data={delayed}
+                margin={{ top: 10, left: 10, right: 10, bottom: 10 }}
+              >
+                <CartesianGrid vertical={false} strokeDasharray="3 3" />
                 <XAxis
-                  dataKey="urgency"
-                  tickLine={false}
-                  tickMargin={10}
-                  axisLine={false}
+                  dataKey="date_creation"
+                  tickMargin={8}
+                  tickFormatter={(value) =>
+                    new Date(value).toLocaleDateString("pt-BR", {
+                      day: "2-digit",
+                      month: "short",
+                    })
+                  }
                 />
                 <ChartTooltip
-                  cursor={false}
-                  content={<ChartTooltipContent indicator="dashed" />}
+                  cursor={true}
+                  content={({ payload }) => {
+                    if (payload && payload.length) {
+                      const { date_creation, name, status, time_to_resolve } =
+                        payload[0].payload;
+
+                      return (
+                        <div className="bg-white p-2 rounded shadow-md text-sm">
+                          <p>
+                            <strong>Data de Criação:</strong>{" "}
+                            {new Date(date_creation).toLocaleDateString(
+                              "pt-BR",
+                              {
+                                day: "2-digit",
+                                month: "short",
+                                year: "numeric",
+                              }
+                            )}
+                          </p>
+                          <p>
+                            <strong>Prazo de Resolução:</strong>{" "}
+                            {new Date(time_to_resolve).toLocaleDateString(
+                              "pt-BR",
+                              {
+                                day: "2-digit",
+                                month: "short",
+                                year: "numeric",
+                              }
+                            )}
+                          </p>
+                          <p>
+                            <strong>Nome:</strong> {name}
+                          </p>
+                          <p>
+                            <strong>Status:</strong> {status}
+                          </p>
+                        </div>
+                      );
+                    }
+                    return null;
+                  }}
                 />
-                <Bar dataKey="tickets" fill="var(--color-tickets)" radius={4} />
-              </BarChart>
+                <Area
+                  dataKey="id"
+                  fill="var(--color-tickets)"
+                  fillOpacity={0.4}
+                  stroke="#d36d00"
+                />
+              </AreaChart>
             </ChartContainer>
           </CardContent>
 
@@ -364,7 +436,7 @@ export function BarChartsTickets({
           <div className="flex flex-1 flex-col justify-center gap-1 px-6 py-5 sm:py-6">
             <CardTitle>Chamados Fechados</CardTitle>
             <CardDescription>
-              Exibindo o total de tickets fechados por dia
+              Exibindo o total de chamados fechados por dia
             </CardDescription>
           </div>
           <div className="flex">

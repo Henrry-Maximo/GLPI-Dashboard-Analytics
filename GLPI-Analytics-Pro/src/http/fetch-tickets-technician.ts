@@ -1,6 +1,6 @@
 import { fetchWithAuth } from "./middlewares/verify-jwt-authenticate";
 
-interface fetchTicketsTechnicianResponse {
+type fetchTicketsTechnicianResponse = {
   ticketsAmountTechnician: [
     {
       technician: string;
@@ -14,7 +14,7 @@ interface fetchTicketsTechnicianResponse {
       count: number;
     }
   ];
-}
+};
 
 export async function fetchTicketsTechnician(): Promise<fetchTicketsTechnicianResponse> {
   const API_URL = import.meta.env.VITE_API_URL;

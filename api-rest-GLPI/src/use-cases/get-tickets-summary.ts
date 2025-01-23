@@ -28,8 +28,17 @@ export async function getTicketsSummary() {
       "id",
       "date_creation",
       "time_to_resolve",
-      "status",
-      "name"
+      "name",
+      knex.raw(`
+        CASE 
+          WHEN status = 1 THEN 'Novo'
+          WHEN status = 2 THEN 'Em Atendimento (atribuído)'
+          WHEN status = 3 THEN 'Em Atendimento (planejado)'
+          WHEN status = 4 THEN 'Pendente'
+          WHEN status = 5 THEN 'Solucionado'
+          WHEN status = 6 THEN 'Fechado'
+        END AS "status"
+      `),
     )
     .whereNotIn("status", [5, 6])
     .whereNull("solvedate")
