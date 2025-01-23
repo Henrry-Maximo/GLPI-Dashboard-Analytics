@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/card";
 
 import {
-  ChartConfig,
+  type ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
@@ -25,91 +25,6 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-
-// const ticketData = [
-//   { category: "Anfe", count: 7 },
-//   { category: "BI", count: 23 },
-//   { category: "Instalar Programas", count: 15 },
-//   { category: "Configuração", count: 12 },
-//   { category: "Criar Acesso", count: 75 },
-//   { category: "Liberar Acesso", count: 35 },
-// ];
-// const chartData = [
-//   { browser: "Amanda", visitors: 275, fill: "var(--color-chrome)" },
-//   { browser: "Natalha", visitors: 200, fill: "var(--color-safari)" },
-//   { browser: "Karina", visitors: 287, fill: "var(--color-firefox)" },
-//   { browser: "Priscila", visitors: 173, fill: "var(--color-edge)" },
-//   { browser: "other", visitors: 190, fill: "var(--color-other)" },
-// ];
-// const dataTicketsByCategory = [
-//   { category_name: 'Anfe', tickets_count: 7 },
-//   { category_name: 'BI', tickets_count: 23 },
-//   { category_name: 'Instalar Programas', tickets_count: 15 },
-//   { category_name: 'Falha na impressora', tickets_count: 10 },
-//   { category_name: 'Criar Acesso', tickets_count: 75 },
-// ]
-// const dataTicketsByUrgency = [
-//   { name: 'Muito Baixa', value: 0 },
-//   { name: 'Baixa', value: 5 },
-//   { name: 'Média', value: 12 },
-//   { name: 'Alta', value: 20 },
-//   { name: 'Muito Alta', value: 8 },
-// ]
-// const chartConfigPie = {
-//   visitors: {
-//     label: "Visitors",
-//   },
-//   chrome: {
-//     label: "Chrome",
-//     color: "hsl(var(--chart-1))",
-//   },
-//   safari: {
-//     label: "Safari",
-//     color: "hsl(var(--chart-2))",
-//   },
-//   firefox: {
-//     label: "Firefox",
-//     color: "hsl(var(--chart-3))",
-//   },
-//   edge: {
-//     label: "Edge",
-//     color: "hsl(var(--chart-4))",
-//   },
-//   other: {
-//     label: "Other",
-//     color: "hsl(var(--chart-5))",
-//   },
-// } satisfies ChartConfig;
-// const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#FF3333']
-
-const urgencyData = [
-  { urgency: "Muito baixa", tickets: 30 },
-  { urgency: "Baixa", tickets: 120 },
-  { urgency: "Médio", tickets: 523 },
-  { urgency: "Alta", tickets: 340 },
-  { urgency: "Muito Alta", tickets: 90 },
-];
-
-const chartDataLabel = [
-  { technician: "Washington.Dantas", tickets: 186 },
-  { technician: "Henrique.Maximo", tickets: 305 },
-  { technician: "Bruno.Camargo", tickets: 237 },
-  { technician: "Luis.Santos", tickets: 73 },
-];
-
-const chartConfigLabel = {
-  tickets: {
-    label: "tickets",
-    color: "hsl(var(--chart-1))",
-  },
-  mobile: {
-    label: "Mobile",
-    color: "hsl(var(--chart-2))",
-  },
-  label: {
-    color: "hsl(var(--background))",
-  },
-} satisfies ChartConfig;
 
 interface PropsBarChartsTickets {
   priority: {
@@ -174,6 +89,16 @@ export function BarChartsTickets({
     { urgency: "Muito Alta", tickets: priority.tickets_very_high },
   ];
 
+  const chartConfigLabel = {
+    tickets: {
+      label: "tickets",
+      color: "hsl(var(--chart-1))",
+    },
+    label: {
+      color: "hsl(var(--background))",
+    },
+  } satisfies ChartConfig;
+
   const chartConfig = {
     tickets: {
       label: "chamados",
@@ -183,7 +108,7 @@ export function BarChartsTickets({
 
   const totalTickets = React.useMemo(
     () => concludes.reduce((acc, curr) => acc + curr.count, 0),
-    []
+    [concludes]
   );
 
   const dataTicketsTechnicianSolution =
@@ -373,7 +298,9 @@ export function BarChartsTickets({
                 <ChartTooltip
                   cursor={true}
                   content={({ payload }) => {
-                    if (payload && payload.length) {
+                    if (!payload) return null;
+
+                    if (payload && payload.length > 0) {
                       const { date_creation, name, status, time_to_resolve } =
                         payload[0].payload;
 
@@ -443,6 +370,7 @@ export function BarChartsTickets({
             <button
               className="relative z-30 flex flex-1 flex-col justify-center gap-1 border-t px-6 py-4 text-left sm:border-l sm:border-t-0 sm:px-8 sm:py-6"
               data-active={true}
+              type="button"
             >
               <span className="text-xs text-muted-foreground">
                 {chartConfig.tickets.label}
