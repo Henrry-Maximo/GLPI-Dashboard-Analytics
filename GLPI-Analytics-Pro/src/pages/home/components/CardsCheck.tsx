@@ -41,6 +41,13 @@ interface PropsPriorityAndTypeTickets {
 }
 
 export function CardStatusTickets({ data }: PropsStatusTickets) {
+  // https://stackoverflow.com/questions/14379274/how-to-iterate-over-a-javascript-object
+  // const arrayWithStatusFormatting = [];
+  // for (let [key, value] of Object.entries(statusTicketsAmount)) {
+  //   const formattedStatusOnObject = { status: key, value };
+  //   arrayWithStatusFormatting.push(formattedStatusOnObject);
+  // }
+
   return (
     <section className="mb-4">
       <div className="grid md:grid-cols-5 gap-4">

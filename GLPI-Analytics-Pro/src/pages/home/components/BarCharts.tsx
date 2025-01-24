@@ -13,6 +13,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+import { getStatusDetails } from "@/utils/monitoring-status-icon-color";
 import React from "react";
 
 import {
@@ -358,6 +359,60 @@ export function BarChartsTickets({
         </CardRoot>
       </div>
 
+      <div>
+        <table className="w-full">
+          <thead className="bg-white font-light text-center">
+            <tr>
+              <th className="py-3 px-4 text-left text-sm font-semibold uppercase">
+                ID
+              </th>
+              <th className="py-3 px-4 text-left text-sm font-semibold uppercase">
+                Título
+              </th>
+              <th className="py-3 px-4 text-left text-sm font-semibold uppercase">
+                Criado
+              </th>
+              <th className="py-3 px-4 text-left text-sm font-semibold uppercase">
+                Prazo
+              </th>
+            </tr>
+          </thead>
+          <tbody className="bg-white font-light shadow-md">
+            {delayed.map((ticket) => {
+              return (
+                <tr
+                  key={ticket.id}
+                  className="border-b hover:bg-gray-100 transition duration-200"
+                >
+                  <td className="py-3 px-4 text-left text-sm">{ticket.id}</td>
+                  <td className="py-3 px-4 text-left text-sm">{ticket.name}</td>
+                  <td className="py-3 px-4 text-left text-sm">
+                    {new Date(ticket.date_creation).toLocaleDateString(
+                      "pt-BR",
+                      {
+                        day: "2-digit",
+                        month: "short",
+                        year: "numeric",
+                      }
+                    )}
+                  </td>
+                  <td className="py-3 px-4 text-left text-sm">
+                    {new Date(ticket.time_to_resolve).toLocaleDateString(
+                      "pt-BR",
+                      {
+                        day: "2-digit",
+                        month: "short",
+                        year: "numeric",
+                      }
+                    )}
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+
       <CardRoot>
         <CardHeader className="flex flex-col items-stretch space-y-0 border-b p-0 sm:flex-row">
           <div className="flex flex-1 flex-col justify-center gap-1 px-6 py-5 sm:py-6">
@@ -379,8 +434,19 @@ export function BarChartsTickets({
                 {totalTickets}
               </span>
             </button>
+
+            <div
+              className="relative z-30 flex flex-1 flex-col justify-center gap-1 border-t px-6 py-4 text-left sm:border-l sm:border-t-0 sm:px-8 sm:py-6"
+              data-active={true}
+            >
+              <span className="text-xs text-muted-foreground">média</span>
+              <span className="text-lg font-bold leading-none sm:text-3xl">
+                55%
+              </span>
+            </div>
           </div>
         </CardHeader>
+
         <CardContent className="px-2 sm:p-6">
           <ChartContainer
             config={chartConfig}
@@ -418,7 +484,7 @@ export function BarChartsTickets({
                     className="w-[150px]"
                     nameKey="count"
                     labelFormatter={(value) => {
-                      return new Date(value).toLocaleDateString("en-US", {
+                      return new Date(value).toLocaleDateString("pt-br", {
                         month: "short",
                         day: "numeric",
                         year: "numeric",

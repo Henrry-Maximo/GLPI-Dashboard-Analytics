@@ -65,7 +65,6 @@ export default function Home() {
       <Header />
 
       <CardStatusTickets data={statusTicketsAmount} />
-
       <CardPriorityAndTypeTickets
         data={priorityTicketsAmount}
         type={typeTicketsAmount}
