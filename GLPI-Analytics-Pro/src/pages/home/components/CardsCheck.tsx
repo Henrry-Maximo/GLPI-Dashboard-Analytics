@@ -12,7 +12,6 @@ import {
   UserCirclePlus,
   Warning,
   WarningCircle,
-  XCircle,
 } from "phosphor-react";
 
 interface PropsStatusTickets {
@@ -47,31 +46,31 @@ export function CardStatusTickets({ data }: PropsStatusTickets) {
       <div className="grid md:grid-cols-5 gap-4">
         <Card
           icon={Clock}
-          quantity={data && data.tickets_open}
+          quantity={data?.tickets_open}
           title="Chamados Abertos"
           className="h-10 w-10 bg-yellow-100 text-yellow-500 rounded-md p-2 border border-yellow-500"
         />
         <Card
           icon={UserCirclePlus}
-          quantity={data && data.tickets_assigned}
+          quantity={data?.tickets_assigned}
           title="Chamados Atribuídos"
           className="h-10 w-10 bg-blue-100 text-blue-500 rounded-md p-2 border border-blue-500"
         />
         <Card
           icon={Hourglass}
-          quantity={data && data.tickets_pending}
+          quantity={data?.tickets_pending}
           title="Chamados Pendentes"
           className="h-10 w-10 bg-orange-100 text-orange-500 rounded-md p-2 border border-orange-500"
         />
         <Card
           icon={CheckCircle}
-          quantity={data && data.tickets_solved}
+          quantity={data?.tickets_solved}
           title="Chamados Solucionados"
           className="h-10 w-10 bg-green-200 text-green-600 rounded-md p-2 border border-green-500"
         />
         <Card
           icon={ShieldCheck}
-          quantity={data && data.tickets_closed}
+          quantity={data?.tickets_closed}
           title="Chamados Fechados"
           className="h-10 w-10 bg-green-700 text-green-100 rounded-md p-2 border border-green-500"
         />
@@ -92,31 +91,31 @@ export function CardPriorityAndTypeTickets({
       <div className="grid md:grid-cols-5 gap-4 flex-grow">
         <Card
           icon={Circle}
-          quantity={data && data.tickets_very_low}
+          quantity={data?.tickets_very_low}
           title="Muito baixa"
           className="h-10 w-10 bg-blue-600 text-blue-100 rounded-md p-2 border border-blue-700"
         />
         <Card
           icon={CircleHalf}
-          quantity={data && data.tickets_low}
+          quantity={data?.tickets_low}
           title="Baixa"
           className="h-10 w-10 bg-blue-400 text-blue-100 rounded-md p-2 border border-blue-700"
         />
         <Card
           icon={WarningCircle}
-          quantity={data && data.tickets_medium}
+          quantity={data?.tickets_medium}
           title="Média"
           className="h-10 w-10 bg-orange-400 text-orange-100 rounded-md p-2 border border-orange-500"
         />
         <Card
           icon={Warning}
-          quantity={data && data.tickets_high}
+          quantity={data?.tickets_high}
           title="Alta"
           className="h-10 w-10 bg-yellow-400 text-yellow-100 rounded-md p-2 border border-yellow-500"
         />
         <Card
           icon={Flame}
-          quantity={data && data.tickets_very_high}
+          quantity={data?.tickets_very_high}
           title="Muito Alta"
           className="h-10 w-10 bg-red-600 text-red-100 rounded-md p-2 border border-red-700"
         />
@@ -128,13 +127,13 @@ export function CardPriorityAndTypeTickets({
       <div className="flex gap-2">
         <Card
           icon={ClipboardText}
-          quantity={type && type.request}
+          quantity={type?.request}
           title="Requisição"
           className="size-10 bg-blue-600 text-blue-100 rounded-md p-2 border border-blue-700 flex-grow"
         />
         <Card
           icon={Bug}
-          quantity={type && type.incident}
+          quantity={type?.incident}
           title="Incidente"
           className="size-10 bg-red-600 text-blue-100 rounded-md p-2 border border-red-700 flex-grow"
         />
