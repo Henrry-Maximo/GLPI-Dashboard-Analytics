@@ -117,6 +117,92 @@ export function BarChartsTickets({
 
   return (
     <div className="flex flex-col gap-4">
+      <CardRoot>
+        <CardHeader className="flex flex-col items-stretch space-y-0 border-b p-0 sm:flex-row">
+          <div className="flex flex-1 flex-col justify-center gap-1 px-6 py-5 sm:py-6">
+            <CardTitle>Chamados Fechados</CardTitle>
+            <CardDescription>
+              Exibindo o total de chamados fechados por dia
+            </CardDescription>
+          </div>
+          <div className="flex">
+            <button
+              className="relative z-30 flex flex-1 flex-col justify-center gap-1 border-t px-6 py-4 text-left sm:border-l sm:border-t-0 sm:px-8 sm:py-6"
+              data-active={true}
+              type="button"
+            >
+              <span className="text-xs text-muted-foreground">
+                {chartConfig.tickets.label}
+              </span>
+              <span className="text-lg font-bold leading-none sm:text-3xl">
+                {totalTickets}
+              </span>
+            </button>
+
+            {/* <div
+              className="relative z-30 flex flex-1 flex-col justify-center gap-1 border-t px-6 py-4 text-left sm:border-l sm:border-t-0 sm:px-8 sm:py-6"
+              data-active={true}
+            >
+              <span className="text-xs text-muted-foreground">média</span>
+              <span className="text-lg font-bold leading-none sm:text-3xl">
+                55%
+              </span>
+            </div> */}
+          </div>
+        </CardHeader>
+
+        <CardContent className="px-2 sm:p-6">
+          <ChartContainer
+            config={chartConfig}
+            className="aspect-auto h-[250px] w-full"
+          >
+            <BarChart
+              accessibilityLayer
+              data={concludes.map((d) => ({
+                date: new Date(d.date_creation).toISOString(),
+                count: d.count,
+              }))}
+              margin={{
+                left: 12,
+                right: 12,
+              }}
+            >
+              <CartesianGrid vertical={true} />
+              <XAxis
+                dataKey="date"
+                tickLine={false}
+                axisLine={true}
+                tickMargin={8}
+                minTickGap={32}
+                tickFormatter={(value) => {
+                  const date = new Date(value);
+                  return date.toLocaleDateString("en-US", {
+                    month: "short",
+                    day: "numeric",
+                  });
+                }}
+              />
+              <ChartTooltip
+                content={
+                  <ChartTooltipContent
+                    className="w-[150px]"
+                    nameKey="count"
+                    labelFormatter={(value) => {
+                      return new Date(value).toLocaleDateString("pt-br", {
+                        month: "short",
+                        day: "numeric",
+                        year: "numeric",
+                      });
+                    }}
+                  />
+                }
+              />
+              <Bar dataKey="count" fill="var(--color-tickets)" />
+            </BarChart>
+          </ChartContainer>
+        </CardContent>
+      </CardRoot>
+
       <div className="grid grid-cols-2 gap-4">
         <CardRoot className="shadow-lg bg-gray-50">
           <CardHeader>
@@ -360,6 +446,13 @@ export function BarChartsTickets({
       </div>
 
       <div>
+        <div className="bg-white p-4">
+          <h1 className="font-semibold">Chamados Atrasados</h1>
+          <span className="text-sm text-gray-500">
+            Resumo Chamados Atrasados (SLA)
+          </span>
+        </div>
+
         <table className="w-full">
           <thead className="bg-white font-light text-center">
             <tr>
@@ -412,92 +505,6 @@ export function BarChartsTickets({
           </tbody>
         </table>
       </div>
-
-      <CardRoot>
-        <CardHeader className="flex flex-col items-stretch space-y-0 border-b p-0 sm:flex-row">
-          <div className="flex flex-1 flex-col justify-center gap-1 px-6 py-5 sm:py-6">
-            <CardTitle>Chamados Fechados</CardTitle>
-            <CardDescription>
-              Exibindo o total de chamados fechados por dia
-            </CardDescription>
-          </div>
-          <div className="flex">
-            <button
-              className="relative z-30 flex flex-1 flex-col justify-center gap-1 border-t px-6 py-4 text-left sm:border-l sm:border-t-0 sm:px-8 sm:py-6"
-              data-active={true}
-              type="button"
-            >
-              <span className="text-xs text-muted-foreground">
-                {chartConfig.tickets.label}
-              </span>
-              <span className="text-lg font-bold leading-none sm:text-3xl">
-                {totalTickets}
-              </span>
-            </button>
-
-            <div
-              className="relative z-30 flex flex-1 flex-col justify-center gap-1 border-t px-6 py-4 text-left sm:border-l sm:border-t-0 sm:px-8 sm:py-6"
-              data-active={true}
-            >
-              <span className="text-xs text-muted-foreground">média</span>
-              <span className="text-lg font-bold leading-none sm:text-3xl">
-                55%
-              </span>
-            </div>
-          </div>
-        </CardHeader>
-
-        <CardContent className="px-2 sm:p-6">
-          <ChartContainer
-            config={chartConfig}
-            className="aspect-auto h-[250px] w-full"
-          >
-            <BarChart
-              accessibilityLayer
-              data={concludes.map((d) => ({
-                date: new Date(d.date_creation).toISOString(),
-                count: d.count,
-              }))}
-              margin={{
-                left: 12,
-                right: 12,
-              }}
-            >
-              <CartesianGrid vertical={true} />
-              <XAxis
-                dataKey="date"
-                tickLine={false}
-                axisLine={true}
-                tickMargin={8}
-                minTickGap={32}
-                tickFormatter={(value) => {
-                  const date = new Date(value);
-                  return date.toLocaleDateString("en-US", {
-                    month: "short",
-                    day: "numeric",
-                  });
-                }}
-              />
-              <ChartTooltip
-                content={
-                  <ChartTooltipContent
-                    className="w-[150px]"
-                    nameKey="count"
-                    labelFormatter={(value) => {
-                      return new Date(value).toLocaleDateString("pt-br", {
-                        month: "short",
-                        day: "numeric",
-                        year: "numeric",
-                      });
-                    }}
-                  />
-                }
-              />
-              <Bar dataKey="count" fill="var(--color-tickets)" />
-            </BarChart>
-          </ChartContainer>
-        </CardContent>
-      </CardRoot>
 
       {/* <CardRoot className="grid shadow-lg bg-gray-50 w-1/4">
           <CardHeader className="items-center pb-0">

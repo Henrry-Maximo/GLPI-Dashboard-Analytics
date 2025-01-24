@@ -32,7 +32,7 @@ export default function Index() {
         const { name } = decoded;
 
         sessionStorage.setItem("jwt", data.token);
-        sessionStorage.setItem("name", name)
+        sessionStorage.setItem("name", name);
 
         // Redireciona o usuário
         navigate("/main/home");
