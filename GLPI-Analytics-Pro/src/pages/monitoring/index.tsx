@@ -1,37 +1,37 @@
-import { useQuery } from '@tanstack/react-query'
-import dayjs from 'dayjs'
+import { useQuery } from "@tanstack/react-query";
+import dayjs from "dayjs";
 
-import ptBR from 'dayjs/locale/pt-br'
-import relativeTime from 'dayjs/plugin/relativeTime'
+import ptBR from "dayjs/locale/pt-br";
+import relativeTime from "dayjs/plugin/relativeTime";
 
-import { FooterTicketsMonitoring } from './components/FooterTicketsMonitoring'
-import { HeaderTicketsMonitoring } from './components/HeaderTicketsMonitoring'
-import { ListTicketsMonitoring } from './components/ListTicketsMonitoring'
-import { ViewTicketMonitoring } from './components/ViewTicketsMonitoring'
+import { FooterTicketsMonitoring } from "./components/FooterTicketsMonitoring";
+import { HeaderTicketsMonitoring } from "./components/HeaderTicketsMonitoring";
+import { ListTicketsMonitoring } from "./components/ListTicketsMonitoring";
+import { ViewTicketMonitoring } from "./components/ViewTicketsMonitoring";
 
-import { fetchDetailsTickets } from '../../http/fetch-tickets-details'
-import { fetchTicketsMonitoring } from '../../http/fetch-tickets-monitoring'
-import { SpinnerBall, CircleNotch } from '@phosphor-icons/react'
+import { fetchDetailsTickets } from "../../http/fetch-tickets-details";
+import { fetchTicketsMonitoring } from "../../http/fetch-tickets-monitoring";
+import { SpinnerBall, CircleNotch } from "@phosphor-icons/react";
 
-dayjs.locale(ptBR)
-dayjs.extend(relativeTime)
+dayjs.locale(ptBR);
+dayjs.extend(relativeTime);
 
 export default function TicketMonitoring() {
   const { data: ticketMonitoringData } = useQuery({
-    queryKey: ['monitoring'],
+    queryKey: ["monitoring"],
     queryFn: fetchTicketsMonitoring,
     staleTime: 1000 * 60, // 1 minuto
     refetchInterval: 1000 * 5, // 10 segundos
     refetchOnWindowFocus: true,
-  })
+  });
 
   const { data: ticketDetailsData, dataUpdatedAt } = useQuery({
-    queryKey: ['details'],
+    queryKey: ["details"],
     queryFn: fetchDetailsTickets,
     staleTime: 1000 * 300, // 5 minutos (dados fresco antes de serem buscados)
     refetchInterval: 1000 * 60, // 1 minuto (refaz a requisição)
     refetchOnWindowFocus: true, // reconsultar janela em foco
-  })
+  });
 
   return (
     <div className="h-screen flex flex-col">
@@ -72,5 +72,5 @@ export default function TicketMonitoring() {
         </section>
       </main>
     </div>
-  )
+  );
 }

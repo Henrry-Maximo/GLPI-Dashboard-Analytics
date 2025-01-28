@@ -13,7 +13,6 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { getStatusDetails } from "@/utils/monitoring-status-icon-color";
 import React from "react";
 
 import {
