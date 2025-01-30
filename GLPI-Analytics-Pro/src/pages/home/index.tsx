@@ -1,35 +1,35 @@
-("use client");
+;('use client')
 
-import { useQuery } from "@tanstack/react-query";
-import { fetchTicketsSummary } from "../../http/fetch-tickets-summary";
+import { useQuery } from '@tanstack/react-query'
+import { fetchTicketsSummary } from '../../http/fetch-tickets-summary'
 
-import { BarChartsTickets } from "./components/BarCharts";
+import { BarChartsTickets } from './components/BarCharts'
 import {
   CardPriorityAndTypeTickets,
   CardStatusTickets,
-} from "./components/CardsCheck";
-import { Header } from "./components/Header";
-import { SpinnerBall, WarningOctagon } from "@phosphor-icons/react";
-import { fetchTicketsTechnician } from "@/http/fetch-tickets-technician";
+} from './components/CardsCheck'
+import { Header } from './components/Header'
+import { SpinnerBall, WarningOctagon } from '@phosphor-icons/react'
+import { fetchTicketsTechnician } from '@/http/fetch-tickets-technician'
 
 // import { SettingsTabs } from '../../components/SettingsTabs'
 
 export default function Home() {
   const { data, isLoading, isError } = useQuery({
-    queryKey: ["state"],
+    queryKey: ['state'],
     queryFn: fetchTicketsSummary,
     staleTime: 1000 * 60, // 1 minuto
     refetchInterval: 1000 * 5, // 10 segundos
     refetchOnWindowFocus: true,
-  });
+  })
 
   const { data: dataTicketsTechnician } = useQuery({
-    queryKey: ["technician"],
+    queryKey: ['technician'],
     queryFn: fetchTicketsTechnician,
     staleTime: 1000 * 60, // 1 minuto
     refetchInterval: 1000 * 5, // 10 segundos
     refetchOnWindowFocus: true,
-  });
+  })
 
   if (isError) {
     return (
@@ -37,7 +37,7 @@ export default function Home() {
         <WarningOctagon className="text-red-500 animate-bounce size-10" />
         <span className="text-xs font-light">Erro na consulta de dados.</span>
       </div>
-    );
+    )
   }
 
   if (isLoading || !data || !dataTicketsTechnician) {
@@ -46,19 +46,19 @@ export default function Home() {
         <SpinnerBall className="text-zinc-700 animate-spin size-10" />
         <span className="text-xs font-light">Loading...</span>
       </div>
-    );
+    )
   }
 
-  const statusTicketsAmount = data?.status;
-  const typeTicketsAmount = data?.type;
+  const statusTicketsAmount = data?.status
+  const typeTicketsAmount = data?.type
 
-  const priorityTicketsAmount = data?.priority;
-  const categoriesTicketsAmount = data?.categories;
+  const priorityTicketsAmount = data?.priority
+  const categoriesTicketsAmount = data?.categories
 
-  const concludesTicketsAmount = data?.concludes;
-  const delayedTicketsAmount = data?.delayed;
+  const concludesTicketsAmount = data?.concludes
+  const delayedTicketsAmount = data?.delayed
 
-  const ticketsTechnician = dataTicketsTechnician;
+  const ticketsTechnician = dataTicketsTechnician
 
   return (
     <main className="w-full h-[max-content]">
@@ -78,5 +78,5 @@ export default function Home() {
         technician={ticketsTechnician}
       />
     </main>
-  );
+  )
 }

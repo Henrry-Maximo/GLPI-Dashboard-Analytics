@@ -1,20 +1,20 @@
-import type { Ticket } from "@/@types/interface-tickets";
-import { fetchWithAuth } from "./middlewares/verify-jwt-authenticate";
+import type { Ticket } from '@/@types/interface-tickets'
+import { fetchWithAuth } from './middlewares/verify-jwt-authenticate'
 
 //
 export async function fetchTicketsAll(): Promise<Ticket[]> {
-  const API_URL = import.meta.env.VITE_API_URL;
+  const API_URL = import.meta.env.VITE_API_URL
 
   const response = await fetchWithAuth(`${API_URL}/api/tickets/search`, {
-    method: "GET",
+    method: 'GET',
     headers: {
-      "Content-type": "application/json",
+      'Content-type': 'application/json',
     },
-  });
+  })
 
   if (!response.ok) {
-    throw new Error("Erro ao buscar os chamados");
+    throw new Error('Erro ao buscar os chamados')
   }
 
-  return response.json();
+  return response.json()
 }

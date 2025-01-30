@@ -1,10 +1,10 @@
-import type { ElementType } from "react";
+import type { ElementType } from 'react'
 
 interface CardProps {
-  icon: ElementType;
-  quantity: number;
-  title: string;
-  className: string;
+  icon: ElementType
+  quantity: number
+  title: string
+  className: string
 }
 
 export function Card({
@@ -21,5 +21,5 @@ export function Card({
         <span>{title}</span>
       </div>
     </div>
-  );
+  )
 }

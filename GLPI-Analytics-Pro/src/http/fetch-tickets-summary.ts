@@ -1,62 +1,62 @@
-import { fetchWithAuth } from "./middlewares/verify-jwt-authenticate";
+import { fetchWithAuth } from './middlewares/verify-jwt-authenticate'
 
 type PropsTicketsSummary = {
   status: {
-    tickets_total: number;
-    tickets_open: number;
-    tickets_assigned: number;
-    tickets_pending: number;
-    tickets_solved: number;
-    tickets_closed: number;
-  };
+    tickets_total: number
+    tickets_open: number
+    tickets_assigned: number
+    tickets_pending: number
+    tickets_solved: number
+    tickets_closed: number
+  }
   priority: {
-    tickets_very_low: number;
-    tickets_low: number;
-    tickets_medium: number;
-    tickets_high: number;
-    tickets_very_high: number;
-  };
+    tickets_very_low: number
+    tickets_low: number
+    tickets_medium: number
+    tickets_high: number
+    tickets_very_high: number
+  }
   type: {
-    incident: number;
-    request: number;
-  };
+    incident: number
+    request: number
+  }
   categories: [
     {
-      completename: string;
-      count: number;
-    }
-  ];
+      completename: string
+      count: number
+    },
+  ]
   concludes: [
     {
-      date_creation: string;
-      status: string;
-      count: number;
-    }
-  ];
+      date_creation: string
+      status: string
+      count: number
+    },
+  ]
   delayed: [
     {
-      id: number;
-      date_creation: string;
-      time_to_resolve: string;
-      status: number;
-      name: string;
-    }
-  ];
-};
+      id: number
+      date_creation: string
+      time_to_resolve: string
+      status: number
+      name: string
+    },
+  ]
+}
 
 export async function fetchTicketsSummary(): Promise<PropsTicketsSummary> {
-  const API_URL = import.meta.env.VITE_API_URL;
+  const API_URL = import.meta.env.VITE_API_URL
 
   const response = await fetchWithAuth(`${API_URL}/api/tickets/summary`, {
-    method: "GET",
+    method: 'GET',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
-  });
+  })
 
-  const result = await response.json();
+  const result = await response.json()
 
-  return result;
+  return result
 
   // if (!response.ok) {
   //   throw new Error("Erro ao buscar os dados dos chamados");

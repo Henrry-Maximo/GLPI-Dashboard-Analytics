@@ -5,7 +5,7 @@
   height: 4rem;
   justify-content: space-between; /* centralizar elementos (esq., centro, dire.) */
   align-items: center;
-  background-color: var(--gray-400); 
+  background-color: var(--gray-400);
   color: var(--gray-100);
   border-bottom: 1px solid orange;
 }

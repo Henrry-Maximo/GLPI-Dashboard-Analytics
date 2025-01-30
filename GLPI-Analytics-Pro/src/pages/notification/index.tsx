@@ -42,9 +42,9 @@ export default function Notifications() {
 
       <div className="grid grid-cols-1 pb-16 md:grid-cols-2 lg:grid-cols-1 gap-4">
         {notifications.map(notification => (
-            <div
-              key={notification.id}
-              className={`p-4 rounded-lg shadow-md transition-transform transform hover:scale-105 border-l-4
+          <div
+            key={notification.id}
+            className={`p-4 rounded-lg shadow-md transition-transform transform hover:scale-105 border-l-4
               ${notification.type === 'info' && 'bg-blue-100 border-blue-500'}
               ${
                 notification.type === 'warning' &&
@@ -56,15 +56,12 @@ export default function Notifications() {
               }
               ${notification.type === 'error' && 'bg-red-100 border-red-500'}
             `}
-            >
-              <h2 className="font-semibold text-lg mb-2">
-                {notification.title}
-              </h2>
-              <p className="text-gray-700 mb-3">{notification.message}</p>
-              <span className="text-sm text-gray-500">{notification.time}</span>
-            </div>
-          ))
-        }
+          >
+            <h2 className="font-semibold text-lg mb-2">{notification.title}</h2>
+            <p className="text-gray-700 mb-3">{notification.message}</p>
+            <span className="text-sm text-gray-500">{notification.time}</span>
+          </div>
+        ))}
       </div>
     </section>
   )

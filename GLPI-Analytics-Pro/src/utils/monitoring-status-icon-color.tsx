@@ -1,11 +1,11 @@
-import { CalendarDots } from "@phosphor-icons/react";
-import { XCircle, Circle, CheckCircle, LockKey } from "phosphor-react";
+import { CalendarDots } from '@phosphor-icons/react'
+import { XCircle, Circle, CheckCircle, LockKey } from 'phosphor-react'
 
 export const getStatusDetails = (status: string) => {
   switch (status) {
-    case "Novo":
+    case 'Novo':
       return {
-        titleStatus: "Novo",
+        titleStatus: 'Novo',
         icon: (
           <Circle
             size={18}
@@ -14,47 +14,47 @@ export const getStatusDetails = (status: string) => {
             // className="bg-green-500 text-green-500 rounded-full"
           />
         ),
-      };
-    case "Em Atendimento (atribuído)":
+      }
+    case 'Em Atendimento (atribuído)':
       return {
-        titleStatus: "Em Atendimento (atribuído)",
-        icon: <Circle 
-          size={18} 
-          color="#22c55e" 
-          // className="text-green-500" 
-        />,
-      };
-    case "Em Atendimento (planejado)":
+        titleStatus: 'Em Atendimento (atribuído)',
+        icon: (
+          <Circle
+            size={18}
+            color="#22c55e"
+            // className="text-green-500"
+          />
+        ),
+      }
+    case 'Em Atendimento (planejado)':
       return {
-        titleStatus: "Em Atendimento (planejado)",
-        icon: <CalendarDots 
-          size={18} 
-        />,
-      };
-    case "Pendente":
+        titleStatus: 'Em Atendimento (planejado)',
+        icon: <CalendarDots size={18} />,
+      }
+    case 'Pendente':
       return {
-        titleStatus: "Pendente",
+        titleStatus: 'Pendente',
         icon: (
           <Circle
             size={18}
             className="bg-yellow-400 text-yellow-400 rounded-full"
           />
         ),
-      };
-    case "Solucionado":
+      }
+    case 'Solucionado':
       return {
-        titleStatus: "Solucionado",
+        titleStatus: 'Solucionado',
         icon: <CheckCircle size={18} className="text-green-100 rounded-full" />,
-      };
-    case "Fechado":
+      }
+    case 'Fechado':
       return {
-        titleStatus: "Fechado",
+        titleStatus: 'Fechado',
         icon: <LockKey size={18} className=" text-green-400 rounded-full" />,
-      };
+      }
     default:
       return {
-        titleStatus: "Status não reconhecido",
+        titleStatus: 'Status não reconhecido',
         icon: <XCircle size={18} />,
-      };
+      }
   }
-};
+}

@@ -45,7 +45,7 @@ export function ListTicketsMonitoring({ dataTickets }: PropsListTickets) {
           </tr>
         </thead>
         <tbody className="bg-gray-50 font-light">
-          {dataTickets.map((ticket) => {
+          {dataTickets.map(ticket => {
             const { titleStatus, icon } = getStatusDetails(ticket.status)
             return (
               <tr

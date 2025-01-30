@@ -1,11 +1,17 @@
-import { Card, CardHeader, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { Select, SelectContent, SelectTrigger, SelectValue, SelectItem } from "@/components/ui/select";
-import { useState } from "react";
+import { Card, CardHeader, CardContent } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
+import {
+  Select,
+  SelectContent,
+  SelectTrigger,
+  SelectValue,
+  SelectItem,
+} from '@/components/ui/select'
+import { useState } from 'react'
 
 export default function AnalyticsPage() {
-  const [selectedTab, setSelectedTab] = useState("overview");
+  const [selectedTab, setSelectedTab] = useState('overview')
 
   return (
     <section className="w-full space-y-6">
@@ -103,7 +109,9 @@ export default function AnalyticsPage() {
           {/* Análises específicas para requerentes */}
           <Card>
             <CardHeader>
-              <h2 className="font-bold text-xl">Estatísticas dos Requerentes</h2>
+              <h2 className="font-bold text-xl">
+                Estatísticas dos Requerentes
+              </h2>
             </CardHeader>
             <CardContent>
               <p>Aqui entrará um gráfico ou tabela para os requerentes.</p>
@@ -124,5 +132,5 @@ export default function AnalyticsPage() {
         </TabsContent>
       </Tabs>
     </section>
-  );
+  )
 }

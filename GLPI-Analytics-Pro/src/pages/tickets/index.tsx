@@ -1,88 +1,88 @@
-import type { Ticket } from "@/@types/interface-tickets";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { fetchTicketsAll } from "@/http/fetch-tickets-all";
-import { useQuery } from "@tanstack/react-query";
-import dayjs from "dayjs";
-import { CircleNotch, Hand, WarningCircle, X } from "phosphor-react";
-import { useEffect, useState } from "react";
-import { FooterTicketsMonitoring } from "../monitoring/components/FooterTicketsMonitoring";
-import { getStatusDetails } from "@/utils/monitoring-status-icon-color";
-import { ExclamationMark } from "@phosphor-icons/react";
+import type { Ticket } from '@/@types/interface-tickets'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { ScrollArea } from '@/components/ui/scroll-area'
+import { fetchTicketsAll } from '@/http/fetch-tickets-all'
+import { useQuery } from '@tanstack/react-query'
+import dayjs from 'dayjs'
+import { CircleNotch, Hand, WarningCircle, X } from 'phosphor-react'
+import { useEffect, useState } from 'react'
+import { FooterTicketsMonitoring } from '../monitoring/components/FooterTicketsMonitoring'
+import { getStatusDetails } from '@/utils/monitoring-status-icon-color'
+import { ExclamationMark } from '@phosphor-icons/react'
 
 const statusTicketsOperation = [
   {
-    status: "Novo",
-    className: "bg-green-100 text-green-700",
+    status: 'Novo',
+    className: 'bg-green-100 text-green-700',
   },
   {
-    status: "Em Atendimento (atribuído)",
-    className: "bg-blue-100 text-blue-700",
+    status: 'Em Atendimento (atribuído)',
+    className: 'bg-blue-100 text-blue-700',
   },
   {
-    status: "Em Atendimento (planejado)",
-    className: "bg-pink-100 text-pink-700",
+    status: 'Em Atendimento (planejado)',
+    className: 'bg-pink-100 text-pink-700',
   },
   {
-    status: "Pendente",
-    className: "bg-yellow-50 text-yellow-500",
+    status: 'Pendente',
+    className: 'bg-yellow-50 text-yellow-500',
   },
   {
-    status: "Solucionado",
-    className: "bg-green-500 text-white",
+    status: 'Solucionado',
+    className: 'bg-green-500 text-white',
   },
   {
-    status: "Fechado",
-    className: "bg-green-100 text-gray-700",
+    status: 'Fechado',
+    className: 'bg-green-100 text-gray-700',
   },
-];
+]
 
 const priorityTicketsOperations = [
   {
-    priority: "Muito alta",
-    className: "bg-red-800 text-white",
+    priority: 'Muito alta',
+    className: 'bg-red-800 text-white',
   },
   {
-    priority: "Alta",
-    className: "bg-red-500 text-white",
+    priority: 'Alta',
+    className: 'bg-red-500 text-white',
   },
   {
-    priority: "Média",
-    className: "bg-red-400 text-white",
+    priority: 'Média',
+    className: 'bg-red-400 text-white',
   },
   {
-    priority: "Baixa",
-    className: "bg-red-300 text-white",
+    priority: 'Baixa',
+    className: 'bg-red-300 text-white',
   },
   {
-    priority: "Muito baixa",
-    className: "bg-red-200 text-white",
+    priority: 'Muito baixa',
+    className: 'bg-red-200 text-white',
   },
-];
+]
 
 export default function Tickets() {
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
+  const [currentPage, setCurrentPage] = useState(1)
+  const itemsPerPage = 10
 
-  const [searchItem, setSearchItem] = useState("");
-  const [filteredData, setFilteredData] = useState<Ticket[]>([]);
+  const [searchItem, setSearchItem] = useState('')
+  const [filteredData, setFilteredData] = useState<Ticket[]>([])
 
   const { data, isLoading, isError, dataUpdatedAt } = useQuery<Ticket[]>({
-    queryKey: ["tickets"],
+    queryKey: ['tickets'],
     queryFn: fetchTicketsAll,
     staleTime: 1000 * 300, // 5 minutos
     refetchInterval: 1000 * 60, // 1 minuto
     refetchOnWindowFocus: true, // reconsultar janela em foco
-  });
+  })
 
   useEffect(() => {
     if (data) {
-      setCurrentPage(1);
+      setCurrentPage(1)
 
       const filteredItems = data.filter(
-        (ticket) =>
+        ticket =>
           ticket.name.toLowerCase().includes(searchItem.toLowerCase()) ||
           ticket.applicant?.toLowerCase().includes(searchItem.toLowerCase()) ||
           ticket.technical?.toLowerCase().includes(searchItem.toLowerCase()) ||
@@ -92,20 +92,20 @@ export default function Tickets() {
             .includes(searchItem.toLowerCase()) ||
           ticket.priority?.toLowerCase().includes(searchItem.toLowerCase()) ||
           ticket.status?.toLowerCase().includes(searchItem.toLowerCase())
-      );
-      setFilteredData(filteredItems);
+      )
+      setFilteredData(filteredItems)
     }
-  }, [searchItem, data]);
+  }, [searchItem, data])
 
-  const totalPages = Math.ceil((filteredData?.length || 0) / itemsPerPage);
+  const totalPages = Math.ceil((filteredData?.length || 0) / itemsPerPage)
   const paginatedData = filteredData?.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
-  );
+  )
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchItem(e.target.value);
-  };
+    setSearchItem(e.target.value)
+  }
 
   if (isLoading) {
     return (
@@ -115,7 +115,7 @@ export default function Tickets() {
       >
         <CircleNotch className="text-zinc-800 animate-spin size-10" />
       </p>
-    );
+    )
   }
 
   if (isError) {
@@ -124,11 +124,11 @@ export default function Tickets() {
         <WarningCircle className="text-zinc-800 size-10" />
         Erro ao carregar os chamados.
       </p>
-    );
+    )
   }
 
   function handleClear() {
-    setSearchItem("");
+    setSearchItem('')
   }
 
   // const dateCreatedTicket = formatDistance;
@@ -167,8 +167,8 @@ export default function Tickets() {
       <ScrollArea className="h-[calc(85%-200px)] border rounded-md bg-gray-50 shadow-sm">
         <table className="table-auto w-full">
           <tbody className="divide-y divide-gray-300">
-            {paginatedData?.map((ticket) => {
-              const { icon } = getStatusDetails(ticket.status);
+            {paginatedData?.map(ticket => {
+              const { icon } = getStatusDetails(ticket.status)
               return (
                 <tr
                   key={ticket.id}
@@ -179,7 +179,7 @@ export default function Tickets() {
                     <h2 className="text-sm text-slate-800">{ticket.name}</h2>
                   </td>
                   <td className="p-4 text-xs text-gray-500">
-                    Requerente: {ticket.applicant} <br /> Setor:{" "}
+                    Requerente: {ticket.applicant} <br /> Setor:{' '}
                     {ticket.location} <br /> Técnico: {ticket.technical}
                   </td>
                   <td
@@ -194,11 +194,11 @@ export default function Tickets() {
                       title={ticket.status}
                       className={`min-w-full gap-2 justify-center ${
                         statusTicketsOperation.find(
-                          (item) => item.status === ticket.status
-                        )?.className || "bg-gray-100 text-gray-700"
+                          item => item.status === ticket.status
+                        )?.className || 'bg-gray-100 text-gray-700'
                       }`}
                     >
-                      {ticket.status === "Pendente" ? <Hand size={18} /> : icon}
+                      {ticket.status === 'Pendente' ? <Hand size={18} /> : icon}
                     </Badge>
                   </td>
                   <td className="p-4">
@@ -207,8 +207,8 @@ export default function Tickets() {
                       title={ticket.priority}
                       className={`rounded-full min-w-full gap-2 justify-center ${
                         priorityTicketsOperations.find(
-                          (row) => row.priority === ticket.priority
-                        )?.className || "bg-gray-100 text-gray-700"
+                          row => row.priority === ticket.priority
+                        )?.className || 'bg-gray-100 text-gray-700'
                       }`}
                     >
                       <ExclamationMark size={20} />
@@ -226,7 +226,7 @@ export default function Tickets() {
                     ) : null}
                   </td> */}
                 </tr>
-              );
+              )
             })}
           </tbody>
         </table>
@@ -237,7 +237,7 @@ export default function Tickets() {
       <div className="flex justify-center items-center gap-4 mt-4">
         <Button
           disabled={currentPage === 1}
-          onClick={() => setCurrentPage((prev) => prev - 1)}
+          onClick={() => setCurrentPage(prev => prev - 1)}
           className="px-4 py-2 border rounded bg-gray-600 hover:bg-gray-300 disabled:opacity-50"
         >
           Anterior
@@ -249,12 +249,12 @@ export default function Tickets() {
 
         <Button
           disabled={currentPage === totalPages}
-          onClick={() => setCurrentPage((prev) => prev + 1)}
+          onClick={() => setCurrentPage(prev => prev + 1)}
           className="px-4 py-2 border rounded bg-gray-600 hover:bg-gray-300 disabled:opacity-50"
         >
           Próxima
         </Button>
       </div>
     </section>
-  );
+  )
 }

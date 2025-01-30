@@ -1,26 +1,26 @@
-import dayjs from "dayjs";
-import { getValidationColor } from "../../../utils/monitoring-validation-color.ts";
-import { CheckCircle, XCircle } from "phosphor-react";
-import { ClockCountdown } from "@phosphor-icons/react";
+import dayjs from 'dayjs'
+import { getValidationColor } from '../../../utils/monitoring-validation-color.ts'
+import { CheckCircle, XCircle } from 'phosphor-react'
+import { ClockCountdown } from '@phosphor-icons/react'
 
 interface PropsTickets {
-  id: number;
-  title: string;
-  date_creation: string;
-  status: string;
-  priority: string;
-  location: string;
-  firstname: string;
-  realname: string;
-  validation_status: string;
+  id: number
+  title: string
+  date_creation: string
+  status: string
+  priority: string
+  location: string
+  firstname: string
+  realname: string
+  validation_status: string
 }
 
 interface TicketsForm {
-  data: PropsTickets;
+  data: PropsTickets
 }
 
 export function ViewTicketMonitoring({ data }: TicketsForm) {
-  const date = dayjs(data.date_creation);
+  const date = dayjs(data.date_creation)
 
   return (
     <div className="flex flex-col flex-1 text-center justify-center bg-gray-50">
@@ -34,11 +34,11 @@ export function ViewTicketMonitoring({ data }: TicketsForm) {
             className={`flex fixed right-12 font-normal text-xl gap-1 p-4 border rounded-lg items-center shadow-xl 
           ${getValidationColor(data.validation_status)}
           transition-all duration-1000 ease-in-out transform opacity-0 translate-y-4
-          ${data.validation_status && "opacity-100 translate-y-0"}`}
+          ${data.validation_status && 'opacity-100 translate-y-0'}`}
           >
-            {data.validation_status === "Aprovado" && <CheckCircle size={24} />}
-            {data.validation_status === "Recusado" && <XCircle size={24} />}
-            {data.validation_status === "Aguardando" && (
+            {data.validation_status === 'Aprovado' && <CheckCircle size={24} />}
+            {data.validation_status === 'Recusado' && <XCircle size={24} />}
+            {data.validation_status === 'Aguardando' && (
               <ClockCountdown size={24} />
             )}
 
@@ -58,11 +58,11 @@ export function ViewTicketMonitoring({ data }: TicketsForm) {
               </span>
             </p> */}
         <p className="font-normal text-2xl text-gray-600">
-          Prioridade:{" "}
+          Prioridade:{' '}
           <span className="font-semibold text-blue-500">{data?.priority}</span>
         </p>
         <p className="font-normal text-2xl text-gray-600">
-          Local de Atendimento:{" "}
+          Local de Atendimento:{' '}
           <span className="font-semibold">{data?.location}</span>
         </p>
       </div>
@@ -71,7 +71,7 @@ export function ViewTicketMonitoring({ data }: TicketsForm) {
         <p className="font-normal text-2xl text-gray-600">
           Data de Criação:
           <span className="text-gray-600 ml-2">
-            {date?.format("DD/MM/YYYY HH:mm")}
+            {date?.format('DD/MM/YYYY HH:mm')}
             {/* ({data ? date.fromNow() : null}) */}
           </span>
           {/* <span className="text-gray-600 ml-2">
@@ -82,5 +82,5 @@ export function ViewTicketMonitoring({ data }: TicketsForm) {
         </p>
       </div>
     </div>
-  );
+  )
 }

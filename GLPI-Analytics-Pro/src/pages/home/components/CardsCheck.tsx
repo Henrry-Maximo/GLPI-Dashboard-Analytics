@@ -1,4 +1,4 @@
-import { Card } from "@/components/Card/Card";
+import { Card } from '@/components/Card/Card'
 import {
   Bug,
   CheckCircle,
@@ -12,32 +12,32 @@ import {
   UserCirclePlus,
   Warning,
   WarningCircle,
-} from "phosphor-react";
+} from 'phosphor-react'
 
 interface PropsStatusTickets {
   data: {
-    tickets_total: number;
-    tickets_open: number;
-    tickets_assigned: number;
-    tickets_pending: number;
-    tickets_solved: number;
-    tickets_closed: number;
-  };
+    tickets_total: number
+    tickets_open: number
+    tickets_assigned: number
+    tickets_pending: number
+    tickets_solved: number
+    tickets_closed: number
+  }
 }
 
 interface PropsPriorityAndTypeTickets {
   type: {
-    incident: number;
-    request: number;
-  };
+    incident: number
+    request: number
+  }
 
   data: {
-    tickets_very_low: number;
-    tickets_low: number;
-    tickets_medium: number;
-    tickets_high: number;
-    tickets_very_high: number;
-  };
+    tickets_very_low: number
+    tickets_low: number
+    tickets_medium: number
+    tickets_high: number
+    tickets_very_high: number
+  }
 }
 
 export function CardStatusTickets({ data }: PropsStatusTickets) {
@@ -83,7 +83,7 @@ export function CardStatusTickets({ data }: PropsStatusTickets) {
         />
       </div>
     </section>
-  );
+  )
 }
 
 export function CardPriorityAndTypeTickets({
@@ -146,5 +146,5 @@ export function CardPriorityAndTypeTickets({
         />
       </div>
     </section>
-  );
+  )
 }

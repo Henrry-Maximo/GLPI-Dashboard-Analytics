@@ -1,62 +1,62 @@
-import { Password, User } from "phosphor-react";
-import styles from "./style.module.css";
+import { Password, User } from 'phosphor-react'
+import styles from './style.module.css'
 
-import { useState } from "react";
-import logo_glpi from "../../assets/login/logo_glpi_slogan.png";
+import { useState } from 'react'
+import logo_glpi from '../../assets/login/logo_glpi_slogan.png'
 
-import { useMutation } from "@tanstack/react-query";
-import { login } from "../../http/auth";
-import { useNavigate } from "react-router-dom";
+import { useMutation } from '@tanstack/react-query'
+import { login } from '../../http/auth'
+import { useNavigate } from 'react-router-dom'
 
-import { jwtDecode } from "jwt-decode";
-import type { JwtPayload } from "jwt-decode";
+import { jwtDecode } from 'jwt-decode'
+import type { JwtPayload } from 'jwt-decode'
 interface CustomJwtPayload extends JwtPayload {
-  token: string;
-  name: string; // Defina aqui o campo 'name'
+  token: string
+  name: string // Defina aqui o campo 'name'
 }
 
 export default function Index() {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
-  const [user, setUser] = useState("");
-  const [password, setPassword] = useState("");
+  const [user, setUser] = useState('')
+  const [password, setPassword] = useState('')
 
-  const [errorMessage, setErrorMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState('')
 
   const mutation = useMutation({
     mutationFn: login,
 
-    onSuccess: (data) => {
+    onSuccess: data => {
       if (data.token) {
-        const decoded = jwtDecode<CustomJwtPayload>(data.token);
-        const { name } = decoded;
+        const decoded = jwtDecode<CustomJwtPayload>(data.token)
+        const { name } = decoded
 
-        sessionStorage.setItem("jwt", data.token);
-        sessionStorage.setItem("name", name);
+        sessionStorage.setItem('jwt', data.token)
+        sessionStorage.setItem('name', name)
 
         // Redireciona o usuário
-        navigate("/main/home");
+        navigate('/main/home')
       }
     },
 
     onError: (error: Error) => {
       // Captura a mensagem do erro e exibe
-      setErrorMessage(error.message);
+      setErrorMessage(error.message)
     },
-  });
+  })
 
   // Handler do envio do formulário
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+    event.preventDefault()
 
     const dataLogin = {
       username: user,
       password: password,
-    };
+    }
 
     // Chama a mutação para fazer o login
-    mutation.mutate(dataLogin);
-  };
+    mutation.mutate(dataLogin)
+  }
 
   return (
     <div className={styles.wrapper}>
@@ -74,7 +74,7 @@ export default function Index() {
                 required
                 maxLength={25}
                 value={user}
-                onChange={(e) => setUser(e.target.value)}
+                onChange={e => setUser(e.target.value)}
               />
               <label htmlFor="text">Usuário</label>
               <User className={styles.svgGroup} size={32} />
@@ -86,7 +86,7 @@ export default function Index() {
                 required
                 maxLength={16}
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={e => setPassword(e.target.value)}
               />
               <label htmlFor="text">Senha</label>
               <Password className={styles.svgGroup} size={32} />
@@ -131,5 +131,5 @@ export default function Index() {
         </form>
       </div>
     </div>
-  );
+  )
 }
