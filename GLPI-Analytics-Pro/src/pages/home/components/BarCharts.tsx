@@ -1,3 +1,6 @@
+import { Button } from '@/components/ui/button';
+import { ScrollArea } from '@/components/ui/scroll-area';
+
 import {
   CardContent,
   CardDescription,
@@ -116,29 +119,30 @@ export function BarChartsTickets({
 
   return (
     <div className="flex flex-col gap-4">
-      <CardRoot>
-        <CardHeader className="flex flex-col items-stretch space-y-0 border-b p-0 sm:flex-row">
-          <div className="flex flex-1 flex-col justify-center gap-1 px-6 py-5 sm:py-6">
-            <CardTitle>Chamados Fechados</CardTitle>
-            <CardDescription>
-              Exibindo o total de chamados fechados por dia
-            </CardDescription>
-          </div>
-          <div className="flex">
-            <button
-              className="relative z-30 flex flex-1 flex-col justify-center gap-1 border-t px-6 py-4 text-left sm:border-l sm:border-t-0 sm:px-8 sm:py-6"
-              data-active={true}
-              type="button"
-            >
-              <span className="text-xs text-muted-foreground">
-                {chartConfig.tickets.label}
-              </span>
-              <span className="text-lg font-bold leading-none sm:text-3xl">
-                {totalTickets}
-              </span>
-            </button>
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-[1fr_500px]">
+        <CardRoot>
+          <CardHeader className="flex flex-col items-stretch space-y-0 border-b p-0 sm:flex-row">
+            <div className="flex flex-1 flex-col justify-center gap-1 px-6 py-5 sm:py-6">
+              <CardTitle>Chamados Fechados</CardTitle>
+              <CardDescription>
+                Exibindo o total de chamados fechados por dia
+              </CardDescription>
+            </div>
+            <div className="flex">
+              <button
+                className="relative z-30 flex flex-1 flex-col justify-center gap-1 border-t px-6 py-4 text-left sm:border-l sm:border-t-0 sm:px-8 sm:py-6"
+                data-active={true}
+                type="button"
+              >
+                <span className="text-xs text-muted-foreground">
+                  {chartConfig.tickets.label}
+                </span>
+                <span className="text-lg font-bold leading-none sm:text-3xl">
+                  {totalTickets}
+                </span>
+              </button>
 
-            {/* <div
+              {/* <div
               className="relative z-30 flex flex-1 flex-col justify-center gap-1 border-t px-6 py-4 text-left sm:border-l sm:border-t-0 sm:px-8 sm:py-6"
               data-active={true}
             >
@@ -147,60 +151,148 @@ export function BarChartsTickets({
                 55%
               </span>
             </div> */}
-          </div>
-        </CardHeader>
+            </div>
+          </CardHeader>
 
-        <CardContent className="px-2 sm:p-6">
-          <ChartContainer
-            config={chartConfig}
-            className="aspect-auto h-[250px] w-full"
-          >
-            <BarChart
-              accessibilityLayer
-              data={concludes.map(d => ({
-                date: new Date(d.date_creation).toISOString(),
-                count: d.count,
-              }))}
-              margin={{
-                left: 12,
-                right: 12,
-              }}
+          <CardContent className="px-2 sm:p-6">
+            <ChartContainer
+              config={chartConfig}
+              className="aspect-auto h-[250px] w-full"
             >
-              <CartesianGrid vertical={true} />
-              <XAxis
-                dataKey="date"
-                tickLine={false}
-                axisLine={true}
-                tickMargin={8}
-                minTickGap={32}
-                tickFormatter={value => {
-                  const date = new Date(value);
-                  return date.toLocaleDateString('en-US', {
-                    month: 'short',
-                    day: 'numeric',
-                  });
+              <BarChart
+                accessibilityLayer
+                data={concludes.map(d => ({
+                  date: new Date(d.date_creation).toISOString(),
+                  count: d.count,
+                }))}
+                margin={{
+                  left: 12,
+                  right: 12,
                 }}
-              />
-              <ChartTooltip
-                content={
-                  <ChartTooltipContent
-                    className="w-[150px]"
-                    nameKey="count"
-                    labelFormatter={value => {
-                      return new Date(value).toLocaleDateString('pt-br', {
-                        month: 'short',
-                        day: 'numeric',
-                        year: 'numeric',
-                      });
-                    }}
-                  />
-                }
-              />
-              <Bar dataKey="count" fill="var(--color-tickets)" />
-            </BarChart>
-          </ChartContainer>
-        </CardContent>
-      </CardRoot>
+              >
+                <CartesianGrid vertical={true} />
+                <XAxis
+                  dataKey="date"
+                  tickLine={false}
+                  axisLine={true}
+                  tickMargin={8}
+                  minTickGap={32}
+                  tickFormatter={value => {
+                    const date = new Date(value);
+                    return date.toLocaleDateString('en-US', {
+                      month: 'short',
+                      day: 'numeric',
+                    });
+                  }}
+                />
+                <ChartTooltip
+                  content={
+                    <ChartTooltipContent
+                      className="w-[150px]"
+                      nameKey="count"
+                      labelFormatter={value => {
+                        return new Date(value).toLocaleDateString('pt-br', {
+                          month: 'short',
+                          day: 'numeric',
+                          year: 'numeric',
+                        });
+                      }}
+                    />
+                  }
+                />
+                <Bar dataKey="count" fill="var(--color-tickets)" />
+              </BarChart>
+            </ChartContainer>
+          </CardContent>
+        </CardRoot>
+
+        <section className="h-80">
+          <header className="bg-white p-4 rounded-t-md">
+            <h1 className="font-semibold">Chamados Atrasados</h1>
+            <span className="text-sm text-gray-500">
+              Resumo Chamados Atrasados (SLA)
+            </span>
+          </header>
+
+          <ScrollArea className="h-[calc(100%-0px)] border rounded-b-md bg-gray-50 shadow-sm">
+            <table className="table-auto w-full">
+              <thead className="bg-white font-light text-center">
+                <tr>
+                  <th className="py-3 px-4 text-left text-sm font-semibold uppercase">
+                    ID
+                  </th>
+                  <th className="py-3 px-4 text-left text-sm font-semibold uppercase">
+                    Título
+                  </th>
+                  <th className="py-3 px-4 text-left text-sm font-semibold uppercase">
+                    Criado
+                  </th>
+                  <th className="py-3 px-4 text-left text-sm font-semibold uppercase">
+                    Prazo
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="bg-white font-light shadow-md">
+                {delayed.map(ticket => {
+                  return (
+                    <tr
+                      key={ticket.id}
+                      className="border-b hover:bg-gray-100 transition duration-200"
+                    >
+                      <td className="py-3 px-4 text-left text-sm">
+                        {ticket.id}
+                      </td>
+                      <td className="py-3 px-4 text-left text-sm">
+                        {ticket.name}
+                      </td>
+                      <td className="py-3 px-4 text-left text-sm">
+                        {new Date(ticket.date_creation).toLocaleDateString(
+                          'pt-BR',
+                          {
+                            day: '2-digit',
+                            month: 'short',
+                            year: 'numeric',
+                          }
+                        )}
+                      </td>
+                      <td className="py-3 px-4 text-left text-sm">
+                        {new Date(ticket.time_to_resolve).toLocaleDateString(
+                          'pt-BR',
+                          {
+                            day: '2-digit',
+                            month: 'short',
+                            year: 'numeric',
+                          }
+                        )}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </ScrollArea>
+
+          {/* <div className="flex justify-center items-center gap-4 mt-4">
+            <Button
+              // disabled={currentPage === 1}
+              // onClick={() => setCurrentPage(prev => prev - 1)}
+              className="px-4 py-2 border rounded bg-gray-600 hover:bg-gray-300 disabled:opacity-50"
+            >
+              Anterior
+            </Button>
+
+            <span>Página {currentPage} de {totalPages}</span>
+
+            <Button
+              // disabled={currentPage === totalPages}
+              // onClick={() => setCurrentPage(prev => prev + 1)}
+              className="px-4 py-2 border rounded bg-gray-600 hover:bg-gray-300 disabled:opacity-50"
+            >
+              Próxima
+            </Button>
+          </div> */}
+        </section>
+      </div>
 
       <div className="grid grid-cols-2 gap-4">
         <CardRoot className="shadow-lg bg-gray-50">
@@ -442,67 +534,6 @@ export function BarChartsTickets({
             </div>
           </CardFooter>
         </CardRoot>
-      </div>
-
-      <div>
-        <div className="bg-white p-4">
-          <h1 className="font-semibold">Chamados Atrasados</h1>
-          <span className="text-sm text-gray-500">
-            Resumo Chamados Atrasados (SLA)
-          </span>
-        </div>
-
-        <table className="w-full">
-          <thead className="bg-white font-light text-center">
-            <tr>
-              <th className="py-3 px-4 text-left text-sm font-semibold uppercase">
-                ID
-              </th>
-              <th className="py-3 px-4 text-left text-sm font-semibold uppercase">
-                Título
-              </th>
-              <th className="py-3 px-4 text-left text-sm font-semibold uppercase">
-                Criado
-              </th>
-              <th className="py-3 px-4 text-left text-sm font-semibold uppercase">
-                Prazo
-              </th>
-            </tr>
-          </thead>
-          <tbody className="bg-white font-light shadow-md">
-            {delayed.map(ticket => {
-              return (
-                <tr
-                  key={ticket.id}
-                  className="border-b hover:bg-gray-100 transition duration-200"
-                >
-                  <td className="py-3 px-4 text-left text-sm">{ticket.id}</td>
-                  <td className="py-3 px-4 text-left text-sm">{ticket.name}</td>
-                  <td className="py-3 px-4 text-left text-sm">
-                    {new Date(ticket.date_creation).toLocaleDateString(
-                      'pt-BR',
-                      {
-                        day: '2-digit',
-                        month: 'short',
-                        year: 'numeric',
-                      }
-                    )}
-                  </td>
-                  <td className="py-3 px-4 text-left text-sm">
-                    {new Date(ticket.time_to_resolve).toLocaleDateString(
-                      'pt-BR',
-                      {
-                        day: '2-digit',
-                        month: 'short',
-                        year: 'numeric',
-                      }
-                    )}
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
       </div>
 
       {/* <CardRoot className="grid shadow-lg bg-gray-50 w-1/4">

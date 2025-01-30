@@ -36,7 +36,7 @@
 ## REQUIREMENTS
 
 # FUNCTIONAL REQUIREMENTS
-- [] Usuário deve poder se autenticar (id, password);
+- [x] Usuário deve poder se autenticar (id, password);
 - [] Usuário deve poder escanear QRCode do MFA;
 - [] Usuário deve poder se autenticar no MFA digitando o código;
 - [] Usuário deve poder visualizar informações de cadastro previamente no header;
