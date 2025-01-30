@@ -1,13 +1,13 @@
-import { useState } from 'react'
-import { Outlet } from 'react-router-dom'
-import Header from '../../components/Header/Header'
-import Sidebar from '../../components/Sidebar/Sidebar'
+import { useState } from 'react';
+import { Outlet } from 'react-router-dom';
+import Header from '../../components/Header/Header';
+import Sidebar from '../../components/Sidebar/Sidebar';
 
 export default function DefaultLayout() {
-  const [menuOpen, setMenuOpen] = useState(true)
+  const [menuOpen, setMenuOpen] = useState(true);
 
   function toggleSidebar() {
-    setMenuOpen(!menuOpen)
+    setMenuOpen(!menuOpen);
   }
 
   return (
@@ -20,5 +20,5 @@ export default function DefaultLayout() {
         <Outlet />
       </div>
     </div>
-  )
+  );
 }

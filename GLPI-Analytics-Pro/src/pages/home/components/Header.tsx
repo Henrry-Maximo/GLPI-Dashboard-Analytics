@@ -1,7 +1,7 @@
-import { ChartLine } from 'phosphor-react'
+import { ChartLine } from 'phosphor-react';
 
 export function Header() {
-  const nameUserAuth = sessionStorage.getItem('name')
+  const nameUserAuth = sessionStorage.getItem('name');
 
   return (
     <div className="flex flex-row bg-gray-50 justify-between mb-4 items-center py-2 px-2 rounded-md shadow-md">
@@ -13,5 +13,5 @@ export function Header() {
         Olá, {`${nameUserAuth}`}
       </span>
     </div>
-  )
+  );
 }

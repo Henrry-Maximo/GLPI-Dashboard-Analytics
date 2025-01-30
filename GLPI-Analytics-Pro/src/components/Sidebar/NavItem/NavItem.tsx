@@ -1,11 +1,11 @@
-import type { ElementType } from 'react'
-import { Link } from 'react-router-dom'
+import type { ElementType } from 'react';
+import { Link } from 'react-router-dom';
 
 interface NavItemProps {
-  icon: ElementType
-  title: string
-  link: string
-  onClick?: () => void
+  icon: ElementType;
+  title: string;
+  link: string;
+  onClick?: () => void;
 }
 
 export function NavItem({ icon: Icon, title, link, onClick }: NavItemProps) {
@@ -23,5 +23,5 @@ export function NavItem({ icon: Icon, title, link, onClick }: NavItemProps) {
         {title}
       </span>
     </Link>
-  )
+  );
 }

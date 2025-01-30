@@ -1,26 +1,26 @@
-import dayjs from 'dayjs'
-import { getValidationColor } from '../../../utils/monitoring-validation-color.ts'
-import { CheckCircle, XCircle } from 'phosphor-react'
-import { ClockCountdown } from '@phosphor-icons/react'
+import dayjs from 'dayjs';
+import { getValidationColor } from '../../../utils/monitoring-validation-color.ts';
+import { CheckCircle, XCircle } from 'phosphor-react';
+import { ClockCountdown } from '@phosphor-icons/react';
 
 interface PropsTickets {
-  id: number
-  title: string
-  date_creation: string
-  status: string
-  priority: string
-  location: string
-  firstname: string
-  realname: string
-  validation_status: string
+  id: number;
+  title: string;
+  date_creation: string;
+  status: string;
+  priority: string;
+  location: string;
+  firstname: string;
+  realname: string;
+  validation_status: string;
 }
 
 interface TicketsForm {
-  data: PropsTickets
+  data: PropsTickets;
 }
 
 export function ViewTicketMonitoring({ data }: TicketsForm) {
-  const date = dayjs(data.date_creation)
+  const date = dayjs(data.date_creation);
 
   return (
     <div className="flex flex-col flex-1 text-center justify-center bg-gray-50">
@@ -82,5 +82,5 @@ export function ViewTicketMonitoring({ data }: TicketsForm) {
         </p>
       </div>
     </div>
-  )
+  );
 }

@@ -1,11 +1,11 @@
-import { DotsThreeOutline } from 'phosphor-react'
-import { Pie } from 'react-chartjs-2'
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
+import { DotsThreeOutline } from 'phosphor-react';
+import { Pie } from 'react-chartjs-2';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 
-ChartJS.register(ArcElement, Tooltip, Legend)
+ChartJS.register(ArcElement, Tooltip, Legend);
 
 interface CardPie {
-  title: string
+  title: string;
 }
 
 export function CardPie({ title }: CardPie) {
@@ -25,7 +25,7 @@ export function CardPie({ title }: CardPie) {
         data: [0, 0, 1, 0, 0, 1],
       },
     ],
-  }
+  };
 
   return (
     <div className="bg-gray-50 p-4 gap-4 rounded-md shadow-sm">
@@ -40,5 +40,5 @@ export function CardPie({ title }: CardPie) {
         <Pie data={data} />
       </div>
     </div>
-  )
+  );
 }

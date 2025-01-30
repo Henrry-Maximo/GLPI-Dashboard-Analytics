@@ -1,7 +1,7 @@
-import { User } from 'phosphor-react'
+import { User } from 'phosphor-react';
 
 export function Profile() {
-  const nameUserFromSessionStorage = sessionStorage.getItem('name')
+  const nameUserFromSessionStorage = sessionStorage.getItem('name');
 
   return (
     <div className="grid grid-cols-profile items-center gap-3 mt-4">
@@ -24,5 +24,5 @@ export function Profile() {
         <span className="truncate text-sm text-zinc-500">...@gmail.com</span>
       </div>
     </div>
-  )
+  );
 }

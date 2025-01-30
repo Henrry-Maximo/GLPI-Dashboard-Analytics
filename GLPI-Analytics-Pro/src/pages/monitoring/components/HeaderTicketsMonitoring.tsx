@@ -1,18 +1,18 @@
-import { useEffect, useState } from 'react'
-import { NavItem } from '../../../components/Header/NavItem/NavItem'
-import dayjs from 'dayjs'
-import { ArrowCircleLeft } from 'phosphor-react'
+import { useEffect, useState } from 'react';
+import { NavItem } from '../../../components/Header/NavItem/NavItem';
+import dayjs from 'dayjs';
+import { ArrowCircleLeft } from 'phosphor-react';
 
 export function HeaderTicketsMonitoring() {
-  const [currentTime, setCurrentTime] = useState(dayjs())
+  const [currentTime, setCurrentTime] = useState(dayjs());
 
   useEffect(() => {
     const intervalId = setInterval(() => {
-      setCurrentTime(dayjs())
-    }, 1000)
+      setCurrentTime(dayjs());
+    }, 1000);
 
-    return () => clearInterval(intervalId)
-  }, [])
+    return () => clearInterval(intervalId);
+  }, []);
 
   return (
     <header className="flex flex-row items-center gap-4 justify-between bg-orange-500 p-4 text-slate-100">
@@ -31,5 +31,5 @@ export function HeaderTicketsMonitoring() {
         </span>
       </p>
     </header>
-  )
+  );
 }

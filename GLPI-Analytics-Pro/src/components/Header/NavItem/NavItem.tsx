@@ -1,9 +1,9 @@
-import type { ElementType } from 'react'
-import { Link } from 'react-router-dom'
+import type { ElementType } from 'react';
+import { Link } from 'react-router-dom';
 
 interface NavItemProps {
-  icon: ElementType
-  route: string
+  icon: ElementType;
+  route: string;
 }
 
 export function NavItem({ icon: Icon, route }: NavItemProps) {
@@ -17,5 +17,5 @@ export function NavItem({ icon: Icon, route }: NavItemProps) {
         className="h-5 w-5 text-gray-700 group-hover:text-orange-500 transition duration-300 ease-in-out"
       />
     </Link>
-  )
+  );
 }

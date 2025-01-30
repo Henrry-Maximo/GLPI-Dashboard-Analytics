@@ -1,17 +1,17 @@
-import { Card, CardHeader, CardContent } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
+import { Card, CardHeader, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import {
   Select,
   SelectContent,
   SelectTrigger,
   SelectValue,
   SelectItem,
-} from '@/components/ui/select'
-import { useState } from 'react'
+} from '@/components/ui/select';
+import { useState } from 'react';
 
 export default function AnalyticsPage() {
-  const [selectedTab, setSelectedTab] = useState('overview')
+  const [selectedTab, setSelectedTab] = useState('overview');
 
   return (
     <section className="w-full space-y-6">
@@ -132,5 +132,5 @@ export default function AnalyticsPage() {
         </TabsContent>
       </Tabs>
     </section>
-  )
+  );
 }

@@ -48,7 +48,7 @@ body {
 ::-webkit-scrollbar-thumb {
   background-color: #ff8c42;
   border-radius: 8px;
-  border: 2px solid #ffe5cc; 
+  border: 2px solid #ffe5cc;
 }
 
 ::-webkit-scrollbar-thumb:hover {

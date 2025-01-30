@@ -1,5 +1,5 @@
-import { DotsThreeOutline } from 'phosphor-react'
-import { Line } from 'react-chartjs-2'
+import { DotsThreeOutline } from 'phosphor-react';
+import { Line } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -9,7 +9,7 @@ import {
   Title,
   Tooltip,
   Legend,
-} from 'chart.js'
+} from 'chart.js';
 
 ChartJS.register(
   CategoryScale,
@@ -19,14 +19,14 @@ ChartJS.register(
   Title,
   Tooltip,
   Legend
-)
+);
 
 interface CardGraph {
-  title: string
+  title: string;
 }
 
 export function CardGraph({ title }: CardGraph) {
-  const labels = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho']
+  const labels = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho'];
   const data = {
     labels,
     datasets: [
@@ -61,7 +61,7 @@ export function CardGraph({ title }: CardGraph) {
         data: [3, 2, 3, 30, 25, 18, 11],
       },
     ],
-  }
+  };
 
   return (
     <div className="bg-gray-50 flex flex-col p-4 gap-4 col-span-2 rounded-md shadow-sm">
@@ -76,5 +76,5 @@ export function CardGraph({ title }: CardGraph) {
         <Line className="" data={data} />
       </div>
     </div>
-  )
+  );
 }

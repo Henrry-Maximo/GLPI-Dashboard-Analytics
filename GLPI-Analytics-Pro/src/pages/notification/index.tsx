@@ -29,7 +29,7 @@ export default function Notifications() {
       message: 'Falha ao sincronizar dados. Tente novamente mais tarde.',
       time: '2025-01-01 08:45',
     },
-  ]
+  ];
 
   return (
     <section className="m-4 w-full px-8">
@@ -64,5 +64,5 @@ export default function Notifications() {
         ))}
       </div>
     </section>
-  )
+  );
 }

@@ -1,16 +1,16 @@
 /* Icons */
-import { BellSimple, List, Question, UserCircle } from 'phosphor-react'
+import { BellSimple, List, Question, UserCircle } from 'phosphor-react';
 
-import glpi_logo from '../../assets/login/logo_glpi_slogan.png'
-import { NavItem } from './NavItem/NavItem'
+import glpi_logo from '../../assets/login/logo_glpi_slogan.png';
+import { NavItem } from './NavItem/NavItem';
 
 export interface ButtonProps {
-  toggleSidebar: (event: React.MouseEvent<HTMLButtonElement>) => void
+  toggleSidebar: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 export interface MainProps {
-  menuOpen: boolean
-  closeMenu: () => void
+  menuOpen: boolean;
+  closeMenu: () => void;
 }
 
 export default function Header({ toggleSidebar }: ButtonProps) {
@@ -36,7 +36,7 @@ export default function Header({ toggleSidebar }: ButtonProps) {
         <NavItem icon={UserCircle} route="/main/system" />
       </nav>
     </div>
-  )
+  );
 }
 
 /*

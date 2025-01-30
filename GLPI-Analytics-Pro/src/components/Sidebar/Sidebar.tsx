@@ -8,25 +8,25 @@ import {
   SignOut,
   Ticket,
   TrendUp,
-} from 'phosphor-react'
+} from 'phosphor-react';
 
-import type { MainProps } from '../Header/Header'
+import type { MainProps } from '../Header/Header';
 // import * as Input from '../Input/Input'
-import { Profile } from './MainProfile'
-import { NavItem } from './NavItem/NavItem'
-import { useNavigate } from 'react-router-dom'
+import { Profile } from './MainProfile';
+import { NavItem } from './NavItem/NavItem';
+import { useNavigate } from 'react-router-dom';
 
 export default function Sidebar({ menuOpen }: MainProps) {
   // const [enabled, setEnabled] = useState(true)
 
   function handleLogout() {
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     // Remove o token do sessionStorage
-    sessionStorage.removeItem('jwt')
+    sessionStorage.removeItem('jwt');
 
     // Redireciona o usuário para a página de login
-    navigate('/login')
+    navigate('/login');
   }
 
   return (
@@ -71,5 +71,5 @@ export default function Sidebar({ menuOpen }: MainProps) {
         <Profile />
       </div>
     </aside>
-  )
+  );
 }

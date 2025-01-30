@@ -1,5 +1,5 @@
-'use client'
-import * as Tabs from '@radix-ui/react-tabs'
+'use client';
+import * as Tabs from '@radix-ui/react-tabs';
 
 export function SettingsTabs() {
   return (
@@ -39,5 +39,5 @@ export function SettingsTabs() {
         </Tabs.List>
       </Tabs.Root>
     </>
-  )
+  );
 }

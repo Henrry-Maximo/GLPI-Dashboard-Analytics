@@ -1,18 +1,18 @@
-import { getStatusColor } from '../../../utils/monitoring-priority-color'
-import { getStatusDetails } from '../../../utils/monitoring-status-icon-color'
+import { getStatusColor } from '../../../utils/monitoring-priority-color';
+import { getStatusDetails } from '../../../utils/monitoring-status-icon-color';
 
 interface Ticket {
-  id: number
-  applicant: string
-  title: string
-  status: string
-  technical: string
-  location: string
-  priority: string
+  id: number;
+  applicant: string;
+  title: string;
+  status: string;
+  technical: string;
+  location: string;
+  priority: string;
 }
 
 interface PropsListTickets {
-  dataTickets: Ticket[]
+  dataTickets: Ticket[];
 }
 
 export function ListTicketsMonitoring({ dataTickets }: PropsListTickets) {
@@ -46,7 +46,7 @@ export function ListTicketsMonitoring({ dataTickets }: PropsListTickets) {
         </thead>
         <tbody className="bg-gray-50 font-light">
           {dataTickets.map(ticket => {
-            const { titleStatus, icon } = getStatusDetails(ticket.status)
+            const { titleStatus, icon } = getStatusDetails(ticket.status);
             return (
               <tr
                 key={ticket.id}
@@ -75,10 +75,10 @@ export function ListTicketsMonitoring({ dataTickets }: PropsListTickets) {
                   {ticket.priority}
                 </td>
               </tr>
-            )
+            );
           })}
         </tbody>
       </table>
     </div>
-  )
+  );
 }

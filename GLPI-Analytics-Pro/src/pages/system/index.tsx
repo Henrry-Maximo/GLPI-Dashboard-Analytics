@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui/button'
+import { Button } from '@/components/ui/button';
 
 export default function SettingsPage() {
   return (
@@ -81,5 +81,5 @@ export default function SettingsPage() {
         </form>
       </div>
     </div>
-  )
+  );
 }

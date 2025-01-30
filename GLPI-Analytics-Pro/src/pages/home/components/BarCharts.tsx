@@ -5,15 +5,15 @@ import {
   CardHeader,
   Card as CardRoot,
   CardTitle,
-} from '@/components/ui/card'
+} from '@/components/ui/card';
 
 import {
   type ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from '@/components/ui/chart'
-import React from 'react'
+} from '@/components/ui/chart';
+import React from 'react';
 
 import {
   Area,
@@ -24,53 +24,53 @@ import {
   LabelList,
   XAxis,
   YAxis,
-} from 'recharts'
+} from 'recharts';
 
 interface PropsBarChartsTickets {
   priority: {
-    tickets_very_low: number
-    tickets_low: number
-    tickets_medium: number
-    tickets_high: number
-    tickets_very_high: number
-  }
+    tickets_very_low: number;
+    tickets_low: number;
+    tickets_medium: number;
+    tickets_high: number;
+    tickets_very_high: number;
+  };
   categorie: [
     {
-      completename: string
-      count: number
+      completename: string;
+      count: number;
     },
-  ]
+  ];
   concludes: [
     {
-      date_creation: string
-      status: string
-      count: number
+      date_creation: string;
+      status: string;
+      count: number;
     },
-  ]
+  ];
   delayed: [
     {
-      id: number
-      date_creation: string
-      time_to_resolve: string
-      status: number
-      name: string
+      id: number;
+      date_creation: string;
+      time_to_resolve: string;
+      status: number;
+      name: string;
     },
-  ]
+  ];
   technician: {
     ticketsAmountTechnician: [
       {
-        technician: string
-        quantity_tickets: number
+        technician: string;
+        quantity_tickets: number;
       },
-    ]
+    ];
     ticketsAmountTechnicianSolution: [
       {
-        technician: string
-        group: string
-        count: number
+        technician: string;
+        group: string;
+        count: number;
       },
-    ]
-  }
+    ];
+  };
 }
 
 export function BarChartsTickets({
@@ -87,7 +87,7 @@ export function BarChartsTickets({
     { urgency: 'Média', tickets: priority.tickets_medium },
     { urgency: 'Alta', tickets: priority.tickets_high },
     { urgency: 'Muito Alta', tickets: priority.tickets_very_high },
-  ]
+  ];
 
   const chartConfigLabel = {
     tickets: {
@@ -97,22 +97,22 @@ export function BarChartsTickets({
     label: {
       color: 'hsl(var(--background))',
     },
-  } satisfies ChartConfig
+  } satisfies ChartConfig;
 
   const chartConfig = {
     tickets: {
       label: 'chamados',
       color: 'hsl(var(--chart-1))',
     },
-  } satisfies ChartConfig
+  } satisfies ChartConfig;
 
   const totalTickets = React.useMemo(
     () => concludes.reduce((acc, curr) => acc + curr.count, 0),
     [concludes]
-  )
+  );
 
   const dataTicketsTechnicianSolution =
-    technician.ticketsAmountTechnicianSolution
+    technician.ticketsAmountTechnicianSolution;
 
   return (
     <div className="flex flex-col gap-4">
@@ -174,11 +174,11 @@ export function BarChartsTickets({
                 tickMargin={8}
                 minTickGap={32}
                 tickFormatter={value => {
-                  const date = new Date(value)
+                  const date = new Date(value);
                   return date.toLocaleDateString('en-US', {
                     month: 'short',
                     day: 'numeric',
-                  })
+                  });
                 }}
               />
               <ChartTooltip
@@ -191,7 +191,7 @@ export function BarChartsTickets({
                         month: 'short',
                         day: 'numeric',
                         year: 'numeric',
-                      })
+                      });
                     }}
                   />
                 }
@@ -384,11 +384,11 @@ export function BarChartsTickets({
                 <ChartTooltip
                   cursor={true}
                   content={({ payload }) => {
-                    if (!payload) return null
+                    if (!payload) return null;
 
                     if (payload && payload.length > 0) {
                       const { date_creation, name, status, time_to_resolve } =
-                        payload[0].payload
+                        payload[0].payload;
 
                       return (
                         <div className="bg-white p-2 rounded shadow-md text-sm">
@@ -421,9 +421,9 @@ export function BarChartsTickets({
                             <strong>Status:</strong> {status}
                           </p>
                         </div>
-                      )
+                      );
                     }
-                    return null
+                    return null;
                   }}
                 />
                 <Area
@@ -499,7 +499,7 @@ export function BarChartsTickets({
                     )}
                   </td>
                 </tr>
-              )
+              );
             })}
           </tbody>
         </table>
@@ -641,5 +641,5 @@ export function BarChartsTickets({
           </CardFooter>
         </CardRoot> */}
     </div>
-  )
+  );
 }
