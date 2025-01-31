@@ -23,6 +23,8 @@ export default function Index() {
 
   const [errorMessage, setErrorMessage] = useState('');
 
+  // redirecionamento para home (já logado)
+
   const mutation = useMutation({
     mutationFn: login,
 
