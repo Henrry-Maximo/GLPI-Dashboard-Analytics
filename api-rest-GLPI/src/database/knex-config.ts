@@ -19,14 +19,14 @@ export const config: Knex.Config = {
 export const knex = setupKnex(config);
 
 // Testar a conexão
-export async function testConnection() {
+export async function testConnectionDatabase() {
   try {
     await knex.raw("SELECT 1");
-    console.log("Conexão com o banco de dados estabelecida com sucesso!");
+    console.log("Connection with the database successful.");
   } catch (error) {
-    console.error("Erro ao conectar ao banco de dados:", error);
+    console.error("Error connection with the database:", error);
     throw error;
   }
 }
 
-testConnection().catch(() => process.exit(1));
+testConnectionDatabase().catch(() => process.exit(1));
