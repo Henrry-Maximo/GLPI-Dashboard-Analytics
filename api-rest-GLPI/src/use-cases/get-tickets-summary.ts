@@ -62,10 +62,10 @@ export async function getTicketsSummary() {
       `),
     )
     .count("id AS count")
-    .whereRaw(
-      "YEAR(date_creation) = YEAR(CURDATE()) - 1"
-    )
-    .whereNotIn("status", [1, 2, 3, 4, 5])
+    // .whereRaw(
+    //   "YEAR(date_creation) = YEAR(CURDATE()) - 1"
+    // )
+    .whereNotIn("status", [1, 2, 3, 4])
     .groupByRaw("DATE(date_creation), status")
     .orderByRaw("DATE(date_creation) DESC");
 

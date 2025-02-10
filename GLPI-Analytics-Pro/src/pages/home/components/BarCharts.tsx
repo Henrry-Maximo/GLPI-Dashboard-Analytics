@@ -117,8 +117,8 @@ export function BarChartsTickets({
     technician.ticketsAmountTechnicianSolution;
 
   return (
-    <div className="flex flex-col gap-4">
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-[1fr_500px]">
+    <div className="flex flex-col gap-4 h-screen">
+      <div className="grid grid-cols-1 gap-4">
         <CardRoot>
           <CardHeader className="flex flex-col items-stretch space-y-0 border-b p-0 sm:flex-row">
             <div className="flex flex-1 flex-col justify-center gap-1 px-6 py-5 sm:py-6">
@@ -178,7 +178,7 @@ export function BarChartsTickets({
                   minTickGap={32}
                   tickFormatter={value => {
                     const date = new Date(value);
-                    return date.toLocaleDateString('en-US', {
+                    return date.toLocaleDateString('pt-br', {
                       month: 'short',
                       day: 'numeric',
                     });
@@ -205,15 +205,14 @@ export function BarChartsTickets({
           </CardContent>
         </CardRoot>
 
-        <section className="h-80">
-          <header className="bg-white p-4 rounded-t-md">
-            <h1 className="font-semibold">Chamados Atrasados</h1>
-            <span className="text-sm text-gray-500">
-              Resumo Chamados Atrasados (SLA)
-            </span>
-          </header>
-
-          <ScrollArea className="h-[calc(100%-0px)] border rounded-b-md bg-gray-50 shadow-sm">
+        <section className="h-full">
+          <ScrollArea className="h-72 border rounded-b-md bg-gray-50 shadow-sm">
+            <header className="bg-white p-4 rounded-t-md">
+              <h1 className="font-semibold">Chamados Atrasados</h1>
+              <span className="text-sm text-gray-500">
+                Resumo Chamados Atrasados (SLA)
+              </span>
+            </header>
             <table className="table-auto w-full">
               <thead className="bg-white font-light text-center">
                 <tr>
