@@ -29,7 +29,6 @@ export async function getTicketsAll() {
   const tickets = await knex("glpi_tickets as t")
   .select([
     "t.id", // ID do chamado
-    "t.entities_id", // ID da entidade
     "t.name", // Nome do chamado
     knex.raw(
       'DATE_FORMAT(t.date_creation, "%d/%m/%Y %H:%i") AS "date_creation"'
@@ -37,9 +36,6 @@ export async function getTicketsAll() {
     knex.raw(
       'DATE_FORMAT(t.solvedate, "%d/%m/%Y %H:%i") AS "solvedate"'
     ), // Formata a data de solução
-    knex.raw(
-      'DATE_FORMAT(t.date_mod, "%d/%m/%Y %H:%i") AS "date_mod"'
-    ), // Formata a data de modificação
     "lo.name AS location", // Nome da localização
     knex.raw(`
       GROUP_CONCAT(DISTINCT CONCAT(u.firstname, ' ', u.realname)) AS "applicant"
