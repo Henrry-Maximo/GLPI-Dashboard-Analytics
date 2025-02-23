@@ -7,5 +7,5 @@ export async function getUsers() {
     return { message: "Not found users." }
   }
 
-  return { usersFromDatabase};
+  return { usersFromDatabase };
 }
