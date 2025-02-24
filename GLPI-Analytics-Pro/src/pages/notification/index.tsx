@@ -1,3 +1,5 @@
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+
 export default function Notifications() {
   const notifications = [
     {
@@ -32,37 +34,72 @@ export default function Notifications() {
   ];
 
   return (
-    <section className="m-4 w-full px-8">
-      <div className="text-center mb-6">
-        <h1 className="text-3xl font-bold text-gray-700">Notificações</h1>
-        <p className="text-gray-500">
-          Acompanhe as últimas atualizações e avisos importantes.
-        </p>
+  <Card className="shadow-lg bg-gray-50 h-1/3">
+    <CardHeader className="flex justify-between items-center">
+      <CardTitle>Chamados Atribuídos</CardTitle>
+      <span className="text-2xl font-bold text-blue-600">16</span>
+    </CardHeader>
+  
+    <CardContent>
+      <div className="grid grid-cols-5 gap-4 text-center">
+        <div className="flex flex-col items-center">
+          <span className="text-sm font-medium">Muito baixa</span>
+          <span className="text-lg font-bold">3</span>
+        </div>
+        <div className="flex flex-col items-center">
+          <span className="text-sm font-medium">Baixa</span>
+          <span className="text-lg font-bold">5</span>
+        </div>
+        <div className="flex flex-col items-center">
+          <span className="text-sm font-medium">Média</span>
+          <span className="text-lg font-bold">4</span>
+        </div>
+        <div className="flex flex-col items-center">
+          <span className="text-sm font-medium">Alta</span>
+          <span className="text-lg font-bold">2</span>
+        </div>
+        <div className="flex flex-col items-center">
+          <span className="text-sm font-medium">Muito alta</span>
+          <span className="text-lg font-bold">2</span>
+        </div>
       </div>
+    </CardContent>
+  
+    <CardFooter className="text-sm text-muted-foreground">
+      Distribuição dos chamados atribuídos por prioridade.
+    </CardFooter>
+  </Card>
+    // <section className="m-4 w-full px-8">
+    //   <div className="text-center mb-6">
+    //     <h1 className="text-3xl font-bold text-gray-700">Notificações</h1>
+    //     <p className="text-gray-500">
+    //       Acompanhe as últimas atualizações e avisos importantes.
+    //     </p>
+    //   </div>
 
-      <div className="grid grid-cols-1 pb-16 md:grid-cols-2 lg:grid-cols-1 gap-4">
-        {notifications.map(notification => (
-          <div
-            key={notification.id}
-            className={`p-4 rounded-lg shadow-md transition-transform transform hover:scale-105 border-l-4
-              ${notification.type === 'info' && 'bg-blue-100 border-blue-500'}
-              ${
-                notification.type === 'warning' &&
-                'bg-yellow-100 border-yellow-500'
-              }
-              ${
-                notification.type === 'success' &&
-                'bg-green-100 border-green-500'
-              }
-              ${notification.type === 'error' && 'bg-red-100 border-red-500'}
-            `}
-          >
-            <h2 className="font-semibold text-lg mb-2">{notification.title}</h2>
-            <p className="text-gray-700 mb-3">{notification.message}</p>
-            <span className="text-sm text-gray-500">{notification.time}</span>
-          </div>
-        ))}
-      </div>
-    </section>
+    //   <div className="grid grid-cols-1 pb-16 md:grid-cols-2 lg:grid-cols-1 gap-4">
+    //     {notifications.map(notification => (
+    //       <div
+    //         key={notification.id}
+    //         className={`p-4 rounded-lg shadow-md transition-transform transform hover:scale-105 border-l-4
+    //           ${notification.type === 'info' && 'bg-blue-100 border-blue-500'}
+    //           ${
+    //             notification.type === 'warning' &&
+    //             'bg-yellow-100 border-yellow-500'
+    //           }
+    //           ${
+    //             notification.type === 'success' &&
+    //             'bg-green-100 border-green-500'
+    //           }
+    //           ${notification.type === 'error' && 'bg-red-100 border-red-500'}
+    //         `}
+    //       >
+    //         <h2 className="font-semibold text-lg mb-2">{notification.title}</h2>
+    //         <p className="text-gray-700 mb-3">{notification.message}</p>
+    //         <span className="text-sm text-gray-500">{notification.time}</span>
+    //       </div>
+    //     ))}
+    //   </div>
+    // </section>
   );
 }

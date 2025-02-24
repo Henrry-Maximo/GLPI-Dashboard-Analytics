@@ -11,6 +11,7 @@ import {
 import { Header } from './components/Header';
 import { SpinnerBall, WarningOctagon } from '@phosphor-icons/react';
 import { fetchTicketsTechnician } from '@/http/fetch-tickets-technician';
+import { fetchTicketsPending } from '@/http/fetch-tickets-pending';
 
 // import { SettingsTabs } from '../../components/SettingsTabs'
 
@@ -30,6 +31,16 @@ export default function Home() {
     refetchInterval: 1000 * 5, // 10 segundos
     refetchOnWindowFocus: true,
   });
+
+  const { data: dataTicketsPending } = useQuery({
+    queryKey: ['pending'],
+    queryFn: fetchTicketsPending,
+    staleTime: 1000 * 60, // 1 minuto
+    refetchInterval: 1000 * 5, // 10 segundos
+    refetchOnWindowFocus: true,
+  });
+
+  console.log(dataTicketsPending)
 
   if (isError) {
     return (
