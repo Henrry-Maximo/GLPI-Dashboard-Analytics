@@ -29,7 +29,7 @@ export async function fetchTicketsTechnician(): Promise<fetchTicketsTechnicianRe
     }
   );
 
-  const result = await response.json();
-
-  return result;
+  return (
+    await response.json()
+  );
 }

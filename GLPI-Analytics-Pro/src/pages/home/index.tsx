@@ -7,6 +7,7 @@ import { BarChartsTickets } from './components/BarCharts';
 import {
   CardPriorityAndTypeTickets,
   CardStatusTickets,
+  CardTicketsPending,
 } from './components/CardsCheck';
 import { Header } from './components/Header';
 import { SpinnerBall, WarningOctagon } from '@phosphor-icons/react';
@@ -40,8 +41,6 @@ export default function Home() {
     refetchOnWindowFocus: true,
   });
 
-  console.log(dataTicketsPending)
-
   if (isError) {
     return (
       <div className="w-full flex flex-col gap-2 items-center justify-center">
@@ -51,7 +50,7 @@ export default function Home() {
     );
   }
 
-  if (isLoading || !data || !dataTicketsTechnician) {
+  if (isLoading || !data || !dataTicketsTechnician ||!dataTicketsPending ) {
     return (
       <div className="w-full flex flex-col gap-2 items-center justify-center">
         <SpinnerBall className="text-zinc-700 animate-spin size-10" />
@@ -70,11 +69,13 @@ export default function Home() {
   const delayedTicketsAmount = data?.delayed;
 
   const ticketsTechnician = dataTicketsTechnician;
+  const ticketsPending = dataTicketsPending.pending;
 
   return (
     <main className="w-full h-[max-content]">
       <Header />
 
+      <CardTicketsPending data={ticketsPending} />
       <CardStatusTickets data={statusTicketsAmount} />
       <CardPriorityAndTypeTickets
         data={priorityTicketsAmount}

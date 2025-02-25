@@ -1,7 +1,22 @@
 import { fetchWithAuth } from "./middlewares/verify-jwt-authenticate";
 
+type propsTicketsPendingResponse = {
+  id: number;
+  title: string;
+  date_cretion: string;
+  solvedate: string;
+  location: string;
+  applicant: string;
+  technical: string;
+  status: string;
+  priority: string;
+}
 
-export async function fetchTicketsPending() {
+interface fetchTicketsPendingResponse {
+  pending: propsTicketsPendingResponse[];
+}
+
+export async function fetchTicketsPending(): Promise<fetchTicketsPendingResponse> {
   const API_URL = import.meta.env.VITE_API_URL;
 
   const response = await fetchWithAuth(`${API_URL}/api/tickets/pending`, {

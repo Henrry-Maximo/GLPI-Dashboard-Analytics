@@ -40,6 +40,77 @@ interface PropsPriorityAndTypeTickets {
   };
 }
 
+interface RequestTicketsPendingProps {
+  id: number;
+  title: string;
+  date_cretion: string;
+  solvedate: string;
+  location: string;
+  applicant: string;
+  technical: string;
+  status: string;
+  priority: string;
+}
+
+interface RequestPendingProps {
+  data: RequestTicketsPendingProps[];
+}
+
+export function CardTicketsPending({ data }: RequestPendingProps) {
+  const priorities = ['Muito baixa', 'Baixa', 'Média', 'Alta', 'Muito alta'];
+
+  const countPriorities = data.reduce<Record<string, number>>((acc, ticket) => {
+    // Pega a prioridade do ticket
+    const priority = ticket.priority;
+
+    // Se já existir uma contagem para essa prioridade, incrementa; caso contrário, inicia em 1
+    if (acc[priority]) {
+      acc[priority] += 1;
+    } else {
+      acc[priority] = 1;
+    }
+
+    return acc;
+  }, {});
+
+  // biome-ignore lint/complexity/noForEach: <explanation>
+  priorities.forEach((p) => {
+    if (!countPriorities[p]) {
+      countPriorities[p] = 0;
+    }
+  });
+  
+
+  return (
+    <section className="mb-4">
+      <div className="grid md:grid-cols-2 gap-4">
+        <Card
+          icon={Clock}
+          quantity={data?.length}
+          title="Chamados Abertos"
+          className="h-10 w-10 bg-yellow-100 text-yellow-500 rounded-md p-2 border border-yellow-500"
+        />
+
+        <div className="grid grid-cols-5 gap-4">
+          {priorities.map(p => (
+            <div key={p} className="flex flex-col items-center">
+              <span className="text-sm font-medium">{p}</span>
+              <span className="text-lg font-bold">{countPriorities[p]}</span>
+            </div>
+          ))}
+        </div>
+
+        {/* <Card
+        icon={Clock}
+        quantity={data?.tickets_open}
+        title="Chamados Abertos"
+        className="h-10 w-10 bg-yellow-100 text-yellow-500 rounded-md p-2 border border-yellow-500"
+      /> */}
+      </div>
+    </section>
+  );
+}
+
 export function CardStatusTickets({ data }: PropsStatusTickets) {
   // https://stackoverflow.com/questions/14379274/how-to-iterate-over-a-javascript-object
   // const arrayWithStatusFormatting = [];
@@ -50,13 +121,13 @@ export function CardStatusTickets({ data }: PropsStatusTickets) {
 
   return (
     <section className="mb-4">
-      <div className="grid md:grid-cols-5 gap-4">
-        <Card
+      <div className="grid md:grid-cols-4 gap-4">
+        {/* <Card
           icon={Clock}
           quantity={data?.tickets_open}
           title="Chamados Abertos"
           className="h-10 w-10 bg-yellow-100 text-yellow-500 rounded-md p-2 border border-yellow-500"
-        />
+        /> */}
         <Card
           icon={UserCirclePlus}
           quantity={data?.tickets_assigned}
@@ -69,7 +140,7 @@ export function CardStatusTickets({ data }: PropsStatusTickets) {
           title="Chamados Pendentes"
           className="h-10 w-10 bg-orange-100 text-orange-500 rounded-md p-2 border border-orange-500"
         />
-        <Card
+        {/* <Card
           icon={CheckCircle}
           quantity={data?.tickets_solved}
           title="Chamados Solucionados"
@@ -80,7 +151,7 @@ export function CardStatusTickets({ data }: PropsStatusTickets) {
           quantity={data?.tickets_closed}
           title="Chamados Fechados"
           className="h-10 w-10 bg-green-700 text-green-100 rounded-md p-2 border border-green-500"
-        />
+        /> */}
       </div>
     </section>
   );
