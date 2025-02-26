@@ -9,7 +9,13 @@ import {
 	CardStatusTickets,
 	CardTicketsPending,
 } from "./components/CardsCheck";
-import { HeaderIcon, HeaderInformations, HeaderRoot } from "./components/Header";
+import {
+	HeaderButton,
+	HeaderIcon,
+	HeaderInformations,
+	HeaderRoot,
+  HeaderWrapper,
+} from "./components/Header";
 import { SpinnerBall, WarningOctagon } from "@phosphor-icons/react";
 import { fetchTicketsTechnician } from "@/http/fetch-tickets-technician";
 import { fetchTicketsPending } from "@/http/fetch-tickets-pending";
@@ -18,7 +24,6 @@ import { ChartLine } from "phosphor-react";
 // import { SettingsTabs } from '../../components/SettingsTabs'
 
 export default function Home() {
-  
 	const { data, isLoading, isError } = useQuery({
 		queryKey: ["state"],
 		queryFn: fetchTicketsSummary,
@@ -78,26 +83,29 @@ export default function Home() {
 			<HeaderRoot>
 				<HeaderIcon>
 					<ChartLine size={30} className="text-orange-500" />
-          Dashboard
+					Dashboard
 				</HeaderIcon>
 
-        <HeaderInformations />
+				<HeaderWrapper>
+					{/* <HeaderInformations /> */}
+					<HeaderButton>Filter</HeaderButton>
+				</HeaderWrapper>
 			</HeaderRoot>
 
-			<CardTicketsPending data={ticketsPending} />
+			{/* <CardTicketsPending data={ticketsPending} />
 			<CardStatusTickets data={statusTicketsAmount} />
 			<CardPriorityAndTypeTickets
 				data={priorityTicketsAmount}
 				type={typeTicketsAmount}
-			/>
+			/> */}
 
-			<BarChartsTickets
+			{/* <BarChartsTickets
 				priority={priorityTicketsAmount}
 				categorie={categoriesTicketsAmount}
 				concludes={concludesTicketsAmount}
 				delayed={delayedTicketsAmount}
 				technician={ticketsTechnician}
-			/>
+			/> */}
 		</main>
 	);
 }

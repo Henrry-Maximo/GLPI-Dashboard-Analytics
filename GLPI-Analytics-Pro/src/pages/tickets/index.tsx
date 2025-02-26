@@ -6,11 +6,12 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { fetchTicketsAll } from '@/http/fetch-tickets-all';
 import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
-import { CircleNotch, Hand, WarningCircle, X } from 'phosphor-react';
+import { ChartLine, CircleNotch, Hand, WarningCircle, X } from 'phosphor-react';
 import { useEffect, useState } from 'react';
 import { FooterTicketsMonitoring } from '../monitoring/components/FooterTicketsMonitoring';
 import { getStatusDetails } from '@/utils/monitoring-status-icon-color';
 import { ExclamationMark } from '@phosphor-icons/react';
+import { HeaderButton, HeaderIcon, HeaderRoot, HeaderWrapper } from '../home/components/Header';
 
 const statusTicketsOperation = [
   {
@@ -135,14 +136,25 @@ export default function Tickets() {
 
   return (
     <section className="w-full space-y-6">
-      <header className="text-center">
+      <HeaderRoot>
+				<HeaderIcon>
+					{/* <ChartLine size={30} className="text-orange-500" /> */}
+					Gerenciamento de Chamados
+				</HeaderIcon>
+
+				<HeaderWrapper>
+					{/* <HeaderInformations /> */}
+					{/* <HeaderButton>Filter</HeaderButton> */}
+				</HeaderWrapper>
+			</HeaderRoot>
+      {/* <header className="text-center">
         <h1 className="text-3xl font-bold text-slate-800">
           Gerenciamento de Chamados
         </h1>
         <p className="text-gray-600 mt-2">
           Acompanhe todos os chamados abertos, em andamento e resolvidos.
         </p>
-      </header>
+      </header> */}
 
       {/* Campo de Pesquisa */}
       <div className="flex justify-center">
