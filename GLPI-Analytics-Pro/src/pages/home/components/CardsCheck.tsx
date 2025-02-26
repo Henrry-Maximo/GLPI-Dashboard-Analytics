@@ -74,9 +74,9 @@ export function CardTicketsPending({ data }: RequestPendingProps) {
   }, {});
 
   // biome-ignore lint/complexity/noForEach: <explanation>
-  priorities.forEach((p) => {
-    if (!countPriorities[p]) {
-      countPriorities[p] = 0;
+  priorities.forEach((pending) => {
+    if (!countPriorities[pending]) {
+      countPriorities[pending] = 0;
     }
   });
   
@@ -93,7 +93,7 @@ export function CardTicketsPending({ data }: RequestPendingProps) {
 
         <div className="grid grid-cols-5 gap-4">
           {priorities.map(p => (
-            <div key={p} className="flex flex-col items-center">
+            <div key={p} className="bg-white flex flex-col items-center">
               <span className="text-sm font-medium">{p}</span>
               <span className="text-lg font-bold">{countPriorities[p]}</span>
             </div>

@@ -23,6 +23,7 @@ export default function Header({ toggleSidebar }: ButtonProps) {
       >
         <NavItem icon={List} route="#" />
       </button>
+
       <div className="w-64 flex items-center justify-center">
         <img
           src={glpi_logo ? glpi_logo : 'problem at logo'}
@@ -30,6 +31,7 @@ export default function Header({ toggleSidebar }: ButtonProps) {
           alt="Logo"
         />
       </div>
+      
       <nav className="flex items-center flex-row gap-2">
         <NavItem icon={BellSimple} route="/main/notification" />
         <NavItem icon={Question} route="/main/help" />
