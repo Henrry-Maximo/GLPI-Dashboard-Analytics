@@ -1,6 +1,6 @@
 import type { ComponentProps } from "react";
 
-interface HeaderProps extends ComponentProps<"header"> {}
+interface HeaderProps extends ComponentProps<'header'> {}
 
 export function HeaderRoot({ ...props }: HeaderProps) {
 	return (

@@ -4,22 +4,24 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchTicketsSummary } from "../../http/fetch-tickets-summary";
 
 import { BarChartsTickets } from "./components/BarCharts";
-import {
-	CardPriorityAndTypeTickets,
-	CardStatusTickets,
-	CardTicketsPending,
-} from "./components/CardsCheck";
+// import {
+// 	CardPriorityAndTypeTickets,
+// 	CardStatusTickets,
+// 	CardTicketsPending,
+// } from "./components/Card";
 import {
 	HeaderButton,
 	HeaderIcon,
 	HeaderInformations,
 	HeaderRoot,
-  HeaderWrapper,
+	HeaderWrapper,
 } from "./components/Header";
 import { SpinnerBall, WarningOctagon } from "@phosphor-icons/react";
 import { fetchTicketsTechnician } from "@/http/fetch-tickets-technician";
 import { fetchTicketsPending } from "@/http/fetch-tickets-pending";
-import { ChartLine } from "phosphor-react";
+import { ChartLine, Timer } from "phosphor-react";
+import { Ticket } from "lucide-react";
+import { CardRoot, CardFlash, CardIcon } from "./components/Card";
 
 // import { SettingsTabs } from '../../components/SettingsTabs'
 
@@ -67,6 +69,8 @@ export default function Home() {
 	}
 
 	const statusTicketsAmount = data?.status;
+	const ticketsPending = dataTicketsPending.pending;
+
 	const typeTicketsAmount = data?.type;
 
 	const priorityTicketsAmount = data?.priority;
@@ -76,7 +80,6 @@ export default function Home() {
 	const delayedTicketsAmount = data?.delayed;
 
 	const ticketsTechnician = dataTicketsTechnician;
-	const ticketsPending = dataTicketsPending.pending;
 
 	return (
 		<main className="w-full h-[max-content]">
@@ -92,9 +95,24 @@ export default function Home() {
 				</HeaderWrapper>
 			</HeaderRoot>
 
+			<CardRoot>
+				<CardFlash>
+					<CardIcon>
+						<Timer />
+						Pendente
+					</CardIcon>
+
+
+				</CardFlash>
+				<CardFlash />
+				<CardFlash />
+			</CardRoot>
+        
+
+
 			{/* <CardTicketsPending data={ticketsPending} />
-			<CardStatusTickets data={statusTicketsAmount} />
-			<CardPriorityAndTypeTickets
+			<CardStatusTickets data={statusTicketsAmount} /> */}
+			{/* <CardPriorityAndTypeTickets
 				data={priorityTicketsAmount}
 				type={typeTicketsAmount}
 			/> */}
@@ -109,3 +127,5 @@ export default function Home() {
 		</main>
 	);
 }
+
+
