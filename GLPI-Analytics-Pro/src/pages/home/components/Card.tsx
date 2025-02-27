@@ -5,7 +5,7 @@ interface CardProps extends ComponentProps<'div'> {}
 export function CardRoot({ ...props }: CardProps) {
 	return (
 		<div
-			className="flex flex-row mb-4 gap-2 items-center py-2 px-2"
+			className="grid grid-cols-3 divide-x-4 divide-yellow-600 divide-solid gap-4 items-center justify-center py-2 px-2 border border-orange-400 rounded-md"
 			{...props}
 		/>
 	);
@@ -17,7 +17,7 @@ export function CardFlash({ ...props }: CardFlashProps) {
 
   return (
     <div 
-      className="bg-gray-50 p-4 text-sm grid-cols-card flex flex-row items-center py-4 gap-4 rounded-md shadow-lg" 
+      className="flex flex-row grid-cols-card bg-white shadow-lg text-sm items-center p-4 gap-4 rounded-md" 
       {...props}
     />
   );
@@ -29,7 +29,43 @@ export function CardIcon({ ...props }: CardIconProps) {
 
   return (
     <div 
-      className="flex p-4 text-sm items-center py-4 gap-4 rounded-md shadow-lg" 
+      className="flex bg-blue-700 text-white p-4 text-base items-center py-4 gap-4 rounded-md shadow-lg" 
+      {...props}
+    />
+  );
+}
+
+interface CardInformationsProps extends ComponentProps<'div'> {
+  count: number,
+  name: string 
+};
+
+export function CardInformations({ count, name }: CardInformationsProps) {
+  return (
+    <div className="flex flex-col text-center">
+      <span className="text-2xl font-bold">{count}</span>
+      <span className="text-sm font-light">{name}</span>
+    </div>
+  );
+}
+
+interface CardWrapperColProps extends ComponentProps<'div'> {}
+
+export function CardWrapperCol({ ...props }: CardWrapperColProps ){
+  return (
+    <div
+      className="flex flex-col gap-2 justify-center" 
+      {...props}
+    />
+  );
+}
+
+interface CardWrapperRowProps extends ComponentProps<'div'> {}
+
+export function CardWrapperRow({ ...props }: CardWrapperRowProps ){
+  return (
+    <div
+      className="flex gap-2 justify-center" 
       {...props}
     />
   );

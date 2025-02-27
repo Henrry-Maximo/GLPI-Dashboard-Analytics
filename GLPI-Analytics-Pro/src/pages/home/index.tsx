@@ -3,7 +3,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetchTicketsSummary } from "../../http/fetch-tickets-summary";
 
-import { BarChartsTickets } from "./components/BarCharts";
 // import {
 // 	CardPriorityAndTypeTickets,
 // 	CardStatusTickets,
@@ -11,17 +10,20 @@ import { BarChartsTickets } from "./components/BarCharts";
 // } from "./components/Card";
 import {
 	HeaderButton,
-	HeaderIcon,
-	HeaderInformations,
-	HeaderRoot,
-	HeaderWrapper,
+	HeaderIcon, HeaderRoot,
+	HeaderWrapper
 } from "./components/Header";
 import { SpinnerBall, WarningOctagon } from "@phosphor-icons/react";
 import { fetchTicketsTechnician } from "@/http/fetch-tickets-technician";
 import { fetchTicketsPending } from "@/http/fetch-tickets-pending";
-import { ChartLine, Timer } from "phosphor-react";
-import { Ticket } from "lucide-react";
-import { CardRoot, CardFlash, CardIcon } from "./components/Card";
+import { Bug, ChartLine, Table } from "phosphor-react";
+import {
+	CardRoot,
+	CardFlash,
+	CardIcon,
+	CardInformations, CardWrapperCol,
+	CardWrapperRow
+} from "./components/Card";
 
 // import { SettingsTabs } from '../../components/SettingsTabs'
 
@@ -81,6 +83,38 @@ export default function Home() {
 
 	const ticketsTechnician = dataTicketsTechnician;
 
+	const dataTicketsTypeInMemory = [
+		{
+			id: 1,
+			name: "Requisição",
+			count: 2124,
+		},
+		{
+			id: 2,
+			name: "Incidente",
+			count: 4353,
+		},
+	];
+
+	const dataTicketsStatusInMemory = {
+		pending: [
+			{
+				id: 1,
+				name: "Permissão: Acesso ao Logix",
+				priority: "Muito baixa"
+			},
+			{
+				id: 2,
+				name: "Permissão: Acesso ao BI",
+				priority: "Muito baixa"
+			},
+		]
+	}
+
+	// const dataTicketsPriorityInMemory = {
+	// 	count: 
+	// };
+
 	return (
 		<main className="w-full h-[max-content]">
 			<HeaderRoot>
@@ -96,19 +130,56 @@ export default function Home() {
 			</HeaderRoot>
 
 			<CardRoot>
-				<CardFlash>
-					<CardIcon>
-						<Timer />
-						Pendente
-					</CardIcon>
+				<CardWrapperCol>
+					{dataTicketsTypeInMemory.map((row) => (
+						<CardFlash key={row.id}>
+							<CardIcon aria-label="Timer">
+								{row.name === "Requisição" ? (
+									<Table size={22} />
+								) : (
+									<Bug size={22} />
+								)}
+							</CardIcon>
 
+							<CardInformations count={row.count} name={row.name} />
+						</CardFlash>
+					))}
+				</CardWrapperCol>
 
-				</CardFlash>
-				<CardFlash />
-				<CardFlash />
+				<CardWrapperRow>
+					{dataTicketsTypeInMemory.map((row) => (
+						<CardFlash key={row.id}>
+							<CardIcon aria-label="Timer">
+								{row.name === "Requisição" ? (
+									<Table size={22} />
+								) : (
+									<Bug size={22} />
+								)}
+							</CardIcon>
+
+							<CardInformations count={row.count} name={row.name} />
+						</CardFlash>
+					))}
+				</CardWrapperRow>
+
+				<CardWrapperRow>
+					{dataTicketsTypeInMemory.map((row) => (
+						<CardFlash key={row.id}>
+							<CardIcon aria-label="Timer">
+								{row.name === "Requisição" ? (
+									<Table size={22} />
+								) : (
+									<Bug size={22} />
+								)}
+							</CardIcon>
+
+							<CardInformations count={row.count} name={row.name} />
+						</CardFlash>
+					))}
+				</CardWrapperRow>
 			</CardRoot>
-        
 
+			
 
 			{/* <CardTicketsPending data={ticketsPending} />
 			<CardStatusTickets data={statusTicketsAmount} /> */}
@@ -127,5 +198,3 @@ export default function Home() {
 		</main>
 	);
 }
-
-
