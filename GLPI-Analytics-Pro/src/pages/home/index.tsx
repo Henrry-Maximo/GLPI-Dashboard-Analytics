@@ -10,19 +10,31 @@ import { fetchTicketsSummary } from "../../http/fetch-tickets-summary";
 // } from "./components/Card";
 import {
 	HeaderButton,
-	HeaderIcon, HeaderRoot,
-	HeaderWrapper
+	HeaderIcon,
+	HeaderRoot,
+	HeaderWrapper,
 } from "./components/Header";
 import { SpinnerBall, WarningOctagon } from "@phosphor-icons/react";
 import { fetchTicketsTechnician } from "@/http/fetch-tickets-technician";
 import { fetchTicketsPending } from "@/http/fetch-tickets-pending";
-import { Bug, ChartLine, Table } from "phosphor-react";
+import {
+	Bug,
+	ChartLine,
+	Circle,
+	CircleHalf,
+	Flame,
+	Table,
+	Timer,
+	Warning,
+	WarningCircle,
+} from "phosphor-react";
 import {
 	CardRoot,
 	CardFlash,
 	CardIcon,
-	CardInformations, CardWrapperCol,
-	CardWrapperRow
+	CardInformations,
+	CardWrapperCol,
+	CardWrapperRow,
 } from "./components/Card";
 
 // import { SettingsTabs } from '../../components/SettingsTabs'
@@ -87,12 +99,12 @@ export default function Home() {
 		{
 			id: 1,
 			name: "Requisição",
-			count: 2124,
+			count: 2140,
 		},
 		{
 			id: 2,
 			name: "Incidente",
-			count: 4353,
+			count: 847,
 		},
 	];
 
@@ -101,18 +113,28 @@ export default function Home() {
 			{
 				id: 1,
 				name: "Permissão: Acesso ao Logix",
-				priority: "Muito baixa"
+				priority: "Muito baixa",
 			},
 			{
 				id: 2,
 				name: "Permissão: Acesso ao BI",
-				priority: "Muito baixa"
+				priority: "Muito baixa",
 			},
-		]
-	}
+		],
+	};
+
+	const countTicketsStatusInMemory = {
+		pending: [
+			{
+				id: 1,
+				name: "Pendente",
+				number: "20",
+			},
+		],
+	};
 
 	// const dataTicketsPriorityInMemory = {
-	// 	count: 
+	// 	count:
 	// };
 
 	return (
@@ -129,6 +151,7 @@ export default function Home() {
 				</HeaderWrapper>
 			</HeaderRoot>
 
+			{/* Type || Status || Priority */}
 			<CardRoot>
 				<CardWrapperCol>
 					{dataTicketsTypeInMemory.map((row) => (
@@ -147,39 +170,55 @@ export default function Home() {
 				</CardWrapperCol>
 
 				<CardWrapperRow>
-					{dataTicketsTypeInMemory.map((row) => (
+					{countTicketsStatusInMemory.pending.map((row) => (
 						<CardFlash key={row.id}>
-							<CardIcon aria-label="Timer">
-								{row.name === "Requisição" ? (
-									<Table size={22} />
-								) : (
-									<Bug size={22} />
-								)}
+							<CardIcon>
+								<Timer />
 							</CardIcon>
 
-							<CardInformations count={row.count} name={row.name} />
+							<CardInformations count={20} name="Pendente" />
 						</CardFlash>
 					))}
 				</CardWrapperRow>
 
 				<CardWrapperRow>
-					{dataTicketsTypeInMemory.map((row) => (
-						<CardFlash key={row.id}>
-							<CardIcon aria-label="Timer">
-								{row.name === "Requisição" ? (
-									<Table size={22} />
-								) : (
-									<Bug size={22} />
-								)}
-							</CardIcon>
+					<CardFlash>
+						<CardIcon>
+							<Circle />
+						</CardIcon>
 
-							<CardInformations count={row.count} name={row.name} />
-						</CardFlash>
-					))}
+						<CardInformations count={2} name="Muito baixa" />
+					</CardFlash>
+
+					<CardFlash>
+						<CardIcon>
+							<CircleHalf />
+						</CardIcon>
+						<CardInformations count={6} name="Baixa" />
+					</CardFlash>
+
+					<CardFlash>
+						<CardIcon>
+							<WarningCircle />
+						</CardIcon>
+						<CardInformations count={10} name="Média" />
+					</CardFlash>
+
+					<CardFlash>
+						<CardIcon>
+							<Warning />
+						</CardIcon>
+						<CardInformations count={0} name="Alta" />
+					</CardFlash>
+
+					<CardFlash>
+						<CardIcon>
+							<Flame />
+						</CardIcon>
+						<CardInformations count={2} name="Muito alta" />
+					</CardFlash>
 				</CardWrapperRow>
 			</CardRoot>
-
-			
 
 			{/* <CardTicketsPending data={ticketsPending} />
 			<CardStatusTickets data={statusTicketsAmount} /> */}

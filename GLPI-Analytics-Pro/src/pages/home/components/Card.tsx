@@ -5,7 +5,7 @@ interface CardProps extends ComponentProps<'div'> {}
 export function CardRoot({ ...props }: CardProps) {
 	return (
 		<div
-			className="grid grid-cols-3 divide-x-4 divide-yellow-600 divide-solid gap-4 items-center justify-center py-2 px-2 border border-orange-400 rounded-md"
+			className="grid grid-cols-[auto_1fr_1fr] gap-8 items-center justify-center py-2 px-2 border border-orange-400 rounded-md"
 			{...props}
 		/>
 	);
@@ -17,7 +17,7 @@ export function CardFlash({ ...props }: CardFlashProps) {
 
   return (
     <div 
-      className="flex flex-row grid-cols-card bg-white shadow-lg text-sm items-center p-4 gap-4 rounded-md" 
+      className="flex flex-row grid-cols-card w-full bg-white shadow-lg text-sm items-center p-4 gap-4 rounded-md" 
       {...props}
     />
   );
