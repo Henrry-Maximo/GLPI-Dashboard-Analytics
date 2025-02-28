@@ -109,16 +109,39 @@ export default function Home() {
 	];
 
 	const dataTicketsStatusInMemory = {
-		pending: [
+		very_low: [
 			{
 				id: 1,
-				name: "Permissão: Acesso ao Logix",
-				priority: "Muito baixa",
+				name: "Muito baixa",
+				amount: 2,
 			},
+		],
+		low: [
 			{
-				id: 2,
-				name: "Permissão: Acesso ao BI",
-				priority: "Muito baixa",
+				id: 1,
+				name: "Baixa",
+				amount: 6,
+			},
+		],
+		average: [
+			{
+				id: 1,
+				name: "Média",
+				amount: 10,
+			},
+		],
+		high: [
+			{
+				id: 1,
+				name: "Alta",
+				amount: 0,
+			},
+		],
+		very_high: [
+			{
+				id: 1,
+				name: "Muito alta",
+				amout: 2,
 			},
 		],
 	};
@@ -182,41 +205,51 @@ export default function Home() {
 				</CardWrapperRow>
 
 				<CardWrapperRow>
-					<CardFlash>
-						<CardIcon>
-							<Circle />
-						</CardIcon>
+					{dataTicketsStatusInMemory.low.map((row) => (
+						<CardFlash key={row.id}>
+							<CardIcon>
+								<Circle />
+							</CardIcon>
 
-						<CardInformations count={2} name="Muito baixa" />
-					</CardFlash>
+							<CardInformations count={row.amount} name={row.name} />
+						</CardFlash>
+					))}
 
-					<CardFlash>
-						<CardIcon>
-							<CircleHalf />
-						</CardIcon>
-						<CardInformations count={6} name="Baixa" />
-					</CardFlash>
+					{dataTicketsStatusInMemory.very_low.map((row) => (
+						<CardFlash key={row.id}>
+							<CardIcon>
+								<CircleHalf />
+							</CardIcon>
+							<CardInformations count={row.amount} name={row.name} />
+						</CardFlash>
+					))}
 
-					<CardFlash>
-						<CardIcon>
-							<WarningCircle />
-						</CardIcon>
-						<CardInformations count={10} name="Média" />
-					</CardFlash>
+					{dataTicketsStatusInMemory.average.map((row) => (
+						<CardFlash key={row.id}>
+							<CardIcon>
+								<WarningCircle />
+							</CardIcon>
+							<CardInformations count={row.amount} name={row.name} />
+						</CardFlash>
+					))}
 
-					<CardFlash>
-						<CardIcon>
-							<Warning />
-						</CardIcon>
-						<CardInformations count={0} name="Alta" />
-					</CardFlash>
+					{dataTicketsStatusInMemory.high.map((row) => (
+						<CardFlash key={row.id}>
+							<CardIcon>
+								<Warning />
+							</CardIcon>
+							<CardInformations count={row.amount} name={row.name} />
+						</CardFlash>
+					))}
 
-					<CardFlash>
-						<CardIcon>
-							<Flame />
-						</CardIcon>
-						<CardInformations count={2} name="Muito alta" />
-					</CardFlash>
+					{dataTicketsStatusInMemory.very_high.map((row) => (
+						<CardFlash key={row.id}>
+							<CardIcon>
+								<Flame />
+							</CardIcon>
+							<CardInformations count={row.amout} name={row.name} />
+						</CardFlash>
+					))}
 				</CardWrapperRow>
 			</CardRoot>
 
