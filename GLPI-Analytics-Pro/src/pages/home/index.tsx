@@ -15,22 +15,22 @@ import {
 	CardWrapperCol,
 } from "./components/Card";
 
-import { Bug, ChartLine, Table } from "phosphor-react";
+import { Bug, ChartLine, ClipboardText } from "phosphor-react";
 
 export default function Home() {
-	const dataTicketsTypeInMemory = {
+	const dataTicketsHomeResponse = {
 		type: [
 			{
 				id: 1,
 				level: "request",
 				name: "Requisição",
-				amount: 2140,
+				amount: 15,
 			},
 			{
 				id: 2,
 				level: "Incident",
 				name: "Incidente",
-				amount: 847,
+				amount: 4,
 			},
 		],
 		currentStatus: {
@@ -71,7 +71,7 @@ export default function Home() {
 			},
 		],
 	};
-	
+
 	return (
 		<main className="flex flex-col w-full h-[max-content]">
 			<HeaderRoot>
@@ -87,15 +87,17 @@ export default function Home() {
 
 			<CardRoot>
 				<CardWrapperCol>
-					{dataTicketsTypeInMemory.type.map((row) => (
+					{dataTicketsHomeResponse.type.map((row) => (
 						<CardFlash key={row.id}>
-							<CardIcon aria-label="Timer">
-								{row.name === "Requisição" ? (
-									<Table size={22} />
-								) : (
+							{row.name === "Requisição" ? (
+								<CardIcon aria-label="Request" className="bg-blue-700">
+									<ClipboardText size={22} />
+								</CardIcon>
+							) : (
+								<CardIcon aria-label="Incident" className="bg-red-700">
 									<Bug size={22} />
-								)}
-							</CardIcon>
+								</CardIcon>
+							)}
 
 							<CardInformations count={row.amount} name={row.name} />
 						</CardFlash>

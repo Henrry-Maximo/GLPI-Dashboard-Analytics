@@ -1,4 +1,5 @@
 import type { ComponentProps } from "react";
+import { twMerge } from "tailwind-merge";
 
 interface CardProps extends ComponentProps<'div'> {}
 
@@ -25,11 +26,11 @@ export function CardFlash({ ...props }: CardFlashProps) {
 
 interface CardIconProps extends ComponentProps<'div'> {}
 
-export function CardIcon({ ...props }: CardIconProps) {
+export function CardIcon({ className, ...props }: CardIconProps) {
 
   return (
     <div 
-      className="flex bg-blue-700 text-white p-4 text-base items-center py-4 gap-4 rounded-md shadow-lg" 
+      className={twMerge("flex bg-blue-700 text-white p-4 text-base items-center py-4 gap-4 rounded-md shadow-lg", className)}
       {...props}
     />
   );
