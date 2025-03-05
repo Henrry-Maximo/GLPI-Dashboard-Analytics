@@ -36,21 +36,21 @@ export function HeaderWrapper({ ...props }: HeaderSearchProps) {
 
 // interface HeaderInformationsProps extends ComponentProps<"span"> {}
 
-export function HeaderInformations() {
-	let nameUserAuth = sessionStorage.getItem("name");
+// export function HeaderInformations() {
+// 	let nameUserAuth = sessionStorage.getItem("name");
 
-  if (!nameUserAuth) {
-    nameUserAuth = "usuário";
-  }
+//   if (!nameUserAuth) {
+//     nameUserAuth = "usuário";
+//   }
 
-	return (
-		<span  
-      aria-label="User" 
-      className="text-2 font-light text-zinc-800 cursor-default">
-        Olá, {nameUserAuth}
-    </span>
-	);
-}
+// 	return (
+// 		<span  
+//       aria-label="User" 
+//       className="text-2 font-light text-zinc-800 cursor-default">
+//         Olá, {nameUserAuth}
+//     </span>
+// 	);
+// }
 
 interface HeaderButtonProps extends ComponentProps<'button'> {}
 
