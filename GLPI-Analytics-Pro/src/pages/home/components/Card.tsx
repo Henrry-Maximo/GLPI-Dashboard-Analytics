@@ -6,7 +6,7 @@ interface CardProps extends ComponentProps<'div'> {}
 export function CardRoot({ ...props }: CardProps) {
 	return (
 		<div
-			className="grid grid-cols-[auto_auto_1fr] gap-8 items-center justify-center py-2 px-2 border border-orange-400 rounded-md"
+			className="grid grid-cols-[auto_1fr_1fr] gap-8 items-center justify-center py-2 px-2 border border-orange-400 rounded-md"
 			{...props}
 		/>
 	);
@@ -30,7 +30,7 @@ export function CardIcon({ className, ...props }: CardIconProps) {
 
   return (
     <div 
-      className={twMerge("flex bg-blue-700 text-white p-4 text-base items-center py-4 gap-4 rounded-md shadow-lg", className)}
+      className={twMerge("flex bg-blue-700 text-white p-4 text-base items-center py-4 gap-4 rounded-md shadow-lg border", className)}
       {...props}
     />
   );
@@ -41,10 +41,10 @@ interface CardInformationsProps extends ComponentProps<'div'> {
   name: string 
 };
 
-export function CardInformations({ count, name }: CardInformationsProps) {
+export function CardInformations({ className, count, name }: CardInformationsProps) {
   return (
     <div className="flex flex-col text-center">
-      <span className="font-heading text-2xl font-semibold text-gray-800 leading-none">{count}</span>
+      <span className={twMerge("font-heading text-2xl font-semibold text-gray-800 leading-none", className)}>{count}</span>
       <span className="text-sm font-light">{name}</span>
     </div>
   );
