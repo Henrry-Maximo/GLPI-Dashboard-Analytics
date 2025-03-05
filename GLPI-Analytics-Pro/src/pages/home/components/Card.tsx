@@ -18,7 +18,7 @@ export function CardFlash({ ...props }: CardFlashProps) {
 
   return (
     <div 
-      className="flex flex-row grid-cols-card w-full bg-white shadow-lg text-sm items-center p-4 gap-4 rounded-md" 
+      className="grid grid-cols-[auto_1fr] w-full bg-white shadow-lg text-sm items-center p-4 gap-4 rounded-md" 
       {...props}
     />
   );
@@ -44,7 +44,7 @@ interface CardInformationsProps extends ComponentProps<'div'> {
 export function CardInformations({ count, name }: CardInformationsProps) {
   return (
     <div className="flex flex-col text-center">
-      <span className="text-2xl font-bold">{count}</span>
+      <span className="font-heading text-2xl font-semibold text-gray-800 leading-none">{count}</span>
       <span className="text-sm font-light">{name}</span>
     </div>
   );
