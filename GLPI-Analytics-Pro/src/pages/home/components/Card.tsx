@@ -6,7 +6,7 @@ interface CardProps extends ComponentProps<'div'> {}
 export function CardRoot({ ...props }: CardProps) {
 	return (
 		<div
-			className="grid grid-cols-[auto_1fr_1fr] gap-8 items-center justify-center py-2 px-2 border border-orange-400 rounded-md"
+			className="grid grid-cols-[auto_256px_1fr] gap-8 items-center justify-center py-2 px-2 border border-orange-400 rounded-md"
 			{...props}
 		/>
 	);
@@ -30,7 +30,7 @@ export function CardIcon({ className, ...props }: CardIconProps) {
 
   return (
     <div 
-      className={twMerge("flex bg-blue-700 text-white p-4 text-base items-center py-4 gap-4 rounded-md shadow-lg border", className)}
+      className={twMerge("flex bg-blue-700 text-white p-4 text-2xl items-center py-4 gap-4 rounded-md shadow-lg border", className)}
       {...props}
     />
   );

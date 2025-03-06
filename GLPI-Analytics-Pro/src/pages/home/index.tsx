@@ -18,6 +18,7 @@ import {
 
 import {
 	Bug,
+	CaretCircleDoubleUp,
 	ChartLine,
 	Circle,
 	CircleHalf,
@@ -27,9 +28,36 @@ import {
 	Warning,
 	WarningCircle,
 } from "phosphor-react";
-import type { ReactNode } from "react";
 
-const dataTicketsHomeResponse = {
+interface PropsTicketsType {
+	id: number;
+	level: string;
+	name: string;
+	amount: number;
+}
+
+interface PropsTicketsStatus {
+	id: number;
+	name: string;
+	amount: number;
+}
+
+type LevelPriority = "veryLow" | "low" | "average" | "high" | "veryHigh";
+
+interface PropsTicketsPriority {
+	id: number;
+	level: LevelPriority;
+	name: string;
+	amount: number;
+}
+
+interface PropsTicketsResponse {
+	type: PropsTicketsType[];
+	currentStatus: PropsTicketsStatus;
+	priority: PropsTicketsPriority[];
+}
+
+const dataTicketsHomeResponse: PropsTicketsResponse = {
 	type: [
 		{
 			id: 1,
@@ -84,20 +112,36 @@ const dataTicketsHomeResponse = {
 };
 
 export default function Home() {
-	interface propsLevelIcons {
-		veryLow: ReactNode,
-		low: ReactNode,
-		average: ReactNode,
-		high: ReactNode,
-		veryHigh: ReactNode
+	interface PropsLevelIcons {
+		veryLow: JSX.Element;
+		low: JSX.Element;
+		average: JSX.Element;
+		high: JSX.Element;
+		veryHigh: JSX.Element;
 	}
-	
-	const levelIcons:propsLevelIcons = {
+
+	const levelIcons: PropsLevelIcons = {
 		veryLow: <Circle />,
 		low: <CircleHalf />,
-		average: <WarningCircle />,
+		average: <CaretCircleDoubleUp />,
 		high: <Warning />,
 		veryHigh: <Flame />,
+	};
+
+	interface PropsLevelBackground {
+		veryLow: string;
+		low: string;
+		average: string;
+		high: string;
+		veryHigh: string;
+	}
+
+	const levelBackground: PropsLevelBackground = {
+		veryLow: "bg-green-400 text-gray-100 border-green-700",
+		low: "bg-green-600 text-gray-100 border-green-800",
+		average: "bg-yellow-400 text-white border-yellow-700",
+		high: "bg-red-400 text-gray-100 border-red-700",
+		veryHigh: "bg-red-600 text-gray-100 border-red-800",
 	};
 
 	return (
@@ -140,8 +184,8 @@ export default function Home() {
 
 				<CardWrapperRow>
 					<CardFlash key={dataTicketsHomeResponse.currentStatus.id}>
-						<CardIcon className="bg-yellow-400 border border-yellow-600">
-							<Timer size={28} />
+						<CardIcon className="bg-yellow-400 border border-yellow-600 text-4xl">
+							<Timer />
 						</CardIcon>
 						<CardInformations
 							className="text-5xl"
@@ -154,7 +198,9 @@ export default function Home() {
 				<CardWrapperRow>
 					{dataTicketsHomeResponse.priority.map((item) => (
 						<CardFlash key={item.id}>
-							<CardIcon>{levelIcons[item.level]}</CardIcon>
+							<CardIcon className={levelBackground[item.level]}>
+								{levelIcons[item.level]}
+							</CardIcon>
 							<CardInformations count={item.amount} name={item.name} />
 						</CardFlash>
 					))}
