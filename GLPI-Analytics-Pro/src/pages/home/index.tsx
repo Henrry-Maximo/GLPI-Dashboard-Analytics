@@ -1,5 +1,7 @@
 ("use client");
 
+import { dataTicketsHomeResponse } from "@/data/ticketsData";
+
 import {
 	HeaderButton,
 	HeaderIcon,
@@ -26,100 +28,14 @@ import {
 	Flame,
 	Timer,
 	Warning,
-	WarningCircle,
 } from "phosphor-react";
 
-interface PropsTicketsType {
-	id: number;
-	level: string;
-	name: string;
-	amount: number;
-}
-
-interface PropsTicketsStatus {
-	id: number;
-	name: string;
-	amount: number;
-}
-
-type LevelPriority = "veryLow" | "low" | "average" | "high" | "veryHigh";
-
-interface PropsTicketsPriority {
-	id: number;
-	level: LevelPriority;
-	name: string;
-	amount: number;
-}
-
-interface PropsTicketsResponse {
-	type: PropsTicketsType[];
-	currentStatus: PropsTicketsStatus;
-	priority: PropsTicketsPriority[];
-}
-
-const dataTicketsHomeResponse: PropsTicketsResponse = {
-	type: [
-		{
-			id: 1,
-			level: "request",
-			name: "Requisição",
-			amount: 15,
-		},
-		{
-			id: 2,
-			level: "Incident",
-			name: "Incidente",
-			amount: 4,
-		},
-	],
-	currentStatus: {
-		id: 1,
-		name: "Pendente",
-		amount: 20,
-	},
-	priority: [
-		{
-			id: 1,
-			level: "veryLow",
-			name: "Muito baixa",
-			amount: 2,
-		},
-		{
-			id: 2,
-			level: "low",
-			name: "Baixa",
-			amount: 6,
-		},
-		{
-			id: 3,
-			level: "average",
-			name: "Média",
-			amount: 10,
-		},
-		{
-			id: 4,
-			level: "high",
-			name: "Alta",
-			amount: 2,
-		},
-		{
-			id: 5,
-			level: "veryHigh",
-			name: "Muito Alta",
-			amount: 0,
-		},
-	],
-};
+import type {
+	PropsLevelBackground,
+	PropsLevelIcons
+} from "@/@types/interface-tickets";
 
 export default function Home() {
-	interface PropsLevelIcons {
-		veryLow: JSX.Element;
-		low: JSX.Element;
-		average: JSX.Element;
-		high: JSX.Element;
-		veryHigh: JSX.Element;
-	}
-
 	const levelIcons: PropsLevelIcons = {
 		veryLow: <Circle />,
 		low: <CircleHalf />,
@@ -127,14 +43,6 @@ export default function Home() {
 		high: <Warning />,
 		veryHigh: <Flame />,
 	};
-
-	interface PropsLevelBackground {
-		veryLow: string;
-		low: string;
-		average: string;
-		high: string;
-		veryHigh: string;
-	}
 
 	const levelBackground: PropsLevelBackground = {
 		veryLow: "bg-green-400 text-gray-100 border-green-700",
@@ -161,7 +69,7 @@ export default function Home() {
 				<CardWrapperCol>
 					{dataTicketsHomeResponse.type.map((row) => (
 						<CardFlash key={row.id}>
-							{row.name === "Requisição" ? (
+							{row.level === "request" ? (
 								<CardIcon
 									aria-label="Request"
 									className="bg-blue-400 border-blue-700"
