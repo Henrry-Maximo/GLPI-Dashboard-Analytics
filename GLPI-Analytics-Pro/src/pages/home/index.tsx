@@ -17,6 +17,9 @@ import {
 } from "./components/Card";
 
 import {
+	ArrowFatLinesRight,
+	ArrowRight,
+	ArrowsLeftRight,
 	Bug,
 	CaretCircleDoubleUp,
 	ChartLine,
@@ -100,6 +103,10 @@ export default function Home() {
 						/>
 					</CardFlash>
 				</CardWrapperRow>
+
+				<CardIcon className="bg-white p-2 teanimate-pulse">
+					<ArrowsLeftRight className="text-orange-600 animate-pulse"/>
+				</CardIcon>
 
 				<CardWrapperRow>
 					{dataTicketsHomeResponse.priority.map((row) => (

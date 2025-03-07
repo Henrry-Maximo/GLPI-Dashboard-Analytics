@@ -6,7 +6,7 @@ interface CardProps extends ComponentProps<'div'> {}
 export function CardRoot({ ...props }: CardProps) {
 	return (
 		<div
-			className="grid grid-cols-[auto_256px_1fr] gap-8 items-center justify-center py-2 px-2 border border-orange-400 rounded-md"
+			className="grid grid-cols-[auto_256px_auto_1fr] gap-4 items-center justify-center py-2 px-2  rounded-md"
 			{...props}
 		/>
 	);
