@@ -12,9 +12,12 @@ export type Ticket = {
   priority: string;
 };
 
-interface PropsTicketsType {
+type LevelType = "requisition" | "incident";
+type LevelPriority = "veryLow" | "low" | "average" | "high" | "veryHigh";
+
+export interface PropsTicketsType {
 	id: number;
-	level: string;
+	level: LevelType;
 	name: string;
 	amount: number;
 }
@@ -25,8 +28,6 @@ interface PropsTicketsStatus {
 	amount: number;
 }
 
-type LevelPriority = "veryLow" | "low" | "average" | "high" | "veryHigh";
-
 interface PropsTicketsPriority {
 	id: number;
 	level: LevelPriority;
@@ -34,13 +35,13 @@ interface PropsTicketsPriority {
 	amount: number;
 }
 
-interface PropsTicketsResponse {
+export interface PropsTicketsResponse {
 	type: PropsTicketsType[];
 	currentStatus: PropsTicketsStatus;
 	priority: PropsTicketsPriority[];
 }
 
-interface PropsLevelIcons {
+export interface PropsLevelPriorityIcons {
   veryLow: JSX.Element;
   low: JSX.Element;
   average: JSX.Element;
@@ -48,10 +49,20 @@ interface PropsLevelIcons {
   veryHigh: JSX.Element;
 }
 
-interface PropsLevelBackground {
+export interface PropsLevelPriorityStyle {
   veryLow: string;
   low: string;
   average: string;
   high: string;
   veryHigh: string;
+}
+
+export interface PropsLevelTypeIcons {
+  requisition: JSX.Element;
+  incident: JSX.Element;
+}
+
+export interface PropsLevelTypeStyle {
+  requisition: string,
+  incident: string
 }

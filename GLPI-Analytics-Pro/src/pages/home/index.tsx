@@ -1,5 +1,3 @@
-("use client");
-
 import { dataTicketsHomeResponse } from "@/data/ticketsData";
 
 import {
@@ -31,12 +29,24 @@ import {
 } from "phosphor-react";
 
 import type {
-	PropsLevelBackground,
-	PropsLevelIcons
+	PropsLevelPriorityIcons,
+	PropsLevelPriorityStyle,
+	PropsLevelTypeIcons,
+	PropsLevelTypeStyle,
 } from "@/@types/interface-tickets";
 
 export default function Home() {
-	const levelIcons: PropsLevelIcons = {
+	const levelTypeIcons: PropsLevelTypeIcons = {
+		requisition: <ClipboardText />,
+		incident: <Bug />,
+	};
+
+	const levelTypeStyle: PropsLevelTypeStyle = {
+		requisition: "bg-red-400 border-red-700",
+		incident: "bg-blue-400 border-blue-700",
+	};
+
+	const levelPriorityIcons: PropsLevelPriorityIcons = {
 		veryLow: <Circle />,
 		low: <CircleHalf />,
 		average: <CaretCircleDoubleUp />,
@@ -44,7 +54,7 @@ export default function Home() {
 		veryHigh: <Flame />,
 	};
 
-	const levelBackground: PropsLevelBackground = {
+	const levelPriorityStyle: PropsLevelPriorityStyle = {
 		veryLow: "bg-green-400 text-gray-100 border-green-700",
 		low: "bg-green-600 text-gray-100 border-green-800",
 		average: "bg-yellow-400 text-white border-yellow-700",
@@ -69,21 +79,9 @@ export default function Home() {
 				<CardWrapperCol>
 					{dataTicketsHomeResponse.type.map((row) => (
 						<CardFlash key={row.id}>
-							{row.level === "request" ? (
-								<CardIcon
-									aria-label="Request"
-									className="bg-blue-400 border-blue-700"
-								>
-									<ClipboardText size={22} />
-								</CardIcon>
-							) : (
-								<CardIcon
-									aria-label="Incident"
-									className="bg-red-400 border-red-700"
-								>
-									<Bug size={22} />
-								</CardIcon>
-							)}
+							<CardIcon className={levelTypeStyle[row.level]}>
+								{levelTypeIcons[row.level]}
+							</CardIcon>
 
 							<CardInformations count={row.amount} name={row.name} />
 						</CardFlash>
@@ -104,12 +102,12 @@ export default function Home() {
 				</CardWrapperRow>
 
 				<CardWrapperRow>
-					{dataTicketsHomeResponse.priority.map((item) => (
-						<CardFlash key={item.id}>
-							<CardIcon className={levelBackground[item.level]}>
-								{levelIcons[item.level]}
+					{dataTicketsHomeResponse.priority.map((row) => (
+						<CardFlash key={row.id}>
+							<CardIcon className={levelPriorityStyle[row.level]}>
+								{levelPriorityIcons[row.level]}
 							</CardIcon>
-							<CardInformations count={item.amount} name={item.name} />
+							<CardInformations count={row.amount} name={row.name} />
 						</CardFlash>
 					))}
 				</CardWrapperRow>

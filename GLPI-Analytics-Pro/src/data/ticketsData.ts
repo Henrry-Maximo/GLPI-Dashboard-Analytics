@@ -4,7 +4,7 @@ export const dataTicketsHomeResponse: PropsTicketsResponse = {
 	type: [
 		{
 			id: 1,
-			level: "request",
+			level: "requisition",
 			name: "Requisição",
 			amount: 15,
 		},

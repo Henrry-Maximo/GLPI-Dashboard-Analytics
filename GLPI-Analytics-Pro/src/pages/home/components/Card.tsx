@@ -30,7 +30,7 @@ export function CardIcon({ className, ...props }: CardIconProps) {
 
   return (
     <div 
-      className={twMerge("flex bg-blue-700 text-white p-4 text-2xl items-center py-4 gap-4 rounded-md shadow-lg border", className)}
+      className={twMerge("flex bg-blue-700 text-white p-4 text-2xl items-center py-4 gap-4 rounded-md shadow-lg border animate-bource", className)}
       {...props}
     />
   );
