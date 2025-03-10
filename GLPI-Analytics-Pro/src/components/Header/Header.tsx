@@ -40,11 +40,3 @@ export default function Header({ toggleSidebar }: ButtonProps) {
     </div>
   );
 }
-
-/*
-display: flex;
-  flex-direction: row;
-  margin: 0.25rem;
-  padding: 0.50rem;
-  gap: 10px;
-*/

@@ -17,8 +17,6 @@ import {
 } from "./components/Card";
 
 import {
-	ArrowFatLinesRight,
-	ArrowRight,
 	ArrowsLeftRight,
 	Bug,
 	CaretCircleDoubleUp,
@@ -37,46 +35,38 @@ import type {
 	PropsLevelTypeIcons,
 	PropsLevelTypeStyle,
 } from "@/@types/interface-tickets";
+import { Header } from "./header";
+
+const levelTypeIcons: PropsLevelTypeIcons = {
+	requisition: <ClipboardText />,
+	incident: <Bug />,
+};
+
+const levelTypeStyle: PropsLevelTypeStyle = {
+	requisition: "bg-red-400 border-red-700",
+	incident: "bg-blue-400 border-blue-700",
+};
+
+const levelPriorityIcons: PropsLevelPriorityIcons = {
+	veryLow: <Circle />,
+	low: <CircleHalf />,
+	average: <CaretCircleDoubleUp />,
+	high: <Warning />,
+	veryHigh: <Flame />,
+};
+
+const levelPriorityStyle: PropsLevelPriorityStyle = {
+	veryLow: "bg-green-400 text-gray-100 border-green-700",
+	low: "bg-green-600 text-gray-100 border-green-800",
+	average: "bg-yellow-400 text-white border-yellow-700",
+	high: "bg-red-400 text-gray-100 border-red-700",
+	veryHigh: "bg-red-600 text-gray-100 border-red-800",
+};
 
 export default function Home() {
-	const levelTypeIcons: PropsLevelTypeIcons = {
-		requisition: <ClipboardText />,
-		incident: <Bug />,
-	};
-
-	const levelTypeStyle: PropsLevelTypeStyle = {
-		requisition: "bg-red-400 border-red-700",
-		incident: "bg-blue-400 border-blue-700",
-	};
-
-	const levelPriorityIcons: PropsLevelPriorityIcons = {
-		veryLow: <Circle />,
-		low: <CircleHalf />,
-		average: <CaretCircleDoubleUp />,
-		high: <Warning />,
-		veryHigh: <Flame />,
-	};
-
-	const levelPriorityStyle: PropsLevelPriorityStyle = {
-		veryLow: "bg-green-400 text-gray-100 border-green-700",
-		low: "bg-green-600 text-gray-100 border-green-800",
-		average: "bg-yellow-400 text-white border-yellow-700",
-		high: "bg-red-400 text-gray-100 border-red-700",
-		veryHigh: "bg-red-600 text-gray-100 border-red-800",
-	};
-
 	return (
-		<main className="flex flex-col w-full h-[max-content]">
-			<HeaderRoot>
-				<HeaderIcon>
-					<ChartLine size={30} className="text-orange-500" />
-					Dashboard
-				</HeaderIcon>
-
-				<HeaderWrapper>
-					<HeaderButton>Filter</HeaderButton>
-				</HeaderWrapper>
-			</HeaderRoot>
+		<main className="flex flex-col w-full h-[max-content] flex-1">
+			<Header />
 
 			<CardRoot>
 				<CardWrapperCol>
@@ -105,7 +95,7 @@ export default function Home() {
 				</CardWrapperRow>
 
 				<CardIcon className="bg-white p-2 teanimate-pulse">
-					<ArrowsLeftRight className="text-orange-600 animate-pulse"/>
+					<ArrowsLeftRight className="text-orange-600 animate-pulse" />
 				</CardIcon>
 
 				<CardWrapperRow>
