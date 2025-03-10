@@ -1,12 +1,21 @@
 import { ChartLine } from "phosphor-react";
-import { HeaderButton, HeaderIcon, HeaderRoot, HeaderWrapper } from "./components/Header";
+import {
+  HeaderButton,
+  HeaderIcon,
+  HeaderRoot,
+  HeaderWrapper,
+} from "./components/Header";
 
-export function Header() {
+interface HeaderProps {
+  name: string
+}
+
+export function Header({ name }: HeaderProps) {
 	return (
 		<HeaderRoot>
 			<HeaderIcon>
 				<ChartLine size={30} className="text-orange-500" />
-				Dashboard
+				{name}
 			</HeaderIcon>
 
 			<HeaderWrapper>

@@ -66,7 +66,7 @@ interface CardWrapperRowProps extends ComponentProps<'div'> {}
 export function CardWrapperRow({ ...props }: CardWrapperRowProps ){
   return (
     <div
-      className="flex gap-2 justify-center" 
+      className="grid grid-cols-[1fr] md:grid-cols-5 gap-2 justify-center" 
       {...props}
     />
   );

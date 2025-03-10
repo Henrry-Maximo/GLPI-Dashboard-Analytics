@@ -66,7 +66,7 @@ const levelPriorityStyle: PropsLevelPriorityStyle = {
 export default function Home() {
 	return (
 		<main className="flex flex-col w-full h-[max-content] flex-1">
-			<Header />
+			<Header name="Dashboard" />
 
 			<CardRoot>
 				<CardWrapperCol>
@@ -81,7 +81,7 @@ export default function Home() {
 					))}
 				</CardWrapperCol>
 
-				<CardWrapperRow>
+				<CardWrapperCol>
 					<CardFlash key={dataTicketsHomeResponse.currentStatus.id}>
 						<CardIcon className="bg-yellow-400 border border-yellow-600 text-4xl">
 							<Timer />
@@ -92,7 +92,7 @@ export default function Home() {
 							name={dataTicketsHomeResponse.currentStatus.name}
 						/>
 					</CardFlash>
-				</CardWrapperRow>
+				</CardWrapperCol>
 
 				<CardIcon className="bg-white p-2 teanimate-pulse">
 					<ArrowsLeftRight className="text-orange-600 animate-pulse" />
