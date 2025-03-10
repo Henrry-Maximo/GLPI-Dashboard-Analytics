@@ -1,13 +1,6 @@
 import { dataTicketsHomeResponse } from "@/data/ticketsData";
 
 import {
-	HeaderButton,
-	HeaderIcon,
-	HeaderRoot,
-	HeaderWrapper,
-} from "./components/Header";
-
-import {
 	CardFlash,
 	CardIcon,
 	CardInformations,
@@ -17,51 +10,16 @@ import {
 } from "./components/Card";
 
 import {
-	ArrowsLeftRight,
-	Bug,
-	CaretCircleDoubleUp,
-	ChartLine,
-	Circle,
-	CircleHalf,
-	ClipboardText,
-	Flame,
-	Timer,
-	Warning,
+	ArrowsLeftRight, Timer
 } from "phosphor-react";
 
-import type {
-	PropsLevelPriorityIcons,
-	PropsLevelPriorityStyle,
-	PropsLevelTypeIcons,
-	PropsLevelTypeStyle,
-} from "@/@types/interface-tickets";
 import { Header } from "./header";
-
-const levelTypeIcons: PropsLevelTypeIcons = {
-	requisition: <ClipboardText />,
-	incident: <Bug />,
-};
-
-const levelTypeStyle: PropsLevelTypeStyle = {
-	requisition: "bg-red-400 border-red-700",
-	incident: "bg-blue-400 border-blue-700",
-};
-
-const levelPriorityIcons: PropsLevelPriorityIcons = {
-	veryLow: <Circle />,
-	low: <CircleHalf />,
-	average: <CaretCircleDoubleUp />,
-	high: <Warning />,
-	veryHigh: <Flame />,
-};
-
-const levelPriorityStyle: PropsLevelPriorityStyle = {
-	veryLow: "bg-green-400 text-gray-100 border-green-700",
-	low: "bg-green-600 text-gray-100 border-green-800",
-	average: "bg-yellow-400 text-white border-yellow-700",
-	high: "bg-red-400 text-gray-100 border-red-700",
-	veryHigh: "bg-red-600 text-gray-100 border-red-800",
-};
+import {
+	levelPriorityIcons,
+	levelPriorityStyle,
+	levelTypeIcons,
+	levelTypeStyle,
+} from "./definitions";
 
 export default function Home() {
 	return (
@@ -69,6 +27,7 @@ export default function Home() {
 			<Header name="Dashboard" />
 
 			<CardRoot>
+				{/* style default: but add style custom */}
 				<CardWrapperCol>
 					{dataTicketsHomeResponse.type.map((row) => (
 						<CardFlash key={row.id}>
