@@ -32,7 +32,7 @@ export default function Sidebar({ menuOpen }: MainProps) {
   return (
     <aside
       className={`${
-        menuOpen ? 'w-52 px-5 py-8' : 'w-0 opacity-0'
+        menuOpen ? 'w-52 px-5 py-8' : 'w-0 invisible'
       } flex flex-col bg-gray-50 border-r border-gray-300 transition-all duration-200 ease-in-out`}
     >
       {/* <Input.Root>
