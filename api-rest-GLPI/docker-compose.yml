@@ -1,0 +1,16 @@
+version: '3.9'
+
+services:
+  glpi_db:
+    image: mysql:8.0
+    container_name: glpi_db
+    environment:
+      MYSQL_DATABASE: glpi_db
+      MYSQL_USER: glpi_user
+      MYSQL_PASSWORD: glpi_password
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./data:/var/lib/mysql
+      - ./scripts:/docker-entrypoint-initdb.d

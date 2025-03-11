@@ -22,6 +22,7 @@
     "fastify-type-provider-zod": "4.0.2",
     "knex": "3.1.0",
     "mysql": "2.18.1",
+    "mysql2": "3.13.0",
     "zod": "3.23.8"
   },
   "devDependencies": {

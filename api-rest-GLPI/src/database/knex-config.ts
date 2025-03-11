@@ -5,10 +5,11 @@ import { env } from "../env";
 
 // Configuração básica
 export const config: Knex.Config = {
-  client: "mysql",
+  client: "mysql2",
   connection: {
     host: env.DB_HOST,
     user: env.DB_USER,
+    port: env.DB_PORT,
     password: env.DB_PASSWORD,
     database: env.DB_DATABASE,
   },
