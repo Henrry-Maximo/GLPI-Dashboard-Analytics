@@ -50,28 +50,16 @@ export function CardInformations({ className, count, name }: CardInformationsPro
   );
 }
 
-interface CardWrapperColProps extends ComponentProps<'div'> {}
+interface CardWrapperProps extends ComponentProps<'div'> {}
 
-export function CardWrapperCol({ ...props }: CardWrapperColProps ){
+export function CardWrapper({ className, ...props }: CardWrapperProps ){
   return (
     <div
-      className="flex flex-col gap-2 justify-center" 
+      className={twMerge("flex flex-col gap-2 justify-center", className)} 
       {...props}
     />
   );
 }
-
-interface CardWrapperRowProps extends ComponentProps<'div'> {}
-
-export function CardWrapperRow({ ...props }: CardWrapperRowProps ){
-  return (
-    <div
-      className="grid grid-cols-[1fr] md:grid-cols-5 gap-2 justify-center" 
-      {...props}
-    />
-  );
-}
-
 
 // import { Card } from '@/components/Card/Card';
 // import {

@@ -5,15 +5,13 @@ import {
 	CardIcon,
 	CardInformations,
 	CardRoot,
-	CardWrapperCol,
-	CardWrapperRow,
+	CardWrapper
 } from "./components/Card";
 
-import {
-	ArrowsLeftRight, Timer
-} from "phosphor-react";
+import { ArrowsLeftRight, Timer } from "phosphor-react";
 
 import { Header } from "./header";
+
 import {
 	levelPriorityIcons,
 	levelPriorityStyle,
@@ -28,7 +26,7 @@ export default function Home() {
 
 			<CardRoot>
 				{/* style default: but add style custom */}
-				<CardWrapperCol>
+				<CardWrapper>
 					{dataTicketsHomeResponse.type.map((row) => (
 						<CardFlash key={row.id}>
 							<CardIcon className={levelTypeStyle[row.level]}>
@@ -38,9 +36,9 @@ export default function Home() {
 							<CardInformations count={row.amount} name={row.name} />
 						</CardFlash>
 					))}
-				</CardWrapperCol>
+				</CardWrapper>
 
-				<CardWrapperCol>
+				<CardWrapper>
 					<CardFlash key={dataTicketsHomeResponse.currentStatus.id}>
 						<CardIcon className="bg-yellow-400 border border-yellow-600 text-4xl">
 							<Timer />
@@ -51,13 +49,13 @@ export default function Home() {
 							name={dataTicketsHomeResponse.currentStatus.name}
 						/>
 					</CardFlash>
-				</CardWrapperCol>
+				</CardWrapper>
 
 				<CardIcon className="bg-white p-2 teanimate-pulse">
 					<ArrowsLeftRight className="text-orange-600 animate-pulse" />
 				</CardIcon>
 
-				<CardWrapperRow>
+				<CardWrapper className="flex flex-row">
 					{dataTicketsHomeResponse.priority.map((row) => (
 						<CardFlash key={row.id}>
 							<CardIcon className={levelPriorityStyle[row.level]}>
@@ -66,7 +64,7 @@ export default function Home() {
 							<CardInformations count={row.amount} name={row.name} />
 						</CardFlash>
 					))}
-				</CardWrapperRow>
+				</CardWrapper>
 			</CardRoot>
 		</main>
 	);
