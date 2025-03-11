@@ -131,7 +131,5 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
-./data
-.data
-.scripts
-./scripts
+data
+scripts
