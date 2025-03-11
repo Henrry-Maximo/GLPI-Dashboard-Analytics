@@ -5,8 +5,8 @@ import {
 	CardIcon,
 	CardInformations,
 	CardRoot,
-	CardWrapper
-} from "./components/Card";
+	CardWrapper,
+} from "@/components/Card/Card";
 
 import { ArrowsLeftRight, Timer } from "phosphor-react";
 

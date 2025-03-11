@@ -2,7 +2,7 @@ import { Password, User } from 'phosphor-react';
 import styles from './style.module.css';
 
 import { useState } from 'react';
-import logo_glpi from '../../assets/login/logo_glpi_slogan.png';
+import logo from '../../assets/login/logo.png';
 
 import { useMutation } from '@tanstack/react-query';
 import { login } from '../../http/auth';
@@ -64,7 +64,7 @@ export default function Index() {
     <div className={styles.wrapper}>
       <div className={styles.container}>
         <div className={styles.imageLogin}>
-          <img src={logo_glpi} alt="logo glpi" />
+          <img src={logo} alt="logo glpi" />
         </div>
 
         <form className={styles.formLogin} onSubmit={handleSubmit}>
