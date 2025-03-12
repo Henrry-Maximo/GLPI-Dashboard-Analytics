@@ -67,6 +67,6 @@ export async function ticketsController(app: FastifyInstance) {
   app.get("/tickets-technician", { onRequest: [verifyJwt]}, async (_, reply) => {
     const { ticketsAmountTechnician, ticketsAmountTechnicianSolution } = await getTicketsTechnician();
 
-    return reply.status(200).send({ticketsAmountTechnician, ticketsAmountTechnicianSolution });
+    return reply.status(200).send({ ticketsAmountTechnician, ticketsAmountTechnicianSolution });
   });
 }

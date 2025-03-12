@@ -1,147 +1,147 @@
-import { ScrollArea } from '@/components/ui/scroll-area';
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 import {
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  Card as CardRoot,
-  CardTitle,
-} from '@/components/ui/card';
+	CardContent,
+	CardDescription,
+	CardFooter,
+	CardHeader,
+	Card as CardRoot,
+	CardTitle,
+} from "@/components/ui/card";
 
 import {
-  type ChartConfig,
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from '@/components/ui/chart';
-import React from 'react';
+	type ChartConfig,
+	ChartContainer,
+	ChartTooltip,
+	ChartTooltipContent,
+} from "@/components/ui/chart";
+import React from "react";
 
 import {
-  Area,
-  AreaChart,
-  Bar,
-  BarChart,
-  CartesianGrid,
-  LabelList,
-  XAxis,
-  YAxis,
-} from 'recharts';
+	Area,
+	AreaChart,
+	Bar,
+	BarChart,
+	CartesianGrid,
+	LabelList,
+	XAxis,
+	YAxis,
+} from "recharts";
 
 interface PropsBarChartsTickets {
-  priority: {
-    tickets_very_low: number;
-    tickets_low: number;
-    tickets_medium: number;
-    tickets_high: number;
-    tickets_very_high: number;
-  };
-  categorie: [
-    {
-      completename: string;
-      count: number;
-    },
-  ];
-  concludes: [
-    {
-      date_creation: string;
-      status: string;
-      count: number;
-    },
-  ];
-  delayed: [
-    {
-      id: number;
-      date_creation: string;
-      time_to_resolve: string;
-      status: number;
-      name: string;
-    },
-  ];
-  technician: {
-    ticketsAmountTechnician: [
-      {
-        technician: string;
-        quantity_tickets: number;
-      },
-    ];
-    ticketsAmountTechnicianSolution: [
-      {
-        technician: string;
-        group: string;
-        count: number;
-      },
-    ];
-  };
+	priority: {
+		tickets_very_low: number;
+		tickets_low: number;
+		tickets_medium: number;
+		tickets_high: number;
+		tickets_very_high: number;
+	};
+	categorie: [
+		{
+			completename: string;
+			count: number;
+		},
+	];
+	concludes: [
+		{
+			date_creation: string;
+			status: string;
+			count: number;
+		},
+	];
+	delayed: [
+		{
+			id: number;
+			date_creation: string;
+			time_to_resolve: string;
+			status: number;
+			name: string;
+		},
+	];
+	technician: {
+		ticketsAmountTechnician: [
+			{
+				technician: string;
+				quantity_tickets: number;
+			},
+		];
+		ticketsAmountTechnicianSolution: [
+			{
+				technician: string;
+				group: string;
+				count: number;
+			},
+		];
+	};
 }
 
 export function BarChartsTickets({
-  categorie,
-  priority,
-  concludes,
-  delayed,
-  technician,
+	categorie,
+	priority,
+	concludes,
+	delayed,
+	technician,
 }: PropsBarChartsTickets) {
-  // associando a uma chave para uso posterior
-  const transformedData = [
-    { urgency: 'Muito Baixa', tickets: priority.tickets_very_low },
-    { urgency: 'Baixa', tickets: priority.tickets_low },
-    { urgency: 'Média', tickets: priority.tickets_medium },
-    { urgency: 'Alta', tickets: priority.tickets_high },
-    { urgency: 'Muito Alta', tickets: priority.tickets_very_high },
-  ];
+	// associando a uma chave para uso posterior
+	const transformedData = [
+		{ urgency: "Muito Baixa", tickets: priority.tickets_very_low },
+		{ urgency: "Baixa", tickets: priority.tickets_low },
+		{ urgency: "Média", tickets: priority.tickets_medium },
+		{ urgency: "Alta", tickets: priority.tickets_high },
+		{ urgency: "Muito Alta", tickets: priority.tickets_very_high },
+	];
 
-  const chartConfigLabel = {
-    tickets: {
-      label: 'tickets',
-      color: 'hsl(var(--chart-1))',
-    },
-    label: {
-      color: 'hsl(var(--background))',
-    },
-  } satisfies ChartConfig;
+	const chartConfigLabel = {
+		tickets: {
+			label: "tickets",
+			color: "hsl(var(--chart-1))",
+		},
+		label: {
+			color: "hsl(var(--background))",
+		},
+	} satisfies ChartConfig;
 
-  const chartConfig = {
-    tickets: {
-      label: 'chamados',
-      color: 'hsl(var(--chart-1))',
-    },
-  } satisfies ChartConfig;
+	const chartConfig = {
+		tickets: {
+			label: "chamados",
+			color: "hsl(var(--chart-1))",
+		},
+	} satisfies ChartConfig;
 
-  const totalTickets = React.useMemo(
-    () => concludes.reduce((acc, curr) => acc + curr.count, 0),
-    [concludes]
-  );
+	const totalTickets = React.useMemo(
+		() => concludes.reduce((acc, curr) => acc + curr.count, 0),
+		[concludes],
+	);
 
-  const dataTicketsTechnicianSolution =
-    technician.ticketsAmountTechnicianSolution;
+	const dataTicketsTechnicianSolution =
+		technician.ticketsAmountTechnicianSolution;
 
-  return (
-    <div className="flex flex-col gap-4 h-screen">
-      <div className="grid grid-cols-1 gap-4">
-        <CardRoot>
-          <CardHeader className="flex flex-col items-stretch space-y-0 border-b p-0 sm:flex-row">
-            <div className="flex flex-1 flex-col justify-center gap-1 px-6 py-5 sm:py-6">
-              <CardTitle>Chamados Fechados</CardTitle>
-              <CardDescription>
-                Exibindo o total de chamados fechados por dia
-              </CardDescription>
-            </div>
-            <div className="flex">
-              <button
-                className="relative z-30 flex flex-1 flex-col justify-center gap-1 border-t px-6 py-4 text-left sm:border-l sm:border-t-0 sm:px-8 sm:py-6"
-                data-active={true}
-                type="button"
-              >
-                <span className="text-xs text-muted-foreground">
-                  {chartConfig.tickets.label}
-                </span>
-                <span className="text-lg font-bold leading-none sm:text-3xl">
-                  {totalTickets}
-                </span>
-              </button>
+	return (
+		<div className="flex flex-col gap-4 h-screen">
+			<div className="grid grid-cols-2 gap-4 ">
+				<CardRoot>
+					<CardHeader className="flex flex-col items-stretch space-y-0 border-b p-0 sm:flex-row">
+						<div className="flex flex-1 flex-col justify-center gap-1 px-6 py-5 sm:py-6">
+							<CardTitle>Chamados Fechados</CardTitle>
+							<CardDescription>
+								Exibindo o total de chamados fechados por dia
+							</CardDescription>
+						</div>
+						<div className="flex">
+							<button
+								className="relative z-30 flex flex-1 flex-col justify-center gap-1 border-t px-6 py-4 text-left sm:border-l sm:border-t-0 sm:px-8 sm:py-6"
+								data-active={true}
+								type="button"
+							>
+								<span className="text-xs text-muted-foreground">
+									{chartConfig.tickets.label}
+								</span>
+								<span className="text-lg font-bold leading-none sm:text-3xl">
+									{totalTickets}
+								</span>
+							</button>
 
-              {/* <div
+							{/* <div
               className="relative z-30 flex flex-1 flex-col justify-center gap-1 border-t px-6 py-4 text-left sm:border-l sm:border-t-0 sm:px-8 sm:py-6"
               data-active={true}
             >
@@ -150,71 +150,71 @@ export function BarChartsTickets({
                 55%
               </span>
             </div> */}
-            </div>
-          </CardHeader>
+						</div>
+					</CardHeader>
 
-          <CardContent className="px-2 sm:p-6">
-            <ChartContainer
-              config={chartConfig}
-              className="aspect-auto h-[250px] w-full"
-            >
-              <BarChart
-                accessibilityLayer
-                data={concludes.map(d => ({
-                  date: new Date(d.date_creation).toISOString(),
-                  count: d.count,
-                }))}
-                margin={{
-                  left: 12,
-                  right: 12,
-                }}
-              >
-                <CartesianGrid vertical={true} />
-                <XAxis
-                  dataKey="date"
-                  tickLine={false}
-                  axisLine={true}
-                  tickMargin={8}
-                  minTickGap={32}
-                  tickFormatter={value => {
-                    const date = new Date(value);
-                    return date.toLocaleDateString('pt-br', {
-                      month: 'short',
-                      day: 'numeric',
-                    });
-                  }}
-                />
-                <ChartTooltip
-                  content={
-                    <ChartTooltipContent
-                      className="w-[150px]"
-                      nameKey="count"
-                      labelFormatter={value => {
-                        return new Date(value).toLocaleDateString('pt-br', {
-                          month: 'short',
-                          day: 'numeric',
-                          year: 'numeric',
-                        });
-                      }}
-                    />
-                  }
-                />
-                <Bar dataKey="count" fill="var(--color-tickets)" />
-              </BarChart>
-            </ChartContainer>
-          </CardContent>
-        </CardRoot>
+					<CardContent className="px-2 sm:p-6">
+						<ChartContainer
+							config={chartConfig}
+							className="aspect-auto h-[250px] w-full"
+						>
+							<BarChart
+								accessibilityLayer
+								data={concludes.map((d) => ({
+									date: new Date(d.date_creation).toISOString(),
+									count: d.count,
+								}))}
+								margin={{
+									left: 12,
+									right: 12,
+								}}
+							>
+								<CartesianGrid vertical={true} />
+								<XAxis
+									dataKey="date"
+									tickLine={false}
+									axisLine={true}
+									tickMargin={8}
+									minTickGap={32}
+									tickFormatter={(value) => {
+										const date = new Date(value);
+										return date.toLocaleDateString("pt-br", {
+											month: "short",
+											day: "numeric",
+										});
+									}}
+								/>
+								<ChartTooltip
+									content={
+										<ChartTooltipContent
+											className="w-[150px]"
+											nameKey="count"
+											labelFormatter={(value) => {
+												return new Date(value).toLocaleDateString("pt-br", {
+													month: "short",
+													day: "numeric",
+													year: "numeric",
+												});
+											}}
+										/>
+									}
+								/>
+								<Bar dataKey="count" fill="var(--color-tickets)" />
+							</BarChart>
+						</ChartContainer>
+					</CardContent>
+				</CardRoot>
 
-        <section className="h-full">
-          <ScrollArea className="h-72 border rounded-b-md bg-gray-50 shadow-sm">
-            <header className="bg-white p-4 rounded-t-md">
-              <h1 className="font-semibold">Chamados Atrasados</h1>
-              <span className="text-sm text-gray-500">
-                Resumo Chamados Atrasados (SLA)
-              </span>
-            </header>
-            <table className="table-auto w-full">
-              <thead className="bg-white font-light text-center">
+				<section className="flex flex-col shadow-sm h-[25rem]">
+					<header className="bg-white py-5 px-6 border-t-2 border-l-2 border-r-2 border-b-0">
+						<h1 className="font-semibold">Chamados Atrasados</h1>
+						<span className="text-sm text-gray-500">
+							Resumo Chamados Atrasados (SLA)
+						</span>
+					</header>
+					<ScrollArea className="overflow-y-auto bg-white border shadow-sm">
+						<table className="table-auto  w-full border rounded-b-md">
+              <thead className=" font-light text-center">
                 <tr>
                   <th className="py-3 px-4 text-left text-sm font-semibold uppercase">
                     ID
@@ -268,9 +268,9 @@ export function BarChartsTickets({
                 })}
               </tbody>
             </table>
-          </ScrollArea>
+					</ScrollArea>
 
-          {/* <div className="flex justify-center items-center gap-4 mt-4">
+					{/* <div className="flex justify-center items-center gap-4 mt-4">
             <Button
               // disabled={currentPage === 1}
               // onClick={() => setCurrentPage(prev => prev - 1)}
@@ -289,252 +289,252 @@ export function BarChartsTickets({
               Próxima
             </Button>
           </div> */}
-        </section>
-      </div>
+				</section>
+			</div>
 
-      <div className="grid grid-cols-2 gap-4">
-        <CardRoot className="shadow-lg bg-gray-50">
-          <CardHeader>
-            <CardTitle>Chamados por Categoria</CardTitle>
-            <CardDescription>
-              Resumo das Categorias por Chamados
-            </CardDescription>
-          </CardHeader>
+			<div className="grid grid-cols-2 gap-4">
+				<CardRoot className="shadow-lg bg-gray-50">
+					<CardHeader>
+						<CardTitle>Chamados por Categoria</CardTitle>
+						<CardDescription>
+							Resumo das Categorias por Chamados
+						</CardDescription>
+					</CardHeader>
 
-          <CardContent>
-            <ChartContainer config={chartConfig}>
-              <BarChart accessibilityLayer data={categorie}>
-                <CartesianGrid vertical={true} />
+					<CardContent>
+						<ChartContainer config={chartConfig}>
+							<BarChart accessibilityLayer data={categorie}>
+								<CartesianGrid vertical={true} />
 
-                <XAxis
-                  dataKey="completename" // rotular pontos no eixo
-                  tickLine={false} // corta-os e adiciona `...`
-                  tickMargin={10} // Adiciona margem aos rótulos
-                  axisLine={false} // Remove a linha do eixo
-                  tickFormatter={
-                    value =>
-                      value.length > 10 ? `${value.slice(0, 10)}...` : value // Encurta rótulos longos
-                  }
-                />
+								<XAxis
+									dataKey="completename" // rotular pontos no eixo
+									tickLine={false} // corta-os e adiciona `...`
+									tickMargin={10} // Adiciona margem aos rótulos
+									axisLine={false} // Remove a linha do eixo
+									tickFormatter={
+										(value) =>
+											value.length > 10 ? `${value.slice(0, 10)}...` : value // Encurta rótulos longos
+									}
+								/>
 
-                <ChartTooltip
-                  cursor={true}
-                  content={<ChartTooltipContent indicator="line" />}
-                />
+								<ChartTooltip
+									cursor={true}
+									content={<ChartTooltipContent indicator="line" />}
+								/>
 
-                <Bar
-                  dataKey="amount" // Usa "count" para definir altura das barras
-                  fill="var(--color-tickets)" // Cor dinâmica do chartConfig
-                  radius={4} // Borda arredondada nas barras
-                >
-                  <LabelList
-                    dataKey="amount" // Adicionado dataKey para mostrar os valores
-                    position="top"
-                    offset={12}
-                    className="fill-foreground"
-                    fontSize={12}
-                  />
-                </Bar>
-              </BarChart>
-            </ChartContainer>
-          </CardContent>
+								<Bar
+									dataKey="amount" // Usa "count" para definir altura das barras
+									fill="var(--color-tickets)" // Cor dinâmica do chartConfig
+									radius={4} // Borda arredondada nas barras
+								>
+									<LabelList
+										dataKey="amount" // Adicionado dataKey para mostrar os valores
+										position="top"
+										offset={12}
+										className="fill-foreground"
+										fontSize={12}
+									/>
+								</Bar>
+							</BarChart>
+						</ChartContainer>
+					</CardContent>
 
-          <CardFooter className="flex-col items-start gap-2 text-sm">
-            <div className="leading-none text-muted-foreground">
-              Mostrar contagem de chamados por categoria
-            </div>
-          </CardFooter>
-        </CardRoot>
+					<CardFooter className="flex-col items-start gap-2 text-sm">
+						<div className="leading-none text-muted-foreground">
+							Mostrar contagem de chamados por categoria
+						</div>
+					</CardFooter>
+				</CardRoot>
 
-        <CardRoot className="shadow-lg bg-gray-50">
-          <CardHeader>
-            <CardTitle>Chamados Por Urgência</CardTitle>
-            <CardDescription>Resumo dos Chamados Por Urgência</CardDescription>
-          </CardHeader>
+				<CardRoot className="shadow-lg bg-gray-50">
+					<CardHeader>
+						<CardTitle>Chamados Por Urgência</CardTitle>
+						<CardDescription>Resumo dos Chamados Por Urgência</CardDescription>
+					</CardHeader>
 
-          <CardContent>
-            <ChartContainer config={chartConfig}>
-              <BarChart accessibilityLayer data={transformedData}>
-                <CartesianGrid vertical={true} />
+					<CardContent>
+						<ChartContainer config={chartConfig}>
+							<BarChart accessibilityLayer data={transformedData}>
+								<CartesianGrid vertical={true} />
 
-                <XAxis
-                  dataKey="urgency" // Usa "urgency" como rótulo
-                  tickLine={false} // Remove linhas menores
-                  tickMargin={10}
-                  axisLine={true} // Remove a linha do eixo
-                />
-                <ChartTooltip
-                  cursor={true}
-                  content={<ChartTooltipContent indicator="line" />}
-                />
-                <Bar dataKey="tickets" fill="var(--color-tickets)" radius={4}>
-                  <LabelList
-                    dataKey="tickets" // Adicionado dataKey para mostrar os valores
-                    position="top"
-                    offset={12}
-                    className="fill-foreground"
-                    fontSize={12}
-                  />
-                </Bar>
-              </BarChart>
-            </ChartContainer>
-          </CardContent>
+								<XAxis
+									dataKey="urgency" // Usa "urgency" como rótulo
+									tickLine={false} // Remove linhas menores
+									tickMargin={10}
+									axisLine={true} // Remove a linha do eixo
+								/>
+								<ChartTooltip
+									cursor={true}
+									content={<ChartTooltipContent indicator="line" />}
+								/>
+								<Bar dataKey="tickets" fill="var(--color-tickets)" radius={4}>
+									<LabelList
+										dataKey="tickets" // Adicionado dataKey para mostrar os valores
+										position="top"
+										offset={12}
+										className="fill-foreground"
+										fontSize={12}
+									/>
+								</Bar>
+							</BarChart>
+						</ChartContainer>
+					</CardContent>
 
-          <CardFooter className="flex-col items-start gap-2 text-sm">
-            <div className="leading-none text-muted-foreground">
-              Mostrar chamados distribuidos por urgência.
-            </div>
-          </CardFooter>
-        </CardRoot>
+					<CardFooter className="flex-col items-start gap-2 text-sm">
+						<div className="leading-none text-muted-foreground">
+							Mostrar chamados distribuidos por urgência.
+						</div>
+					</CardFooter>
+				</CardRoot>
 
-        <CardRoot>
-          <CardHeader>
-            <CardTitle>Chamados Solucionados por Técnico</CardTitle>
-            <CardDescription>Total de Chamados por Técnico</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <ChartContainer config={chartConfigLabel}>
-              <BarChart
-                accessibilityLayer
-                data={dataTicketsTechnicianSolution}
-                layout="vertical"
-                margin={{
-                  right: 16,
-                }}
-              >
-                <CartesianGrid horizontal={false} />
-                <YAxis
-                  dataKey="technician"
-                  type="category"
-                  tickLine={false}
-                  tickMargin={10}
-                  axisLine={false}
-                  tickFormatter={value => value.slice(0, 3)}
-                  hide
-                />
-                <XAxis dataKey="count" type="number" hide />
-                <ChartTooltip
-                  cursor={false}
-                  content={<ChartTooltipContent indicator="line" />}
-                />
-                <Bar
-                  dataKey="count"
-                  layout="vertical"
-                  fill="var(--color-tickets)"
-                  radius={4}
-                >
-                  <LabelList
-                    dataKey="technician"
-                    position="insideLeft"
-                    offset={8}
-                    className="fill-[--color-label]"
-                    fontSize={12}
-                  />
-                  <LabelList
-                    dataKey="count"
-                    position="right"
-                    offset={8}
-                    className="fill-foreground"
-                    fontSize={12}
-                  />
-                </Bar>
-              </BarChart>
-            </ChartContainer>
-          </CardContent>
-          <CardFooter className="flex-col items-start gap-2 text-sm">
-            <div className="leading-none text-muted-foreground">
-              Mostrar total de chamados atribuídos por técnico
-            </div>
-          </CardFooter>
-        </CardRoot>
+				<CardRoot>
+					<CardHeader>
+						<CardTitle>Chamados Solucionados por Técnico</CardTitle>
+						<CardDescription>Total de Chamados por Técnico</CardDescription>
+					</CardHeader>
+					<CardContent>
+						<ChartContainer config={chartConfigLabel}>
+							<BarChart
+								accessibilityLayer
+								data={dataTicketsTechnicianSolution}
+								layout="vertical"
+								margin={{
+									right: 16,
+								}}
+							>
+								<CartesianGrid horizontal={false} />
+								<YAxis
+									dataKey="technician"
+									type="category"
+									tickLine={false}
+									tickMargin={10}
+									axisLine={false}
+									tickFormatter={(value) => value.slice(0, 3)}
+									hide
+								/>
+								<XAxis dataKey="count" type="number" hide />
+								<ChartTooltip
+									cursor={false}
+									content={<ChartTooltipContent indicator="line" />}
+								/>
+								<Bar
+									dataKey="count"
+									layout="vertical"
+									fill="var(--color-tickets)"
+									radius={4}
+								>
+									<LabelList
+										dataKey="technician"
+										position="insideLeft"
+										offset={8}
+										className="fill-[--color-label]"
+										fontSize={12}
+									/>
+									<LabelList
+										dataKey="count"
+										position="right"
+										offset={8}
+										className="fill-foreground"
+										fontSize={12}
+									/>
+								</Bar>
+							</BarChart>
+						</ChartContainer>
+					</CardContent>
+					<CardFooter className="flex-col items-start gap-2 text-sm">
+						<div className="leading-none text-muted-foreground">
+							Mostrar total de chamados atribuídos por técnico
+						</div>
+					</CardFooter>
+				</CardRoot>
 
-        <CardRoot className="shadow-lg bg-gray-50 ">
-          <CardHeader>
-            <CardTitle>Chamados Atrasados</CardTitle>
-            <CardDescription>Resumo dos Chamados Por Atraso</CardDescription>
-          </CardHeader>
+				<CardRoot className="shadow-lg bg-gray-50 ">
+					<CardHeader>
+						<CardTitle>Chamados Atrasados</CardTitle>
+						<CardDescription>Resumo dos Chamados Por Atraso</CardDescription>
+					</CardHeader>
 
-          <CardContent>
-            <ChartContainer config={chartConfig}>
-              <AreaChart
-                data={delayed}
-                margin={{ top: 10, left: 10, right: 10, bottom: 10 }}
-              >
-                <CartesianGrid vertical={false} strokeDasharray="3 3" />
-                <XAxis
-                  dataKey="date_creation"
-                  tickMargin={8}
-                  tickFormatter={value =>
-                    new Date(value).toLocaleDateString('pt-BR', {
-                      day: '2-digit',
-                      month: 'short',
-                    })
-                  }
-                />
-                <ChartTooltip
-                  cursor={true}
-                  content={({ payload }) => {
-                    if (!payload) return null;
+					<CardContent>
+						<ChartContainer config={chartConfig}>
+							<AreaChart
+								data={delayed}
+								margin={{ top: 10, left: 10, right: 10, bottom: 10 }}
+							>
+								<CartesianGrid vertical={false} strokeDasharray="3 3" />
+								<XAxis
+									dataKey="date_creation"
+									tickMargin={8}
+									tickFormatter={(value) =>
+										new Date(value).toLocaleDateString("pt-BR", {
+											day: "2-digit",
+											month: "short",
+										})
+									}
+								/>
+								<ChartTooltip
+									cursor={true}
+									content={({ payload }) => {
+										if (!payload) return null;
 
-                    if (payload && payload.length > 0) {
-                      const { date_creation, name, status, time_to_resolve } =
-                        payload[0].payload;
+										if (payload && payload.length > 0) {
+											const { date_creation, name, status, time_to_resolve } =
+												payload[0].payload;
 
-                      return (
-                        <div className="bg-white p-2 rounded shadow-md text-sm">
-                          <p>
-                            <strong>Data de Criação:</strong>{' '}
-                            {new Date(date_creation).toLocaleDateString(
-                              'pt-BR',
-                              {
-                                day: '2-digit',
-                                month: 'short',
-                                year: 'numeric',
-                              }
-                            )}
-                          </p>
-                          <p>
-                            <strong>Prazo de Resolução:</strong>{' '}
-                            {new Date(time_to_resolve).toLocaleDateString(
-                              'pt-BR',
-                              {
-                                day: '2-digit',
-                                month: 'short',
-                                year: 'numeric',
-                              }
-                            )}
-                          </p>
-                          <p>
-                            <strong>Nome:</strong> {name}
-                          </p>
-                          <p>
-                            <strong>Status:</strong> {status}
-                          </p>
-                        </div>
-                      );
-                    }
-                    return null;
-                  }}
-                />
-                <Area
-                  dataKey="id"
-                  fill="var(--color-tickets)"
-                  fillOpacity={0.4}
-                  stroke="#d36d00"
-                />
-              </AreaChart>
-            </ChartContainer>
-          </CardContent>
+											return (
+												<div className="bg-white p-2 rounded shadow-md text-sm">
+													<p>
+														<strong>Data de Criação:</strong>{" "}
+														{new Date(date_creation).toLocaleDateString(
+															"pt-BR",
+															{
+																day: "2-digit",
+																month: "short",
+																year: "numeric",
+															},
+														)}
+													</p>
+													<p>
+														<strong>Prazo de Resolução:</strong>{" "}
+														{new Date(time_to_resolve).toLocaleDateString(
+															"pt-BR",
+															{
+																day: "2-digit",
+																month: "short",
+																year: "numeric",
+															},
+														)}
+													</p>
+													<p>
+														<strong>Nome:</strong> {name}
+													</p>
+													<p>
+														<strong>Status:</strong> {status}
+													</p>
+												</div>
+											);
+										}
+										return null;
+									}}
+								/>
+								<Area
+									dataKey="id"
+									fill="var(--color-tickets)"
+									fillOpacity={0.4}
+									stroke="#d36d00"
+								/>
+							</AreaChart>
+						</ChartContainer>
+					</CardContent>
 
-          <CardFooter className="flex-col items-start gap-2 text-sm">
-            <div className="leading-none text-muted-foreground">
-              Exibir chamados atrasados quanto ao prazo do SLA.
-            </div>
-          </CardFooter>
-        </CardRoot>
-      </div>
+					<CardFooter className="flex-col items-start gap-2 text-sm">
+						<div className="leading-none text-muted-foreground">
+							Exibir chamados atrasados quanto ao prazo do SLA.
+						</div>
+					</CardFooter>
+				</CardRoot>
+			</div>
 
-      {/* <CardRoot className="grid shadow-lg bg-gray-50 w-1/4">
+			{/* <CardRoot className="grid shadow-lg bg-gray-50 w-1/4">
           <CardHeader className="items-center pb-0">
             <CardTitle>Últimos Chamados</CardTitle>
             <CardDescription>Período Completo</CardDescription>
@@ -598,7 +598,7 @@ export function BarChartsTickets({
           </CardFooter>
         </CardRoot> */}
 
-      {/* <CardRoot className="grid shadow-lg bg-gray-50 w-1/4">
+			{/* <CardRoot className="grid shadow-lg bg-gray-50 w-1/4">
           <CardHeader className="items-center pb-0">
             <CardTitle className="flex items-center gap-2">
               Chamados Por Usuários
@@ -669,6 +669,6 @@ export function BarChartsTickets({
             </div>
           </CardFooter>
         </CardRoot> */}
-    </div>
-  );
+		</div>
+	);
 }

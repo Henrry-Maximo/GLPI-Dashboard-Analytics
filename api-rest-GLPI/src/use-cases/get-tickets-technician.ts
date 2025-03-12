@@ -11,6 +11,11 @@ export async function getTicketsTechnician() {
     .orderBy("quantity", "desc");
 
     const ticketsAmountTechnicianSolution = await knex("glpi_tickets_users")
+    .select(
+      "glpi_users.name as technician",
+      "glpi_groups.name as group"
+    )
+    .count("glpi_tickets_users.tickets_id as count")
     .innerJoin("glpi_users", "glpi_tickets_users.users_id", "glpi_users.id")
     .innerJoin(
       "glpi_groups_users",
@@ -18,17 +23,13 @@ export async function getTicketsTechnician() {
       "glpi_groups_users.users_id"
     )
     .innerJoin("glpi_groups", "glpi_groups_users.groups_id", "glpi_groups.id")
-    .select(
-      "glpi_users.name as technician",
-      "glpi_groups.name as group"
-    )
-    .count("glpi_tickets_users.tickets_id as count")
+    
     // .whereNotIn("glpi_users.name", [
     //   "luana.yasmim",
     //   "cassia.martins",
     //   "kevin.araujo",
     // ])
-    .groupBy("glpi_tickets_users.users_id")
+    .groupBy("glpi_tickets_users.users_id", "glpi_groups.name")
     .orderBy("count", "desc");
   
   //   if (!rows.length) {
