@@ -6,12 +6,12 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { fetchTicketsAll } from '@/http/fetch-tickets-all';
 import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
-import { ChartLine, CircleNotch, Hand, WarningCircle, X } from 'phosphor-react';
+import { CircleNotch, Hand, WarningCircle, X } from 'phosphor-react';
 import { useEffect, useState } from 'react';
 import { FooterTicketsMonitoring } from '../monitoring/components/FooterTicketsMonitoring';
 import { getStatusDetails } from '@/utils/monitoring-status-icon-color';
 import { ExclamationMark } from '@phosphor-icons/react';
-import { HeaderButton, HeaderIcon, HeaderRoot, HeaderWrapper } from '../home/components/Header';
+import { HeaderIcon, HeaderRoot, HeaderWrapper } from '../home/components/Header';
 
 const statusTicketsOperation = [
   {
