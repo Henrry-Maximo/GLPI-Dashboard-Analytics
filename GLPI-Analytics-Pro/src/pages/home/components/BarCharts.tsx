@@ -1,6 +1,4 @@
-
 import { CardRoot } from '@/components/Card/Card';
-import { Button } from '@/components/ui/button';
 import {
   CardHeader,
   CardTitle,
@@ -55,7 +53,6 @@ interface DelayedType {
   name: string;
 }
 
-
 interface BarChartsTicketsProps {
   priority: PriorityType;
   status: StatusType;
@@ -64,15 +61,20 @@ interface BarChartsTicketsProps {
   delayed: DelayedType[];
 }
 
-export function BarChartsTickets({ priority, status, categorie, concludes, delayed }: BarChartsTicketsProps) {
-  const [summary, setSummary] = useState<PriorityType>(priority)
+export function BarChartsTickets({
+  priority,
+  categorie,
+  concludes,
+  delayed,
+}: BarChartsTicketsProps) {
+  const [summary, setSummary] = useState<PriorityType>(priority);
 
   useEffect(() => {
     setSummary(priority);
   }, [priority]);
 
   if (!summary) {
-    return "Carregando..."
+    return 'Carregando...';
   }
 
   // associando a uma chave para uso posterior
@@ -102,8 +104,8 @@ export function BarChartsTickets({ priority, status, categorie, concludes, delay
   } satisfies ChartConfig;
 
   const totalTickets = React.useMemo(
-  	() => concludes.reduce((acc, curr) => acc + curr.count, 0),
-  	[concludes],
+    () => concludes.reduce((acc, curr) => acc + curr.count, 0),
+    [concludes]
   );
 
   // const dataTicketsTechnicianSolution =
@@ -130,11 +132,11 @@ export function BarChartsTickets({ priority, status, categorie, concludes, delay
                   {chartConfig.tickets.label}
                 </span>
                 <span className="text-lg font-bold leading-none sm:text-3xl">
-									{totalTickets}
-								</span>
+                  {totalTickets}
+                </span>
               </button>
 
-              <div
+              {/* <div
               className="relative z-30 flex flex-1 flex-col justify-center gap-1 border-t px-6 py-4 text-left sm:border-l sm:border-t-0 sm:px-8 sm:py-6"
               data-active={true}
             >
@@ -142,7 +144,7 @@ export function BarChartsTickets({ priority, status, categorie, concludes, delay
               <span className="text-lg font-bold leading-none sm:text-3xl">
                 55%
               </span>
-            </div>
+            </div> */}
             </div>
           </CardHeader>
 
