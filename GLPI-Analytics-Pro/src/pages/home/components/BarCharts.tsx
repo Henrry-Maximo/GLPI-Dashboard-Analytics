@@ -200,7 +200,7 @@ export function BarChartsTickets({
           </CardContent>
         </Card>
 
-        <section className="flex flex-col shadow-sm h-[25rem]">
+        <section className="bg-white flex flex-col shadow-sm h-[25rem]">
           <header className="bg-white py-5 px-6 border-t-2 border-l-2 border-r-2 border-b-0">
             <h1 className="font-semibold">Chamados Atrasados</h1>
             <span className="text-sm text-gray-500">
@@ -208,7 +208,7 @@ export function BarChartsTickets({
             </span>
           </header>
           <ScrollArea className="overflow-y-auto bg-white border shadow-sm">
-            <table className="table-auto  w-full border rounded-b-md">
+            <table className="table-auto h-full w-full border rounded-b-md">
               <thead className=" font-light text-center">
                 <tr>
                   <th className="py-3 px-4 text-left text-sm font-semibold uppercase">
