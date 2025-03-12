@@ -19,34 +19,15 @@ import {
 	levelTypeStyle,
 } from "./definitions";
 import { BarChartsTickets } from "./components/BarCharts";
-import { fetchTicketsSummary } from "@/http/fetch-tickets-summary";
-import { fetchTicketsTechnician } from "@/http/fetch-tickets-technician";
-import { useQuery } from "@tanstack/react-query";
+import { useTicketsSummary } from "./api/tickets.queries";
 
 export default function Home() {
-	const { data } = useQuery({
-		queryKey: ["state"],
-		queryFn: fetchTicketsSummary,
-		staleTime: 1000 * 60, // 1 minuto
-		refetchInterval: 1000 * 5, // 10 segundos
-		refetchOnWindowFocus: true,
-	});
+	const { data: summaryData } = useTicketsSummary();
+	// const { data: technicianData } = useTicketsTechnician();
 
-	const { data: dataTicketsTechnician } = useQuery({
-		queryKey: ["technician"],
-		queryFn: fetchTicketsTechnician,
-		staleTime: 1000 * 60, // 1 minuto
-		refetchInterval: 1000 * 5, // 10 segundos
-		refetchOnWindowFocus: true,
-	});
-
-	const priorityTicketsAmount = data?.priority;
-	const categoriesTicketsAmount = data?.categories;
-
-	const concludesTicketsAmount = data?.concludes;
-	const delayedTicketsAmount = data?.delayed;
-
-	const ticketsTechnician = dataTicketsTechnician;
+	if (!summaryData) {
+		return <p>Carregando...</p>;
+	}
 
 	return (
 		<main className="flex flex-col w-full h-[max-content] flex-1">
@@ -97,11 +78,12 @@ export default function Home() {
 
 			<div className="flex flex-col max-h-screen w-full mt-2">
 				<BarChartsTickets
-					priority={priorityTicketsAmount}
-					categorie={categoriesTicketsAmount}
-					concludes={concludesTicketsAmount}
-					delayed={delayedTicketsAmount}
-					technician={ticketsTechnician}
+					priority={summaryData.priority}
+					status={summaryData.status}
+					categorie={summaryData.categories}
+					concludes={summaryData.concludes}
+					delayed={summaryData.delayed}
+					// technician={technicianData}
 				/>
 			</div>
 		</main>

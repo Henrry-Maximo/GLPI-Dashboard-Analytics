@@ -1,6 +1,6 @@
 import { fetchWithAuth } from './middlewares/verify-jwt-authenticate';
 
-type PropsTicketsSummary = {
+interface PropsTicketsSummary  {
   status: {
     tickets_total: number;
     tickets_open: number;

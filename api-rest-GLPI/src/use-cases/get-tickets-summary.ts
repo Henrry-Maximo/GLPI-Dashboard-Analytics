@@ -67,7 +67,8 @@ export async function getTicketsSummary() {
 		// )
 		.whereNotIn("status", [1, 2, 3, 4])
 		.groupByRaw("DATE(date_creation), status")
-		.orderByRaw("DATE(date_creation) DESC");
+		.orderByRaw("DATE(date_creation) ASC")
+		.limit(10);
 
 	const categories = await knex("glpi_tickets")
 		.select([

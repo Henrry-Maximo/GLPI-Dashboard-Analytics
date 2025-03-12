@@ -5,7 +5,7 @@ interface HeaderProps extends ComponentProps<'header'> {}
 export function HeaderRoot({ ...props }: HeaderProps) {
 	return (
 		<header
-			className="flex bg-gray-50 justify-between mb-4 items-center py-2 px-2 rounded-md shadow-md"
+			className="flex bg-white justify-between mb-4 items-center py-2 px-2 rounded-md shadow-md"
 			{...props}
 		/>
 	);
