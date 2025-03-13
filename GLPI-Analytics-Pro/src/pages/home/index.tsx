@@ -19,73 +19,96 @@ import {
 	levelTypeStyle,
 } from "./definitions";
 import { BarChartsTickets } from "./components/BarCharts";
-import { useTicketsSummary } from "./api/tickets.queries";
+import { useTicketsPending, useTicketsSummary } from "./api/tickets.queries";
+import { useEffect, useState } from "react";
+import { SpinnerBall } from "@phosphor-icons/react";
 
 export default function Home() {
-	const { data: summaryData } = useTicketsSummary();
+	const { data: summaryData, isLoading: isLoadingSummary } =
+		useTicketsSummary();
 	// const { data: technicianData } = useTicketsTechnician();
+	const { data: statusData, isLoading: isLoadingStatus } = useTicketsPending();
 
-	if (!summaryData) {
-		return <p>Carregando...</p>;
+	const [statusTickets, setStatusTickets] = useState(statusData);
+
+	useEffect(() => {
+		setStatusTickets(statusData);
+	}, [statusData]);
+
+	if (isLoadingStatus || isLoadingSummary || !statusTickets) {
+		return (
+			<div className="w-full flex flex-col gap-2 items-center justify-center">
+				<SpinnerBall className="text-zinc-700 animate-spin size-10" />
+				<span className="text-xs font-light">Loading...</span>
+			</div>
+		);
 	}
+
+	const keyName = Object.keys(statusTickets);
+	const pendingIndex = keyName.indexOf("pending");
+	const countFiltered = statusTickets.pending.length;
 
 	return (
 		<main className="flex flex-col w-full h-[max-content] flex-1">
-			<Header name="Dashboard" />
+			{summaryData && statusTickets && (
+				<>
+					<Header name="Dashboard" />
 
-			<CardRoot>
-				{/* style default: but add style custom */}
-				<CardWrapper>
-					{dataTicketsHomeResponse.type.map((row) => (
-						<CardFlash key={row.id}>
-							<CardIcon className={levelTypeStyle[row.level]}>
-								{levelTypeIcons[row.level]}
-							</CardIcon>
+					<CardRoot>
+						{/* style default: but add style custom */}
+						<CardWrapper>
+							{dataTicketsHomeResponse.type.map((row) => (
+								<CardFlash key={row.id}>
+									<CardIcon className={levelTypeStyle[row.level]}>
+										{levelTypeIcons[row.level]}
+									</CardIcon>
 
-							<CardInformations count={row.amount} name={row.name} />
-						</CardFlash>
-					))}
-				</CardWrapper>
+									<CardInformations count={row.amount} name={row.name} />
+								</CardFlash>
+							))}
+						</CardWrapper>
 
-				<CardWrapper>
-					<CardFlash key={dataTicketsHomeResponse.currentStatus.id}>
-						<CardIcon className="bg-yellow-400 border border-yellow-600 text-4xl">
-							<Timer />
+						<CardWrapper>
+							<CardFlash key={pendingIndex}>
+								<CardIcon className="bg-yellow-400 border border-yellow-600 text-4xl">
+									<Timer />
+								</CardIcon>
+								<CardInformations
+									className="text-5xl"
+									count={countFiltered}
+									name={String(keyName[0]) ? "Pendente" : ""}
+								/>
+							</CardFlash>
+						</CardWrapper>
+
+						<CardIcon className="bg-white p-2 teanimate-pulse">
+							<ArrowsLeftRight className="text-orange-600 animate-pulse" />
 						</CardIcon>
-						<CardInformations
-							className="text-5xl"
-							count={dataTicketsHomeResponse.currentStatus.amount}
-							name={dataTicketsHomeResponse.currentStatus.name}
+
+						<CardWrapper className="flex flex-row">
+							{dataTicketsHomeResponse.priority.map((row) => (
+								<CardFlash key={row.id}>
+									<CardIcon className={levelPriorityStyle[row.level]}>
+										{levelPriorityIcons[row.level]}
+									</CardIcon>
+									<CardInformations count={row.amount} name={row.name} />
+								</CardFlash>
+							))}
+						</CardWrapper>
+					</CardRoot>
+
+					<div className="flex flex-col max-h-screen w-full mt-2">
+						<BarChartsTickets
+							priority={summaryData.priority}
+							status={summaryData.status}
+							categorie={summaryData.categories}
+							concludes={summaryData.concludes}
+							delayed={summaryData.delayed}
+							// technician={technicianData}
 						/>
-					</CardFlash>
-				</CardWrapper>
-
-				<CardIcon className="bg-white p-2 teanimate-pulse">
-					<ArrowsLeftRight className="text-orange-600 animate-pulse" />
-				</CardIcon>
-
-				<CardWrapper className="flex flex-row">
-					{dataTicketsHomeResponse.priority.map((row) => (
-						<CardFlash key={row.id}>
-							<CardIcon className={levelPriorityStyle[row.level]}>
-								{levelPriorityIcons[row.level]}
-							</CardIcon>
-							<CardInformations count={row.amount} name={row.name} />
-						</CardFlash>
-					))}
-				</CardWrapper>
-			</CardRoot>
-
-			<div className="flex flex-col max-h-screen w-full mt-2">
-				<BarChartsTickets
-					priority={summaryData.priority}
-					status={summaryData.status}
-					categorie={summaryData.categories}
-					concludes={summaryData.concludes}
-					delayed={summaryData.delayed}
-					// technician={technicianData}
-				/>
-			</div>
+					</div>
+				</>
+			)}
 		</main>
 	);
 }
