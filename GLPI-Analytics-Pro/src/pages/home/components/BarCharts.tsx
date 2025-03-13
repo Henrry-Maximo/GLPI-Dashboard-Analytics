@@ -160,14 +160,14 @@ export function BarChartsTickets({
                   count: d.count,
                 }))}
                 margin={{
-                  left: 12,
-                  right: 12,
+                  left: 4,
+                  right: 4,
                 }}
               >
                 <CartesianGrid vertical={true} />
                 <XAxis
                   dataKey="date"
-                  tickLine={false}
+                  tickLine={true}
                   axisLine={true}
                   tickMargin={8}
                   minTickGap={32}
