@@ -41,8 +41,9 @@ export const levelPriorityStyle: PropsLevelPriorityStyle = {
 };
 
 export const priorityTranslations: Record<string, string> = {
-	low: "Baixa",
+	veryHigh: "Muito Alta",
 	high: "Alta",
-	veryLow: "Muito Baixa",
 	average: "Médio",
+	veryLow: "Muito Baixa",
+	low: "Baixa"
 };

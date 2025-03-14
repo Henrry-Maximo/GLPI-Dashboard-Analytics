@@ -14,6 +14,7 @@ import {
   type ChartConfig,
 } from '@/components/ui/chart';
 import { ScrollArea } from '@radix-ui/react-scroll-area';
+import { Smiley } from 'phosphor-react';
 import React, { useEffect, useState } from 'react';
 import { CartesianGrid, XAxis, Bar, LabelList, BarChart } from 'recharts';
 
@@ -207,7 +208,9 @@ export function BarChartsTickets({
               Resumo Chamados Atrasados (SLA)
             </span>
           </header>
+          {delayed.length ? (
           <ScrollArea className="overflow-y-auto bg-white border shadow-sm">
+            
             <table className="table-auto h-full w-full border rounded-b-md">
               <thead className=" font-light text-center">
                 <tr>
@@ -225,8 +228,8 @@ export function BarChartsTickets({
                   </th>
                 </tr>
               </thead>
-              <tbody className="bg-white font-light shadow-md">
-                {delayed.map(ticket => {
+              <tbody className="bg-white relative font-light shadow-md">
+              {delayed.map(ticket => {
                   return (
                     <tr
                       key={ticket.id}
@@ -263,7 +266,14 @@ export function BarChartsTickets({
                 })}
               </tbody>
             </table>
+            
           </ScrollArea>
+          ) : (
+            <div className='bg-white border shadow-sm flex flex-col h-full text-center justify-center items-center pb-8'>
+              <Smiley size={72} className='text-orange-500 animate-bounce' />
+              <span className='text-lg font-light leading-none'>Nenhum chamado atrasado.</span>
+            </div>
+          )}
 
           {/* <div className="flex justify-center items-center gap-4 mt-4">
             <Button

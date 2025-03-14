@@ -43,7 +43,7 @@ export async function getTicketsSummary() {
 		.whereNotIn("status", [5, 6])
 		.whereNull("solvedate")
 		.whereRaw(
-			"glpi_tickets.time_to_resolve < TIMEDIFF(NOW(), glpi_tickets.date_creation)",
+			"glpi_tickets.time_to_resolve = TIMEDIFF(NOW(), glpi_tickets.date_creation)",
 		)
 		.limit(10);
 
