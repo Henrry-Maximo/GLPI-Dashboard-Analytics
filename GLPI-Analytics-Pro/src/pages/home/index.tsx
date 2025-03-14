@@ -8,7 +8,7 @@ import {
 	CardWrapper,
 } from "@/components/Card/Card";
 
-import { ArrowsLeftRight, Ticket, Timer } from "phosphor-react";
+import { ArrowsLeftRight, Timer } from "phosphor-react";
 
 import { Header } from "./header";
 
