@@ -13,7 +13,8 @@ type propsTicketsPendingResponse = {
 }
 
 interface fetchTicketsPendingResponse {
-  pending: propsTicketsPendingResponse[];
+  list: propsTicketsPendingResponse[];
+  meta: Record<string, number>
 }
 
 export async function fetchTicketsPending(): Promise<fetchTicketsPendingResponse> {

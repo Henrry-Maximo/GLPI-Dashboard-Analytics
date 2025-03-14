@@ -13,17 +13,9 @@ interface PendingTicket {
 }
 
 interface ResponsePending {
-  pending: PendingTicket[];
+  list: PendingTicket[];
+  meta: Record<string, number>;
 }
-
-// Mapeamento reverso para converter prioridade textual em numérica
-// const priorityMap: Record<string, number> = {
-//   "Muito baixa": 1,
-//   "Baixa": 2,
-//   "Média": 3,
-//   "Alta": 4,
-//   "Muito alta": 5
-// };
 
 export async function getTicketsAll() {
   const tickets = await knex("glpi_tickets as t")
@@ -86,8 +78,7 @@ export async function getTicketsPending(): Promise<ResponsePending> {
   // percorrendo linha a linha e recriando o array apenas com três elementos
   const pendingTickets = tickets
     .filter(ticket => 
-      ticket.status === "processing (assigned)" || 
-      ticket.status === "pending"
+      ["processing (assigned)", "pending"].includes(ticket.status)
     )
     .map(ticket => ({
       id: ticket.id,
@@ -101,7 +92,22 @@ export async function getTicketsPending(): Promise<ResponsePending> {
       priority: ticket.priority
     })).slice(0, 20);
 
-  return {
-    pending: pendingTickets
-  };
+    const meta = pendingTickets.reduce((acc, ticket) => {
+      acc[ticket.priority] = (acc[ticket.priority] || 0) + 1;
+      return acc;
+    }, {} as Record<string, number>);
+
+    return {
+      meta,
+      list: pendingTickets
+    };
 }
+
+// pending {
+//   meta: {
+//     low_count: 2,
+//     high_couter: 1,
+//     total: 3 
+//   }
+//   list : [...]
+// }

@@ -8,7 +8,7 @@ import {
 	CardWrapper,
 } from "@/components/Card/Card";
 
-import { ArrowsLeftRight, Timer } from "phosphor-react";
+import { ArrowsLeftRight, Ticket, Timer } from "phosphor-react";
 
 import { Header } from "./header";
 
@@ -45,10 +45,8 @@ export default function Home() {
 	}
 
 	const keyName = Object.keys(statusTickets);
-	const pendingIndex = keyName.indexOf("pending");
-	const countFiltered = statusTickets.pending.length;
-
-	console.log(statusData);
+	const pendingIndex = keyName.indexOf("list");
+	const countFiltered = statusTickets.list.length;
 
 	return (
 		<main className="flex flex-col w-full h-[max-content] flex-1">
@@ -88,14 +86,14 @@ export default function Home() {
 						</CardIcon>
 
 						<CardWrapper className="flex flex-row">
-							{dataTicketsHomeResponse.priority.map((row) => (
+							{/* {statusTickets.meta.map((row) => (
 								<CardFlash key={row.id}>
 									<CardIcon className={levelPriorityStyle[row.level]}>
 										{levelPriorityIcons[row.level]}
 									</CardIcon>
 									<CardInformations count={row.amount} name={row.name} />
 								</CardFlash>
-							))}
+							))} */}
 						</CardWrapper>
 					</CardRoot>
 

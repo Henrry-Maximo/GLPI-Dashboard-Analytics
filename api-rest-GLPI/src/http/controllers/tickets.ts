@@ -9,7 +9,7 @@ import { getTicketsDateTime } from "@/use-cases/get-tickets-date-time";
 import { getTicketsTechnician } from "@/use-cases/get-tickets-technician";
 import { getTicketsSummary } from "@/use-cases/get-tickets-summary";
 import { getTicketsCategories } from "@/use-cases/get-tickets-categories";
-import { getTicketsPending } from "@/use-cases/get-tickets-dashboard";
+import { getTicketsPending } from "@/use-cases/get-tickets-pending";
 
 export async function ticketsController(app: FastifyInstance) {
   app.get("/search", { onRequest: [verifyJwt]} , async (req, reply) => {
@@ -25,9 +25,9 @@ export async function ticketsController(app: FastifyInstance) {
   });
 
   app.get("/pending", async (_, reply) => {
-    const  { pending }  = await getTicketsPending();
+    const  { meta, list }  = await getTicketsPending();
 
-    return reply.status(200).send({ pending });
+    return reply.status(200).send({ meta, list });
   })
 
   app.get("/summary", { onRequest: [verifyJwt] }, async (_, reply) => {
