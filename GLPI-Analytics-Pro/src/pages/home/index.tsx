@@ -17,6 +17,7 @@ import {
 	levelPriorityStyle,
 	levelTypeIcons,
 	levelTypeStyle,
+	priorityTranslations,
 } from "./definitions";
 import { BarChartsTickets } from "./components/BarCharts";
 import { useTicketsPending, useTicketsSummary } from "./api/tickets.queries";
@@ -92,7 +93,7 @@ export default function Home() {
 										{levelPriorityIcons[row.name]}
 									</CardIcon>
 
-									<CardInformations count={row.count} name={row.name} />
+									<CardInformations count={row.count} name={priorityTranslations[row.name]} />
 								</CardFlash>
 							))}
 						</CardWrapper>

@@ -1,17 +1,17 @@
 import type {
-  PropsLevelPriorityIcons,
-  PropsLevelPriorityStyle,
-  PropsLevelTypeIcons,
-  PropsLevelTypeStyle,
+	PropsLevelPriorityIcons,
+	PropsLevelPriorityStyle,
+	PropsLevelTypeIcons,
+	PropsLevelTypeStyle,
 } from "@/@types/interface-tickets";
 import {
-  Bug,
-  CaretCircleDoubleUp,
-  Circle,
-  CircleHalf,
-  ClipboardText,
-  Flame,
-  Warning,
+	Bug,
+	CaretCircleDoubleUp,
+	Circle,
+	CircleHalf,
+	ClipboardText,
+	Flame,
+	Warning,
 } from "phosphor-react";
 
 export const levelTypeIcons: PropsLevelTypeIcons = {
@@ -38,4 +38,11 @@ export const levelPriorityStyle: PropsLevelPriorityStyle = {
 	average: "bg-yellow-400 text-white border-yellow-700",
 	high: "bg-red-400 text-gray-100 border-red-700",
 	veryHigh: "bg-red-600 text-gray-100 border-red-800",
+};
+
+export const priorityTranslations: Record<string, string> = {
+	low: "Baixa",
+	high: "Alta",
+	veryLow: "Muito Baixa",
+	average: "Médio",
 };
