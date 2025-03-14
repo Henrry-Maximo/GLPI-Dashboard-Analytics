@@ -45,22 +45,21 @@ export async function getTicketsAll() {
     `), // Técnico(s)
     knex.raw(`
       CASE 
-        WHEN t.status = 1 THEN 'Novo'
-        WHEN t.status = 2 THEN 'Em Atendimento (atribuído)'
-        WHEN t.status = 3 THEN 'Em Atendimento (planejado)'
-        WHEN t.status = 4 THEN 'Pendente'
-        WHEN t.status = 5 THEN 'Solucionado'
-        WHEN t.status = 6 THEN 'Fechado'
+        WHEN t.status = 1 THEN 'new'
+        WHEN t.status = 2 THEN 'processing (assigned)'
+        WHEN t.status = 3 THEN 'processing (planned)'
+        WHEN t.status = 4 THEN 'pending'
+        WHEN t.status = 5 THEN 'solved'
+        WHEN t.status = 6 THEN 'closed'
       END AS "status"
     `),
     knex.raw(`
       CASE 
-        WHEN t.priority = 6 THEN 'Crítica'
-        WHEN t.priority = 1 THEN 'Muito baixa'
-        WHEN t.priority = 2 THEN 'Baixa'
-        WHEN t.priority = 3 THEN 'Média'
-        WHEN t.priority = 4 THEN 'Alta'
-        WHEN t.priority = 5 THEN 'Muito alta'
+        WHEN t.priority = 1 THEN 'veryLow'
+        WHEN t.priority = 2 THEN 'low'
+        WHEN t.priority = 3 THEN 'average'
+        WHEN t.priority = 4 THEN 'high'
+        WHEN t.priority = 5 THEN 'veryHigh'
       END AS "priority"
     `),
   ])
@@ -87,8 +86,8 @@ export async function getTicketsPending(): Promise<ResponsePending> {
   // percorrendo linha a linha e recriando o array apenas com três elementos
   const pendingTickets = tickets
     .filter(ticket => 
-      ticket.status === "Em Atendimento (atribuído)" || 
-      ticket.status === "Pendente"
+      ticket.status === "processing (assigned)" || 
+      ticket.status === "pending"
     )
     .map(ticket => ({
       id: ticket.id,

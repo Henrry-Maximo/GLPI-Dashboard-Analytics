@@ -48,6 +48,8 @@ export default function Home() {
 	const pendingIndex = keyName.indexOf("pending");
 	const countFiltered = statusTickets.pending.length;
 
+	console.log(statusData);
+
 	return (
 		<main className="flex flex-col w-full h-[max-content] flex-1">
 			{summaryData && statusTickets && (
