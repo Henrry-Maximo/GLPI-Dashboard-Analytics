@@ -42,19 +42,19 @@ export interface PropsTicketsResponse {
 }
 
 export interface PropsLevelPriorityIcons {
-  veryLow: JSX.Element;
-  low: JSX.Element;
-  average: JSX.Element;
-  high: JSX.Element;
-  veryHigh: JSX.Element;
+  [veryLow: string]: JSX.Element;
+  [low: string]: JSX.Element;
+  [average: string]: JSX.Element;
+  [high: string]: JSX.Element;
+  [veryHigh: string]: JSX.Element;
 }
 
 export interface PropsLevelPriorityStyle {
-  veryLow: string;
-  low: string;
-  average: string;
-  high: string;
-  veryHigh: string;
+  [veryLow: string]: string;
+  [low: string]: string;
+  [average: string]: string;
+  [high: string]: string;
+  [veryHigh: string]: string;
 }
 
 export interface PropsLevelTypeIcons {

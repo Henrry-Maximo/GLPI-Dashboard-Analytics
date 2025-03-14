@@ -5,7 +5,7 @@ interface CardProps extends ComponentProps<'div'> {}
 
 export function CardRoot({ ...props }: CardProps) {
 	return (
-		<div
+		<div 
 			className="grid grid-cols-1 md:grid-cols-[auto_256px_auto_1fr] gap-4 items-center justify-center py-2 px-2 rounded-md"
 			{...props}
 		/>

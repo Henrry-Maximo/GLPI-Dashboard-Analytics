@@ -76,7 +76,7 @@ export default function Home() {
 								<CardInformations
 									className="text-5xl"
 									count={countFiltered}
-									name={String(keyName[0]) ? "Pendente" : ""}
+									name={keyName[1] ? "Pendente" : "-"}
 								/>
 							</CardFlash>
 						</CardWrapper>
