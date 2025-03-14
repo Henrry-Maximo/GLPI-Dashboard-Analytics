@@ -14,7 +14,7 @@ type propsTicketsPendingResponse = {
 
 interface fetchTicketsPendingResponse {
   list: propsTicketsPendingResponse[];
-  meta: Record<string, number>
+  meta: Array<{ name: string; count: number }>
 }
 
 export async function fetchTicketsPending(): Promise<fetchTicketsPendingResponse> {

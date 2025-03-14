@@ -86,14 +86,15 @@ export default function Home() {
 						</CardIcon>
 
 						<CardWrapper className="flex flex-row">
-							{/* {statusTickets.meta.map((row) => (
-								<CardFlash key={row.id}>
-									<CardIcon className={levelPriorityStyle[row.level]}>
-										{levelPriorityIcons[row.level]}
+							{statusTickets.meta.map((row) => (
+								<CardFlash key={row.name}>
+									<CardIcon className={levelPriorityStyle[row.name]}>
+										{levelPriorityIcons[row.name]}
 									</CardIcon>
-									<CardInformations count={row.amount} name={row.name} />
+
+									<CardInformations count={row.count} name={row.name} />
 								</CardFlash>
-							))} */}
+							))}
 						</CardWrapper>
 					</CardRoot>
 

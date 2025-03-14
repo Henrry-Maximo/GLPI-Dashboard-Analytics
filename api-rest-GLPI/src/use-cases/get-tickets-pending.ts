@@ -14,7 +14,7 @@ interface PendingTicket {
 
 interface ResponsePending {
   list: PendingTicket[];
-  meta: Record<string, number>;
+  meta: Array<{ name: string; count: number }>,
 }
 
 export async function getTicketsAll() {
@@ -92,13 +92,24 @@ export async function getTicketsPending(): Promise<ResponsePending> {
       priority: ticket.priority
     })).slice(0, 20);
 
-    const meta = pendingTickets.reduce((acc, ticket) => {
-      acc[ticket.priority] = (acc[ticket.priority] || 0) + 1;
-      return acc;
-    }, {} as Record<string, number>);
-
+    const meta = Object.entries(
+      pendingTickets.reduce((acc, ticket) => {
+        acc[ticket.priority] = (acc[ticket.priority] || 0) + 1;
+        return acc;
+      }, {} as Record<string, number>)
+    ).map(([name, count]) => ({
+      name,
+      count
+    }));
+    
+    // Ordenação por prioridade customizada (opcional)
+    const priorityOrder = ['high', 'average', 'low', 'veryLow'];
+    const sortedMeta = meta.sort((a, b) => 
+      priorityOrder.indexOf(a.name) - priorityOrder.indexOf(b.name)
+    );
+    
     return {
-      meta,
+      meta: sortedMeta,
       list: pendingTickets
     };
 }
