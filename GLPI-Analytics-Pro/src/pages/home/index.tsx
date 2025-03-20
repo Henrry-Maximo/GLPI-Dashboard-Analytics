@@ -1,4 +1,4 @@
-import { dataTicketsHomeResponse } from "@/data/ticketsData";
+// import { dataTicketsHomeResponse } from "@/data/ticketsData";
 
 import {
 	CardFlash,
@@ -18,6 +18,7 @@ import {
 	levelTypeIcons,
 	levelTypeStyle,
 	priorityTranslations,
+	typeTranslations,
 } from "./definitions";
 import { BarChartsTickets } from "./components/BarCharts";
 import { useTicketsPending, useTicketsSummary } from "./api/tickets.queries";
@@ -25,18 +26,22 @@ import { useEffect, useState } from "react";
 import { SpinnerBall } from "@phosphor-icons/react";
 
 export default function Home() {
-	const { data: summaryData, isLoading: isLoadingSummary } =
-		useTicketsSummary();
-	// const { data: technicianData } = useTicketsTechnician();
+	const { data: summaryData, isLoading: isLoadingSummary } = useTicketsSummary();
 	const { data: statusData, isLoading: isLoadingStatus } = useTicketsPending();
+	// const { data: technicianData } = useTicketsTechnician();
 
+	const [summaryTickets, setSummaryTickets] = useState(summaryData);
 	const [statusTickets, setStatusTickets] = useState(statusData);
 
 	useEffect(() => {
 		setStatusTickets(statusData);
 	}, [statusData]);
 
-	if (isLoadingStatus || isLoadingSummary || !statusTickets) {
+	useEffect(() => {
+		setSummaryTickets(summaryData);
+	}, [summaryData])
+
+	if (isLoadingStatus || isLoadingSummary || !statusTickets || !summaryTickets) {
 		return (
 			<div className="w-full flex flex-col gap-2 items-center justify-center">
 				<SpinnerBall className="text-zinc-700 animate-spin size-10" />
@@ -58,13 +63,16 @@ export default function Home() {
 					<CardRoot>
 						{/* style default: but add style custom */}
 						<CardWrapper>
-							{dataTicketsHomeResponse.type.map((row) => (
-								<CardFlash key={row.id}>
-									<CardIcon className={levelTypeStyle[row.level]}>
-										{levelTypeIcons[row.level]}
+							{statusTickets.meta.type.map((row) => (
+								<CardFlash key={row.name}>
+									<CardIcon className={levelTypeStyle[row.name]}>
+										{levelTypeIcons[row.name]}
 									</CardIcon>
 
-									<CardInformations count={row.amount} name={row.name} />
+									<CardInformations
+										count={row.count}
+										name={typeTranslations[row.name]}
+									/>
 								</CardFlash>
 							))}
 						</CardWrapper>
@@ -87,13 +95,16 @@ export default function Home() {
 						</CardIcon>
 
 						<CardWrapper className="flex flex-row">
-							{statusTickets.meta.map((row) => (
+							{statusTickets.meta.priority.map((row) => (
 								<CardFlash key={row.name}>
 									<CardIcon className={levelPriorityStyle[row.name]}>
 										{levelPriorityIcons[row.name]}
 									</CardIcon>
 
-									<CardInformations count={row.count} name={priorityTranslations[row.name]} />
+									<CardInformations
+										count={row.count}
+										name={priorityTranslations[row.name]}
+									/>
 								</CardFlash>
 							))}
 						</CardWrapper>

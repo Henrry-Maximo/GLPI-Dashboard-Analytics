@@ -15,12 +15,12 @@ import {
 } from "phosphor-react";
 
 export const levelTypeIcons: PropsLevelTypeIcons = {
-	requisition: <ClipboardText />,
+	request: <ClipboardText />,
 	incident: <Bug />,
 };
 
 export const levelTypeStyle: PropsLevelTypeStyle = {
-	requisition: "bg-red-400 border-red-700",
+	request: "bg-red-400 border-red-700",
 	incident: "bg-blue-400 border-blue-700",
 };
 
@@ -47,3 +47,8 @@ export const priorityTranslations: Record<string, string> = {
 	veryLow: "Muito Baixa",
 	low: "Baixa"
 };
+
+export const typeTranslations: Record<string, string> = {
+	request: "Requisição",
+	incident: "Incidente"
+}

@@ -58,11 +58,21 @@ export interface PropsLevelPriorityStyle {
 }
 
 export interface PropsLevelTypeIcons {
-  requisition: JSX.Element;
+  [request: string]: JSX.Element;
+  [incident: string]: JSX.Element;
+}
+
+export interface PropsLevelTypeStyle {
+  [request: string]: string;
+  [incident: string]: string;
+}
+
+export interface PropsLevelTypeIcons {
+  request: JSX.Element;
   incident: JSX.Element;
 }
 
 export interface PropsLevelTypeStyle {
-  requisition: string,
+  request: string,
   incident: string
 }
