@@ -87,5 +87,5 @@ export async function getTicketsSummary() {
 		.limit(10);
 	// for each request sql, verify exists if not return none
 
-	return { status, priority, type, categories, concludes, delayed };
+	return { categories, concludes, delayed };
 }
