@@ -7,43 +7,10 @@ import { knex } from "@/database/knex-config";
  * @returns {Promise<PropsDataTickets>} Formatted tickets data.
  */
 
-interface PendingTicket {
-  id: number;
-  title: string;
-  createdAt: string;
-  solvedAt: string;
-  location: string;
-  requester: string;
-  technical: string;
-  status: string;
-  priority: number;
+interface PropsDataTickets {
+  data: PropsTickets[];
 }
-interface ResponsePending {
-  list: PendingTicket[];
-  meta: {
-    priority: Array<{ name: string; count: number }>;
-    type: Array<{ name: string; count: number }>;
-  };
-}
-enum PriorityLevel {
-  VERY_LOW = 1,
-  LOW = 2,
-  MEDIUM = 3,
-  HIGH = 4,
-  CRITICAL = 5,
-}
-enum TicketType {
-  INCIDENT = 1,
-  REQUEST = 2,
-}
-enum TicketStatus {
-  NEW = "new",
-  PROCESSING_ASSIGNED = "processing (assigned)",
-  PROCESSING_PLANNED = "processing (planned)",
-  PENDING = "pending",
-  SOLVED = "solved",
-  CLOSED = "closed",
-}
+
 interface PropsTickets {
   id: number;
   name: string;
@@ -56,13 +23,23 @@ interface PropsTickets {
   type: TicketType;
   priority: PriorityLevel;
 }
-interface PropsDataTickets {
-  tickets: PropsTickets[];
+
+enum TicketType {
+  INCIDENT = 1,
+  REQUEST = 2,
+}
+
+enum PriorityLevel {
+  VERY_LOW = 1,
+  LOW = 2,
+  MEDIUM = 3,
+  HIGH = 4,
+  CRITICAL = 5,
 }
 
 export async function statementTickets(): Promise<PropsDataTickets> {
   try {
-    const tickets = await knex("glpi_tickets as t")
+    const data = await knex("glpi_tickets as t")
       .select([
         "t.id",
         "t.name",
@@ -110,42 +87,75 @@ export async function statementTickets(): Promise<PropsDataTickets> {
       .groupBy("t.id")
       .orderBy("t.id", "desc");
 
-    return { tickets };
+    return { data };
   } catch (error) {
     console.error("Database Error: ", error);
     throw new Error("Failed to fetch tickets.");
   }
 }
 
-export async function getTicketsPending(): Promise<ResponsePending> {
-  // Obtém todos os chamados
-  const { tickets } = await statementTickets();
-  const listStatusSelected = ["processing (assigned)", "pending"];
+interface ResponsePending {
+  list: PendingTicket[];
+  meta: {
+    priority: Array<{ name: string; count: number }>;
+    type: Array<{ name: string; count: number }>;
+  };
+}
 
-  // filtrando linha a linha buscando apenas os dois status
-  // percorrendo linha a linha e recriando o array apenas com três elementos
-  const pendingTickets = tickets
-    .filter((ticket) => listStatusSelected.includes(ticket.status))
-    .map((ticket) => ({
-      id: ticket.id,
-      title: ticket.name,
-      createdAt: ticket.date_creation,
-      solvedAt: ticket.solvedate,
-      location: ticket.location,
-      requester: ticket.applicant,
-      technical: ticket.technical,
-      status: ticket.status,
-      priority: ticket.priority,
-      type: ticket.type,
-    }))
+interface PendingTicket {
+  id: number;
+  title: string;
+  createdAt: string;
+  solvedAt: string;
+  location: string;
+  requester: string;
+  technical: string;
+  status: string;
+  priority: number;
+}
+
+enum TicketStatus {
+  NEW = "new",
+  PROCESSING_ASSIGNED = "processing (assigned)",
+  PROCESSING_PLANNED = "processing (planned)",
+  PENDING = "pending",
+  SOLVED = "solved",
+  CLOSED = "closed",
+}
+
+interface Accumulator {
+  total: number;
+  tickets: PropsTickets[];
+}
+
+export async function getTicketsPending(): Promise<any> {
+  const { data } = await statementTickets();
+
+  // filtrar por status
+  const filteredTicketsPending = data
+    .filter(
+      (ticket) =>
+        ticket.status === TicketStatus.PENDING ||
+        ticket.status === TicketStatus.PROCESSING_ASSIGNED
+    )
     .slice(0, 20);
 
-  const priorityCounts = pendingTickets.reduce((acc, ticket) => {
+  // soma total de chamados
+  const totalTicketsInPending = filteredTicketsPending.length;
+
+  // soma total de prioridades
+  const priorityCounts = filteredTicketsPending.reduce((acc, ticket) => {
     acc[ticket.priority] = (acc[ticket.priority] || 0) + 1;
     return acc;
   }, {} as Record<string, number>);
 
-  const typeCounts = pendingTickets.reduce((acc, ticket) => {
+  // const priorityOrder = ["high", "average", "low", "veryLow"];
+  // const sortedMeta = priorityCounts.sort(
+  //   (a, b) => priorityOrder.indexOf(a.name) - priorityOrder.indexOf(b.name)
+  // );
+
+  // soma total `incidente` e `requisição`
+  const typeCounts = filteredTicketsPending.reduce((acc, ticket) => {
     const typeKey = ticket.type === 1 ? "incident" : "request";
 
     if (typeKey === "incident" || typeKey === "request") {
@@ -155,29 +165,18 @@ export async function getTicketsPending(): Promise<ResponsePending> {
     return acc;
   }, {} as Record<string, number>);
 
-  const priorityMeta = Object.entries(priorityCounts).map(([name, count]) => ({
-    name,
-    count,
-  }));
-
   const typeMeta = Object.entries(typeCounts).map(([name, count]) => ({
     name,
     count,
   }));
 
-  const priorityOrder = ["high", "average", "low", "veryLow"];
-  const sortedMeta = priorityMeta.sort(
-    (a, b) => priorityOrder.indexOf(a.name) - priorityOrder.indexOf(b.name)
-  );
-
-  const metaFinal = {
-    priority: sortedMeta,
-    type: typeMeta,
-  };
-
   return {
-    meta: metaFinal,
-    list: pendingTickets,
+    meta: {
+      total: totalTicketsInPending,
+      priority: priorityCounts,
+      type: typeMeta
+    },
+    list: filteredTicketsPending,
   };
 }
 
