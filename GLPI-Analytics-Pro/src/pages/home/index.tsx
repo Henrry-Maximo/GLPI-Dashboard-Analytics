@@ -50,10 +50,6 @@ export default function Home() {
 		);
 	}
 
-	const keyName = Object.keys(statusTickets);
-	const pendingIndex = keyName.indexOf("list");
-	const countFiltered = statusTickets.list.length;
-
 	return (
 		<main className="flex flex-col w-full h-[max-content] flex-1">
 			{summaryData && statusTickets && (
@@ -78,14 +74,14 @@ export default function Home() {
 						</CardWrapper>
 
 						<CardWrapper>
-							<CardFlash key={pendingIndex}>
+							<CardFlash key={statusTickets.meta.total}>
 								<CardIcon className="bg-yellow-400 border border-yellow-600 text-4xl">
 									<Timer />
 								</CardIcon>
 								<CardInformations
 									className="text-5xl"
-									count={countFiltered}
-									name={keyName[1] ? "Pendente" : "-"}
+									count={statusTickets.meta.total}
+									name={statusTickets.meta.total > 0 ? "Pendente" : "-"}
 								/>
 							</CardFlash>
 						</CardWrapper>
@@ -95,7 +91,7 @@ export default function Home() {
 						</CardIcon>
 
 						<CardWrapper className="flex flex-row">
-							{statusTickets.meta.priority.map((row) => (
+							{statusTickets.meta.priority.map((row) =>  (
 								<CardFlash key={row.name}>
 									<CardIcon className={levelPriorityStyle[row.name]}>
 										{levelPriorityIcons[row.name]}

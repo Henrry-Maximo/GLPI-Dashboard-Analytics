@@ -13,7 +13,7 @@ interface PropsDataTickets {
 
 interface PropsTickets {
   id: number;
-  name: string;
+  title: string;
   status: TicketStatus;
   date_creation: string;
   solvedate: string;
@@ -94,24 +94,25 @@ export async function statementTickets(): Promise<PropsDataTickets> {
   }
 }
 
-interface ResponsePending {
-  list: PendingTicket[];
-  meta: {
-    priority: Array<{ name: string; count: number }>;
-    type: Array<{ name: string; count: number }>;
-  };
-}
-
 interface PendingTicket {
   id: number;
   title: string;
-  createdAt: string;
-  solvedAt: string;
+  date_creation: string;
+  solvedate: string;
   location: string;
-  requester: string;
+  applicant: string;
   technical: string;
   status: string;
   priority: number;
+  type: number;
+}
+interface ResponsePending {
+  list: PendingTicket[];
+  meta: {
+    total: number;
+    priority: Array<{ name: string; count: number }>;
+    type: Array<{ name: string; count: number }>;
+  };
 }
 
 enum TicketStatus {
@@ -123,12 +124,10 @@ enum TicketStatus {
   CLOSED = "closed",
 }
 
-interface Accumulator {
-  total: number;
-  tickets: PropsTickets[];
-}
+// alternativa: chamar função de filtragem passando os
+// parâmetros
 
-export async function getTicketsPending(): Promise<any> {
+export async function getTicketsPending(): Promise<ResponsePending> {
   const { data } = await statementTickets();
 
   // filtrar por status
@@ -149,9 +148,19 @@ export async function getTicketsPending(): Promise<any> {
     return acc;
   }, {} as Record<string, number>);
 
+  // array of arrays being converted for a unique array using map
+  const sortedMeta = Object.entries(priorityCounts).map(([
+   name, count 
+  ]) => ({
+    name, count
+  }));
+
+  // console.log(priorityCounts);// { high: 1, low: 1, average: 18 }
+  // console.log(Object.entries(priorityCounts)); // [ [ 'high', 1 ], [ 'low', 1 ], [ 'average', 18 ] ]
+
   // const priorityOrder = ["high", "average", "low", "veryLow"];
   // const sortedMeta = priorityCounts.sort(
-  //   (a, b) => priorityOrder.indexOf(a.name) - priorityOrder.indexOf(b.name)
+  //   (a, b) => priorityOrder.indexOf(a) - priorityOrder.indexOf(b)
   // );
 
   // soma total `incidente` e `requisição`
@@ -173,7 +182,7 @@ export async function getTicketsPending(): Promise<any> {
   return {
     meta: {
       total: totalTicketsInPending,
-      priority: priorityCounts,
+      priority: sortedMeta,
       type: typeMeta
     },
     list: filteredTicketsPending,

@@ -16,6 +16,7 @@ type propsTicketsPendingResponse = {
 interface fetchTicketsPendingResponse {
 	list: propsTicketsPendingResponse[];
 	meta: {
+		total: number;
 		priority: Array<{ name: string; count: number }>;
 		type: Array<{ name: string; count: number }>;
 	};
