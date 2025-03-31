@@ -149,7 +149,7 @@ export async function getTicketsPending(): Promise<ResponsePending> {
   }, {} as Record<string, number>);
 
   // array of arrays being converted for a unique array using map
-  const sortedMeta = Object.entries(priorityCounts).map(([
+  const newArrayPriority = Object.entries(priorityCounts).map(([
    name, count 
   ]) => ({
     name, count
@@ -158,10 +158,10 @@ export async function getTicketsPending(): Promise<ResponsePending> {
   // console.log(priorityCounts);// { high: 1, low: 1, average: 18 }
   // console.log(Object.entries(priorityCounts)); // [ [ 'high', 1 ], [ 'low', 1 ], [ 'average', 18 ] ]
 
-  // const priorityOrder = ["high", "average", "low", "veryLow"];
-  // const sortedMeta = priorityCounts.sort(
-  //   (a, b) => priorityOrder.indexOf(a) - priorityOrder.indexOf(b)
-  // );
+  const priorityOrder = ["veryHigh", "high", "average", "low", "veryLow"];
+  const sortedMeta = newArrayPriority.sort(
+    (a, b) => priorityOrder.indexOf(a.name) - priorityOrder.indexOf(b.name)
+  );
 
   // soma total `incidente` e `requisição`
   const typeCounts = filteredTicketsPending.reduce((acc, ticket) => {
