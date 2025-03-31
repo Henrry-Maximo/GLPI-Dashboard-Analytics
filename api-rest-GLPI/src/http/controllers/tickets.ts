@@ -9,26 +9,40 @@ import { getTicketsDateTime } from "@/use-cases/get-tickets-date-time";
 import { getTicketsTechnician } from "@/use-cases/get-tickets-technician";
 import { getTicketsSummary } from "@/use-cases/get-tickets-summary";
 import { getTicketsCategories } from "@/use-cases/get-tickets-categories";
-import { getTicketsPending } from "@/use-cases/get-tickets-pending";
+import {
+  getTicketsDetails,
+  getTicketsPending,
+} from "@/use-cases/get-tickets-pending";
 
 export async function ticketsController(app: FastifyInstance) {
-  app.get("/search", { onRequest: [verifyJwt]} , async (req, reply) => {
+  app.get("/search", { onRequest: [verifyJwt] }, async (req, reply) => {
     const requestIdTicketQuerySchema = z.object({
       id: z.coerce.number().optional(),
     });
 
     const { id } = requestIdTicketQuerySchema.parse(req.query);
 
-    const { tickets } = await getTicketsSearch({ id })
+    const { tickets } = await getTicketsSearch({ id });
 
     return reply.status(200).send(tickets);
   });
 
-  app.get("/pending", async (_, reply) => {
-    const  { meta, list }  = await getTicketsPending();
+  app.get("/pending", async (req, reply) => {
+    const filteredDataRequest = z.object({
+      type: z.string().optional(),
+    });
+    const { type } = filteredDataRequest.parse(req.query);
+
+    if (type === "summary") {
+      const { delayed, concludes, categories } = await getTicketsDetails();
+
+      return reply.status(200).send({ delayed, concludes, categories });
+    }
+
+    const { meta, list } = await getTicketsPending();
 
     return reply.status(200).send({ meta, list });
-  })
+  });
 
   app.get("/summary", { onRequest: [verifyJwt] }, async (_, reply) => {
     const result = await getTicketsSummary();
@@ -36,7 +50,7 @@ export async function ticketsController(app: FastifyInstance) {
     return reply.status(200).send(result);
   });
 
-  app.get("/last",  { onRequest: [verifyJwt]}, async (_, reply) => {
+  app.get("/last", { onRequest: [verifyJwt] }, async (_, reply) => {
     const { ticketLastSchema } = await getTicketsLast();
 
     if (!ticketLastSchema) {
@@ -48,25 +62,36 @@ export async function ticketsController(app: FastifyInstance) {
 
   app.get("/categories", { onRequest: [verifyJwt] }, async (_, reply) => {
     const result = await getTicketsCategories();
-    
+
     return reply.status(200).send(result);
   });
 
-  app.get("/overview", { onRequest: [verifyJwt]}, async (_, reply) => {
-    const tickets  = await getTicketsOverview();
+  app.get("/overview", { onRequest: [verifyJwt] }, async (_, reply) => {
+    const tickets = await getTicketsOverview();
 
     return reply.status(200).send(tickets);
   });
 
-  app.get("/tickets-date-time", { onRequest: [verifyJwt]}, async (_, reply) => {
-    const { tickets } = await getTicketsDateTime();
+  app.get(
+    "/tickets-date-time",
+    { onRequest: [verifyJwt] },
+    async (_, reply) => {
+      const { tickets } = await getTicketsDateTime();
 
-    return reply.status(200).send(tickets);
-  });
+      return reply.status(200).send(tickets);
+    }
+  );
 
-  app.get("/tickets-technician", { onRequest: [verifyJwt]}, async (_, reply) => {
-    const { ticketsAmountTechnician, ticketsAmountTechnicianSolution } = await getTicketsTechnician();
+  app.get(
+    "/tickets-technician",
+    { onRequest: [verifyJwt] },
+    async (_, reply) => {
+      const { ticketsAmountTechnician, ticketsAmountTechnicianSolution } =
+        await getTicketsTechnician();
 
-    return reply.status(200).send({ ticketsAmountTechnician, ticketsAmountTechnicianSolution });
-  });
+      return reply
+        .status(200)
+        .send({ ticketsAmountTechnician, ticketsAmountTechnicianSolution });
+    }
+  );
 }

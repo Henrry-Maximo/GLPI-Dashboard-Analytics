@@ -37,7 +37,7 @@ enum PriorityLevel {
   CRITICAL = 5,
 }
 
-export async function statementTickets(): Promise<PropsDataTickets> {
+async function statementTickets(): Promise<PropsDataTickets> {
   try {
     const data = await knex("glpi_tickets as t")
       .select([
@@ -149,11 +149,12 @@ export async function getTicketsPending(): Promise<ResponsePending> {
   }, {} as Record<string, number>);
 
   // array of arrays being converted for a unique array using map
-  const newArrayPriority = Object.entries(priorityCounts).map(([
-   name, count 
-  ]) => ({
-    name, count
-  }));
+  const newArrayPriority = Object.entries(priorityCounts).map(
+    ([name, count]) => ({
+      name,
+      count,
+    })
+  );
 
   // console.log(priorityCounts);// { high: 1, low: 1, average: 18 }
   // console.log(Object.entries(priorityCounts)); // [ [ 'high', 1 ], [ 'low', 1 ], [ 'average', 18 ] ]
@@ -183,7 +184,7 @@ export async function getTicketsPending(): Promise<ResponsePending> {
     meta: {
       total: totalTicketsInPending,
       priority: sortedMeta,
-      type: typeMeta
+      type: typeMeta,
     },
     list: filteredTicketsPending,
   };
@@ -222,3 +223,105 @@ export async function getTicketsPending(): Promise<ResponsePending> {
 //   }
 //   list : [...]
 // }
+
+interface PropsCategories {
+  name: string;
+  completename: string;
+  amount: number;
+}
+
+interface PropsConcludes {
+  date_creation: Date;
+  status: string;
+  count: number;
+}
+
+interface PropsDelayed {
+  id: number;
+  date_creation: number;
+  time_to_resolve: number | null;
+  name: string;
+}
+
+interface PropsTicketsDetails {
+  categories: PropsCategories[];
+  concludes: PropsConcludes[];
+  delayed: PropsDelayed[];
+}
+
+async function statementTicketsDetails(): Promise<PropsTicketsDetails> {
+  const delayed = await knex("glpi_tickets")
+    .select(
+      "id",
+      "date_creation",
+      "time_to_resolve",
+      "name",
+      knex.raw(`
+      CASE 
+        WHEN status = 1 THEN 'new'
+        WHEN status = 2 THEN 'processing (assigned)'
+        WHEN status = 3 THEN 'processing (planned)'
+        WHEN status = 4 THEN 'pending'
+        WHEN status = 5 THEN 'solved'
+        WHEN status = 6 THEN 'closed'
+      END AS "status"
+    `)
+    )
+    .whereNotIn("status", [5, 6])
+    .whereNull("solvedate")
+    .whereRaw(
+      "glpi_tickets.time_to_resolve = TIMEDIFF(NOW(), glpi_tickets.date_creation)"
+    )
+    .limit(10);
+
+  const concludesRaw = await knex("glpi_tickets")
+    .select([
+      knex.raw("DATE(date_creation) as date_creation"),
+      knex.raw(`
+        CASE
+          WHEN status = 1 THEN 'new'
+          WHEN status = 2 THEN 'processing (assigned)'
+          WHEN status = 3 THEN 'processing (planned)'
+          WHEN status = 4 THEN 'pending'
+          WHEN status = 5 THEN 'solved'
+          WHEN status = 6 THEN 'closed'
+        END AS status
+      `),
+    ])
+    .count("id as count")
+    .whereRaw("YEAR(date_creation) = YEAR(CURDATE())")
+    .whereNotIn("status", [1, 2, 3, 4])
+    .groupByRaw("DATE(date_creation), status")
+    .orderByRaw("DATE(date_creation) DESC")
+    .limit(10);
+
+  const concludes: PropsConcludes[] = concludesRaw.map((item: any) => ({
+    date_creation: item.date_creation,
+    status: item.status,
+    count: Number(item.count),
+  }));
+
+  const categories = await knex("glpi_tickets")
+    .select([
+      "glpi_itilcategories.name",
+      "glpi_itilcategories.completename",
+      knex.raw("COUNT(glpi_tickets.id) AS amount"),
+    ])
+    .innerJoin(
+      "glpi_itilcategories",
+      "glpi_tickets.itilcategories_id",
+      "glpi_itilcategories.id"
+    )
+    .whereNot("glpi_itilcategories.name", "Anfe")
+    .groupBy("glpi_itilcategories.name", "glpi_itilcategories.completename")
+    .orderBy("amount", "desc")
+    .limit(10);
+
+  return { delayed, concludes, categories };
+}
+
+export async function getTicketsDetails() {
+  const { delayed, concludes, categories } = await statementTicketsDetails();
+
+  return { delayed, concludes, categories };
+}
