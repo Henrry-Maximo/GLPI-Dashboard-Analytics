@@ -20,13 +20,14 @@ import {
   priorityTranslations,
   typeTranslations,
 } from "./definitions";
-import { BarChartsTickets } from "./components/BarCharts";
 import { useTicketsPending } from "./api/tickets.queries";
 import { useEffect, useState } from "react";
 import { SpinnerBall } from "@phosphor-icons/react";
 
 export default function Home() {
   const { data: statusData, isLoading: isLoadingStatus } = useTicketsPending();
+  // const { data: summaryData } = useTicketsPending("summary");
+
   // const { data: technicianData } = useTicketsTechnician();
   const [statusTickets, setStatusTickets] = useState(statusData);
 
@@ -43,7 +44,6 @@ export default function Home() {
     );
   }
 
-  console.log(statusTickets);
   return (
     <main className="flex flex-col w-full h-[max-content] flex-1">
       {statusTickets && (
@@ -102,8 +102,8 @@ export default function Home() {
 
           <div className="flex flex-col max-h-screen w-full mt-2">
             {/* <BarChartsTickets
-              priority={summaryData.priority}
-              status={summaryData.status}
+              // priority={summaryData.priority}
+              // status={summaryData.status}
               categorie={summaryData.categories}
               concludes={summaryData.concludes}
               delayed={summaryData.delayed}

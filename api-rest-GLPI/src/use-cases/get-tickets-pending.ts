@@ -244,9 +244,11 @@ interface PropsDelayed {
 }
 
 interface PropsTicketsDetails {
-  categories: PropsCategories[];
-  concludes: PropsConcludes[];
-  delayed: PropsDelayed[];
+  list: PropsConcludes[];
+  meta: {
+    categories: PropsCategories[];
+    delayed: PropsDelayed[];
+  };
 }
 
 async function statementTicketsDetails(): Promise<PropsTicketsDetails> {
@@ -317,11 +319,18 @@ async function statementTicketsDetails(): Promise<PropsTicketsDetails> {
     .orderBy("amount", "desc")
     .limit(10);
 
-  return { delayed, concludes, categories };
+  return {
+    meta: {
+      delayed,
+      categories,
+    },
+    list: concludes,
+  };
 }
 
 export async function getTicketsDetails() {
-  const { delayed, concludes, categories } = await statementTicketsDetails();
+  const { meta, list } = await statementTicketsDetails();
+  console.log(meta, list)
 
-  return { delayed, concludes, categories };
+  return { meta, list};
 }

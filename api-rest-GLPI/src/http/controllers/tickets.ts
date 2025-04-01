@@ -33,9 +33,9 @@ export async function ticketsController(app: FastifyInstance) {
     const { type } = filteredDataRequest.parse(req.query);
 
     if (type === "summary") {
-      const { delayed, concludes, categories } = await getTicketsDetails();
+      const { meta, list } = await getTicketsDetails();
 
-      return reply.status(200).send({ delayed, concludes, categories });
+      return reply.status(200).send({ meta, list });
     }
 
     const { meta, list } = await getTicketsPending();
