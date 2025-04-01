@@ -1,17 +1,6 @@
 import { fetchTicketsPending } from "@/http/fetch-tickets-pending";
-import { fetchTicketsSummary } from "@/http/fetch-tickets-summary";
 import { fetchTicketsTechnician } from "@/http/fetch-tickets-technician";
 import { useQuery } from "@tanstack/react-query";
-
-export function useTicketsSummary() {
-  return useQuery({
-    queryKey: ["ticketsSummary"],
-    queryFn: fetchTicketsSummary,
-    staleTime: 1000 * 60,
-    refetchInterval: 1000 * 5,
-    refetchOnWindowFocus: true,
-  });
-}
 
 export function useTicketsTechnician() {
   return useQuery({
@@ -28,7 +17,7 @@ export function useTicketsPending() {
     queryKey: ["ticketsPending"],
     queryFn: fetchTicketsPending,
     staleTime: 1000 * 60,
-    refetchInterval: 1000* 5,
+    refetchInterval: 1000 * 5,
     refetchOnWindowFocus: true,
   });
 }

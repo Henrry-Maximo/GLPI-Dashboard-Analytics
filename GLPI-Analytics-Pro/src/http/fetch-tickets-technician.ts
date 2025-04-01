@@ -1,18 +1,18 @@
-import { fetchWithAuth } from './middlewares/verify-jwt-authenticate';
+import { fetchWithAuth } from "./middlewares/verify-jwt-authenticate";
 
 type fetchTicketsTechnicianResponse = {
   ticketsAmountTechnician: [
     {
       technician: string;
       quantity_tickets: number;
-    },
+    }
   ];
   ticketsAmountTechnicianSolution: [
     {
       technician: string;
       group: string;
       count: number;
-    },
+    }
   ];
 };
 
@@ -22,14 +22,12 @@ export async function fetchTicketsTechnician(): Promise<fetchTicketsTechnicianRe
   const response = await fetchWithAuth(
     `${API_URL}/api/tickets/tickets-technician`,
     {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
     }
   );
 
-  return (
-    await response.json()
-  );
+  return await response.json();
 }

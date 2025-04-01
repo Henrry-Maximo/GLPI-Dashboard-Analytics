@@ -7,7 +7,6 @@ import { getTicketsLast } from "@/use-cases/get-tickets-last";
 import { getTicketsOverview } from "@/use-cases/get-tickets-overview";
 import { getTicketsDateTime } from "@/use-cases/get-tickets-date-time";
 import { getTicketsTechnician } from "@/use-cases/get-tickets-technician";
-import { getTicketsSummary } from "@/use-cases/get-tickets-summary";
 import { getTicketsCategories } from "@/use-cases/get-tickets-categories";
 import {
   getTicketsDetails,
@@ -42,12 +41,6 @@ export async function ticketsController(app: FastifyInstance) {
     const { meta, list } = await getTicketsPending();
 
     return reply.status(200).send({ meta, list });
-  });
-
-  app.get("/summary", { onRequest: [verifyJwt] }, async (_, reply) => {
-    const result = await getTicketsSummary();
-
-    return reply.status(200).send(result);
   });
 
   app.get("/last", { onRequest: [verifyJwt] }, async (_, reply) => {
