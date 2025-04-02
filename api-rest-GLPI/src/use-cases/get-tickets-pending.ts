@@ -127,11 +127,12 @@ enum TicketStatus {
 // alternativa: chamar função de filtragem passando os
 // parâmetros
 
-export async function getTicketsPending(): Promise<ResponsePending> {
-  const { data } = await statementTickets();
+function filteredTicketsOnlyPending(data: PropsTickets[]) {
+  if (!data) {
+    return [];
+  }
 
-  // filtrar por status
-  const filteredTicketsPending = data
+  const filtered = data
     .filter(
       (ticket) =>
         ticket.status === TicketStatus.PENDING ||
@@ -139,16 +140,15 @@ export async function getTicketsPending(): Promise<ResponsePending> {
     )
     .slice(0, 20);
 
-  // soma total de chamados
-  const totalTicketsInPending = filteredTicketsPending.length;
+  return filtered;
+};
 
-  // soma total de prioridades
-  const priorityCounts = filteredTicketsPending.reduce((acc, ticket) => {
+function countsTicketsPriority(pendings: PropsTickets[]) {
+  const priorityCounts = pendings.reduce((acc, ticket) => {
     acc[ticket.priority] = (acc[ticket.priority] || 0) + 1;
     return acc;
   }, {} as Record<string, number>);
 
-  // array of arrays being converted for a unique array using map
   const newArrayPriority = Object.entries(priorityCounts).map(
     ([name, count]) => ({
       name,
@@ -156,16 +156,17 @@ export async function getTicketsPending(): Promise<ResponsePending> {
     })
   );
 
-  // console.log(priorityCounts);// { high: 1, low: 1, average: 18 }
-  // console.log(Object.entries(priorityCounts)); // [ [ 'high', 1 ], [ 'low', 1 ], [ 'average', 18 ] ]
-
   const priorityOrder = ["veryHigh", "high", "average", "low", "veryLow"];
   const sortedMeta = newArrayPriority.sort(
     (a, b) => priorityOrder.indexOf(a.name) - priorityOrder.indexOf(b.name)
   );
 
+  return { sortedMeta };
+}
+
+function countsTicketsType(pendings: PropsTickets[]) {
   // soma total `incidente` e `requisição`
-  const typeCounts = filteredTicketsPending.reduce((acc, ticket) => {
+  const typeCounts = pendings.reduce((acc, ticket) => {
     const typeKey = ticket.type === 1 ? "incident" : "request";
 
     if (typeKey === "incident" || typeKey === "request") {
@@ -180,49 +181,26 @@ export async function getTicketsPending(): Promise<ResponsePending> {
     count,
   }));
 
+  return { typeMeta };
+}
+
+export async function getTicketsPending(): Promise<ResponsePending> {
+  const { data } = await statementTickets();
+
+  const pendings = filteredTicketsOnlyPending(data);
+  const numbersItens = pendings.length;
+  const { sortedMeta } = countsTicketsPriority(pendings); // soma total de prioridades / array of arrays being converted for a unique array using map
+  const { typeMeta } =  countsTicketsType(pendings);
+
   return {
     meta: {
-      total: totalTicketsInPending,
+      total: numbersItens,
       priority: sortedMeta,
       type: typeMeta,
     },
-    list: filteredTicketsPending,
+    list: pendings,
   };
 }
-
-// {
-//   meta: {
-//     priority: [
-//       {
-//         "name": "high",
-//         "count": 2
-//       },
-//       {
-//         "name": "average",
-//         "count": 2
-//       },
-//       {
-//         "name": "low",
-//         "count": 5
-//       },
-//       {
-//         "name": "veryLow",
-//         "count": 1
-//       }
-//     ],
-//     type: [
-//       {
-//         "name": "incident",
-//         "count": 6
-//       },
-//       {
-//         "name": "incident",
-//         "count": 2
-//       }
-//     ]
-//   }
-//   list : [...]
-// }
 
 interface PropsCategories {
   name: string;
@@ -330,7 +308,14 @@ async function statementTicketsDetails(): Promise<PropsTicketsDetails> {
 
 export async function getTicketsDetails() {
   const { meta, list } = await statementTicketsDetails();
-  console.log(meta, list)
 
-  return { meta, list};
+  return { meta, list };
 }
+
+// 01: statementTickets e statementTicketsDetails -> responsavilidade demais
+// 02: renomear funções e variáveis -> fetchTicketsQuery = query bruta / formatPendingTickets -> filtragem e contagem
+// 03: knew.raw -> explicação (data, status) + aliases
+// 04: centralizar erros (logger)
+// 05: função contar prioridades e tipos está inline <- getTicketsPending -> função auxiliares (calculatePriorityCounts), (calculateTypeCounts). Código principal mais limpo, chamando funções e recebendo resultados
+// 06: status/prioridade -> hardcoded -> case do SQL. Solution (enums): mapea. -> constantes/objetos-map -> query
+// 07: obter dados, filtrar e armazenar em uma variável. Funções a parte para gerar os metadados a partir da lista filtrada. Retorne um objeto com list e meta já preparados

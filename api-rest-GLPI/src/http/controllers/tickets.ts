@@ -26,17 +26,17 @@ export async function ticketsController(app: FastifyInstance) {
     return reply.status(200).send(tickets);
   });
 
-  app.get("/pending", async (req, reply) => {
-    const filteredDataRequest = z.object({
-      type: z.string().optional(),
-    });
-    const { type } = filteredDataRequest.parse(req.query);
+  app.get("/pending", async (_, reply) => {
+    // const filteredDataRequest = z.object({
+    //   type: z.string().optional(),
+    // });
+    // const { type } = filteredDataRequest.parse(req.query);
 
-    if (type === "summary") {
-      const { meta, list } = await getTicketsDetails();
+    // if (type === "summary") {
+    //   const { meta, list } = await getTicketsDetails();
 
-      return reply.status(200).send({ meta, list });
-    }
+    //   return reply.status(200).send({ meta, list });
+    // }
 
     const { meta, list } = await getTicketsPending();
 
