@@ -43,6 +43,12 @@ export async function ticketsController(app: FastifyInstance) {
     return reply.status(200).send({ meta, list });
   });
 
+  app.get('/summary', async (_, reply) => {
+    const { meta, list } = await getTicketsDetails();
+
+    return reply.status(200).send({ meta, list });
+  })
+
   app.get("/last", { onRequest: [verifyJwt] }, async (_, reply) => {
     const { ticketLastSchema } = await getTicketsLast();
 
