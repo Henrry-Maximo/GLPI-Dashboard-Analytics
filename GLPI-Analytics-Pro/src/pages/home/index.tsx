@@ -23,10 +23,11 @@ import {
 import { useTicketsPending } from "./api/tickets.queries";
 import { useEffect, useState } from "react";
 import { SpinnerBall } from "@phosphor-icons/react";
+// import { BarChartsTickets } from "./components/BarCharts";
 
 export default function Home() {
   const { data: statusData, isLoading: isLoadingStatus } = useTicketsPending();
-  // const { data: summaryData } = useTicketsPending("summary");
+  // const { data: summaryData } = useTicketsSummary();
 
   // const { data: technicianData } = useTicketsTechnician();
   const [statusTickets, setStatusTickets] = useState(statusData);
@@ -102,12 +103,12 @@ export default function Home() {
 
           <div className="flex flex-col max-h-screen w-full mt-2">
             {/* <BarChartsTickets
-              // priority={summaryData.priority}
-              // status={summaryData.status}
-              categorie={summaryData.categories}
-              concludes={summaryData.concludes}
-              delayed={summaryData.delayed}
-              // technician={technicianData}
+              priority={summaryData.priority}
+              status={summaryData.status}
+              categorie={summaryData.meta.categories}
+              concludes={summaryData.list}
+              delayed={summaryData?.meta.delayed}
+              technician={technicianData}
             /> */}
           </div>
         </>

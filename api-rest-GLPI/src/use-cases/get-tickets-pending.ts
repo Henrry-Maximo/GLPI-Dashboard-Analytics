@@ -141,7 +141,7 @@ function filteredTicketsOnlyPending(data: PropsTickets[]) {
     .slice(0, 20);
 
   return filtered;
-};
+}
 
 function countsTicketsPriority(pendings: PropsTickets[]) {
   const priorityCounts = pendings.reduce((acc, ticket) => {
@@ -190,7 +190,7 @@ export async function getTicketsPending(): Promise<ResponsePending> {
   const pendings = filteredTicketsOnlyPending(data);
   const numbersItens = pendings.length;
   const { sortedMeta } = countsTicketsPriority(pendings); // soma total de prioridades / array of arrays being converted for a unique array using map
-  const { typeMeta } =  countsTicketsType(pendings);
+  const { typeMeta } = countsTicketsType(pendings);
 
   return {
     meta: {
@@ -229,7 +229,28 @@ interface PropsTicketsDetails {
   };
 }
 
+// function filteredCategories(data: any[]) {
+// }
+
 async function statementTicketsDetails(): Promise<PropsTicketsDetails> {
+  const { data } = await statementTickets();
+  function dateLimit() {
+    const today = new Date();
+    const sevenDaysAgo = new Date();
+
+    sevenDaysAgo.setDate(today.getDate() - 7);
+    
+    const sevendDaysAgoISO = sevenDaysAgo
+      .toISOString()
+      .slice(0, 10)
+      .replace("T", " ");
+
+    return sevendDaysAgoISO;
+  }
+
+  // const statusCounts = filteredCategories(data);
+  // console.log(statusCounts);
+
   const delayed = await knex("glpi_tickets")
     .select(
       "id",
@@ -269,6 +290,7 @@ async function statementTicketsDetails(): Promise<PropsTicketsDetails> {
       `),
     ])
     .count("id as count")
+    .where("glpi_tickets.date_creation", ">=", dateLimit())
     .whereRaw("YEAR(date_creation) = YEAR(CURDATE())")
     .whereNotIn("status", [1, 2, 3, 4])
     .groupByRaw("DATE(date_creation), status")
@@ -285,17 +307,21 @@ async function statementTicketsDetails(): Promise<PropsTicketsDetails> {
     .select([
       "glpi_itilcategories.name",
       "glpi_itilcategories.completename",
-      knex.raw("COUNT(glpi_tickets.id) AS amount"),
+      knex.raw("COUNT(glpi_tickets.id) AS count"),
     ])
     .innerJoin(
       "glpi_itilcategories",
       "glpi_tickets.itilcategories_id",
       "glpi_itilcategories.id"
     )
+    .where("glpi_tickets.date_creation", dateLimit())
     .whereNot("glpi_itilcategories.name", "Anfe")
-    .groupBy("glpi_itilcategories.name", "glpi_itilcategories.completename")
-    .orderBy("amount", "desc")
-    .limit(10);
+    .groupBy(
+      "glpi_itilcategories.name",
+      "glpi_itilcategories.completename",
+    )
+    .orderBy("count", "desc")
+    .limit(15);
 
   return {
     meta: {

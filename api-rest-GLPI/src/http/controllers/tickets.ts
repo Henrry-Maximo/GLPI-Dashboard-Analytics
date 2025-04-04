@@ -24,30 +24,34 @@ export async function ticketsController(app: FastifyInstance) {
     const { tickets } = await getTicketsSearch({ id });
 
     return reply.status(200).send(tickets);
+
+    /*
+      Rota para retornar todos os chamados existentes
+      no banco de dados
+    */
   });
 
-  app.get("/pending", async (_, reply) => {
-    // const filteredDataRequest = z.object({
-    //   type: z.string().optional(),
-    // });
-    // const { type } = filteredDataRequest.parse(req.query);
-
-    // if (type === "summary") {
-    //   const { meta, list } = await getTicketsDetails();
-
-    //   return reply.status(200).send({ meta, list });
-    // }
-
+  app.get("/pending", { onRequest: [verifyJwt] }, async (_, reply) => {
     const { meta, list } = await getTicketsPending();
 
     return reply.status(200).send({ meta, list });
+
+    /*
+      Rota para retornar total, prioridade, tipo e lista
+      de chamados
+    */
   });
 
-  app.get('/summary', async (_, reply) => {
+  app.get("/summary", { onRequest: [verifyJwt] }, async (_, reply) => {
     const { meta, list } = await getTicketsDetails();
 
     return reply.status(200).send({ meta, list });
-  })
+
+    /*
+      Rota para retornar lista de resumo sobre 
+      chamados: atrasados, categorias e lista.
+    */
+  });
 
   app.get("/last", { onRequest: [verifyJwt] }, async (_, reply) => {
     const { ticketLastSchema } = await getTicketsLast();
@@ -57,6 +61,11 @@ export async function ticketsController(app: FastifyInstance) {
     }
 
     return reply.status(200).send(ticketLastSchema);
+
+    /*
+      Rota para retornar o último chamado cadastrado
+      no banco de dados, última data de criação.
+    */
   });
 
   app.get("/categories", { onRequest: [verifyJwt] }, async (_, reply) => {

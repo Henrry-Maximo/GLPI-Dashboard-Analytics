@@ -1,4 +1,4 @@
-import { CardRoot } from '@/components/Card/Card';
+import { CardRoot } from "@/components/Card/Card";
 import {
   CardHeader,
   CardTitle,
@@ -6,17 +6,17 @@ import {
   CardContent,
   CardFooter,
   Card,
-} from '@/components/ui/card';
+} from "@/components/ui/card";
 import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
   type ChartConfig,
-} from '@/components/ui/chart';
-import { ScrollArea } from '@radix-ui/react-scroll-area';
-import { Smiley } from 'phosphor-react';
-import React, { useEffect, useState } from 'react';
-import { CartesianGrid, XAxis, Bar, LabelList, BarChart } from 'recharts';
+} from "@/components/ui/chart";
+import { ScrollArea } from "@radix-ui/react-scroll-area";
+import { Smiley } from "phosphor-react";
+import React, { useEffect, useState } from "react";
+import { CartesianGrid, XAxis, Bar, LabelList, BarChart } from "recharts";
 
 interface StatusType {
   tickets_total: number;
@@ -36,6 +36,7 @@ interface PriorityType {
 }
 
 interface CategorieType {
+  name: string;
   completename: string;
   count: number;
 }
@@ -75,16 +76,16 @@ export function BarChartsTickets({
   }, [priority]);
 
   if (!summary) {
-    return 'Carregando...';
+    return "Carregando...";
   }
 
   // associando a uma chave para uso posterior
   const transformedData = [
-    { urgency: 'Muito Baixa', tickets: summary.tickets_very_low },
-    { urgency: 'Baixa', tickets: summary.tickets_low },
-    { urgency: 'Média', tickets: summary.tickets_medium },
-    { urgency: 'Alta', tickets: summary.tickets_high },
-    { urgency: 'Muito Alta', tickets: summary.tickets_very_high },
+    { urgency: "Muito Baixa", tickets: summary.tickets_very_low },
+    { urgency: "Baixa", tickets: summary.tickets_low },
+    { urgency: "Média", tickets: summary.tickets_medium },
+    { urgency: "Alta", tickets: summary.tickets_high },
+    { urgency: "Muito Alta", tickets: summary.tickets_very_high },
   ];
 
   // const chartConfigLabel = {
@@ -99,8 +100,8 @@ export function BarChartsTickets({
 
   const chartConfig = {
     tickets: {
-      label: 'chamados',
-      color: 'hsl(var(--chart-1))',
+      label: "chamados",
+      color: "hsl(var(--chart-1))",
     },
   } satisfies ChartConfig;
 
@@ -156,7 +157,7 @@ export function BarChartsTickets({
             >
               <BarChart
                 accessibilityLayer
-                data={concludes.map(d => ({
+                data={concludes.map((d) => ({
                   date: new Date(d.date_creation).toISOString(),
                   count: d.count,
                 }))}
@@ -172,11 +173,11 @@ export function BarChartsTickets({
                   axisLine={true}
                   tickMargin={8}
                   minTickGap={32}
-                  tickFormatter={value => {
+                  tickFormatter={(value) => {
                     const date = new Date(value);
-                    return date.toLocaleDateString('pt-br', {
-                      month: 'short',
-                      day: 'numeric',
+                    return date.toLocaleDateString("pt-br", {
+                      month: "short",
+                      day: "numeric",
                     });
                   }}
                 />
@@ -185,11 +186,11 @@ export function BarChartsTickets({
                     <ChartTooltipContent
                       className="w-[150px]"
                       nameKey="count"
-                      labelFormatter={value => {
-                        return new Date(value).toLocaleDateString('pt-br', {
-                          month: 'short',
-                          day: 'numeric',
-                          year: 'numeric',
+                      labelFormatter={(value) => {
+                        return new Date(value).toLocaleDateString("pt-br", {
+                          month: "short",
+                          day: "numeric",
+                          year: "numeric",
                         });
                       }}
                     />
@@ -209,69 +210,69 @@ export function BarChartsTickets({
             </span>
           </header>
           {delayed.length ? (
-          <ScrollArea className="overflow-y-auto bg-white border shadow-sm">
-            
-            <table className="table-auto h-full w-full border rounded-b-md">
-              <thead className=" font-light text-center">
-                <tr>
-                  <th className="py-3 px-4 text-left text-sm font-semibold uppercase">
-                    ID
-                  </th>
-                  <th className="py-3 px-4 text-left text-sm font-semibold uppercase">
-                    Título
-                  </th>
-                  <th className="py-3 px-4 text-left text-sm font-semibold uppercase">
-                    Criado
-                  </th>
-                  <th className="py-3 px-4 text-left text-sm font-semibold uppercase">
-                    Prazo
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="bg-white relative font-light shadow-md">
-              {delayed.map(ticket => {
-                  return (
-                    <tr
-                      key={ticket.id}
-                      className="border-b hover:bg-gray-100 transition duration-200"
-                    >
-                      <td className="py-3 px-4 text-left text-sm">
-                        {ticket.id}
-                      </td>
-                      <td className="py-3 px-4 text-left text-sm">
-                        {ticket.name}
-                      </td>
-                      <td className="py-3 px-4 text-left text-sm">
-                        {new Date(ticket.date_creation).toLocaleDateString(
-                          'pt-BR',
-                          {
-                            day: '2-digit',
-                            month: 'short',
-                            year: 'numeric',
-                          }
-                        )}
-                      </td>
-                      <td className="py-3 px-4 text-left text-sm">
-                        {new Date(ticket.time_to_resolve).toLocaleDateString(
-                          'pt-BR',
-                          {
-                            day: '2-digit',
-                            month: 'short',
-                            year: 'numeric',
-                          }
-                        )}
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-            
-          </ScrollArea>
+            <ScrollArea className="overflow-y-auto bg-white border shadow-sm">
+              <table className="table-auto h-full w-full border rounded-b-md">
+                <thead className=" font-light text-center">
+                  <tr>
+                    <th className="py-3 px-4 text-left text-sm font-semibold uppercase">
+                      ID
+                    </th>
+                    <th className="py-3 px-4 text-left text-sm font-semibold uppercase">
+                      Título
+                    </th>
+                    <th className="py-3 px-4 text-left text-sm font-semibold uppercase">
+                      Criado
+                    </th>
+                    <th className="py-3 px-4 text-left text-sm font-semibold uppercase">
+                      Prazo
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="bg-white relative font-light shadow-md">
+                  {delayed.map((ticket) => {
+                    return (
+                      <tr
+                        key={ticket.id}
+                        className="border-b hover:bg-gray-100 transition duration-200"
+                      >
+                        <td className="py-3 px-4 text-left text-sm">
+                          {ticket.id}
+                        </td>
+                        <td className="py-3 px-4 text-left text-sm">
+                          {ticket.name}
+                        </td>
+                        <td className="py-3 px-4 text-left text-sm">
+                          {new Date(ticket.date_creation).toLocaleDateString(
+                            "pt-BR",
+                            {
+                              day: "2-digit",
+                              month: "short",
+                              year: "numeric",
+                            }
+                          )}
+                        </td>
+                        <td className="py-3 px-4 text-left text-sm">
+                          {new Date(ticket.time_to_resolve).toLocaleDateString(
+                            "pt-BR",
+                            {
+                              day: "2-digit",
+                              month: "short",
+                              year: "numeric",
+                            }
+                          )}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </ScrollArea>
           ) : (
-            <div className='bg-white border shadow-sm flex flex-col h-full text-center justify-center items-center pb-8'>
-              <Smiley size={72} className='text-orange-500 animate-bounce' />
-              <span className='text-lg font-light leading-none'>Nenhum chamado atrasado.</span>
+            <div className="bg-white border shadow-sm flex flex-col h-full text-center justify-center items-center pb-8">
+              <Smiley size={72} className="text-orange-500 animate-bounce" />
+              <span className="text-lg font-light leading-none">
+                Nenhum chamado atrasado.
+              </span>
             </div>
           )}
 
@@ -317,7 +318,7 @@ export function BarChartsTickets({
                   tickMargin={10} // Adiciona margem aos rótulos
                   axisLine={false} // Remove a linha do eixo
                   tickFormatter={
-                    value =>
+                    (value) =>
                       value.length > 10 ? `${value.slice(0, 10)}...` : value // Encurta rótulos longos
                   }
                 />
