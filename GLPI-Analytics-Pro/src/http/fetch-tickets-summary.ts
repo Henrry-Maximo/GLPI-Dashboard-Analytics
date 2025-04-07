@@ -1,22 +1,17 @@
 import { fetchWithAuth } from "./middlewares/verify-jwt-authenticate";
 
-type propsTicketsSummaryResponse = {
-  date_cretion: string;
-  status: string;
-  count: number;
-};
-
 interface PropsTicketsSummaryResponse {
   list: Array<{
-    date_cretion: string;
+    date_creation: string;
     status: string;
     count: number;
   }>;
   meta: {
     delayed: Array<{
       id: number;
-      date_cretion: number;
-      time_to_resolve: number;
+      date_creation: string;
+      time_to_resolve: string;
+      status: number;
       name: string;
     }>;
     categories: Array<{

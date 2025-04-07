@@ -25,7 +25,7 @@ export function useTicketsPending() {
 
 export function useTicketsSummary() {
   return useQuery({
-    queryKey: ["ticketsPending"],
+    queryKey: ["ticketsSummary"],
     queryFn: fetchTicketsSummary,
     staleTime: 1000 * 60,
     refetchInterval: 1000 * 5,

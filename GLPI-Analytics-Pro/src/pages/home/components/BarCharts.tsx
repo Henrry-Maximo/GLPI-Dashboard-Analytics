@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/chart";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
 import { Smiley } from "phosphor-react";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { CartesianGrid, XAxis, Bar, LabelList, BarChart } from "recharts";
 
 interface StatusType {
@@ -27,13 +27,13 @@ interface StatusType {
   tickets_closed: number;
 }
 
-interface PriorityType {
-  tickets_very_low: number;
-  tickets_low: number;
-  tickets_medium: number;
-  tickets_high: number;
-  tickets_very_high: number;
-}
+// interface PriorityType {
+//   tickets_very_low: number;
+//   tickets_low: number;
+//   tickets_medium: number;
+//   tickets_high: number;
+//   tickets_very_high: number;
+// }
 
 interface CategorieType {
   name: string;
@@ -56,37 +56,37 @@ interface DelayedType {
 }
 
 interface BarChartsTicketsProps {
-  priority: PriorityType;
-  status: StatusType;
+  // priority: PriorityType;
+  // status: StatusType;
   categorie: CategorieType[];
   concludes: ConcludesType[];
   delayed: DelayedType[];
 }
 
 export function BarChartsTickets({
-  priority,
+  // priority,
   categorie,
   concludes,
   delayed,
 }: BarChartsTicketsProps) {
-  const [summary, setSummary] = useState<PriorityType>(priority);
+  // const [summary, setSummary] = useState<PriorityType>(priority);
 
-  useEffect(() => {
-    setSummary(priority);
-  }, [priority]);
+  // useEffect(() => {
+  //   setSummary(priority);
+  // }, [priority]);
 
-  if (!summary) {
-    return "Carregando...";
-  }
+  // if (!summary) {
+  //   return "Carregando...";
+  // }
 
   // associando a uma chave para uso posterior
-  const transformedData = [
-    { urgency: "Muito Baixa", tickets: summary.tickets_very_low },
-    { urgency: "Baixa", tickets: summary.tickets_low },
-    { urgency: "Média", tickets: summary.tickets_medium },
-    { urgency: "Alta", tickets: summary.tickets_high },
-    { urgency: "Muito Alta", tickets: summary.tickets_very_high },
-  ];
+  // const transformedData = [
+  //   { urgency: "Muito Baixa", tickets: summary.tickets_very_low },
+  //   { urgency: "Baixa", tickets: summary.tickets_low },
+  //   { urgency: "Média", tickets: summary.tickets_medium },
+  //   { urgency: "Alta", tickets: summary.tickets_high },
+  //   { urgency: "Muito Alta", tickets: summary.tickets_very_high },
+  // ];
 
   // const chartConfigLabel = {
   //   tickets: {
@@ -352,7 +352,7 @@ export function BarChartsTickets({
           </CardFooter>
         </CardRoot>
 
-        <CardRoot className="shadow-lg bg-gray-50">
+        {/* <CardRoot className="shadow-lg bg-gray-50">
           <CardHeader>
             <CardTitle>Chamados Por Urgência</CardTitle>
             <CardDescription>Resumo dos Chamados Por Urgência</CardDescription>
@@ -391,7 +391,7 @@ export function BarChartsTickets({
               Mostrar chamados distribuidos por urgência.
             </div>
           </CardFooter>
-        </CardRoot>
+        </CardRoot> */}
 
         {/* <CardRoot>
           <CardHeader>

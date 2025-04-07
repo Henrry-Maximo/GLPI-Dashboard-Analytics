@@ -20,14 +20,14 @@ import {
   priorityTranslations,
   typeTranslations,
 } from "./definitions";
-import { useTicketsPending } from "./api/tickets.queries";
+import { useTicketsPending, useTicketsSummary } from "./api/tickets.queries";
 import { useEffect, useState } from "react";
 import { SpinnerBall } from "@phosphor-icons/react";
-// import { BarChartsTickets } from "./components/BarCharts";
+import { BarChartsTickets } from "./components/BarCharts";
 
 export default function Home() {
   const { data: statusData, isLoading: isLoadingStatus } = useTicketsPending();
-  // const { data: summaryData } = useTicketsSummary();
+  const { data: summaryData } = useTicketsSummary();
 
   // const { data: technicianData } = useTicketsTechnician();
   const [statusTickets, setStatusTickets] = useState(statusData);
@@ -102,14 +102,16 @@ export default function Home() {
           </CardRoot>
 
           <div className="flex flex-col max-h-screen w-full mt-2">
-            {/* <BarChartsTickets
-              priority={summaryData.priority}
-              status={summaryData.status}
-              categorie={summaryData.meta.categories}
-              concludes={summaryData.list}
-              delayed={summaryData?.meta.delayed}
-              technician={technicianData}
-            /> */}
+            {summaryData && (
+              <BarChartsTickets
+                // priority={statusTickets.meta.priority}
+                // status={statusTickets.meta.type}
+                categorie={summaryData.meta.categories}
+                concludes={summaryData.list}
+                delayed={summaryData.meta.delayed}
+                // technician={technicianData}
+              />
+            )}
           </div>
         </>
       )}
