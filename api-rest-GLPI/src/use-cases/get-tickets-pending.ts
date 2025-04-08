@@ -1,3 +1,4 @@
+import { PropsDataTickets, PropsTickets, TicketStatus } from "@/@types/tickets-pending";
 import { knex } from "@/database/knex-config";
 
 /**
@@ -6,36 +7,6 @@ import { knex } from "@/database/knex-config";
  * @param {number} pageSize - Number of items per page.
  * @returns {Promise<PropsDataTickets>} Formatted tickets data.
  */
-
-interface PropsDataTickets {
-  data: PropsTickets[];
-}
-
-interface PropsTickets {
-  id: number;
-  title: string;
-  status: TicketStatus;
-  date_creation: string;
-  solvedate: string;
-  location: string;
-  applicant: string;
-  technical: string;
-  type: TicketType;
-  priority: PriorityLevel;
-}
-
-enum TicketType {
-  INCIDENT = 1,
-  REQUEST = 2,
-}
-
-enum PriorityLevel {
-  VERY_LOW = 1,
-  LOW = 2,
-  MEDIUM = 3,
-  HIGH = 4,
-  CRITICAL = 5,
-}
 
 async function statementTickets(): Promise<PropsDataTickets> {
   try {
@@ -88,12 +59,23 @@ async function statementTickets(): Promise<PropsDataTickets> {
       .orderBy("t.id", "desc");
 
     return { data };
-  } catch (error) {
-    console.error("Database Error: ", error);
+  } catch (e) {
     throw new Error("Failed to fetch tickets.");
   }
 }
+/*
+  Objetivo: realizar uma consulta na tabela de chamados e
+  retorna todas as informações
+*/
 
+interface ResponsePending {
+  list: PendingTicket[];
+  meta: {
+    total: number;
+    priority: Array<{ name: string; count: number }>;
+    type: Array<{ name: string; count: number }>;
+  };
+}
 interface PendingTicket {
   id: number;
   title: string;
@@ -106,26 +88,6 @@ interface PendingTicket {
   priority: number;
   type: number;
 }
-interface ResponsePending {
-  list: PendingTicket[];
-  meta: {
-    total: number;
-    priority: Array<{ name: string; count: number }>;
-    type: Array<{ name: string; count: number }>;
-  };
-}
-
-enum TicketStatus {
-  NEW = "new",
-  PROCESSING_ASSIGNED = "processing (assigned)",
-  PROCESSING_PLANNED = "processing (planned)",
-  PENDING = "pending",
-  SOLVED = "solved",
-  CLOSED = "closed",
-}
-
-// alternativa: chamar função de filtragem passando os
-// parâmetros
 
 function filteredTicketsOnlyPending(data: PropsTickets[]) {
   if (!data) {
@@ -229,12 +191,8 @@ interface PropsTicketsDetails {
   };
 }
 
-// function filteredCategories(data: any[]) {
-// }
-
 async function statementTicketsDetails(): Promise<PropsTicketsDetails> {
-  const { data } = await statementTickets();
-  function dateLimit() {
+  function currentYear() {
     const today = new Date();
     const sevenDaysAgo = new Date();
 
@@ -247,9 +205,6 @@ async function statementTicketsDetails(): Promise<PropsTicketsDetails> {
 
     return sevendDaysAgoISO;
   }
-
-  // const statusCounts = filteredCategories(data);
-  // console.log(statusCounts);
 
   const delayed = await knex("glpi_tickets")
     .select(
@@ -290,7 +245,7 @@ async function statementTicketsDetails(): Promise<PropsTicketsDetails> {
       `),
     ])
     .count("id as count")
-    .where("glpi_tickets.date_creation", ">=", dateLimit())
+    .where("glpi_tickets.date_creation", ">=", currentYear())
     .whereRaw("YEAR(date_creation) = YEAR(CURDATE())")
     .whereNotIn("status", [1, 2, 3, 4])
     .groupByRaw("DATE(date_creation), status")
@@ -314,7 +269,7 @@ async function statementTicketsDetails(): Promise<PropsTicketsDetails> {
       "glpi_tickets.itilcategories_id",
       "glpi_itilcategories.id"
     )
-    .where("glpi_tickets.date_creation", dateLimit())
+    .where("glpi_tickets.date_creation", currentYear())
     .whereNot("glpi_itilcategories.name", "Anfe")
     .groupBy(
       "glpi_itilcategories.name",
