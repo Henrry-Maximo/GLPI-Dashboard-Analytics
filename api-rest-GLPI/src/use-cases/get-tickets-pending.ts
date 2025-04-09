@@ -1,4 +1,4 @@
-import { PropsDataTickets, PropsTickets, TicketStatus } from "@/@types/tickets-pending";
+import { type PropsDataTickets, type PropsTickets, TicketStatus } from "@/@types/tickets-pending";
 import { knex } from "@/database/knex-config";
 
 /**

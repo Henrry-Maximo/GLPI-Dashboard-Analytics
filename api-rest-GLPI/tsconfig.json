@@ -6,11 +6,12 @@
       "es2023"
     ],
     "module": "node16",
-    "target": "es2022",
+    "target": "es2020",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "moduleResolution": "node16",
+
     "baseUrl": ".",
     "paths": {
       "@/*": [
