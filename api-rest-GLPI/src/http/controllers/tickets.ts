@@ -49,7 +49,7 @@ export async function ticketsController(app: FastifyInstance) {
 
     /*
       Rota para retornar lista de resumo sobre 
-      chamados: atrasados, categorias e lista.
+      chamados: atrasados, categorias e lista de concluídos.
     */
   });
 

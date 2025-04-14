@@ -1,4 +1,8 @@
-import { type PropsDataTickets, type PropsTickets, TicketStatus } from "@/@types/tickets-pending";
+import {
+  type PropsDataTickets,
+  type PropsTickets,
+  TicketStatus,
+} from "@/@types/tickets-pending";
 import { knex } from "@/database/knex-config";
 
 /**
@@ -192,19 +196,12 @@ interface PropsTicketsDetails {
 }
 
 async function statementTicketsDetails(): Promise<PropsTicketsDetails> {
-  function currentYear() {
-    const today = new Date();
+  function getDateFromSevenDaysAgo(date: number) {
     const sevenDaysAgo = new Date();
 
-    sevenDaysAgo.setDate(today.getDate() - 7);
-    
-    const sevendDaysAgoISO = sevenDaysAgo
-      .toISOString()
-      .slice(0, 10)
-      .replace("T", " ");
-
-    return sevendDaysAgoISO;
-  }
+    sevenDaysAgo.setDate(date - 7);
+    return sevenDaysAgo.toISOString().slice(0, 10).replace("T", " ");
+  };
 
   const delayed = await knex("glpi_tickets")
     .select(
@@ -245,8 +242,13 @@ async function statementTicketsDetails(): Promise<PropsTicketsDetails> {
       `),
     ])
     .count("id as count")
-    .where("glpi_tickets.date_creation", ">=", currentYear())
-    .whereRaw("YEAR(date_creation) = YEAR(CURDATE())")
+    .whereRaw("glpi_tickets.date_creation >= ?", [getDateFromSevenDaysAgo(new Date().getDate())])
+    // .where(
+    //   "glpi_tickets.date_creation",
+    //   ">=",
+    //   getDateFromSevenDaysAgo(new Date().getDate())
+    // )
+    // .whereRaw("YEAR(date_creation) = YEAR(CURDATE())")
     .whereNotIn("status", [1, 2, 3, 4])
     .groupByRaw("DATE(date_creation), status")
     .orderByRaw("DATE(date_creation) DESC")
@@ -269,12 +271,10 @@ async function statementTicketsDetails(): Promise<PropsTicketsDetails> {
       "glpi_tickets.itilcategories_id",
       "glpi_itilcategories.id"
     )
-    .where("glpi_tickets.date_creation", currentYear())
+    .whereRaw("glpi_tickets.date_creation >= ?", [`${new Date().getFullYear()}-01-01`])
+    .whereRaw("glpi_tickets.date_creation <= ?", [`${new Date().getFullYear()}-12-30`])
     .whereNot("glpi_itilcategories.name", "Anfe")
-    .groupBy(
-      "glpi_itilcategories.name",
-      "glpi_itilcategories.completename",
-    )
+    .groupBy("glpi_itilcategories.name", "glpi_itilcategories.completename")
     .orderBy("count", "desc")
     .limit(15);
 
