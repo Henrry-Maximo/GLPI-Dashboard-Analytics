@@ -8,14 +8,17 @@ import { ZodError } from "zod";
 
 import { routes } from "./http/routes";
 
-export const app = fastify();
+export const app = fastify({
+  logger: true, // log nativo do Fastify
+});
+
 
 app.register(fastifyCors, {
-  origin: "*",
+  origin: "*", // qualquer endereço pode solicitar a api
 });
 
 app.register(fastifyJwt, {
-  secret: env.JWT_SECRET,
+  secret: env.JWT_SECRET, // gerar JWT baseando-se no segredo 
 });
 
 app.register(fastifyCookie);
