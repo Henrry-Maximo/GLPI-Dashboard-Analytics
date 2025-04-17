@@ -8,9 +8,11 @@ import { categoriesController } from "./controllers/categories";
 import { usersController } from "./controllers/users";
 
 export async function routes(app: FastifyInstance) {
+  // definindo rotas
   app.post("/sessions", login);
   app.post("/register", register);
 
+  // registrando módulos
   app.register(usersController, { prefix: "/users" });
   app.register(ticketsController, { prefix: "/tickets" });
   app.register(categoriesController, { prefix: "/categories" });

@@ -4,6 +4,7 @@ import { env } from "./env";
 // utilizando try {} catch(err) {} para inicializar o servidor
 // try {
 //   // await app.listen({ port: env.NODE_PORT })
+//   // console.log("Server Running")
 // } catch (err) {
 //   // console.error();
 //   app.log.error(`Server with Error: ${err}`);

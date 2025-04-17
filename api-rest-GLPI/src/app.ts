@@ -24,15 +24,8 @@ app.register(fastifyJwt, {
 app.register(fastifyCookie);
 
 app.register(routes, {
-  prefix: "/api"
+  prefix: "/api" // disponibilizando função de rotas com prefixo: ip/api/endpoint
 });
-
-/*
-  Função `setErrorHandler` utilizada para evidênciar
-  erros em toda a aplicação
-    - Tratar erros de validação retornados pelo tipo `ZodError`
-    - Retorna erro genérico (500) para outros tipos de erros
-*/
 
 app.setErrorHandler((error, _, reply) => {
   if (error instanceof ZodError) {
@@ -41,6 +34,12 @@ app.setErrorHandler((error, _, reply) => {
       issues: error.format(),
     });
   }
+  /*
+  Função `setErrorHandler` utilizada para evidênciar
+  erros em toda a aplicação
+    - Tratar erros de validação retornados pelo tipo `ZodError`
+    - Retorna erro genérico (500) para outros tipos de erros
+  */
 
   // * Registrar erros em ambiente de prod
   // if (env.NODE_ENV === "production") {
