@@ -99,7 +99,7 @@ export function BarChartsTickets({
   // } satisfies ChartConfig;
 
   const chartConfig = {
-    tickets: {
+    count: {
       label: "chamados",
       color: "hsl(var(--chart-1))",
     },
@@ -131,7 +131,7 @@ export function BarChartsTickets({
                 type="button"
               >
                 <span className="text-xs text-muted-foreground">
-                  {chartConfig.tickets.label}
+                  {chartConfig.count.label}
                 </span>
                 <span className="text-lg font-bold leading-none sm:text-3xl">
                   {totalTickets}
@@ -197,7 +197,7 @@ export function BarChartsTickets({
                       />
                     }
                   />
-                  <Bar dataKey="count" fill="var(--color-tickets)" />
+                  <Bar dataKey="count" fill="var(--color-count)" />
                 </BarChart>
               ) : (
                 <div className="bg-white flex flex-col h-full text-center justify-center items-center pb-8">
@@ -219,7 +219,7 @@ export function BarChartsTickets({
             </span>
           </header>
           {delayed.length ? (
-            <ScrollArea className="overflow-y-auto bg-white border shadow-sm">
+            <ScrollArea className="overflow-y-auto bg-white border shadow-sm flex-1">
               <table className="table-auto h-full w-full border rounded-b-md">
                 <thead className=" font-light text-center">
                   <tr>
@@ -339,17 +339,9 @@ export function BarChartsTickets({
 
                 <Bar
                   dataKey="count" // Usa "count" para definir altura das barras
-                  fill="var(--color-tickets)" // Cor dinâmica do chartConfig
+                  fill="var(--color-count)" // Cor dinâmica do chartConfig
                   radius={4} // Borda arredondada nas barras
-                >
-                  {/* <LabelList
-                    dataKey="count" // Adicionado dataKey para mostrar os valores
-                    position="top"
-                    offset={12}
-                    className="fill-foreground"
-                    fontSize={12}
-                  /> */}
-                </Bar>
+                />
               </BarChart>
             </ChartContainer>
           </CardContent>
