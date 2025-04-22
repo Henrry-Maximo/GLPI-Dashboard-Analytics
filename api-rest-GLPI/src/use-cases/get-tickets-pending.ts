@@ -220,11 +220,9 @@ async function statementTicketsDetails(): Promise<PropsTicketsDetails> {
       END AS "status"
     `)
     )
-    .whereNotIn("status", [5, 6])
+    .whereNotIn("status", [1, 4, 5, 6])
+    .where("time_to_resolve", "<", knex.fn.now()) // se estiver abaixo do tempo atual, está atrasado
     .whereNull("solvedate")
-    .whereRaw(
-      "glpi_tickets.time_to_resolve = TIMEDIFF(NOW(), glpi_tickets.date_creation)"
-    )
     .limit(10);
 
   const concludesRaw = await knex("glpi_tickets")
