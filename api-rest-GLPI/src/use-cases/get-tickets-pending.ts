@@ -272,7 +272,7 @@ async function statementTicketsDetails(): Promise<PropsTicketsDetails> {
       "glpi_itilcategories.id"
     )
     .whereRaw("glpi_tickets.date_creation >= ?", [`${new Date().getFullYear()}-01-01`])
-    .whereRaw("glpi_tickets.date_creation <= ?", [`${new Date().getFullYear()}-12-30`])
+    .whereRaw("glpi_tickets.date_creation <= ?", [`${new Date().getFullYear()}-12-31`])
     .whereNot("glpi_itilcategories.name", "Anfe")
     .groupBy("glpi_itilcategories.name", "glpi_itilcategories.completename")
     .orderBy("count", "desc")

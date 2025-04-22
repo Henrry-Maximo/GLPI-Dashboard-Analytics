@@ -14,7 +14,7 @@ import {
   type ChartConfig,
 } from "@/components/ui/chart";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
-import { Smiley } from "phosphor-react";
+import { Clipboard, Smiley } from "phosphor-react";
 import React from "react";
 import { CartesianGrid, XAxis, Bar, LabelList, BarChart } from "recharts";
 
@@ -155,49 +155,58 @@ export function BarChartsTickets({
               config={chartConfig}
               className="aspect-auto h-[250px] w-full"
             >
-              <BarChart
-                accessibilityLayer
-                data={concludes.map((d) => ({
-                  date: new Date(d.date_creation).toISOString(),
-                  count: d.count,
-                }))}
-                margin={{
-                  left: 4,
-                  right: 4,
-                }}
-              >
-                <CartesianGrid vertical={true} />
-                <XAxis
-                  dataKey="date"
-                  tickLine={true}
-                  axisLine={true}
-                  tickMargin={8}
-                  minTickGap={32}
-                  tickFormatter={(value) => {
-                    const date = new Date(value);
-                    return date.toLocaleDateString("pt-br", {
-                      month: "short",
-                      day: "numeric",
-                    });
+              {concludes.length > 0 ? (
+                <BarChart
+                  accessibilityLayer
+                  data={concludes.map((row) => ({
+                    date: new Date(row.date_creation).toISOString(),
+                    count: row.count,
+                  }))}
+                  margin={{
+                    left: 4,
+                    right: 4,
                   }}
-                />
-                <ChartTooltip
-                  content={
-                    <ChartTooltipContent
-                      className="w-[150px]"
-                      nameKey="count"
-                      labelFormatter={(value) => {
-                        return new Date(value).toLocaleDateString("pt-br", {
-                          month: "short",
-                          day: "numeric",
-                          year: "numeric",
-                        });
-                      }}
-                    />
-                  }
-                />
-                <Bar dataKey="count" fill="var(--color-tickets)" />
-              </BarChart>
+                >
+                  <CartesianGrid vertical={true} />
+                  <XAxis
+                    dataKey="date"
+                    tickLine={true}
+                    axisLine={true}
+                    tickMargin={8}
+                    minTickGap={32}
+                    tickFormatter={(value) => {
+                      const date = new Date(value);
+                      return date.toLocaleDateString("pt-br", {
+                        month: "short",
+                        day: "numeric",
+                      });
+                    }}
+                  />
+                  <ChartTooltip
+                    content={
+                      <ChartTooltipContent
+                        className="w-[150px]"
+                        nameKey="count"
+                        labelFormatter={(value) => {
+                          return new Date(value).toLocaleDateString("pt-br", {
+                            month: "short",
+                            day: "numeric",
+                            year: "numeric",
+                          });
+                        }}
+                      />
+                    }
+                  />
+                  <Bar dataKey="count" fill="var(--color-tickets)" />
+                </BarChart>
+              ) : (
+                <div className="bg-white flex flex-col h-full text-center justify-center items-center pb-8">
+                  <Clipboard size={72} className="text-orange-500" />
+                  <span className="text-lg font-light leading-none">
+                    Nenhum chamado concluído.
+                  </span>
+                </div>
+              )}
             </ChartContainer>
           </CardContent>
         </Card>
@@ -329,17 +338,17 @@ export function BarChartsTickets({
                 />
 
                 <Bar
-                  dataKey="amount" // Usa "count" para definir altura das barras
+                  dataKey="count" // Usa "count" para definir altura das barras
                   fill="var(--color-tickets)" // Cor dinâmica do chartConfig
                   radius={4} // Borda arredondada nas barras
                 >
-                  <LabelList
-                    dataKey="amount" // Adicionado dataKey para mostrar os valores
+                  {/* <LabelList
+                    dataKey="count" // Adicionado dataKey para mostrar os valores
                     position="top"
                     offset={12}
                     className="fill-foreground"
                     fontSize={12}
-                  />
+                  /> */}
                 </Bar>
               </BarChart>
             </ChartContainer>
