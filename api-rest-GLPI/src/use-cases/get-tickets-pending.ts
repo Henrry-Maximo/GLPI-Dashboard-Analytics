@@ -201,7 +201,7 @@ async function statementTicketsDetails(): Promise<PropsTicketsDetails> {
 
     sevenDaysAgo.setDate(date - 7);
     return sevenDaysAgo.toISOString().slice(0, 10).replace("T", " ");
-  };
+  }
 
   const delayed = await knex("glpi_tickets")
     .select(
@@ -228,28 +228,13 @@ async function statementTicketsDetails(): Promise<PropsTicketsDetails> {
   const concludesRaw = await knex("glpi_tickets")
     .select([
       knex.raw("DATE(date_creation) as date_creation"),
-      knex.raw(`
-        CASE
-          WHEN status = 1 THEN 'new'
-          WHEN status = 2 THEN 'processing (assigned)'
-          WHEN status = 3 THEN 'processing (planned)'
-          WHEN status = 4 THEN 'pending'
-          WHEN status = 5 THEN 'solved'
-          WHEN status = 6 THEN 'closed'
-        END AS status
-      `),
+      knex.raw("'concluded' AS status"),
     ])
-    .count("id as count")
-    .whereRaw("glpi_tickets.date_creation >= ?", [getDateFromSevenDaysAgo(new Date().getDate())])
-    // .where(
-    //   "glpi_tickets.date_creation",
-    //   ">=",
-    //   getDateFromSevenDaysAgo(new Date().getDate())
-    // )
-    // .whereRaw("YEAR(date_creation) = YEAR(CURDATE())")
-    .whereNotIn("status", [1, 2, 3, 4])
-    .groupByRaw("DATE(date_creation), status")
-    .orderByRaw("DATE(date_creation) DESC")
+    .count({ count: "id" })
+    .where("date_creation", ">=", getDateFromSevenDaysAgo(new Date().getDate()))
+    .whereIn("status", [5, 6])
+    .groupByRaw("DATE(date_creation)")
+    .orderByRaw("DATE(date_creation) ASC")
     .limit(10);
 
   const concludes: PropsConcludes[] = concludesRaw.map((item: any) => ({
@@ -269,8 +254,12 @@ async function statementTicketsDetails(): Promise<PropsTicketsDetails> {
       "glpi_tickets.itilcategories_id",
       "glpi_itilcategories.id"
     )
-    .whereRaw("glpi_tickets.date_creation >= ?", [`${new Date().getFullYear()}-01-01`])
-    .whereRaw("glpi_tickets.date_creation <= ?", [`${new Date().getFullYear()}-12-31`])
+    .whereRaw("glpi_tickets.date_creation >= ?", [
+      `${new Date().getFullYear()}-01-01`,
+    ])
+    .whereRaw("glpi_tickets.date_creation <= ?", [
+      `${new Date().getFullYear()}-12-31`,
+    ])
     .whereNot("glpi_itilcategories.name", "Anfe")
     .groupBy("glpi_itilcategories.name", "glpi_itilcategories.completename")
     .orderBy("count", "desc")

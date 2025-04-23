@@ -114,8 +114,8 @@ export function BarChartsTickets({
   // 	technician.ticketsAmountTechnicianSolution;
 
   return (
-    <div className="flex flex-col gap-4 h-screen">
-      <div className="grid grid-cols-2 gap-4 ">
+    <div className="flex flex-col gap-4 h-full">
+      <div className="grid grid-cols-2 gap-4">
         <Card>
           <CardHeader className="flex flex-col items-stretch space-y-0 border-b p-0 sm:flex-row">
             <div className="flex flex-1 flex-col justify-center gap-1 px-6 py-5 sm:py-6">
@@ -308,7 +308,7 @@ export function BarChartsTickets({
       </div>
 
       <div className="grid grid-cols-2 gap-4">
-        <CardRoot className="shadow-lg bg-gray-50">
+        {/* <CardRoot className="shadow-lg bg-gray-50">
           <CardHeader>
             <CardTitle>Chamados por Categoria</CardTitle>
             <CardDescription>
@@ -351,7 +351,7 @@ export function BarChartsTickets({
               Mostrar contagem de chamados por categoria
             </div>
           </CardFooter>
-        </CardRoot>
+        </CardRoot> */}
 
         {/* <CardRoot className="shadow-lg bg-gray-50">
           <CardHeader>
