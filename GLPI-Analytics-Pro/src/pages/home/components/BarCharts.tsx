@@ -15,14 +15,14 @@ import { Clipboard, Smiley } from "phosphor-react";
 import React from "react";
 import { CartesianGrid, XAxis, Bar, BarChart } from "recharts";
 
-interface StatusType {
-  tickets_total: number;
-  tickets_open: number;
-  tickets_assigned: number;
-  tickets_pending: number;
-  tickets_solved: number;
-  tickets_closed: number;
-}
+// interface StatusType {
+//   tickets_total: number;
+//   tickets_open: number;
+//   tickets_assigned: number;
+//   tickets_pending: number;
+//   tickets_solved: number;
+//   tickets_closed: number;
+// }
 
 // interface PriorityType {
 //   tickets_very_low: number;
