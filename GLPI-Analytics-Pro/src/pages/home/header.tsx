@@ -1,5 +1,5 @@
-import { ChartLine } from "phosphor-react";
-import { HeaderIcon, HeaderRoot } from "./components/Header";
+import { ChartLine, Download } from "phosphor-react";
+import { HeaderButton, HeaderIcon, HeaderRoot, HeaderWrapper } from "./components/Header";
 
 interface HeaderProps {
   name: string;
@@ -13,9 +13,9 @@ export function Header({ name }: HeaderProps) {
         {name}
       </HeaderIcon>
 
-      {/* <HeaderWrapper>
-				<HeaderButton>Filter</HeaderButton>
-			</HeaderWrapper> */}
+      <HeaderWrapper>
+				<HeaderButton icon={<Download />} title="DOWNLOAD REPORTS" />
+			</HeaderWrapper>
     </HeaderRoot>
   );
 }

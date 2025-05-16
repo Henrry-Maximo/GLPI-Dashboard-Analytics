@@ -120,7 +120,7 @@ export function BarChartsTickets({
           <CardHeader className="flex flex-col items-stretch space-y-0 border-b p-0 sm:flex-row">
             <div className="flex flex-1 flex-col justify-center gap-1 px-6 py-5 sm:py-6">
               <CardTitle>Chamados Fechados</CardTitle>
-              <CardDescription>
+              <CardDescription className="text-red-500">
                 Exibindo o total de chamados fechados por dia
               </CardDescription>
             </div>
@@ -133,7 +133,7 @@ export function BarChartsTickets({
                 <span className="text-xs text-muted-foreground">
                   {chartConfig.count.label}
                 </span>
-                <span className="text-lg font-bold leading-none sm:text-3xl">
+                <span className="text-red-500 text-lg font-bold leading-none sm:text-3xl">
                   {totalTickets}
                 </span>
               </button>
@@ -200,9 +200,9 @@ export function BarChartsTickets({
                   <Bar dataKey="count" fill="var(--color-count)" />
                 </BarChart>
               ) : (
-                <div className="bg-white flex flex-col h-full text-center justify-center items-center pb-8">
+                <div className="bg-white flex flex-col gap-4 h-full text-center justify-center items-center pb-8">
                   <Clipboard size={72} className="text-orange-500" />
-                  <span className="text-lg font-light leading-none">
+                  <span className="text-orange-500 text-lg font-light leading-none">
                     Nenhum chamado concluído.
                   </span>
                 </div>
@@ -211,10 +211,10 @@ export function BarChartsTickets({
           </CardContent>
         </Card>
 
-        <section className="bg-white flex flex-col shadow-sm h-[25rem]">
-          <header className="bg-white py-5 px-6 border-t-2 border-l-2 border-r-2 border-b-0">
+        <section className="bg-red-white flex flex-col shadow-sm h-[25rem] rounded-t-xl">
+          <header className="bg-white py-5 px-6 border-t-2 border-l-2 border-r-2 border-b-0 rounded-t-xl">
             <h1 className="font-semibold">Chamados Atrasados</h1>
-            <span className="text-sm text-gray-500">
+            <span className="text-orange-500 text-sm">
               Resumo Chamados Atrasados (SLA)
             </span>
           </header>
@@ -244,10 +244,10 @@ export function BarChartsTickets({
                         key={ticket.id}
                         className="border-b hover:bg-gray-100 transition duration-200"
                       >
-                        <td className="py-3 px-4 text-left text-sm">
+                        <td className="bg-red-500 text-white py-3 px-4 rounded-sm text-center text-sm">
                           {ticket.id}
                         </td>
-                        <td className="py-3 px-4 text-left text-sm">
+                        <td className="text-orange-500 py-3 px-4 text-left text-sm">
                           {ticket.name}
                         </td>
                         <td className="py-3 px-4 text-left text-sm">
@@ -260,7 +260,7 @@ export function BarChartsTickets({
                             }
                           )}
                         </td>
-                        <td className="py-3 px-4 text-left text-sm">
+                        <td className="bg-red-500 text-white rounded-sm py-3 px-4 text-left text-sm">
                           {new Date(ticket.time_to_resolve).toLocaleDateString(
                             "pt-BR",
                             {
@@ -279,7 +279,7 @@ export function BarChartsTickets({
           ) : (
             <div className="bg-white border shadow-sm flex flex-col h-full text-center justify-center items-center pb-8">
               <Smiley size={72} className="text-orange-500 animate-bounce" />
-              <span className="text-lg font-light leading-none">
+              <span className="text-orange-500 text-lg font-light leading-none">
                 Nenhum chamado atrasado.
               </span>
             </div>
