@@ -1,11 +1,8 @@
-import { CardRoot } from "@/components/Card/Card";
 import {
   CardHeader,
   CardTitle,
   CardDescription,
-  CardContent,
-  CardFooter,
-  Card,
+  CardContent, Card
 } from "@/components/ui/card";
 import {
   ChartContainer,
@@ -16,7 +13,7 @@ import {
 import { ScrollArea } from "@radix-ui/react-scroll-area";
 import { Clipboard, Smiley } from "phosphor-react";
 import React from "react";
-import { CartesianGrid, XAxis, Bar, LabelList, BarChart } from "recharts";
+import { CartesianGrid, XAxis, Bar, BarChart } from "recharts";
 
 interface StatusType {
   tickets_total: number;
@@ -65,7 +62,7 @@ interface BarChartsTicketsProps {
 
 export function BarChartsTickets({
   // priority,
-  categorie,
+  // categorie,
   concludes,
   delayed,
 }: BarChartsTicketsProps) {
