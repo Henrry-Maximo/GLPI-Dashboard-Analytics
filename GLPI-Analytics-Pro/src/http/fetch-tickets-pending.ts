@@ -47,9 +47,5 @@ export async function fetchTicketsPending(): Promise<PropsTicketsPendingResponse
     },
   });
 
-  if (!response.ok) {
-    throw new Error("Erro ao buscar os chamados.");
-  }
-
   return response.json();
 }

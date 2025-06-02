@@ -47,9 +47,5 @@ export async function fetchTicketsSummary(): Promise<PropsTicketsSummaryResponse
     },
   });
 
-  if (!response.ok) {
-    throw new Error("Erro ao buscar os chamados.");
-  }
-
   return response.json();
 }

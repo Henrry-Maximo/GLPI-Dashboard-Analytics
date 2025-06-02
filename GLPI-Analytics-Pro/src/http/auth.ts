@@ -1,4 +1,4 @@
-import type { authPropsResponse } from '../@types/interface-monitoring';
+import type { authPropsResponse } from "../@types/interface-monitoring";
 
 interface AuthPropsRequest {
   username: string;
@@ -12,10 +12,10 @@ export async function login({
   const API_URL = import.meta.env.VITE_API_URL;
 
   const response = await fetch(`${API_URL}/api/sessions`, {
-    method: 'POST',
+    method: "POST",
 
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
 
     body: JSON.stringify({
@@ -26,7 +26,8 @@ export async function login({
 
   if (!response.ok) {
     const { message } = await response.json();
-    throw new Error(message);
+    return message;
+    // throw new Error(message);
   }
 
   const { token } = await response.json();
