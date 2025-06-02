@@ -2,7 +2,8 @@ import {
   CardHeader,
   CardTitle,
   CardDescription,
-  CardContent, Card
+  CardContent,
+  Card,
 } from "@/components/ui/card";
 import {
   ChartContainer,
@@ -13,7 +14,7 @@ import {
 import { ScrollArea } from "@radix-ui/react-scroll-area";
 import { Clipboard, Smiley } from "phosphor-react";
 import React from "react";
-import { CartesianGrid, XAxis, Bar, BarChart } from "recharts";
+import { CartesianGrid, XAxis, Bar, BarChart, LabelList } from "recharts";
 
 // interface StatusType {
 //   tickets_total: number;
@@ -172,13 +173,14 @@ export function BarChartsTickets({
                     tickMargin={8}
                     minTickGap={32}
                     tickFormatter={(value) => {
-                      const date = new Date(value);
-                      return date.toLocaleDateString("pt-br", {
+                      return new Date(value).toLocaleDateString("pt-br", {
                         month: "short",
                         day: "numeric",
                       });
                     }}
                   />
+
+                  {/* resumo ao passar o mouse em cima */}
                   <ChartTooltip
                     content={
                       <ChartTooltipContent
@@ -194,7 +196,18 @@ export function BarChartsTickets({
                       />
                     }
                   />
-                  <Bar dataKey="count" fill="var(--color-count)" />
+
+                  {/* Barras do gráfico */}
+                  <Bar dataKey="count" fill="var(--color-count)">
+                    {/* Números acima da barra */}
+                    <LabelList
+                      position="top"
+                      offset={12}
+                      fill="var(--color-count)"
+                      // className="fill-foreground"
+                      fontSize={18}
+                    />
+                  </Bar>
                 </BarChart>
               ) : (
                 <div className="bg-white flex flex-col gap-4 h-full text-center justify-center items-center pb-8">
