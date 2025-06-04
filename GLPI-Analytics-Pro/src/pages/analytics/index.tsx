@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/select';
 import { useState } from 'react';
 
-export default function AnalyticsPage() {
+export const Analytics = () => {
   const [selectedTab, setSelectedTab] = useState('overview');
 
   return (

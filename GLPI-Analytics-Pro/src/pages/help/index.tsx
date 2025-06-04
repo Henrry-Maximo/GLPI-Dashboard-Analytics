@@ -1,4 +1,4 @@
-export default function Help() {
+export const Help = () => {
   return (
     <section className="text-gray-700">
       {/* Hero Section */}

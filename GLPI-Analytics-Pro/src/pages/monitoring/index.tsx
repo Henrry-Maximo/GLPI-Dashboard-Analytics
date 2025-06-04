@@ -16,7 +16,7 @@ import { SpinnerBall, CircleNotch } from '@phosphor-icons/react';
 dayjs.locale(ptBR);
 dayjs.extend(relativeTime);
 
-export default function TicketMonitoring() {
+export const Monitoring = () => {
   const { data: ticketMonitoringData } = useQuery({
     queryKey: ['monitoring'],
     queryFn: fetchTicketsMonitoring,

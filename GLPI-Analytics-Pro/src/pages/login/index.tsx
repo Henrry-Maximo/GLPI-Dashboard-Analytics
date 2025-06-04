@@ -10,12 +10,13 @@ import { useNavigate } from 'react-router-dom';
 
 import { jwtDecode } from 'jwt-decode';
 import type { JwtPayload } from 'jwt-decode';
+
 interface CustomJwtPayload extends JwtPayload {
   token: string;
   name: string; // Defina aqui o campo 'name'
 }
 
-export default function Index() {
+export const Index = () => {
   const navigate = useNavigate();
 
   const [user, setUser] = useState('');

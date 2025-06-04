@@ -25,7 +25,7 @@ import { useEffect, useState } from "react";
 import { SpinnerBall } from "@phosphor-icons/react";
 import { BarChartsTickets } from "./components/BarCharts";
 
-export default function Home() {
+export const Home = () => {
   const { data: statusData, isLoading: isLoadingStatus } = useTicketsPending();
   const { data: summaryData } = useTicketsSummary();
 

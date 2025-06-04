@@ -1,5 +1,5 @@
 
-export default function Notifications() {
+export const Notifications = () => {
   const notifications = [
     {
       id: 1,

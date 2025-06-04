@@ -3,7 +3,7 @@ import { Outlet } from 'react-router-dom';
 import Header from '../../components/Header/Header';
 import Sidebar from '../../components/Sidebar/Sidebar';
 
-export default function DefaultLayout() {
+export const DefaultLayout = () => {
   const [menuOpen, setMenuOpen] = useState(true);
 
   function toggleSidebar() {
@@ -18,6 +18,7 @@ export default function DefaultLayout() {
       
       <Sidebar menuOpen={menuOpen} closeMenu={() => setMenuOpen(false)} />
 
+      {/* renderizar conteúdo das páginas de acordo com a rota */}
       <div className="flex flex-1 overflow-y-auto p-4">
         <Outlet />
       </div>

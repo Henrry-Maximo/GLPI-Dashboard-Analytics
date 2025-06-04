@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
-export default function Statistics() {
+export const Statistics = () => {
   // const ticketsByTechnicians = [
   //   { name: 'Técnico A', tickets: 120 },
   //   { name: 'Técnico B', tickets: 95 },

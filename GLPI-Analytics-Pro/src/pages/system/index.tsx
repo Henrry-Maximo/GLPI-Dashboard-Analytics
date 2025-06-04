@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 
-export default function SettingsPage() {
+export const Settings = () => {
   return (
     <div className="w-full m-24">
       <div className="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-md">

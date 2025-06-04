@@ -6,8 +6,8 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { fetchTicketsAll } from '@/http/fetch-tickets-all';
 import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
-import { CircleNotch, Hand, WarningCircle, X } from 'phosphor-react';
-import { useEffect, useState } from 'react';
+import { ChartLine, CircleNotch, Hand, List, ListBullets, ListChecks, WarningCircle, X } from 'phosphor-react';
+import React, { useEffect, useState } from 'react';
 import { FooterTicketsMonitoring } from '../monitoring/components/FooterTicketsMonitoring';
 import { getStatusDetails } from '@/utils/monitoring-status-icon-color';
 import { ExclamationMark } from '@phosphor-icons/react';
@@ -63,7 +63,7 @@ const priorityTicketsOperations = [
   },
 ];
 
-export default function Tickets() {
+export const ListTickets = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
@@ -104,10 +104,6 @@ export default function Tickets() {
     currentPage * itemsPerPage
   );
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchItem(e.target.value);
-  };
-
   if (isLoading) {
     return (
       <p
@@ -128,17 +124,11 @@ export default function Tickets() {
     );
   }
 
-  function handleClear() {
-    setSearchItem('');
-  }
-
-  // const dateCreatedTicket = formatDistance;
-
   return (
     <section className="w-full space-y-6">
       <HeaderRoot>
 				<HeaderIcon>
-					{/* <ChartLine size={30} className="text-orange-500" /> */}
+					 <ListChecks size={30} className="text-orange-500" /> 
 					Gerenciamento de Chamados
 				</HeaderIcon>
 
@@ -164,10 +154,10 @@ export default function Tickets() {
             className="w-full bg-white pr-12"
             type="text"
             value={searchItem}
-            onChange={handleInputChange}
+            onChange={(e) => setSearchItem(e.target.value)}
           />
           <Button
-            onClick={handleClear}
+            onClick={() => setSearchItem("")}
             disabled={!searchItem}
             className="absolute top-1/2 right-0 transform -translate-y-1/2 bg-transparent rounded-full shadow-none text-gray-500 hover:bg-gray-300 hover:text-gray-800 hover:rounded-full p-3"
           >
