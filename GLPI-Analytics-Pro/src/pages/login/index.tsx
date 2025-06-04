@@ -13,7 +13,7 @@ import type { JwtPayload } from 'jwt-decode';
 
 interface CustomJwtPayload extends JwtPayload {
   token: string;
-  name: string; // Defina aqui o campo 'name'
+  name: string;
 }
 
 export const Index = () => {
@@ -25,7 +25,6 @@ export const Index = () => {
   const [errorMessage, setErrorMessage] = useState('');
 
   // redirecionamento para home (já logado)
-
   const mutation = useMutation({
     mutationFn: login,
 
@@ -89,7 +88,7 @@ export const Index = () => {
                 required
                 maxLength={16}
                 value={password}
-                onChange={e => setPassword(e.target.value)}
+                onChange={(e) => setPassword(e.target.value)}
               />
               <label htmlFor="text">Senha</label>
               <Password className={styles.svgGroup} size={32} />

@@ -1,65 +1,75 @@
-import type { Ticket } from '@/@types/interface-tickets';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { fetchTicketsAll } from '@/http/fetch-tickets-all';
-import { useQuery } from '@tanstack/react-query';
-import dayjs from 'dayjs';
-import { ChartLine, CircleNotch, Hand, List, ListBullets, ListChecks, WarningCircle, X } from 'phosphor-react';
-import React, { useEffect, useState } from 'react';
-import { FooterTicketsMonitoring } from '../monitoring/components/FooterTicketsMonitoring';
-import { getStatusDetails } from '@/utils/monitoring-status-icon-color';
-import { ExclamationMark } from '@phosphor-icons/react';
-import { HeaderIcon, HeaderRoot, HeaderWrapper } from '../home/components/Header';
+import type { Ticket } from "@/@types/interface-tickets";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { fetchTicketsAll } from "@/http/fetch-tickets-all";
+import { getStatusDetails } from "@/utils/monitoring-status-icon-color";
+import { ExclamationMark } from "@phosphor-icons/react";
+import { useQuery } from "@tanstack/react-query";
+import dayjs from "dayjs";
+import {
+  CircleNotch,
+  Hand,
+  ListChecks,
+  WarningCircle,
+  X,
+} from "phosphor-react";
+import { useEffect, useState } from "react";
+import {
+  HeaderIcon,
+  HeaderRoot,
+  HeaderWrapper,
+} from "../home/components/Header";
+import { FooterTicketsMonitoring } from "../monitoring/components/FooterTicketsMonitoring";
 
 const statusTicketsOperation = [
   {
-    status: 'Novo',
-    className: 'bg-green-100 text-green-700',
+    status: "Novo",
+    className: "bg-green-100 text-green-700",
   },
   {
-    status: 'Em Atendimento (atribuído)',
-    className: 'bg-blue-100 text-blue-700',
+    status: "Em Atendimento (atribuído)",
+    className: "bg-blue-100 text-blue-700",
   },
   {
-    status: 'Em Atendimento (planejado)',
-    className: 'bg-pink-100 text-pink-700',
+    status: "Em Atendimento (planejado)",
+    className: "bg-pink-100 text-pink-700",
   },
   {
-    status: 'Pendente',
-    className: 'bg-yellow-50 text-yellow-500',
+    status: "Pendente",
+    className: "bg-yellow-50 text-yellow-500",
   },
   {
-    status: 'Solucionado',
-    className: 'bg-green-500 text-white',
+    status: "Solucionado",
+    className: "bg-green-500 text-white",
   },
   {
-    status: 'Fechado',
-    className: 'bg-green-100 text-gray-700',
+    status: "Fechado",
+    className: "bg-green-100 text-gray-700",
   },
 ];
 
 const priorityTicketsOperations = [
   {
-    priority: 'Muito alta',
-    className: 'bg-red-800 text-white',
+    priority: "Muito alta",
+    className: "bg-red-800 text-white",
   },
   {
-    priority: 'Alta',
-    className: 'bg-red-500 text-white',
+    priority: "Alta",
+    className: "bg-red-500 text-white",
   },
   {
-    priority: 'Média',
-    className: 'bg-red-400 text-white',
+    priority: "Média",
+    className: "bg-red-400 text-white",
   },
   {
-    priority: 'Baixa',
-    className: 'bg-red-300 text-white',
+    priority: "Baixa",
+    className: "bg-red-300 text-white",
   },
   {
-    priority: 'Muito baixa',
-    className: 'bg-red-200 text-white',
+    priority: "Muito baixa",
+    className: "bg-red-200 text-white",
   },
 ];
 
@@ -67,11 +77,11 @@ export const ListTickets = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
-  const [searchItem, setSearchItem] = useState('');
+  const [searchItem, setSearchItem] = useState("");
   const [filteredData, setFilteredData] = useState<Ticket[]>([]);
 
   const { data, isLoading, isError, dataUpdatedAt } = useQuery<Ticket[]>({
-    queryKey: ['tickets'],
+    queryKey: ["tickets"],
     queryFn: fetchTicketsAll,
     staleTime: 1000 * 300, // 5 minutos
     refetchInterval: 1000 * 60, // 1 minuto
@@ -83,7 +93,7 @@ export const ListTickets = () => {
       setCurrentPage(1);
 
       const filteredItems = data.filter(
-        ticket =>
+        (ticket) =>
           ticket.name.toLowerCase().includes(searchItem.toLowerCase()) ||
           ticket.applicant?.toLowerCase().includes(searchItem.toLowerCase()) ||
           ticket.technical?.toLowerCase().includes(searchItem.toLowerCase()) ||
@@ -127,16 +137,16 @@ export const ListTickets = () => {
   return (
     <section className="w-full space-y-6">
       <HeaderRoot>
-				<HeaderIcon>
-					 <ListChecks size={30} className="text-orange-500" /> 
-					Gerenciamento de Chamados
-				</HeaderIcon>
+        <HeaderIcon>
+          <ListChecks size={30} className="text-orange-500" />
+          Gerenciamento de Chamados
+        </HeaderIcon>
 
-				<HeaderWrapper>
-					{/* <HeaderInformations /> */}
-					{/* <HeaderButton>Filter</HeaderButton> */}
-				</HeaderWrapper>
-			</HeaderRoot>
+        <HeaderWrapper>
+          {/* <HeaderInformations /> */}
+          {/* <HeaderButton>Filter</HeaderButton> */}
+        </HeaderWrapper>
+      </HeaderRoot>
       {/* <header className="text-center">
         <h1 className="text-3xl font-bold text-slate-800">
           Gerenciamento de Chamados
@@ -169,7 +179,7 @@ export const ListTickets = () => {
       <ScrollArea className="h-[calc(85%-200px)] border rounded-md bg-gray-50 shadow-sm">
         <table className="table-auto w-full">
           <tbody className="divide-y divide-gray-300">
-            {paginatedData?.map(ticket => {
+            {paginatedData?.map((ticket) => {
               const { icon } = getStatusDetails(ticket.status);
               return (
                 <tr
@@ -181,7 +191,7 @@ export const ListTickets = () => {
                     <h2 className="text-sm text-slate-800">{ticket.name}</h2>
                   </td>
                   <td className="p-4 text-xs text-gray-500">
-                    Requerente: {ticket.applicant} <br /> Setor:{' '}
+                    Requerente: {ticket.applicant} <br /> Setor:{" "}
                     {ticket.location} <br /> Técnico: {ticket.technical}
                   </td>
                   <td
@@ -196,11 +206,11 @@ export const ListTickets = () => {
                       title={ticket.status}
                       className={`min-w-full gap-2 justify-center ${
                         statusTicketsOperation.find(
-                          item => item.status === ticket.status
-                        )?.className || 'bg-gray-100 text-gray-700'
+                          (item) => item.status === ticket.status
+                        )?.className || "bg-gray-100 text-gray-700"
                       }`}
                     >
-                      {ticket.status === 'Pendente' ? <Hand size={18} /> : icon}
+                      {ticket.status === "Pendente" ? <Hand size={18} /> : icon}
                     </Badge>
                   </td>
                   <td className="p-4">
@@ -209,8 +219,8 @@ export const ListTickets = () => {
                       title={ticket.priority}
                       className={`rounded-full min-w-full gap-2 justify-center ${
                         priorityTicketsOperations.find(
-                          row => row.priority === ticket.priority
-                        )?.className || 'bg-gray-100 text-gray-700'
+                          (row) => row.priority === ticket.priority
+                        )?.className || "bg-gray-100 text-gray-700"
                       }`}
                     >
                       <ExclamationMark size={20} />
@@ -239,7 +249,7 @@ export const ListTickets = () => {
       <div className="flex justify-center items-center gap-4 mt-4">
         <Button
           disabled={currentPage === 1}
-          onClick={() => setCurrentPage(prev => prev - 1)}
+          onClick={() => setCurrentPage((prev) => prev - 1)}
           className="px-4 py-2 border rounded bg-gray-600 hover:bg-gray-300 disabled:opacity-50"
         >
           Anterior
@@ -251,7 +261,7 @@ export const ListTickets = () => {
 
         <Button
           disabled={currentPage === totalPages}
-          onClick={() => setCurrentPage(prev => prev + 1)}
+          onClick={() => setCurrentPage((prev) => prev + 1)}
           className="px-4 py-2 border rounded bg-gray-600 hover:bg-gray-300 disabled:opacity-50"
         >
           Próxima
@@ -259,4 +269,4 @@ export const ListTickets = () => {
       </div>
     </section>
   );
-}
+};
