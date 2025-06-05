@@ -1,19 +1,11 @@
 import type { ElementType } from "react";
 import { Link } from "react-router-dom";
 
-// { icon: Icon, title, link, onClick }: NavItemProps
-// interface NavItemProps {
-//   icon: ElementType;
-//   title: string;
-//   link: string;
-//   onClick?: () => void;
-// }
-
 interface PropsNavigationLink {
   title: string
   path: string;
-  icon: ElementType;
-  clickNavigationLink?: () => void;
+  icon: ElementType; // tipo genérico
+  clickNavigationLink?: () => void; // função que não retorna nada
 }
 
 export const NavigationMenuLink = ({ title, path, icon: Icon, clickNavigationLink }: PropsNavigationLink) => {
