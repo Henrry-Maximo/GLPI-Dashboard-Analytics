@@ -10,10 +10,10 @@ export interface MainProps {
 }
 
 export interface ButtonProps {
-	toggleSidebar: (event: React.MouseEvent<HTMLButtonElement>) => void;
+	toggleSidebar: () => void;
 }
 
-export default function Header({ toggleSidebar }: ButtonProps) {
+export function Header({ toggleSidebar }: ButtonProps) {
 	return (
 		<div className="bg-gray-50 flex p-8 h-16 justify-between  items-center text-slate-900 border border-b-orange-500">
 			<button

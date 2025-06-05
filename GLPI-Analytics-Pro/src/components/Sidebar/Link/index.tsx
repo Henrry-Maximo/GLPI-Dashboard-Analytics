@@ -1,18 +1,28 @@
-import type { ElementType } from 'react';
-import { Link } from 'react-router-dom';
+import type { ElementType } from "react";
+import { Link } from "react-router-dom";
 
-interface NavItemProps {
+// { icon: Icon, title, link, onClick }: NavItemProps
+// interface NavItemProps {
+//   icon: ElementType;
+//   title: string;
+//   link: string;
+//   onClick?: () => void;
+// }
+
+interface PropsNavigationLink {
+  title: string
+  path: string;
   icon: ElementType;
-  title: string;
-  link: string;
-  onClick?: () => void;
+  clickNavigationLink?: () => void;
 }
 
-export function NavItem({ icon: Icon, title, link, onClick }: NavItemProps) {
+export const NavigationMenuLink = ({ title, path, icon: Icon, clickNavigationLink }: PropsNavigationLink) => {
   return (
     <Link
-      to={link}
-      onClick={onClick}
+      to={{
+        pathname: `${path}`,
+      }}
+      onClick={() => clickNavigationLink}
       className="group flex items-center gap-2 p-2 rounded hover:bg-white border border-transparent hover:border-orange-400 transition duration-300 ease-in-out"
     >
       <Icon
@@ -24,4 +34,4 @@ export function NavItem({ icon: Icon, title, link, onClick }: NavItemProps) {
       </span>
     </Link>
   );
-}
+};

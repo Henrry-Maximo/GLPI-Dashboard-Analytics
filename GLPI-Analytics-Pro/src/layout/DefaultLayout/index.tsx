@@ -1,13 +1,14 @@
 import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
-import Header from '../../components/Header/Header';
-import Sidebar from '../../components/Sidebar/Sidebar';
+import { Header } from '../../components/Header/Header';
+import { Sidebar } from '../../components/Sidebar/Sidebar';
 
 export const DefaultLayout = () => {
-  const [menuOpen, setMenuOpen] = useState(true);
+  // estado para controle de abertura e fechamento da sidebar
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   function toggleSidebar() {
-    setMenuOpen(!menuOpen);
+    setIsSidebarOpen(!isSidebarOpen);
   }
 
   return (
@@ -16,7 +17,7 @@ export const DefaultLayout = () => {
         <Header toggleSidebar={() => toggleSidebar()} />
       </div>
       
-      <Sidebar menuOpen={menuOpen} closeMenu={() => setMenuOpen(false)} />
+      <Sidebar disabled={isSidebarOpen}  />
 
       {/* renderizar conteúdo das páginas de acordo com a rota */}
       <div className="flex flex-1 overflow-y-auto p-4">
