@@ -26,6 +26,6 @@ export type DetailsTicketsResponse = [
   },
 ];
 
-export type authPropsResponse = {
+export type PropsAuthResponse = {
   token: string;
 };

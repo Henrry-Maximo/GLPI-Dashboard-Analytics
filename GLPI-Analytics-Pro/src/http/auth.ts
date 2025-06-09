@@ -1,6 +1,6 @@
-import type { authPropsResponse } from "../@types/interface-monitoring";
+import type { PropsAuthResponse } from "../@types/interface-monitoring";
 
-interface AuthPropsRequest {
+interface PropsAuthRequest {
   username: string;
   password: string;
 }
@@ -8,7 +8,7 @@ interface AuthPropsRequest {
 export async function login({
   username,
   password,
-}: AuthPropsRequest): Promise<authPropsResponse> {
+}: PropsAuthRequest): Promise<PropsAuthResponse> {
   const API_URL = import.meta.env.VITE_API_URL;
 
   const response = await fetch(`${API_URL}/api/sessions`, {

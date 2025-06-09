@@ -33,6 +33,8 @@ export const Index = () => {
         const decoded = jwtDecode<CustomJwtPayload>(data.token);
         const { name } = decoded;
 
+        // sessionStorage vs localStorage: limpa tudo ao fechar o navegador / persistência dos dados
+
         sessionStorage.setItem('jwt', data.token);
         sessionStorage.setItem('name', name);
 
