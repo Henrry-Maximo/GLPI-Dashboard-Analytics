@@ -26,6 +26,4 @@ export type DetailsTicketsResponse = [
   },
 ];
 
-export type PropsAuthResponse = {
-  token: string;
-};
+

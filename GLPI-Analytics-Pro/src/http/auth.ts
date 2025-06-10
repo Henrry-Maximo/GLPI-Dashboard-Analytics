@@ -1,36 +1,30 @@
-import type { PropsAuthResponse } from "../@types/interface-monitoring";
+import { PropsAuthRequest, PropsAuthResponse } from "@/@types/interface-login";
 
-interface PropsAuthRequest {
-  username: string;
-  password: string;
-}
-
-export async function login({
+export const Login = async ({
   username,
   password,
-}: PropsAuthRequest): Promise<PropsAuthResponse> {
+}: PropsAuthRequest): Promise<PropsAuthResponse> => {
   const API_URL = import.meta.env.VITE_API_URL;
 
-  const response = await fetch(`${API_URL}/api/sessions`, {
-    method: "POST",
+  try {
+    const response = await fetch(`${API_URL}/api/sessions`, {
+      method: "POST",
 
-    headers: {
-      "Content-Type": "application/json",
-    },
+      headers: {
+        "Content-Type": "application/json",
+      },
 
-    body: JSON.stringify({
-      name: username,
-      password: password,
-    }),
-  });
+      body: JSON.stringify({
+        name: username,
+        password: password,
+      }),
+    });
+    // if (!response.ok) throw new Error("Please, verify status API.");
 
-  if (!response.ok) {
-    const { message } = await response.json();
-    return message;
-    // throw new Error(message);
+    const { token } = await response.json();
+    return { token };
+  } catch (err) {
+    console.error(err);
+    throw new Error('Erro no fetch login.');
   }
-
-  const { token } = await response.json();
-
-  return { token };
-}
+};
