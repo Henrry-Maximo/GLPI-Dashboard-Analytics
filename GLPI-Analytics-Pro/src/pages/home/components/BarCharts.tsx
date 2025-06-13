@@ -113,7 +113,7 @@ export function BarChartsTickets({
 
   return (
     <div className="flex flex-col gap-4 h-full">
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-2 gap-4 flex-1">
         <Card>
           <CardHeader className="flex flex-col items-stretch space-y-0 border-b p-0 sm:flex-row">
             <div className="flex flex-1 flex-col justify-center gap-1 px-6 py-5 sm:py-6">
@@ -148,7 +148,7 @@ export function BarChartsTickets({
             </div>
           </CardHeader>
 
-          <CardContent className="px-2 sm:p-6">
+          <CardContent className="flex-inline px-2 sm:p-6 items-center flex-1">
             <ChartContainer
               config={chartConfig}
               className="aspect-auto h-[250px] w-full"
@@ -221,7 +221,7 @@ export function BarChartsTickets({
           </CardContent>
         </Card>
 
-        <section className="bg-red-white flex flex-col shadow-sm h-[25rem] rounded-t-xl">
+        <section className="bg-red-white flex flex-col shadow-sm rounded-t-xl">
           <header className="bg-white py-5 px-6 border-t-2 border-l-2 border-r-2 border-b-0 rounded-t-xl">
             <h1 className="font-semibold">Chamados Atrasados</h1>
             <span className="text-orange-500 text-sm">
@@ -317,7 +317,7 @@ export function BarChartsTickets({
         </section>
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
+      {/* <div className="grid grid-cols-2 gap-4"> */}
         {/* <CardRoot className="shadow-lg bg-gray-50">
           <CardHeader>
             <CardTitle>Chamados por Categoria</CardTitle>
@@ -549,7 +549,7 @@ export function BarChartsTickets({
             </div>
           </CardFooter>
         </CardRoot> */}
-      </div>
+      {/* </div> */}
 
       {/* <CardRoot className="grid shadow-lg bg-gray-50 w-1/4">
           <CardHeader className="items-center pb-0">

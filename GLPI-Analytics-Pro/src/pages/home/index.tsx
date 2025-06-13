@@ -46,7 +46,7 @@ export const Home = () => {
   }
 
   return (
-    <main className="flex flex-col w-full h-[max-content] flex-1">
+    <main className="flex flex-col w-full h-[max-content] h-full">
       {statusTickets && (
         <>
           <Header name="Dashboard" />
@@ -101,7 +101,7 @@ export const Home = () => {
             </CardWrapper>
           </CardRoot>
 
-          <div className="flex flex-col max-h-screen w-full mt-2">
+          <div className="flex flex-col max-h-screen w-full mt-2 flex-1">
             {summaryData && (
               <BarChartsTickets
                 // priority={statusTickets.meta.priority}
