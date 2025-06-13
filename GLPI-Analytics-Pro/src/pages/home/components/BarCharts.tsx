@@ -148,7 +148,7 @@ export function BarChartsTickets({
             </div>
           </CardHeader>
 
-          <CardContent className="flex-inline px-2 sm:p-6 items-center flex-1">
+          <CardContent className="flex px-2 sm:p-6 items-center flex-1">
             <ChartContainer
               config={chartConfig}
               className="aspect-auto h-[250px] w-full"
@@ -221,7 +221,7 @@ export function BarChartsTickets({
           </CardContent>
         </Card>
 
-        <section className="bg-red-white flex flex-col shadow-sm rounded-t-xl">
+        <section className="bg-red-white flex flex-col shadow-sm rounded-t-xl flex-1 max-h-[33rem]">
           <header className="bg-white py-5 px-6 border-t-2 border-l-2 border-r-2 border-b-0 rounded-t-xl">
             <h1 className="font-semibold">Chamados Atrasados</h1>
             <span className="text-orange-500 text-sm">
@@ -229,7 +229,7 @@ export function BarChartsTickets({
             </span>
           </header>
           {delayed.length ? (
-            <ScrollArea className="overflow-y-auto bg-white border shadow-sm flex-1">
+            <ScrollArea className="overflow-y-scroll bg-white border shadow-sm flex-1">
               <table className="table-auto h-full w-full border rounded-b-md">
                 <thead className=" font-light text-center">
                   <tr>
