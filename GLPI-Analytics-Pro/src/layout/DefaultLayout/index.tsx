@@ -1,25 +1,25 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import { Header } from "../../components/Header/Header";
 import { Sidebar } from "../../components/Sidebar/Sidebar";
 
 export const DefaultLayout = () => {
-  // estado para controle de abertura e fechamento da sidebar
   const [show, setShow] = useState(true);
+  const sidebarStorageKey = "sidebar";
 
-  // const saved = localStorage.getItem("sidebar");
-  // return saved === null ? true : JSON.parse(saved);
+  useEffect(() => {
+    const savedStatusSidebar = localStorage.getItem(sidebarStorageKey);
 
-  // useEffect(() => {
-  //   localStorage.setItem('sidebar', JSON.stringify(show));
-    
-    // const statusSidebar = localStorage.getItem('statusSidebar');
-    // console.log(statusSidebar);
-    // console.log("mostrar/ocultar");
-  // }, [show]);
+    if (savedStatusSidebar !== null) {
+      setShow(JSON.parse(savedStatusSidebar)); // só parseia se existir
+    }
+  }, []);
 
   function toggleSidebar() {
-    setShow(!show);
+    const newValueShow = !show;
+
+    setShow(newValueShow);
+    localStorage.setItem(sidebarStorageKey, JSON.stringify(newValueShow));
   }
 
   return (

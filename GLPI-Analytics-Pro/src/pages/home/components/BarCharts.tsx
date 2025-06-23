@@ -221,7 +221,7 @@ export function BarChartsTickets({
           </CardContent>
         </Card>
 
-        <section className="bg-red-white flex flex-col shadow-sm rounded-t-xl flex-1 max-h-[33rem]">
+        <section className="bg-red-white flex flex-col shadow-sm rounded-t-xl h-[calc(100vh-18rem)] overflow-y-auto">
           <header className="bg-white py-5 px-6 border-t-2 border-l-2 border-r-2 border-b-0 rounded-t-xl">
             <h1 className="font-semibold">Chamados Atrasados</h1>
             <span className="text-orange-500 text-sm">
@@ -318,7 +318,7 @@ export function BarChartsTickets({
       </div>
 
       {/* <div className="grid grid-cols-2 gap-4"> */}
-        {/* <CardRoot className="shadow-lg bg-gray-50">
+      {/* <CardRoot className="shadow-lg bg-gray-50">
           <CardHeader>
             <CardTitle>Chamados por Categoria</CardTitle>
             <CardDescription>
@@ -363,7 +363,7 @@ export function BarChartsTickets({
           </CardFooter>
         </CardRoot> */}
 
-        {/* <CardRoot className="shadow-lg bg-gray-50">
+      {/* <CardRoot className="shadow-lg bg-gray-50">
           <CardHeader>
             <CardTitle>Chamados Por Urgência</CardTitle>
             <CardDescription>Resumo dos Chamados Por Urgência</CardDescription>
@@ -404,7 +404,7 @@ export function BarChartsTickets({
           </CardFooter>
         </CardRoot> */}
 
-        {/* <CardRoot>
+      {/* <CardRoot>
           <CardHeader>
             <CardTitle>Chamados Solucionados por Técnico</CardTitle>
             <CardDescription>Total de Chamados por Técnico</CardDescription>
@@ -465,7 +465,7 @@ export function BarChartsTickets({
           </CardFooter>
         </CardRoot> */}
 
-        {/* <CardRoot className="shadow-lg bg-gray-50 ">
+      {/* <CardRoot className="shadow-lg bg-gray-50 ">
           <CardHeader>
             <CardTitle>Chamados Atrasados</CardTitle>
             <CardDescription>Resumo dos Chamados Por Atraso</CardDescription>
