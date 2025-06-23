@@ -11,6 +11,7 @@ export const DefaultLayout = () => {
     const savedStatusSidebar = localStorage.getItem(sidebarStorageKey);
 
     if (savedStatusSidebar !== null) {
+      // JSON.parse() => converte o valor para o original (booleano)
       setShow(JSON.parse(savedStatusSidebar)); // só parseia se existir
     }
   }, []);
@@ -20,6 +21,9 @@ export const DefaultLayout = () => {
 
     setShow(newValueShow);
     localStorage.setItem(sidebarStorageKey, JSON.stringify(newValueShow));
+
+    // JSON.stringify() => converte o valor para string
+    // localStorage só aceita valores em string, nada de tipos como booleanos, objetos ou arrays
   }
 
   return (
