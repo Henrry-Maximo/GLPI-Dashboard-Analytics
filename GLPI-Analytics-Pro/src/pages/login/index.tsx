@@ -25,6 +25,7 @@ export const Index = () => {
 
   async function handleLogin(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    // TODO FIX: State of loading
     try {
       if (!username.trim() || !password.trim()) {
         showWarning("Fill in all fields.");
@@ -41,6 +42,7 @@ export const Index = () => {
       const decoded = jwtDecode<CustomJwtPayload>(token);
       const { name } = decoded;
 
+      // TODO FIX: Cookies HttpOnly  / Protection against multiple login attempts 
       const storage = rememberMe ? localStorage : sessionStorage;
       storage.setItem("jwt", token);
       storage.setItem("name", name);
@@ -116,6 +118,7 @@ export const Index = () => {
             </div>
           </div>
 
+          {/* TODO FIX: Disabled button in process login */}
           <button type="submit" className={styles.accessLogin}>
             Acessar
           </button>
