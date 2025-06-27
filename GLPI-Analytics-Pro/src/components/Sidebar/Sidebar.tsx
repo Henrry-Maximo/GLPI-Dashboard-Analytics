@@ -19,6 +19,7 @@ import { NavigationMenuLink } from "./Link";
 function handleLogout() {
   const navigate = useNavigate();
 
+  sessionStorage.removeItem("name");
   sessionStorage.removeItem("jwt");
   navigate("/login");
 }

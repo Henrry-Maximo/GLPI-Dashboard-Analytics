@@ -19,30 +19,43 @@ export const Index = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [warning, setWarning] = useState("");
+  const [rememberMe, setRememberMe] = useState(false);
 
   const navigate = useNavigate();
 
   async function handleLogin(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const { token } = await Login({ username, password });
+    try {
+      if (!username.trim() || !password.trim()) {
+        showWarning("Fill in all fields.");
+        return;
+      }
 
-    if (!token || token.length === 0) {
-      setWarning("Username or passord incorrect!");
+      const { token } = await Login({ username, password });
 
-      setTimeout(() => {
-        setWarning('');
-      }, 5000) // 5 segundos
+      if (!token || token.length === 0) {
+        showWarning("Username or password incorrect!");
+        return;
+      }
 
-      return;
+      const decoded = jwtDecode<CustomJwtPayload>(token);
+      const { name } = decoded;
+
+      const storage = rememberMe ? localStorage : sessionStorage;
+      storage.setItem("jwt", token);
+      storage.setItem("name", name);
+
+      navigate("/main/home");
+    } catch (error) {
+      showWarning("Error in connection. Try again.");
     }
-
-    const decoded = jwtDecode<CustomJwtPayload>(token);
-    const { name } = decoded;
-
-    sessionStorage.setItem("jwt", token);
-    sessionStorage.setItem("name", name);
-
-    navigate("/main/home");
+  }
+  
+  const showWarning = (message: string) => {
+    setWarning(message);
+    setTimeout(() => {
+      setWarning('');
+    }, 5000)
   }
 
   return (
@@ -65,8 +78,10 @@ export const Index = () => {
                 maxLength={25}
                 value={username}
                 onChange={(event) => setUsername(event.target.value)}
+                aria-label="Usuário"
+                id="username"
               />
-              <label htmlFor="text">Usuário</label>
+              <label htmlFor="username">Usuário</label>
               <User className={styles.svgGroup} size={32} />
             </div>
 
@@ -77,20 +92,27 @@ export const Index = () => {
                 maxLength={16}
                 value={password}
                 onChange={(event) => setPassword(event.target.value)}
+                aria-label="Senha"
+                id="password"
               />
-              <label htmlFor="text">Senha</label>
+              <label htmlFor="password">Senha</label>
               <Password className={styles.svgGroup} size={32} />
             </div>
           </div>
 
           <div className={styles.rememberAndPassword}>
             <div className={styles.wrapperRememberMe}>
-              <input type="checkbox" />
-              <label htmlFor="text">Lembrar de mim.</label>
+              <input
+                type="checkbox" 
+                id="rememberMe" 
+                checked={rememberMe}
+                onChange={(event) => setRememberMe(event.target.checked)}
+              />
+              <label htmlFor="rememberMe">Lembrar de mim.</label>
             </div>
 
             <div>
-              <a href="/">Esqueci minha senha.</a>
+              <a href="/reset-password">Esqueci minha senha.</a>
             </div>
           </div>
 

@@ -61,7 +61,6 @@
   outline: none;
   background: transparent;
   border-bottom: 1px solid var(--gray-700);
-  outline: none;
   color: var(--gray-700);
   transition: all 0.3s ease;
 }
@@ -107,7 +106,7 @@
   width: 1rem;
   height: 1rem;
   border-radius: 2px;
-  background-color: var(--gray-700);
+  /* background-color: var(--gray-700); */
   border: 1px solid var(--gray-700);
   position: relative;
   cursor: pointer;
