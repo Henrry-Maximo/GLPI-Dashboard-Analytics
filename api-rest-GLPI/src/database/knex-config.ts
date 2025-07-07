@@ -1,6 +1,4 @@
-import type { Knex } from "knex";
-
-import { knex as setupKnex } from "knex";
+import { knex as setupKnex, type Knex } from "knex";
 import { env } from "../env";
 
 // Configuração básica
