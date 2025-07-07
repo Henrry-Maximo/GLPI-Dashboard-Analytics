@@ -2,36 +2,39 @@ import { knex } from "@/database/knex-config";
 import { compare } from "bcryptjs";
 import { InvalidCredentialsError } from "./errors/invalid-credentials.error";
 
-interface AuthenticateUseCaseRequest {
+interface signInUseCaseRequest {
   name: string;
   password: string;
 }
 
-interface AuthenticateUseCaseResponse {
+interface signInUseCaseResponse {
   user: {
     id: string;
     name: string;
-    password: string;
   };
 }
 
-export async function authenticate({
+export const signInUseCase = async ({
   name,
   password,
-}: AuthenticateUseCaseRequest): Promise<AuthenticateUseCaseResponse> {
-  const [user] = await knex("glpi_users")
+}: signInUseCaseRequest): Promise<signInUseCaseResponse> => {
+  const user = await knex("glpi_users")
     .select("name", "password", "id")
-    .where("name", name).andWhere('is_active', 1);
+    .where("name", name)
+    .andWhere("is_active", 1)
+    .first();
 
   if (!user) {
     throw new InvalidCredentialsError();
   }
 
   const doesPasswordMatche = await compare(password, user.password);
-  
+
   if (!doesPasswordMatche) {
     throw new InvalidCredentialsError();
   }
 
-  return { user };
-}
+  const { password: _, ...userWithoutPassword } = user;
+
+  return { user: userWithoutPassword };
+};

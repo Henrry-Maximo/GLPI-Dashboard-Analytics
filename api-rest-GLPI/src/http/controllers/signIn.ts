@@ -1,20 +1,21 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
 
-import { authenticate } from "@/use-cases/authenticate";
 import { InvalidCredentialsError } from "@/use-cases/errors/invalid-credentials.error";
+import { signInUseCase } from "@/use-cases/signIn";
 
 import z from "zod";
 
-export async function login(req: FastifyRequest, reply: FastifyReply) {
+
+export const signIn = async (req: FastifyRequest, reply: FastifyReply) => {
   const userBodyRequest = z.object({
     name: z.string(),
-    password: z.string(),
+    password: z.string().min(1).max(34),
   });
 
   const { name, password } = userBodyRequest.parse(req.body);
 
   try {
-    const { user } = await authenticate({ name, password });
+    const { user } = await signInUseCase({ name, password });
 
     const token = await reply.jwtSign(
       {

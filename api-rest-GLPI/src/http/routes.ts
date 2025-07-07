@@ -1,6 +1,6 @@
 import type { FastifyInstance } from "fastify";
 
-import { login } from "./controllers/login";
+import { signIn } from "./controllers/signIn";
 import { register } from "./controllers/register";
 
 import { ticketsController } from "./controllers/tickets";
@@ -9,7 +9,7 @@ import { usersController } from "./controllers/users";
 
 export async function appRoutes(app: FastifyInstance) {
   // definindo rotas
-  app.post("/sessions", login);
+  app.post("/sessions", signIn);
   app.post("/register", register);
 
   // registrando módulos

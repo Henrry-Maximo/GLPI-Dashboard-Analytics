@@ -6,6 +6,7 @@ import { ZodError } from "zod";
 
 import { env } from "./env";
 import { appRoutes } from "./http/routes";
+import { ServerInternalError } from "./use-cases/errors/server-internal-error";
 
 /**
  * Configuração da aplicação Fastify
@@ -45,8 +46,12 @@ app.setErrorHandler((error, _, reply) => {
   }
 
   if (env.NODE_ENV === "production") {
+    console.error(error);
+  } else {
     // Todo: rastreamento de erros na produção
   }
 
-  return reply.status(500).send({ message: "Internal Server Error." });
+  if (error instanceof ServerInternalError) {
+    return reply.status(500).send({ message: error.message });
+  }
 });
