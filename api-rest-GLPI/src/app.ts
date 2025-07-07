@@ -2,31 +2,40 @@ import { fastify } from "fastify";
 import { fastifyCors } from "@fastify/cors";
 import { fastifyCookie } from "@fastify/cookie";
 import { fastifyJwt } from "@fastify/jwt";
-
-import { env } from "./env";
 import { ZodError } from "zod";
 
-import { routes } from "./http/routes";
+import { env } from "./env";
+import { appRoutes } from "./http/routes";
 
+/**
+ * Configuração da aplicação Fastify
+ */
 export const app = fastify({
-  logger: true, // log nativo do Fastify
+  logger: true, // habilitar logs do servidor
 });
 
-
+/**
+ * Registro de plugins
+ */
 app.register(fastifyCors, {
-  origin: "*", // qualquer endereço pode solicitar a api
+  origin: "*", // sem restrição de solicitação de endereço
 });
 
 app.register(fastifyJwt, {
-  secret: env.JWT_SECRET, // gerar JWT baseando-se no segredo 
+  secret: env.JWT_SECRET, // gerar JWT baseando-se no segredo
 });
 
 app.register(fastifyCookie);
 
-app.register(routes, {
-  prefix: "/api" // disponibilizando função de rotas com prefixo: ip/api/endpoint
+app.register(appRoutes, {
+  prefix: "/api" // rotas com prefixo: /api/endpoint
 });
 
+/**
+ * Handler global de erros
+ * - Trata erros de validação (ZodError)
+ * - Retorna erro genérico para outros tipos
+ */
 app.setErrorHandler((error, _, reply) => {
   if (error instanceof ZodError) {
     return reply.status(400).send({
@@ -34,17 +43,10 @@ app.setErrorHandler((error, _, reply) => {
       issues: error.format(),
     });
   }
-  /*
-  Função `setErrorHandler` utilizada para evidênciar
-  erros em toda a aplicação
-    - Tratar erros de validação retornados pelo tipo `ZodError`
-    - Retorna erro genérico (500) para outros tipos de erros
-  */
 
-  // * Registrar erros em ambiente de prod
-  // if (env.NODE_ENV === "production") {
-  // Tarefa: rastreamento de erro
-  // }
+  if (env.NODE_ENV === "production") {
+    // Todo: rastreamento de erros na produção
+  }
 
   return reply.status(500).send({ message: "Internal Server Error." });
 });

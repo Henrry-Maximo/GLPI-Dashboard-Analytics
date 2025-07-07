@@ -7,7 +7,7 @@ import { ticketsController } from "./controllers/tickets";
 import { categoriesController } from "./controllers/categories";
 import { usersController } from "./controllers/users";
 
-export async function routes(app: FastifyInstance) {
+export async function appRoutes(app: FastifyInstance) {
   // definindo rotas
   app.post("/sessions", login);
   app.post("/register", register);

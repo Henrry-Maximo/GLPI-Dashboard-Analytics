@@ -1,63 +1,121 @@
+# GLPI Dashboard Analytics API
 
-## API ENDPOINTS
+API REST para análise e visualização de dados do sistema GLPI, fornecendo endpoints para dashboards e relatórios analíticos.
 
-# USER
-- [x] api-glpi/user/users - lista de usuários por nome
-- [x] api-glpi/user/users-by-count - lista de contagem de usuários existentes
-- [x] api-glpi/user/users-by-tickets - lista de contagem de chamados por usuário
+## Visão Geral
 
-# TICKET
-- [x] api-glpi/tickets/search - lista de chamados ou chamado específico:
-  - Modo de uso: passar número do chamado para `id`.
+Esta API conecta-se ao banco de dados do GLPI para extrair e processar informações sobre chamados, usuários e categorias, oferecendo dados estruturados para dashboards e análises.
 
-- [x] api-glpi/tickets/state - contagem de chamados por status/categories/urgency (default: status):
-  - Modo de uso: passar o valor "true" para `filter` e passar `by` para pesquisar entre urgência ou categorias `urgency || categories`.
+## Tecnologias
 
-- [x] api-glpi/tickets/date - lista de quantidade de chamados por status `solucionado` e data de criação.  
+- **Node.js** com **TypeScript**
+- **Fastify** (Framework web)
+- **Knex.js** (Query builder)
+- **MySQL** (Banco de dados GLPI)
+- **JWT** (Autenticação)
+- **Zod** (Validação de dados)
 
-- [x] api-glpi/tickets/last - último chamado cadastrado.
+## API Endpoints
 
-- [x] api-glpi/ticket/tickets-by-count-status - lista de contagem de chamados por status
-- [x] api-glpi/ticket/tickets-by-status-date - lista de contagem de chamados por status ao longo do tempo
-- [x] api-glpi/ticket/tickets-by-count-urgency - lista de contagem de chamados por urgência
-- [x] api-glpi/ticket/tickets-by-categorie - lista de contagem de chamados associados a uma categoria
-- [x] api-glpi/ticket/tickets-last-by-categorie - lista de chamados por categoria (últimos 10)
-- [x] api-glpi/ticket/tickets-line-time - lista de chamados por entidade/status/urgência/usuário/técnico (últimos 10)
-- [x] api-glpi/ticket/tickets-late - lista de contagem de chamados que atingiram o prazo do SLA (últimos 10)
-- [x] api-glpi/ticket/tickets-line-late-by-status-date - lista de contagem de chamados (quantidade) por status e data
-- [x] api-glpi/ticket/tickets-by-technician - lista de contagem de chamados (quantidade) por técnico
-- [x] api-glpi/ticket/tickets-by-type - lista de contagem de chamados (quantidade) por tipo
-- [x] api-glpi/ticket/tickets-by-technician-solution - lista de contagem de chamados (quantidade) que foram solucionados por técnico
+### Autenticação
+- `POST /api/sessions` - Login de usuário
+- `POST /api/register` - Registro de novo usuário
 
-# CATEGORY
-- [x] api-glpi/categorie/categories - lista de categorias por nome
-- [x] api-glpi/categorie/categories-by-count - lista com o total de categorias existentes
+### Usuários
+- `GET /api/users` - Lista usuários por nome
+- `GET /api/users/count` - Contagem total de usuários
+- `GET /api/users/tickets` - Contagem de chamados por usuário
 
-## REQUIREMENTS
+### Chamados (Tickets)
+- `GET /api/tickets/search` - Busca chamados (específico por ID)
+- `GET /api/tickets/state` - Contagem por status/categoria/urgência
+- `GET /api/tickets/date` - Chamados solucionados por data
+- `GET /api/tickets/last` - Último chamado cadastrado
+- `GET /api/tickets/status` - Contagem por status
+- `GET /api/tickets/status-date` - Evolução por status ao longo do tempo
+- `GET /api/tickets/urgency` - Contagem por urgência
+- `GET /api/tickets/category` - Contagem por categoria
+- `GET /api/tickets/category/last` - Últimos 10 por categoria
+- `GET /api/tickets/timeline` - Timeline por entidade/status/urgência
+- `GET /api/tickets/sla` - Chamados que atingiram prazo SLA
+- `GET /api/tickets/technician` - Contagem por técnico
+- `GET /api/tickets/type` - Contagem por tipo
+- `GET /api/tickets/technician/solutions` - Soluções por técnico
 
-# FUNCTIONAL REQUIREMENTS
-- [x] Usuário deve poder se autenticar (id, password);
-- [] Usuário deve poder escanear QRCode do MFA;
-- [] Usuário deve poder se autenticar no MFA digitando o código;
-- [] Usuário deve poder visualizar informações de cadastro previamente no header;
-  - [] Nome, Entidade, Localização, Comentário e Picture.
-- [] Usuário deve poder visualizar perfil;
-  - [] Nome, Última Atualização de Senha, Localização, Status, Comentário, Último Login, Data de Criação, User AD, User AD Hash e Picture.
-- [] Usuário deve poder visualizar painel primário sobre suas estatísticas; 
-- [] Usuário deve poder registrar uma tarefa;
-- [] Usuário deve poder modificar uma tarefa;
-- [] Usuário deve poder exluir uma tarefa;
-- [] Usuário deve poder apenas visualizar suas tarefas;
+### Categorias
+- `GET /api/categories` - Lista categorias por nome
+- `GET /api/categories/count` - Contagem total de categorias
 
-# NON-FUNCTIONAL REQUIREMENTS
-- [] Desempenho: alcançar uma eficiência de resposta de até 5 segundos;
-- [] Utilizar Web Token (JWT) no acesso às operações da aplicação (rotas);
+## Requisitos Funcionais
 
-# RULES BUSINESS
-- [] O sistema precisa possuir cargos: self-service/administrador
-- [] Por padrão, o usuário glpi_system recebe permissão de administrador;
-- [] O usuário automáticamente recebe permissão de self-service;
-- [] O adm do sistema pode transformar o usuário em um administrador;
-- [] O administrador do sistema precisa liberar o acesso ao usuário (status);
-- [] O usuário da aplicação pode escolher entre tema preto/branco;
+### Autenticação e Autorização
+- [x] Login com usuário e senha
+- [x] Registro de novos usuários
+- [x] Autenticação JWT
+- [ ] Autenticação MFA (QR Code e código manual)
+- [ ] Perfis de usuário (self-service/administrador)
 
+### Dashboard e Visualização
+- [x] Dados analíticos de chamados
+- [x] Estatísticas de usuários
+- [x] Métricas de categorias
+- [ ] Painel personalizado por usuário
+- [ ] Informações de perfil completas
+
+### Gestão de Dados
+- [x] Consulta de dados GLPI
+- [x] Agregação e análise de métricas
+- [ ] Gestão de tarefas pessoais
+- [ ] Filtros avançados por permissão
+
+## Requisitos Não Funcionais
+
+- **Performance**: Tempo de resposta ≤ 5 segundos
+- **Segurança**: Autenticação JWT obrigatória
+- **Escalabilidade**: Suporte a múltiplos usuários simultâneos
+- **Disponibilidade**: API REST stateless
+
+## Regras de Negócio
+
+### Permissões
+- **Self-service**: Acesso limitado aos próprios dados
+- **Administrador**: Acesso completo a todos os dados
+- Usuário `glpi_system` possui permissão de administrador por padrão
+- Administradores podem promover usuários
+- Status do usuário deve estar ativo para acesso
+
+### Dados
+- Apenas usuários ativos podem se autenticar
+- Dados sensíveis são protegidos por nível de acesso
+- Histórico de chamados preserva integridade temporal
+- SLA é calculado baseado em regras do GLPI
+
+## Instalação e Uso
+
+```bash
+# Instalar dependências
+npm install
+
+# Configurar variáveis de ambiente
+cp .env.example .env
+
+# Executar em desenvolvimento
+npm run start:dev
+
+# Build para produção
+npm run build
+npm start
+```
+
+## Estrutura do Projeto
+
+```
+src/
+├── @types/          # Definições de tipos
+├── database/        # Configuração do banco
+├── env/            # Variáveis de ambiente
+├── http/           # Controllers e rotas
+├── use-cases/      # Lógica de negócio
+├── app.ts          # Configuração da aplicação
+└── server.ts       # Inicialização do servidor
+```
