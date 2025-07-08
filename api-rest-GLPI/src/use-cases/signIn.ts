@@ -1,5 +1,5 @@
-import { knex } from "@/database/knex-config";
 import { compare } from "bcryptjs";
+
 import { InvalidCredentialsError } from "./errors/invalid-credentials.error";
 import { KnexUsersRepository } from "@/repositories/knex-users-repository";
 
