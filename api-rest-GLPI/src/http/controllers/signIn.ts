@@ -5,14 +5,13 @@ import { signInUseCase } from "@/use-cases/signIn";
 
 import z from "zod";
 
-
 export const signIn = async (req: FastifyRequest, reply: FastifyReply) => {
-  const userBodyRequest = z.object({
+  const userBodySchema = z.object({
     name: z.string(),
     password: z.string().min(1).max(34),
   });
 
-  const { name, password } = userBodyRequest.parse(req.body);
+  const { name, password } = userBodySchema.parse(req.body);
 
   try {
     const { user } = await signInUseCase({ name, password });
