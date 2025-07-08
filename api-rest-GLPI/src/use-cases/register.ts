@@ -1,4 +1,3 @@
-import { knex } from "@/database/knex-config";
 import { InvalidCredentialsError } from "./errors/invalid-credentials.error";
 import { randomInt } from "crypto";
 import { hash } from "bcryptjs";
@@ -23,9 +22,7 @@ export async function registerUseCase({
   const randomSalt = randomInt(6, 10);
   const passwordHash = await hash(password, randomSalt);
 
-  const [row] = await knex("glpi_users")
-    .insert({ name, password: passwordHash })
-    .returning("*");
+  const user = await knexUsersRepository.create(name, passwordHash);
 
-  return { row };
+  return { user };
 }
