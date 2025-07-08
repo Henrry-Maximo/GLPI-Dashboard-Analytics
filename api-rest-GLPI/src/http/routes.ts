@@ -1,7 +1,7 @@
 import type { FastifyInstance } from "fastify";
 
-import { signIn } from "./controllers/signIn";
-import { register } from "./controllers/register";
+import { signIn } from "./controllers/users/signIn";
+import { register } from "./controllers/users/register";
 
 import { ticketsController } from "./controllers/tickets";
 import { categoriesController } from "./controllers/categories";

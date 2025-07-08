@@ -10,4 +10,12 @@ export class KnexUsersRepository {
     
     return { user };
   }
+
+  async findByName(name: string) {
+    const user = await knex("glpi_users")
+      .where("name", name)
+      .first();
+
+    return { userWithSameName: user }
+  }
 }

@@ -10,7 +10,7 @@ interface signInUseCaseRequest {
 
 interface signInUseCaseResponse {
   user: {
-    id: string;
+    id: number;
     name: string;
   };
 }
