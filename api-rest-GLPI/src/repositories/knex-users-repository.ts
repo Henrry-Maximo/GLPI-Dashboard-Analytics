@@ -7,9 +7,10 @@ export class KnexUsersRepository {
       .select("name", "password", "id")
       .where("name", name)
       .andWhere("is_active", 1)
+      .andWhereNot("password", null)
       .first();
     
-    return { user };
+    return { user } ;
   }
 
   async create(name: string, passwordHash: string): Promise<Tables["glpi_users"]> {

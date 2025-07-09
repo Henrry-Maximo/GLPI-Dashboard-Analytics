@@ -13,9 +13,9 @@ export async function register(req: FastifyRequest, reply: FastifyReply) {
   const { name, password } = userBodySchema.parse(req.body);
 
   try {
-    await registerUseCase({ name, password });
+    const { user } = await registerUseCase({ name, password });
 
-    return reply.status(201).send({ message: "User creating with successful." });
+    return reply.status(201).send({ data: user.name, message: "User creating with successful." });
   } catch (err) {
     if (err instanceof InvalidCredentialsError) {
       return reply.status(400).send({ message: err.message });
