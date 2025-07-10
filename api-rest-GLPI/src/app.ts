@@ -50,8 +50,6 @@ app.setErrorHandler((error, _, reply) => {
   } else {
     // Todo: rastreamento de erros na produção
   }
-
-  if (error instanceof ServerInternalError) {
-    return reply.status(500).send({ message: error.message });
-  }
+  
+  return reply.status(500).send({ message: error.message });
 });

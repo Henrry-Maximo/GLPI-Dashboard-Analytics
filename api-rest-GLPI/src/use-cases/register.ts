@@ -1,7 +1,7 @@
 import { InvalidCredentialsError } from "./errors/invalid-credentials.error";
 import { randomInt } from "crypto";
 import { hash } from "bcryptjs";
-import { KnexUsersRepository } from "@/repositories/knex-users-repository";
+import { KnexUsersRepository } from "@/repositories/knex/knex-users-repository";
 
 interface authenticateUseCaseRequest {
   name: string;
@@ -13,9 +13,9 @@ export async function registerUseCase({
   password,
 }: authenticateUseCaseRequest) {
   const knexUsersRepository = new KnexUsersRepository();
-  const { userWithSameName } = await knexUsersRepository.findByName(name);
+  const { isUserAlreadyExists }  = await knexUsersRepository.findByName(name);
 
-  if (userWithSameName) {
+  if (isUserAlreadyExists) {
     throw new InvalidCredentialsError();
   }
 

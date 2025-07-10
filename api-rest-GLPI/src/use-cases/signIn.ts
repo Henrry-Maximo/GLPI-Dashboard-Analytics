@@ -1,7 +1,7 @@
 import { compare } from "bcryptjs";
 
 import { InvalidCredentialsError } from "./errors/invalid-credentials.error";
-import { KnexUsersRepository } from "@/repositories/knex-users-repository";
+import { KnexUsersRepository } from "@/repositories/knex/knex-users-repository";
 
 interface signInUseCaseRequest {
   name: string;
