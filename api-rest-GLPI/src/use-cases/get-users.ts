@@ -1,11 +1,14 @@
-import { knex } from "@/database/knex-config";
+import { KnexUsersRepository } from "@/repositories/knex/knex-users-repository";
+import { Tables } from "knex/types/tables";
+import { WithoutUsersRegistration } from "./errors/without-users-registration";
 
-export async function getUsers() {
-  const usersFromDatabase = await knex('glpi_users').select('*');
+export async function getUsers(): Promise<Tables["glpi_users"][]> {
+  const knexUsersRepository = new KnexUsersRepository();
+  const users = await knexUsersRepository.list();
 
-  if (!usersFromDatabase) {
-    return { message: "Not found users." }
+  if (!users) {
+    throw new WithoutUsersRegistration();
   }
 
-  return { usersFromDatabase };
+  return users;
 }

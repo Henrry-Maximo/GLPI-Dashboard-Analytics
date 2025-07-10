@@ -9,14 +9,17 @@ export class KnexUsersRepository {
       .andWhere("is_active", 1)
       .andWhereNot("password", null)
       .first();
-    
+
     return { user };
   }
 
-  async create(name: string, passwordHash: string): Promise<Tables["glpi_users"]> {
+  async create(
+    name: string,
+    passwordHash: string
+  ): Promise<Tables["glpi_users"]> {
     const [user] = await knex("glpi_users")
-    .insert({ name, password: passwordHash })
-    .returning("*");
+      .insert({ name, password: passwordHash })
+      .returning("*");
 
     return user;
   }
@@ -27,6 +30,12 @@ export class KnexUsersRepository {
       .where("name", name)
       .first();
 
-    return { isUserAlreadyExists: user }
+    return { isUserAlreadyExists: user };
+  }
+
+  async list() {
+    const users = await knex("glpi_users").select("*");
+
+    return users;
   }
 }
