@@ -33,9 +33,19 @@ export class KnexUsersRepository {
     return { isUserAlreadyExists: user };
   }
 
-  async list() {
-    const users = await knex("glpi_users").select("*");
+  async list(status?: string, search?: string) {
+    let query = knex("glpi_users").select("*");
 
-    return users;
+    if (status === "active") {
+      query = query.where("is_active", 1);
+    } else if (status === "inactive") {
+      query = query.where("is_active", 0);
+    }
+
+    if (search) {
+      query = query.where("name", "like", `${search}%`);
+    }
+
+    return await { users: query };
   }
 }

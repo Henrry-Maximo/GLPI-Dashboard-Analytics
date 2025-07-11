@@ -5,14 +5,13 @@ import { register } from "./controllers/users/register";
 
 import { ticketsController } from "./controllers/tickets";
 import { categoriesController } from "./controllers/categories";
-import { usersController } from "./controllers/users";
 import { users } from "./controllers/users/users";
 
 export async function appRoutes(app: FastifyInstance) {
   // definindo rotas
   app.post("/sessions", signIn);
   app.post("/register", register);
-  app.get("/users", users)
+  app.get("/users", users);
 
   // registrando módulos
   // app.register(usersController, { prefix: "/users" });

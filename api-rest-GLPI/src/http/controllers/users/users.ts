@@ -1,10 +1,18 @@
 import { WithoutUsersRegistration } from "@/use-cases/errors/without-users-registration";
-import { getUsers } from "@/use-cases/get-users";
+import { usersUseCase } from "@/use-cases/get-users";
 import { FastifyReply, FastifyRequest } from "fastify";
+import z from "zod";
 
-export async function users(_: FastifyRequest, reply: FastifyReply) {
+export async function users(req: FastifyRequest, reply: FastifyReply) {
+  const filteredSearchSchema = z.object({
+    status: z.string().optional(),
+    search: z.string().optional(),
+  });
+  
+  const { status, search } = filteredSearchSchema.parse(req.query);
+
   try {
-    const users = await getUsers();
+    const users = await usersUseCase({ status, search });
 
     return reply.status(200).send({ users });
   } catch (err) {
