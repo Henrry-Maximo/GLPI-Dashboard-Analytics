@@ -6,7 +6,11 @@
   "scripts": {
     "start:dev": "tsx watch --env-file .env src/server.ts",
     "start:build": "node build/server.js",
-    "generate:build": "tsup src --out-dir build"
+    "generate:build": "tsup src --out-dir build",
+    "start:test": "vitest run",
+    "start:test:watch": "vitest",
+    "start:test:coverage": "vitest run --coverage",
+    "start:test:ui": "vitest --ui"
   },
   "keywords": [],
   "author": "Henrry-Maximo",
@@ -27,8 +31,11 @@
   },
   "devDependencies": {
     "@types/node": "20.17.8",
+    "@vitest/coverage-v8": "3.2.4",
+    "@vitest/ui": "3.2.4",
     "tsup": "8.3.5",
     "tsx": "4.19.2",
-    "typescript": "5.7.2"
+    "typescript": "5.7.2",
+    "vitest": "3.2.4"
   }
 }

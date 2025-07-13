@@ -22,7 +22,7 @@ export async function registerUseCase({
   const randomSalt = randomInt(6, 10);
   const passwordHash = await hash(password, randomSalt);
 
-  const user = await knexUsersRepository.create(name, passwordHash);
+  const user = await knexUsersRepository.create({name, passwordHash});
 
   return { user };
 }

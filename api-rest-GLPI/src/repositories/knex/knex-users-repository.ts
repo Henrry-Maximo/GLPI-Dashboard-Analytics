@@ -1,5 +1,10 @@
-import { knex } from "@/database/knex-config";
+import { knex } from "../../database/knex-config";
 import { Tables } from "knex/types/tables";
+
+interface createUser {
+  name: string;
+  passwordHash: string;
+}
 
 export class KnexUsersRepository {
   async signIn(name: string) {
@@ -13,10 +18,10 @@ export class KnexUsersRepository {
     return { user };
   }
 
-  async create(
-    name: string,
-    passwordHash: string
-  ): Promise<Tables["glpi_users"]> {
+  async create({
+    name,
+    passwordHash,
+  }: createUser): Promise<Tables["glpi_users"]> {
     const [user] = await knex("glpi_users")
       .insert({ name, password: passwordHash })
       .returning("*");
