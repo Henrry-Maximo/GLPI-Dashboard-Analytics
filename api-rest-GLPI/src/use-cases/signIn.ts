@@ -2,6 +2,7 @@ import { compare } from "bcryptjs";
 
 import { InvalidCredentialsError } from "./errors/invalid-credentials.error";
 import { KnexUsersRepository } from "@/repositories/knex/knex-users-repository";
+import { Tables } from "knex/types/tables";
 
 interface signInUseCaseRequest {
   name: string;
@@ -18,7 +19,7 @@ interface signInUseCaseResponse {
 export const signInUseCase = async ({
   name,
   password,
-}: signInUseCaseRequest): Promise<signInUseCaseResponse> => {
+}: signInUseCaseRequest): Promise<{ user: Pick<Tables["glpi_users"], "id" | "name"> }> => {
   const knexUsersRepository = new KnexUsersRepository();
 
   const { user } = await knexUsersRepository.signIn(name);

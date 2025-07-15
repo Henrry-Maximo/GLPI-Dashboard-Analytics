@@ -2,6 +2,7 @@ import { InvalidCredentialsError } from "./errors/invalid-credentials.error";
 import { randomInt } from "crypto";
 import { hash } from "bcryptjs";
 import { KnexUsersRepository } from "@/repositories/knex/knex-users-repository";
+import { Tables } from "knex/types/tables";
 
 interface authenticateUseCaseRequest {
   name: string;
@@ -11,9 +12,9 @@ interface authenticateUseCaseRequest {
 export async function registerUseCase({
   name,
   password,
-}: authenticateUseCaseRequest) {
+}: authenticateUseCaseRequest): Promise<{ user: Tables["glpi_users"] }> {
   const knexUsersRepository = new KnexUsersRepository();
-  const { isUserAlreadyExists }  = await knexUsersRepository.findByName(name);
+  const { user: isUserAlreadyExists }  = await knexUsersRepository.findByName(name);
 
   if (isUserAlreadyExists) {
     throw new InvalidCredentialsError();

@@ -1,10 +1,23 @@
 import { WithoutUsersRegistration } from "@/use-cases/errors/without-users-registration";
 import { getUsers } from "@/use-cases/get-users";
 import { FastifyReply, FastifyRequest } from "fastify";
+import z from "zod";
 
-export async function users(_: FastifyRequest, reply: FastifyReply) {
+export interface listUsersController {
+  status: "active" | "inactive" | null;
+  search: string;
+}
+
+export async function users(req: FastifyRequest, reply: FastifyReply) {
+  const usersQuerySchema = z.object({
+    status: z.enum(["active", "inactive"]).optional(),
+    search: z.string().optional(),
+  });
+
+  const { status, search } = usersQuerySchema.parse(req.query);
+
   try {
-    const users = await getUsers();
+    const users = await getUsers({ status, search });
 
     return reply.status(200).send({ users });
   } catch (err) {

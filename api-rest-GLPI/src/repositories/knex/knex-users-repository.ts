@@ -1,27 +1,33 @@
 import { knex } from "../../database/knex-config";
 import { Tables } from "knex/types/tables";
+import { UsersRepository } from "../users-repository";
 
-interface createUser {
+export interface createUsersRepository {
   name: string;
   passwordHash: string;
 }
 
-export class KnexUsersRepository {
-  async signIn(name: string) {
+export interface listUsersRepository {
+  status: "active" | "inactive" | null;
+  search: string;
+}
+
+export class KnexUsersRepository implements UsersRepository {
+  async signIn(name: string): Promise<{ user: Tables["glpi_users"] | null }> {
     const user = await knex("glpi_users")
-      .select("id", "name", "password")
+      .select("*")
       .where("name", name)
       .andWhere("is_active", 1)
       .andWhereNot("password", null)
       .first();
 
-    return { user };
+    return { user: user || null };
   }
-
+  
   async create({
     name,
     passwordHash,
-  }: createUser): Promise<Tables["glpi_users"]> {
+  }: createUsersRepository): Promise<Tables["glpi_users"]> {
     const [user] = await knex("glpi_users")
       .insert({ name, password: passwordHash })
       .returning("*");
@@ -29,18 +35,20 @@ export class KnexUsersRepository {
     return user;
   }
 
-  async findByName(name: string) {
+  async findByName(name: string): Promise<{ user: Pick<Tables["glpi_users"], "id" | "name"> | null }> {
     const user = await knex("glpi_users")
       .select("id", "name")
       .where("name", name)
       .first();
 
-    return { isUserAlreadyExists: user };
+    if (user) return { user };
+
+    return { user: null };
   }
 
-  async list() {
+  async list({ status, search }: listUsersRepository): Promise<{ users: Tables["glpi_users"][] }> {
     const users = await knex("glpi_users").select("*");
-
-    return users;
+    
+    return { users };
   }
 }
