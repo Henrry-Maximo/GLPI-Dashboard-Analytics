@@ -10,7 +10,7 @@ interface SignInUseCaseRequest {
 }
 
 interface SignInUseCaseResponse {
-  user: Pick<Tables["glpi_users"], "id" | "name">
+  user: Pick<Tables["glpi_users"], "id" | "name">;
 }
 
 export const signInUseCase = async ({

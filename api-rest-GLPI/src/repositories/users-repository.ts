@@ -3,7 +3,7 @@ import { createUsersRepository, listUsersRepository } from "./knex/knex-users-re
 
 export interface UsersRepository {
   signIn(name: string): Promise<{ user: Tables["glpi_users"] | null}>
-  create({ name, passwordHash }: createUsersRepository): Promise<Tables["glpi_users"]>
+  create({ name, passwordHash }: createUsersRepository): Promise<Tables["glpi_users"] | null>
   findByName(name: string): Promise<{ user: Pick<Tables["glpi_users"], "id" | "name"> | null }>
-  list({ status, search }: listUsersRepository): Promise<{ users: Tables["glpi_users"][] }>
+  list({ search }: listUsersRepository): Promise<{ users: Tables["glpi_users"][] }>
 }

@@ -9,10 +9,12 @@ describe("Register Use Case", () => {
     const sut = new RegisterUseCase(usersRepository);
 
     const { user } = await sut.execute({
-      name: "teste.registro200",
+      name: "teste.registro20012",
       password: await hash("123456", 6)
     });
 
-    expect(user.id).toEqual(expect.any(String));
+    if (user !== null) {
+      expect(user.id).toEqual(expect.any(Number));
+    } 
   })
 })

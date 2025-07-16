@@ -9,8 +9,8 @@ interface RegisterUseCaseRequest {
   password: string;
 }
 
-interface RegisteUseCaseResponse {
-  user: Tables["glpi_users"];
+interface RegisterUseCaseResponse {
+  user: Tables["glpi_users"] | null;
 }
 
 export class RegisterUseCase {
@@ -21,9 +21,7 @@ export class RegisterUseCase {
   async execute({
     name,
     password,
-  }: RegisterUseCaseRequest): Promise<RegisteUseCaseResponse> {
-    // const knexUsersRepository = new KnexUsersRepository();
-
+  }: RegisterUseCaseRequest): Promise<RegisterUseCaseResponse> {
     const { user: isUserAlreadyExists } = await this.usersRepository.findByName(
       name
     );
@@ -37,7 +35,7 @@ export class RegisterUseCase {
 
     const user = await this.usersRepository.create({ name, passwordHash });
 
-    return { user };
+    return user ? { user } : { user: null };
   }
 }
 
