@@ -3,13 +3,12 @@ import { Tables } from "knex/types/tables";
 import { WithoutUsersRegistration } from "./errors/without-users-registration";
 
 interface listQuerySchema {
-  status?: "active" | "inactive" | null
   search?: string
 }
 
-export async function getUsers({ status, search }): Promise<Tables["glpi_users"][]> {
+export async function getUsers({ search = "" }: listQuerySchema): Promise<Tables["glpi_users"][]> {
   const knexUsersRepository = new KnexUsersRepository();
-  const { users } = await knexUsersRepository.list({ status, search });
+  const { users } = await knexUsersRepository.list({ search });
 
   if (!users) {
     throw new WithoutUsersRegistration();

@@ -4,22 +4,19 @@ import { InvalidCredentialsError } from "./errors/invalid-credentials.error";
 import { KnexUsersRepository } from "@/repositories/knex/knex-users-repository";
 import { Tables } from "knex/types/tables";
 
-interface signInUseCaseRequest {
+interface SignInUseCaseRequest {
   name: string;
   password: string;
 }
 
-interface signInUseCaseResponse {
-  user: {
-    id: number;
-    name: string;
-  };
+interface SignInUseCaseResponse {
+  user: Pick<Tables["glpi_users"], "id" | "name">
 }
 
 export const signInUseCase = async ({
   name,
   password,
-}: signInUseCaseRequest): Promise<{ user: Pick<Tables["glpi_users"], "id" | "name"> }> => {
+}: SignInUseCaseRequest): Promise<SignInUseCaseResponse> => {
   const knexUsersRepository = new KnexUsersRepository();
 
   const { user } = await knexUsersRepository.signIn(name);

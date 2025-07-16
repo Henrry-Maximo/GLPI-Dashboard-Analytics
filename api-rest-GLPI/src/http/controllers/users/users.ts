@@ -4,20 +4,19 @@ import { FastifyReply, FastifyRequest } from "fastify";
 import z from "zod";
 
 export interface listUsersController {
-  status: "active" | "inactive" | null;
   search: string;
 }
 
 export async function users(req: FastifyRequest, reply: FastifyReply) {
   const usersQuerySchema = z.object({
-    status: z.enum(["active", "inactive"]).optional(),
+    // status: z.enum(["active", "inactive"]).optional(),
     search: z.string().optional(),
   });
 
-  const { status, search } = usersQuerySchema.parse(req.query);
+  const { search } = usersQuerySchema.parse(req.query);
 
   try {
-    const users = await getUsers({ status, search });
+    const users = await getUsers({ search });
 
     return reply.status(200).send({ users });
   } catch (err) {

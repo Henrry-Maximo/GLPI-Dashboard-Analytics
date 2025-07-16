@@ -8,7 +8,6 @@ export interface createUsersRepository {
 }
 
 export interface listUsersRepository {
-  status: "active" | "inactive" | null;
   search: string;
 }
 
@@ -23,7 +22,7 @@ export class KnexUsersRepository implements UsersRepository {
 
     return { user: user || null };
   }
-  
+
   async create({
     name,
     passwordHash,
@@ -35,7 +34,9 @@ export class KnexUsersRepository implements UsersRepository {
     return user;
   }
 
-  async findByName(name: string): Promise<{ user: Pick<Tables["glpi_users"], "id" | "name"> | null }> {
+  async findByName(
+    name: string
+  ): Promise<{ user: Pick<Tables["glpi_users"], "id" | "name"> | null }> {
     const user = await knex("glpi_users")
       .select("id", "name")
       .where("name", name)
@@ -46,9 +47,14 @@ export class KnexUsersRepository implements UsersRepository {
     return { user: null };
   }
 
-  async list({ status, search }: listUsersRepository): Promise<{ users: Tables["glpi_users"][] }> {
-    const users = await knex("glpi_users").select("*");
-    
+  async list({
+    search,
+  }: listUsersRepository): Promise<{ users: Tables["glpi_users"][] }> {
+    const users = await knex("glpi_users")
+      .select("*")
+      .andWhere("name", "like", `${search}%`)
+      .orderBy("name");
+
     return { users };
   }
 }
