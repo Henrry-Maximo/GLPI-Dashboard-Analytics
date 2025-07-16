@@ -1,15 +1,8 @@
 import { knex } from "../../database/knex-config";
 import { Tables } from "knex/types/tables";
-import { UsersRepository } from "../users-repository";
+import type { createUsersRepository, listUsersRepository, UsersRepository } from "../users-repository";
 
-export interface createUsersRepository {
-  name: string;
-  passwordHash: string;
-}
 
-export interface listUsersRepository {
-  search: string;
-}
 
 export class KnexUsersRepository implements UsersRepository {
   async signIn(name: string): Promise<{ user: Tables["glpi_users"] | null }> {

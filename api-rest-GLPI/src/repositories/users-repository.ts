@@ -1,5 +1,13 @@
 import { Tables } from "knex/types/tables";
-import { createUsersRepository, listUsersRepository } from "./knex/knex-users-repository";
+
+export interface createUsersRepository {
+  name: string;
+  passwordHash: string;
+}
+
+export interface listUsersRepository {
+  search: string;
+}
 
 export interface UsersRepository {
   signIn(name: string): Promise<{ user: Tables["glpi_users"] | null}>

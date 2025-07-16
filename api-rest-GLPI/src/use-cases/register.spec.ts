@@ -1,11 +1,12 @@
-import { KnexUsersRepository } from "../repositories/knex/knex-users-repository";
+// import { KnexUsersRepository } from "../repositories/knex/knex-users-repository";
 import { hash } from "bcryptjs";
 import { describe, expect, it } from "vitest";
 import { RegisterUseCase } from "./register";
+import { InMemoryUsersRepository } from "../repositories/in-memory/in-memory-repository";
 
 describe("Register Use Case", () => {
   it("should be able to register", async () => {
-    const usersRepository = new KnexUsersRepository();
+    const usersRepository = new InMemoryUsersRepository();
     const sut = new RegisterUseCase(usersRepository);
 
     const { user } = await sut.execute({
