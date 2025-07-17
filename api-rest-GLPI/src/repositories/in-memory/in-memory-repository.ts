@@ -26,10 +26,14 @@ export class InMemoryUsersRepository implements UsersRepository {
     return user;
   }
 
-  findByName(
+  async findByName(
     name: string
   ): Promise<{ user: Pick<Tables["glpi_users"], "id" | "name"> | null }> {
-    throw new Error("Method not implemented.");
+    const user = this.items.find((item: Pick<Tables["glpi_users"], "id" | "name">) => item.name === name);
+
+    if (!user) return { user: null };
+
+    return { user };
   }
 
   list({

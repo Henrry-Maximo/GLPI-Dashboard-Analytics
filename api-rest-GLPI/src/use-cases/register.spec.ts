@@ -11,8 +11,10 @@ describe("Register Use Case", () => {
 
     const { user } = await sut.execute({
       name: "teste.registro20012",
-      password: await hash("123456", 6)
+      password: "123456",
     });
+
+    console.log(user);
 
     if (user !== null) {
       expect(user.id).toEqual(expect.any(Number));
