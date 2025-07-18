@@ -6,6 +6,10 @@ import type {
 } from "../users-repository";
 
 export class InMemoryUsersRepository implements UsersRepository {
+  findById(userId: string): Promise<{ user: Tables["glpi_users"]; }> {
+    throw new Error("Method not implemented.");
+  }
+  
   public items: any = [];
 
   signIn(name: string): Promise<{ user: Tables["glpi_users"] | null }> {

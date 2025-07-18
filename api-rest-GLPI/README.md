@@ -48,157 +48,31 @@ Esta API conecta-se ao banco de dados do GLPI para extrair e processar informaç
 
 ## Tarefas de Desenvolvimento
 
-### Requisitos Funcionais
+### RFs (Requisitos Funcionais)
 
-#### Autenticação e Autorização
-- [x] Login com usuário e senha
-- [x] Registro de novos usuários
-- [x] Autenticação JWT
-- [ ] Middleware de autorização por perfil
-- [ ] Refresh token para sessões
-- [ ] Logout e invalidação de tokens
-- [ ] Recuperação de senha
+- [x] Deve ser possível cadastrar uma usuário
+- [x] Deve ser possível logar como uma usuário
+- [] Deve ser possível obter o perfil de um usuário logado
+- [] Deve ser possível cadastrar um pet
+- [] Deve ser possível listar todos os pets disponíveis para adoção em uma cidade
+- [] Deve ser possível filtrar pets por suas características
+- [] Deve ser possível visualizar detalhes de um pet para adoção
 
-#### Gestão de Usuários
-- [x] Listar usuários ativos
-- [x] Contar usuários totais
-- [x] Estatísticas de chamados por usuário
-- [ ] Criar novo usuário
-- [ ] Atualizar dados do usuário
-- [ ] Desativar/ativar usuário
-- [ ] Gerenciar perfis e permissões
-- [ ] Histórico de atividades do usuário
+### RNFs (Requisitos não-funcionais)
 
-#### Gestão de Chamados
-- [x] Buscar chamados por ID
-- [x] Listar chamados por filtros
-- [x] Estatísticas por status/categoria/urgência
-- [x] Relatórios por período
-- [x] Métricas de SLA
-- [ ] Criar novo chamado
-- [ ] Atualizar status do chamado
-- [ ] Adicionar comentários/followups
-- [ ] Atribuir técnico responsável
-- [ ] Anexar arquivos
-- [ ] Histórico completo do chamado
+- [x] A senha da organização precisa estar criptografada
+- [] A organização deve ser identificada por um JWT (JSON Web Token)
 
-#### Gestão de Categorias
-- [x] Listar categorias
-- [x] Contar categorias totais
-- [ ] Criar nova categoria
-- [ ] Atualizar categoria existente
-- [ ] Desativar categoria
-- [ ] Hierarquia de categorias
+### RNs (Regras de negócio)
 
-#### Dashboard e Relatórios
-- [x] Métricas básicas de chamados
-- [x] Estatísticas por técnico
-- [x] Timeline de atividades
-- [ ] Relatórios personalizados
-- [ ] Exportação de dados (CSV/PDF)
-- [ ] Gráficos e visualizações
-- [ ] Alertas e notificações
-- [ ] KPIs em tempo real
+- [x] A organização não deve poder se cadastrar com um e-mail duplicado
+- [] Para listar os pets, obrigatoriamente precisamos informar a cidade
+- [] Uma ORG precisa ter um endereço e um número de WhatsApp
+- [x] Um pet deve estar ligado a uma ORG
+- [] O usuário que quer adotar, entrará em contato com a ORG via WhatsApp
+- [] Todos os filtros, além da cidade, são opcionais
+- [] Para uma ORG acessar a aplicação como admin, ela precisa estar logada
 
-#### Gestão de Entidades
-- [ ] Listar entidades
-- [ ] Filtrar dados por entidade
-- [ ] Hierarquia de entidades
-- [ ] Permissões por entidade
-
-#### Gestão de Equipamentos
-- [ ] Listar equipamentos
-- [ ] Buscar por tipo/modelo
-- [ ] Histórico de manutenção
-- [ ] Status de garantia
-
-### Requisitos Não Funcionais
-
-#### Performance
-- [ ] Tempo de resposta ≤ 5 segundos
-- [ ] Cache de consultas frequentes
-- [ ] Paginação em listagens
-- [ ] Índices otimizados no banco
-- [ ] Compressão de respostas
-
-#### Segurança
-- [x] Autenticação JWT obrigatória
-- [ ] Rate limiting por IP/usuário
-- [ ] Validação rigorosa de entrada
-- [ ] Logs de auditoria
-- [ ] Criptografia de dados sensíveis
-- [ ] Headers de segurança
-
-#### Escalabilidade
-- [ ] Suporte a múltiplos usuários simultâneos
-- [ ] Pool de conexões do banco
-- [ ] Monitoramento de recursos
-- [ ] Balanceamento de carga
-
-#### Disponibilidade
-- [x] API REST stateless
-- [ ] Health check endpoint
-- [ ] Tratamento de erros padronizado
-- [ ] Retry automático em falhas
-- [ ] Backup e recuperação
-
-#### Observabilidade
-- [ ] Logs estruturados
-- [ ] Métricas de performance
-- [ ] Tracing de requisições
-- [ ] Alertas de sistema
-
-### Regras de Negócio
-
-#### Permissões e Acesso
-- [ ] Self-service: acesso limitado aos próprios dados
-- [ ] Técnico: acesso a chamados atribuídos
-- [ ] Supervisor: acesso a dados da equipe
-- [ ] Administrador: acesso completo
-- [ ] Super-admin: gestão de usuários e sistema
-- [ ] Usuário `glpi_system` é super-admin por padrão
-
-#### Validações de Dados
-- [x] Apenas usuários ativos podem se autenticar
-- [ ] Chamados devem ter categoria obrigatória
-- [ ] Status de chamado segue fluxo definido
-- [ ] Técnico só pode ser atribuído se ativo
-- [ ] Validação de SLA por categoria
-
-#### Integridade e Auditoria
-- [ ] Histórico de alterações preservado
-- [ ] Dados sensíveis protegidos por nível
-- [ ] Log de todas as operações críticas
-- [ ] Backup automático de dados importantes
-- [ ] Retenção de dados conforme política
-
-#### Fluxo de Trabalho
-- [ ] Chamado novo → Em andamento → Solucionado → Fechado
-- [ ] Notificações automáticas por mudança de status
-- [ ] Escalação automática por SLA
-- [ ] Aprovação para operações críticas
-
-## Roadmap de Desenvolvimento
-
-### Fase 1 - Core API (Atual)
-- [x] Autenticação básica
-- [x] Consultas de dados
-- [x] Estrutura base da API
-
-### Fase 2 - CRUD Completo
-- [ ] Operações de criação e atualização
-- [ ] Gestão completa de usuários
-- [ ] Middleware de autorização
-
-### Fase 3 - Features Avançadas
-- [ ] Dashboard personalizado
-- [ ] Relatórios e exportação
-- [ ] Notificações em tempo real
-
-### Fase 4 - Otimização
-- [ ] Performance e cache
-- [ ] Monitoramento e logs
-- [ ] Testes automatizados
 
 ## Instalação e Uso
 
@@ -221,10 +95,11 @@ npm start
 
 ```
 src/
-├── @types/          # Definições de tipos
-├── database/        # Configuração do banco
+├── @types/         # Definições de tipos
+├── database/       # Configuração do banco
 ├── env/            # Variáveis de ambiente
 ├── http/           # Controllers e rotas
+├── repositories/   # Contrato e conexão com o banco de dados
 ├── use-cases/      # Lógica de negócio
 ├── app.ts          # Configuração da aplicação
 └── server.ts       # Inicialização do servidor
