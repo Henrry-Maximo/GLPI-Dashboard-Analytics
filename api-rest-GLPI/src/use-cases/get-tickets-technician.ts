@@ -10,7 +10,7 @@ export async function getTicketsTechnician() {
     .groupBy("b.name")
     .orderBy("quantity", "desc");
 
-    const ticketsAmountTechnicianSolution = await knex("glpi_tickets_users")
+  const ticketsAmountTechnicianSolution = await knex("glpi_tickets_users")
     .select(
       "glpi_users.name as technician",
       "glpi_groups.name as group"

@@ -30,7 +30,7 @@ export const signInUseCase = async ({
   if (!doesPasswordMatche) {
     throw new InvalidCredentialsError();
   }
-
+  
   const { password: _, ...userWithoutPassword } = user;
 
   return { user: userWithoutPassword };

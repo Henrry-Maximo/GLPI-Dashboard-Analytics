@@ -1,5 +1,5 @@
 import { app } from "./app";
-import { env } from "./env"
+import { env } from "./env";
 
 /**
  * Inicialização do servidor usando promises encadeadas

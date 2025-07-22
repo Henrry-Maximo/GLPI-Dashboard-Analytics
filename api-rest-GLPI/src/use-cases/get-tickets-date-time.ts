@@ -11,9 +11,9 @@ export async function getTicketsDateTime() {
     .groupByRaw("DATE(date_creation), status")
     .orderBy("date_creation", "desc");
 
-    if (!tickets.length) {
-      return { message: 'Not found tickets.' }
-    }
+  if (!tickets.length) {
+    return { message: "Not found tickets." };
+  }
 
   return { tickets };
 }

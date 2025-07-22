@@ -34,4 +34,4 @@ export const signIn = async (req: FastifyRequest, reply: FastifyReply) => {
 
     throw err;
   }
-}
+};

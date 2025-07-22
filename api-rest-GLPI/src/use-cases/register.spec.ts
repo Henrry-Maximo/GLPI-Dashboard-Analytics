@@ -18,5 +18,5 @@ describe("Register Use Case", () => {
     if (user !== null) {
       expect(user.id).toEqual(expect.any(Number));
     } 
-  })
-})
+  });
+});

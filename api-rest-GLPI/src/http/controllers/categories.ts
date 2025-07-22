@@ -7,13 +7,13 @@ export async function categoriesController(app: FastifyInstance) {
   app.get("/categories", async (_, reply) => {
     const { categories } = await getCategories();
 
-    return reply.status(200).send({ categories })
+    return reply.status(200).send({ categories });
   });
 
   // retornar total de categorias
   app.get("/categories-by-count", async (_, reply) => {
     const { categoriesQuantity } = await categoriesByCount();
 
-    return reply.status(200).send({ categoriesQuantity })
+    return reply.status(200).send({ categoriesQuantity });
   });
 }

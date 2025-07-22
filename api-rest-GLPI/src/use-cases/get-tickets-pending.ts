@@ -20,9 +20,9 @@ async function statementTickets(): Promise<PropsDataTickets> {
         "t.name",
         "t.type",
         knex.raw(
-          'DATE_FORMAT(t.date_creation, "%d/%m/%Y %H:%i") AS "date_creation"'
+          "DATE_FORMAT(t.date_creation, \"%d/%m/%Y %H:%i\") AS \"date_creation\""
         ), // Formata a data de criação
-        knex.raw('DATE_FORMAT(t.solvedate, "%d/%m/%Y %H:%i") AS "solvedate"'), // Formata a data de solução
+        knex.raw("DATE_FORMAT(t.solvedate, \"%d/%m/%Y %H:%i\") AS \"solvedate\""), // Formata a data de solução
         "lo.name AS location",
         knex.raw(`
       GROUP_CONCAT(DISTINCT CONCAT(u.firstname, ' ', u.realname)) AS "applicant"

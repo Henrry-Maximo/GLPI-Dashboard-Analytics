@@ -11,7 +11,7 @@ export async function getUsersByTickets() {
     .orderBy("total", "desc");
 
   if (!getTotalTickets) {
-    return { message: "Not found total tickets for users." }
+    return { message: "Not found total tickets for users." };
   }
 
   return { getTotalTickets };

@@ -3,6 +3,10 @@ import { Tables } from "knex/types/tables";
 import type { createUsersRepository, listUsersRepository, UsersRepository } from "../users-repository";
 
 export class KnexUsersRepository implements UsersRepository {
+  findById(userId: string): Promise<{ user: Tables["glpi_users"]; }> {
+    throw new Error("Method not implemented.");
+  }
+  
   async signIn(name: string): Promise<{ user: Tables["glpi_users"] | null }> {
     const user = await knex("glpi_users")
       .select("*")

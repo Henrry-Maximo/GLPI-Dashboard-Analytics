@@ -1,8 +1,8 @@
-import { InvalidCredentialsError } from "./errors/invalid-credentials.error";
-import { randomInt } from "crypto";
-import { hash } from "bcryptjs";
-import { Tables } from "knex/types/tables";
 import { UsersRepository } from "@/repositories/users-repository";
+import { hash } from "bcryptjs";
+import { randomInt } from "crypto";
+import { Tables } from "knex/types/tables";
+import { InvalidCredentialsError } from "./errors/invalid-credentials.error";
 
 interface RegisterUseCaseRequest {
   name: string;
@@ -38,10 +38,3 @@ export class RegisterUseCase {
     return user ? { user } : { user: null };
   }
 }
-
-// export async function registerUseCase({
-//   name,
-//   password,
-// }: RegisterUseCaseRequest): Promise<RegisteUseCaseResponse> {
-
-// }
