@@ -2,8 +2,7 @@ import type { FastifyReply, FastifyRequest } from "fastify";
 import z from "zod";
 
 import { InvalidCredentialsError } from "@/use-cases/errors/invalid-credentials.error";
-import { RegisterUseCase } from "@/use-cases/register";
-import { KnexUsersRepository } from "@/repositories/knex/knex-users-repository";
+import { makeRegisterUseCase } from "@/use-cases/factories/make-register-use-case";
 
 export async function register(req: FastifyRequest, reply: FastifyReply) {
   const userBodySchema = z.object({
@@ -14,8 +13,9 @@ export async function register(req: FastifyRequest, reply: FastifyReply) {
   const { name, password } = userBodySchema.parse(req.body);
 
   try {
-    const knexUsersRepository = new KnexUsersRepository();
-    const registerUseCase = new RegisterUseCase(knexUsersRepository);
+    // const knexUsersRepository = new KnexUsersRepository();
+    // const registerUseCase = new RegisterUseCase(knexUsersRepository);
+    const registerUseCase = makeRegisterUseCase();
 
     const { user } = await registerUseCase.execute({ name, password });
 

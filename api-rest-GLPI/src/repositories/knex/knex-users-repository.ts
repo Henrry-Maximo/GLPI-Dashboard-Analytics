@@ -1,12 +1,22 @@
 import { knex } from "../../database/knex-config";
 import { Tables } from "knex/types/tables";
-import type { createUsersRepository, listUsersRepository, UsersRepository } from "../users-repository";
+import type {
+  createUsersRepository,
+  listUsersRepository,
+  UsersRepository,
+} from "../users-repository";
 
 export class KnexUsersRepository implements UsersRepository {
-  findById(userId: string): Promise<{ user: Tables["glpi_users"]; }> {
-    throw new Error("Method not implemented.");
+  async findById(userId: string) {
+    const user = await knex("glpi_users").where("id", userId).first();
+
+    if (!user) {
+      return null;
+    }
+
+    return user;
   }
-  
+
   async signIn(name: string): Promise<{ user: Tables["glpi_users"] | null }> {
     const user = await knex("glpi_users")
       .select("*")
@@ -18,21 +28,19 @@ export class KnexUsersRepository implements UsersRepository {
     return { user: user || null };
   }
 
-  async create({
-    name,
-    passwordHash,
-  }: createUsersRepository): Promise<Tables["glpi_users"] | null> {
-    const [result] = await knex("glpi_users")
-      .insert({ name, password: passwordHash });
+  async create({ name, passwordHash }: createUsersRepository) {
+    const [id] = await knex("glpi_users").insert({
+      name,
+      password: passwordHash,
+    });
 
-    const user = await knex("glpi_users")
-      .select("*")
-      .where("id", result)
-      .first();
+    const user = await knex("glpi_users").where("id", id).first();
 
-    if (user) return user;
+    if (!user) {
+      return { user: null };
+    }
 
-    return null;
+    return { user };
   }
 
   async findByName(

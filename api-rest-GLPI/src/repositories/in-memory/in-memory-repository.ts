@@ -6,20 +6,25 @@ import type {
 } from "../users-repository";
 
 export class InMemoryUsersRepository implements UsersRepository {
-  findById(userId: string): Promise<{ user: Tables["glpi_users"]; }> {
-    throw new Error("Method not implemented.");
-  }
-  
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public items: any = [];
 
-  signIn(name: string): Promise<{ user: Tables["glpi_users"] | null }> {
+  async findById(userId: string) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const user = this.items.find((item: any) => item.id === userId);
+
+    if (!user) {
+      return null;
+    };
+
+    return user;
+  }
+
+  signIn(_: string): Promise<{ user: Tables["glpi_users"] | null }> {
     throw new Error("Method not implemented.");
   }
 
-  async create({
-    name,
-    passwordHash,
-  }: createUsersRepository): Promise<Tables["glpi_users"] | null> {
+  async create({ name, passwordHash }: createUsersRepository) {
     const user = {
       id: Date.now(),
       name,
@@ -27,13 +32,16 @@ export class InMemoryUsersRepository implements UsersRepository {
     } as Tables["glpi_users"];
 
     this.items.push(user);
-    return user;
+
+    return { user };
   }
 
   async findByName(
-    name: string
+    name: string,
   ): Promise<{ user: Pick<Tables["glpi_users"], "id" | "name"> | null }> {
-    const user = this.items.find((item: Pick<Tables["glpi_users"], "id" | "name">) => item.name === name);
+    const user = this.items.find(
+      (item: Pick<Tables["glpi_users"], "id" | "name">) => item.name === name,
+    );
 
     if (!user) return { user: null };
 

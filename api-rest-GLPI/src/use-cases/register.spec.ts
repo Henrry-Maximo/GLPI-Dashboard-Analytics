@@ -13,10 +13,8 @@ describe("Register Use Case", () => {
       password: "123456",
     });
 
-    console.log(user);
-
     if (user !== null) {
       expect(user.id).toEqual(expect.any(Number));
-    } 
+    }
   });
 });

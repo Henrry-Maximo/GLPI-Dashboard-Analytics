@@ -16,10 +16,23 @@ export default defineConfig([
   tseslint.configs.recommended,
   {
     rules: {
-      quotes: ["error", "double"],
-      semi: ["error", "always"],
-      indent: ["error", 2],
-      "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }]
+      // Estilo
+      "comma-dangle": ["error", "always-multiline"],
+      "semi": ["error", "always"],
+      "quotes": ["error", "double"],
+      "indent": ["error", 2],
+      "no-trailing-spaces": "error",
+      "eol-last": ["error", "always"],
+      "no-useless-constructor": "off",
+
+      // TypeScript
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        {
+          "argsIgnorePattern": "^_",
+          "varsIgnorePattern": "^_",
+        },
+      ],
     },
   },
 ]);
