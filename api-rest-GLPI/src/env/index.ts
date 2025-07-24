@@ -19,6 +19,7 @@ if (_env.success === false) {
   console.error("❌ Invalid environment variables", _env.error.format());
 
   throw new Error("Invalid environment variables");
+  // process.exit(1);
 }
 
 export const env = _env.data;

@@ -16,7 +16,7 @@ app
     ); // resposta de solicitação bem-sucedida
   }) // promises que será executada se correr tudo bem
   .catch((err) => {
-    console.error(`❌ Server with Error: ${err}`);
+    console.error(`❌ Server with Error: ${err.message}`);
     process.exit(1); // encerra o servidor
   });
 

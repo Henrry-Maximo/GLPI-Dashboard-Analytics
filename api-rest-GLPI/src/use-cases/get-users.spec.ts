@@ -1,7 +1,8 @@
-import { describe, it } from "vitest";
+
+import { describe, test } from "vitest";
 
 describe("Get Users Use Case", () => {
-  it("Should be able get list users", async () => {
+  test.skip("Should be able get list users", async () => {
 
   });
 });
