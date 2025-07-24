@@ -20,7 +20,7 @@ export class InMemoryUsersRepository implements UsersRepository {
     return user;
   }
 
-  signIn(_: string): Promise<{ user: Tables["glpi_users"] | null }> {
+  async signIn(_: string): Promise<{ user: Tables["glpi_users"] | null }> {
     throw new Error("Method not implemented.");
   }
 
@@ -48,9 +48,10 @@ export class InMemoryUsersRepository implements UsersRepository {
     return { user };
   }
 
-  list({
+  async list({
     search,
   }: listUsersRepository): Promise<{ users: Tables["glpi_users"][] }> {
+    console.log(search);
     throw new Error("Method not implemented.");
   }
 }

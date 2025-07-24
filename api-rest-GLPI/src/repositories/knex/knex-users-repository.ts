@@ -44,7 +44,7 @@ export class KnexUsersRepository implements UsersRepository {
   }
 
   async findByName(
-    name: string
+    name: string,
   ): Promise<{ user: Pick<Tables["glpi_users"], "id" | "name"> | null }> {
     const user = await knex("glpi_users")
       .select("id", "name")
