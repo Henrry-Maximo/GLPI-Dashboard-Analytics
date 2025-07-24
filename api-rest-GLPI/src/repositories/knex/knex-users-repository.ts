@@ -28,17 +28,13 @@ export class KnexUsersRepository implements UsersRepository {
     return { user: user || null };
   }
 
-  async create({ name, passwordHash }: createUsersRepository) {
+  async create({ name, passwordHash }: createUsersRepository): Promise<{ user: Pick<Tables["glpi_users"], "id" | "name" | "password">}> {
     const [id] = await knex("glpi_users").insert({
       name,
       password: passwordHash,
     });
 
-    const user = await knex("glpi_users").where("id", id).first();
-
-    if (!user) {
-      return { user: null };
-    }
+    const user = await knex("glpi_users").where("id", id).first() as Tables["glpi_users"];
 
     return { user };
   }

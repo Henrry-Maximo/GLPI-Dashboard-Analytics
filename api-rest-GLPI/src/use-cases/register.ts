@@ -2,7 +2,7 @@ import { UsersRepository } from "@/repositories/users-repository";
 import { hash } from "bcryptjs";
 import { randomInt } from "crypto";
 import { Tables } from "knex/types/tables";
-import { InvalidCredentialsError } from "./errors/invalid-credentials.error";
+import { UserAlreadyExistsError } from "./errors/user-already-exists-error";
 
 interface RegisterUseCaseRequest {
   name: string;
@@ -17,13 +17,13 @@ export class RegisterUseCase {
   async execute({
     name,
     password,
-  }: RegisterUseCaseRequest): Promise<{ user: Tables["glpi_users"] | null }> {
+  }: RegisterUseCaseRequest): Promise<{ user: Pick<Tables["glpi_users"], "id" | "name" | "password"> }> {
     const { user: isUserAlreadyExists } = await this.usersRepository.findByName(
       name,
     );
 
     if (isUserAlreadyExists) {
-      throw new InvalidCredentialsError();
+      throw new UserAlreadyExistsError();
     }
 
     const randomSalt = randomInt(6, 10);

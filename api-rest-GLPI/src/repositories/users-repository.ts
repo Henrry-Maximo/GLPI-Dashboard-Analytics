@@ -11,12 +11,8 @@ export interface listUsersRepository {
 
 export interface UsersRepository {
   signIn(name: string): Promise<{ user: Tables["glpi_users"] | null}>
-
-  create({ name, passwordHash }: createUsersRepository): Promise<{ user: Tables["glpi_users"] | null }>
-
+  create({ name, passwordHash }: createUsersRepository): Promise<{ user: Pick<Tables["glpi_users"], "id" | "name" | "password">}>
   findByName(name: string): Promise<{ user: Pick<Tables["glpi_users"], "id" | "name"> | null }>
-
   list({ search }: listUsersRepository): Promise<{ users: Tables["glpi_users"][] }>
-
   findById(userId: string): Promise<Tables["glpi_users"] | null>
 }
