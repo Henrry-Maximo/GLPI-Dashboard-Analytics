@@ -18,16 +18,16 @@ describe("Register Use Case", () => {
     expect(user.name).toBe("Joe.doe");
   });
 
-  it("should has user password up on registration", async () => {
+  it("should has user password upon registration", async () => {
     const usersRepository = new InMemoryUsersRepository();
     const sut = new RegisterUseCase(usersRepository);
 
     const { user } = await sut.execute({ name: "John Doe", password: "123456" });
 
-    const isPasswordCorrectlyHeashed = await compare("123456", user.password);
+    const isPasswordCorrectlyHashed = await compare("123456", user.password);
 
-    expect(isPasswordCorrectlyHeashed).toBe(true);
-  })
+    expect(isPasswordCorrectlyHashed).toBe(true);
+  });
 
   it("should not be able to register with same name twice", async () => {
     const usersRepository = new InMemoryUsersRepository();

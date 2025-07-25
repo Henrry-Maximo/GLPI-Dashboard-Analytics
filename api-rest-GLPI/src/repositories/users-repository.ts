@@ -5,8 +5,16 @@ export interface createUsersRepository {
   passwordHash: string;
 }
 
+// enum valuesIntForStringStatus {
+//   active = 1,
+//   inactive = 0
+// }
+
 export interface listUsersRepository {
-  search: string;
+  id: number;
+  name: string;
+  // is_active: valuesIntForStringStatus;
+  profiles_id: number;
 }
 
 export interface UsersRepository {
