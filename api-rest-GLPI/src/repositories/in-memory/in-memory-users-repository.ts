@@ -1,24 +1,13 @@
 import { Tables } from "knex/types/tables";
 import type {
   createUsersRepository,
-  listUsersRepository,
+  listUsersFilters,
   UsersRepository,
 } from "../users-repository";
 
 export class InMemoryUsersRepository implements UsersRepository {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public items: any = [];
-
-  async findById(userId: string) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const user = this.items.find((item: any) => item.id === userId);
-
-    if (!user) {
-      return null;
-    };
-
-    return user;
-  }
 
   async signIn(_: string): Promise<{ user: Tables["glpi_users"] | null }> {
     throw new Error("Method not implemented.");
@@ -36,6 +25,17 @@ export class InMemoryUsersRepository implements UsersRepository {
     return { user };
   }
 
+  async findById(userId: string) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const user = this.items.find((item: any) => item.id === userId);
+
+    if (!user) {
+      return null;
+    };
+
+    return user;
+  }
+
   async findByName(
     name: string,
   ): Promise<{ user: Pick<Tables["glpi_users"], "id" | "name"> | null }> {
@@ -48,10 +48,8 @@ export class InMemoryUsersRepository implements UsersRepository {
     return { user };
   }
 
-  async list({
-    search,
-  }: listUsersRepository): Promise<{ users: Tables["glpi_users"][] }> {
-    console.log(search);
+  async list(filters: listUsersFilters): Promise<{ users: Tables["glpi_users"][] }> {
+    console.log(filters);
     throw new Error("Method not implemented.");
   }
 }

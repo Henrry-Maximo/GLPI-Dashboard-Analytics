@@ -3,20 +3,23 @@ import { getUsers } from "@/use-cases/get-users";
 import { FastifyReply, FastifyRequest } from "fastify";
 import z from "zod";
 
-export interface listUsersController {
-  search: string;
-}
-
 export async function users(req: FastifyRequest, reply: FastifyReply) {
   const usersQuerySchema = z.object({
-    // status: z.enum(["active", "inactive"]).optional(),
-    search: z.string().optional(),
+    name: z.string().optional(),
+    isActive: z
+      .string()
+      .transform((val) => {
+        if (val === "true") return 1;
+        if (val === "false") return 0;
+        return undefined;
+      })
+      .optional(),
   });
 
-  const { search } = usersQuerySchema.parse(req.query);
+  const { name, isActive } = usersQuerySchema.parse(req.query);
 
   try {
-    const users = await getUsers({ search });
+    const users = await getUsers({ name, isActive });
 
     return reply.status(200).send({ users });
   } catch (err) {

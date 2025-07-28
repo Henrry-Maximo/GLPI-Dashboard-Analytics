@@ -11,7 +11,7 @@ import { appRoutes } from "./http/routes";
  * Configuração da aplicação Fastify
  */
 export const app = fastify({
-  logger: true, // habilitar logs do servidor
+  logger: false, // habilitar logs do servidor
 });
 
 /**
@@ -28,7 +28,7 @@ app.register(fastifyJwt, {
 app.register(fastifyCookie);
 
 app.register(appRoutes, {
-  prefix: "/api" // rotas com prefixo: /api/endpoint
+  prefix: "/api", // rotas com prefixo: /api/endpoint
 });
 
 /**
@@ -49,6 +49,6 @@ app.setErrorHandler((error, _, reply) => {
   } else {
     // Todo: rastreamento de erros na produção
   }
-  
+
   return reply.status(500).send({ message: error.message });
 });
