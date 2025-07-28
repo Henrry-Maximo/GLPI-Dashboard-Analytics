@@ -19,13 +19,13 @@ export const signIn = async (req: FastifyRequest, reply: FastifyReply) => {
     const token = await reply.jwtSign(
       {
         sub: user.id,
-        name: user.name
+        name: user.name,
       },
       {
         expiresIn: "1d",
-      }
+      },
     );
-    
+
     return reply.status(200).send({ token });
   } catch (err) {
     if (err instanceof InvalidCredentialsError) {

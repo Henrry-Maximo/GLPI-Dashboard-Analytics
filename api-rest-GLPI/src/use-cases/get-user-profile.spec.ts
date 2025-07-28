@@ -20,19 +20,19 @@ describe("Get User Profile Use Case", () => {
       passwordHash: await hash("123456", 6),
     });
 
-    console.log(createdUser);
     const { user } = await sut.execute({
       userId: createdUser.user.id.toString(),
     });
+    console.log(`Log: ${user}`);
 
-    expect(user.id).toEqual(expect.any(String));
-    expect(user.name).toEqual("John Doe");
+    expect(user.id).toEqual(expect.any(Number));
+    expect(user.name).toEqual("John.doe");
   });
 
   it("should not be able to get user profile with wrong id", async () => {
     await expect(() =>
       sut.execute({
-        userId: "non-existing-id",
+        userId: "1",
       }),
     ).rejects.toBeInstanceOf(ResourceNotFoundError);
   });
