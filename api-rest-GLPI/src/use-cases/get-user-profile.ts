@@ -7,24 +7,25 @@ interface GetUserProfileUseCaseRequest {
 }
 
 interface GetUserProfileUseCaseResponse {
-  userId: Pick<Tables["glpi_users"], "id">;
+  user: Tables["glpi_users"];
 }
 
 export class GetUserProfileUseCase {
-  constructor(private userRepository: UsersRepository) {
-    this.userRepository = userRepository;
+  constructor(private usersRepository: UsersRepository) {
+    this.usersRepository = usersRepository;
   }
 
   async execute({
     userId,
   }: GetUserProfileUseCaseRequest): Promise<GetUserProfileUseCaseResponse> {
-    // auth
-    const user = await this.userRepository.findById(userId);
+    const user = await this.usersRepository.findById(userId);
 
     if (!user) {
       throw new ResourceNotFoundError();
     }
 
-    return user && user;
+    return {
+      user,
+    };
   }
 }

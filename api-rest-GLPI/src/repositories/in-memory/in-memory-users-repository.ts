@@ -15,7 +15,7 @@ export class InMemoryUsersRepository implements UsersRepository {
 
   async create({ name, passwordHash }: createUsersRepository) {
     const user = {
-      id: Date.now(),
+      id: 1,
       name,
       password: passwordHash,
     } as Tables["glpi_users"];
@@ -48,8 +48,7 @@ export class InMemoryUsersRepository implements UsersRepository {
     return { user };
   }
 
-  async list(filters: listUsersFilters): Promise<{ users: Tables["glpi_users"][] }> {
-    console.log(filters);
+  async list(_filters: listUsersFilters): Promise<{ users: Tables["glpi_users"][] }> {
     throw new Error("Method not implemented.");
   }
 }
