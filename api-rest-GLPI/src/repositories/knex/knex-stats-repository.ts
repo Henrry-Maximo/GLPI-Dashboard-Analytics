@@ -1,5 +1,9 @@
 import { knex } from "@/database/knex-config";
-import { StatsRepository, StatsTicketsResponse, StatsUsersResponse } from "../stats-repository";
+import type {
+  StatsRepository,
+  StatsTicketsResponse,
+  StatsUsersResponse,
+} from "../stats-repository";
 
 export class KnexStatsRepository implements StatsRepository {
   async metricsUsers(): Promise<StatsUsersResponse> {
@@ -22,19 +26,6 @@ export class KnexStatsRepository implements StatsRepository {
       usersByLocation[locationKey] = (usersByLocation[locationKey] || 0) + 1;
     }
 
-    const items = [];
-    const total: Record<string, number> = await knex("glpi_tickets AS a")
-      .leftJoin("glpi_users AS b", "a.users_id_recipient", "b.id")
-      .select(
-        "b.name AS user",
-        knex.raw(["COUNT(a.id) AS total"]),
-      )
-      .groupBy("b.name")
-      .orderBy("total", "desc").first();
-    items.push(total);
-
-    console.log(`log: ${items.map((row) => row)}`);
-
     const usersWithTickets = await knex("glpi_tickets")
       .distinct("users_id_recipient")
       .whereNotNull("users_id_recipient")
@@ -54,5 +45,3 @@ export class KnexStatsRepository implements StatsRepository {
     throw new Error("Method not implemented.");
   }
 }
-
-

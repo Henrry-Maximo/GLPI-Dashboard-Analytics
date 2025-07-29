@@ -1,5 +1,5 @@
 import { KnexStatsRepository } from "@/repositories/knex/knex-stats-repository";
-import { GetStatsUseCase } from "../get-users-stats";
+import { GetStatsUseCase } from "../get-stats";
 // import { InMemoryUsersRepository } from "@/repositories/in-memory/in-memory-users-repository";
 
 export function makeGetStatsUseCase() {

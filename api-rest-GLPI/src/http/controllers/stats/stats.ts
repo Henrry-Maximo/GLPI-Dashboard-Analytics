@@ -2,7 +2,7 @@ import { ResourceNotFoundError } from "@/use-cases/errors/resource-not-found-err
 import { makeGetStatsUseCase } from "@/use-cases/factories/make-get-stats-use-case";
 import { FastifyReply, FastifyRequest } from "fastify";
 
-export async function stats(req: FastifyRequest, reply: FastifyReply) {
+export async function stats(_: FastifyRequest, reply: FastifyReply) {
   try {
     const getStats = makeGetStatsUseCase();
 
