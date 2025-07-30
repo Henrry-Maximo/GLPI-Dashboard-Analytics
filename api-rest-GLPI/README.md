@@ -19,32 +19,33 @@ Esta API conecta-se ao banco de dados do GLPI para extrair e processar informaç
 
 ### Autenticação
 - `POST /api/sessions` - Login de usuário
+`
+  {
+      "name": "Henrique",
+      "password": "xxxxxxxx"
+  }
+`
+
 - `POST /api/register` - Registro de novo usuário
+`
+  {
+      "name": "Henrique",
+      "password": "xxxxxxxx"
+  }
+`
+
+- `GET /api/me` - Informações do usuário logado
+
+### Estatísticas Gerais
+- `GET /api/stats` - Lista de estatísticas sobre usuários e chamados
 
 ### Usuários
-- `GET /api/users` - Lista usuários por nome
-- `GET /api/users/count` - Contagem total de usuários
-- `GET /api/users/tickets` - Contagem de chamados por usuário
+- `GET /api/users` - Lista de usuários (fitros: name, isActive)
+`GET /api/users?name=Henrique&isActive=true`
 
 ### Chamados (Tickets)
-- `GET /api/tickets/search` - Busca chamados (específico por ID)
-- `GET /api/tickets/state` - Contagem por status/categoria/urgência
-- `GET /api/tickets/date` - Chamados solucionados por data
-- `GET /api/tickets/last` - Último chamado cadastrado
-- `GET /api/tickets/status` - Contagem por status
-- `GET /api/tickets/status-date` - Evolução por status ao longo do tempo
-- `GET /api/tickets/urgency` - Contagem por urgência
-- `GET /api/tickets/category` - Contagem por categoria
-- `GET /api/tickets/category/last` - Últimos 10 por categoria
-- `GET /api/tickets/timeline` - Timeline por entidade/status/urgência
-- `GET /api/tickets/sla` - Chamados que atingiram prazo SLA
-- `GET /api/tickets/technician` - Contagem por técnico
-- `GET /api/tickets/type` - Contagem por tipo
-- `GET /api/tickets/technician/solutions` - Soluções por técnico
-
-### Categorias
-- `GET /api/categories` - Lista categorias por nome
-- `GET /api/categories/count` - Contagem total de categorias
+- `GET /api/tickets` - Lista de chamados (filtros: name)
+`GET /api/tickets?name=Acesso`
 
 ## Tarefas de Desenvolvimento
 
