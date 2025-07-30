@@ -6,14 +6,15 @@ import z from "zod";
 export async function tickets(req: FastifyRequest, reply: FastifyReply) {
   const ticketsQuerySchema = z.object({
     name: z.string().optional(),
+    page: z.coerce.number().min(1).default(1),
   });
 
-  const { name } = ticketsQuerySchema.parse(req.query);
+  const { name, page } = ticketsQuerySchema.parse(req.query);
 
   try {
     const getTicketsUseCase = makeGetTicketsUseCase();
 
-    const { tickets } = await getTicketsUseCase.execute({ name });
+    const { tickets } = await getTicketsUseCase.execute({ name, page });
 
     return reply.status(200).send({ tickets });
   } catch (err) {

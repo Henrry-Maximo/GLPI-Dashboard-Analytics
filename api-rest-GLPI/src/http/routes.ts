@@ -7,7 +7,7 @@ import { categoriesController } from "./controllers/categories";
 import { ticketsController } from "./controllers/tickets";
 
 import { stats } from "./controllers/stats/stats";
-import { tickets } from "./controllers/tickets/users";
+import { tickets } from "./controllers/tickets/tickets";
 import { profile } from "./controllers/users/profile";
 import { users } from "./controllers/users/users";
 import { verifyJwt } from "./middlewares/verify-jwt";
