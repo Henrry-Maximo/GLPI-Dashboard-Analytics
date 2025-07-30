@@ -5,7 +5,6 @@ export interface createUsersRepository {
   passwordHash: string;
 }
 
-
 export interface listUsersFilters {
   name?: string;
   isActive?: number;

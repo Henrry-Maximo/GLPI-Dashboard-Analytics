@@ -1,5 +1,4 @@
 import { StatsRepository } from "@/repositories/stats-repository";
-import { ResourceNotFoundError } from "./errors/resource-not-found-error";
 
 interface GetStatsUsersUseCaseResponse {
   totalUsers: number;
@@ -19,7 +18,7 @@ export interface GetStatsTicketsUseCaseResponse {
 
 interface GetStatsUseCaseSchema {
   users: GetStatsUsersUseCaseResponse;
-  ticksts: GetStatsTicketsUseCaseResponse;
+  tickets: GetStatsTicketsUseCaseResponse;
 };
 
 export class GetStatsUseCase {
@@ -28,11 +27,6 @@ export class GetStatsUseCase {
   }
 
   async execute(): Promise<GetStatsUsersUseCaseResponse> {
-    const items = [];
-
-    const users: GetStatsUseCaseSchema["users"] = await this.statsRepository.metricsUsers();
-    items.push(users);
-
     const  {
       totalUsers,
       totalUsersActive,
@@ -40,11 +34,7 @@ export class GetStatsUseCase {
       usersByLocation,
       usersByProfile,
       usersWithTickets,
-    } = await this.statsRepository.metricsUsers();
-
-    if (!items || items.length < 0) {
-      throw new ResourceNotFoundError();
-    }
+    }: GetStatsUseCaseSchema["users"] = await this.statsRepository.metricsUsers();
 
     return {
       totalUsers,

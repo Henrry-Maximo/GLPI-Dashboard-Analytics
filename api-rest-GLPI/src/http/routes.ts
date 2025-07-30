@@ -1,15 +1,16 @@
 import type { FastifyInstance } from "fastify";
 
-import { signIn } from "./controllers/users/signIn";
 import { register } from "./controllers/users/register";
+import { signIn } from "./controllers/users/signIn";
 
-import { ticketsController } from "./controllers/tickets";
 import { categoriesController } from "./controllers/categories";
+import { ticketsController } from "./controllers/tickets";
 
-import { users } from "./controllers/users/users";
-import { profile } from "./controllers/users/profile";
-import { verifyJwt } from "./middlewares/verify-jwt";
 import { stats } from "./controllers/stats/stats";
+import { tickets } from "./controllers/tickets/users";
+import { profile } from "./controllers/users/profile";
+import { users } from "./controllers/users/users";
+import { verifyJwt } from "./middlewares/verify-jwt";
 
 export async function appRoutes(app: FastifyInstance) {
   // definindo rotas
@@ -19,6 +20,7 @@ export async function appRoutes(app: FastifyInstance) {
 
   app.get("/users", { onRequest: [verifyJwt] }, users);
   app.get("/stats", { onRequest: [verifyJwt] }, stats);
+  app.get("/tickets", { onRequest: [verifyJwt] }, tickets);
 
   // registrando módulos
   // app.register(usersController, { prefix: "/users" });
