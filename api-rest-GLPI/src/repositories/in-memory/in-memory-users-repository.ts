@@ -27,7 +27,7 @@ export class InMemoryUsersRepository implements UsersRepository {
 
   async findById(userId: string) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const user = this.items.find((item: any) => item.id === userId);
+    const user = this.items.find((item: any) => item.id === Number(userId));
 
     if (!user) {
       return null;
