@@ -8,6 +8,8 @@ export interface createUsersRepository {
 export interface listUsersFilters {
   name?: string;
   isActive?: number;
+  page: number;
+  item: number
 }
 
 export interface UsersRepository {

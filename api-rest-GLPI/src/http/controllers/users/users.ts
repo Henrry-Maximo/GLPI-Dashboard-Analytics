@@ -14,12 +14,14 @@ export async function users(req: FastifyRequest, reply: FastifyReply) {
         return undefined;
       })
       .optional(),
+    page: z.coerce.number().min(1).default(1),
+    item: z.coerce.number().min(10).max(50).default(10),
   });
 
-  const { name, isActive } = usersQuerySchema.parse(req.query);
+  const { name, isActive, page, item } = usersQuerySchema.parse(req.query);
 
   try {
-    const users = await getUsers({ name, isActive });
+    const users = await getUsers({ name, isActive, page, item });
 
     return reply.status(200).send({ users });
   } catch (err) {

@@ -71,7 +71,8 @@ Esta API conecta-se ao banco de dados do GLPI para extrair e processar informaç
 
 - [x] O usuário não deve poder se cadastrar com um usuário duplicado
 - [] O usuário que quer algo específico, entrará em contato com os técnicos via WhatsApp
-- [] Todas as consultas devem ter paginação: 20 itens p/página
+- [] Todas as consultas devem ter paginação: 10 itens p/página
+- [] Todas as consultas devem permitir o usuário escolher o número de itens (min 10 - max 50)
 - [] Todos os filtros são opcionais
 
 ## Instalação e Uso

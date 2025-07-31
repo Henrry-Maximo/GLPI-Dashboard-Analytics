@@ -18,10 +18,7 @@ export class KnexUsersRepository implements UsersRepository {
     return { user: user || null };
   }
 
-  async create({
-    name,
-    passwordHash,
-  }: createUsersRepository): Promise<{
+  async create({ name, passwordHash }: createUsersRepository): Promise<{
     user: Pick<Tables["glpi_users"], "id" | "name" | "password">;
   }> {
     const [id] = await knex("glpi_users").insert({
@@ -59,9 +56,12 @@ export class KnexUsersRepository implements UsersRepository {
     return { user: null };
   }
 
-  async list(
-    { name, isActive }: listUsersFilters,
-  ): Promise<{ users: Tables["glpi_users"][] }> {
+  async list({
+    name,
+    isActive,
+    page,
+    item,
+  }: listUsersFilters): Promise<{ users: Tables["glpi_users"][] }> {
     const query = knex("glpi_users").select("*");
 
     if (name) {
@@ -72,7 +72,10 @@ export class KnexUsersRepository implements UsersRepository {
       query.where("is_active", isActive);
     }
 
-    const users = await query.orderBy("name");
+    const users = await query
+      .orderBy("id")
+      .limit(item)
+      .offset((page - 1) * item);
 
     return { users };
   }

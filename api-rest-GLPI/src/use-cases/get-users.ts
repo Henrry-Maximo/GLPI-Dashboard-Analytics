@@ -5,6 +5,8 @@ import { WithoutUsersRegistration } from "./errors/without-users-registration";
 interface listUsersFiltersUseCase {
   name?: string;
   isActive?: number;
+  page: number;
+  item: number
 }
 
 export async function getUsers(filters: listUsersFiltersUseCase): Promise<Tables["glpi_users"][]> {
