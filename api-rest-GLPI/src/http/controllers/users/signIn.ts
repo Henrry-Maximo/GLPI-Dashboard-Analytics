@@ -1,9 +1,11 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
 
 import { InvalidCredentialsError } from "@/use-cases/errors/invalid-credentials.error";
-import { signInUseCase } from "@/use-cases/signIn";
+
 
 import z from "zod";
+import { SignInUseCase } from "@/use-cases/signIn";
+import { makeSignInUseCase } from "@/use-cases/factories/make-signIn-use-case";
 
 export const signIn = async (req: FastifyRequest, reply: FastifyReply) => {
   const userBodySchema = z.object({
@@ -14,7 +16,9 @@ export const signIn = async (req: FastifyRequest, reply: FastifyReply) => {
   const { name, password } = userBodySchema.parse(req.body);
 
   try {
-    const { user } = await signInUseCase({ name, password });
+    const signInUseCase = makeSignInUseCase();
+
+    const { user } = await signInUseCase.execute({ name, password });
 
     const token = await reply.jwtSign(
       {
