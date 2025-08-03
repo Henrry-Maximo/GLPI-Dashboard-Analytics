@@ -1,5 +1,5 @@
 import { WithoutUsersRegistration } from "@/use-cases/errors/without-users-registration";
-import { getUsers } from "@/use-cases/get-users";
+import { makeGetUsersUseCase } from "@/use-cases/factories/make-get-users-use-case";
 import { FastifyReply, FastifyRequest } from "fastify";
 import z from "zod";
 
@@ -21,7 +21,8 @@ export async function users(req: FastifyRequest, reply: FastifyReply) {
   const { name, isActive, page, item } = usersQuerySchema.parse(req.query);
 
   try {
-    const users = await getUsers({ name, isActive, page, item });
+    const usersUseCase = makeGetUsersUseCase();
+    const users = await usersUseCase.execute({ name, isActive, page, item });
 
     return reply.status(200).send({ users });
   } catch (err) {
