@@ -11,13 +11,13 @@ export async function getTicketsSearch({ id }: SearchTicketsRequest) {
       "t.entities_id", // ID da entidade
       "t.name", // Nome do chamado
       knex.raw(
-        "DATE_FORMAT(t.date_creation, \"%d/%m/%Y %H:%i\") AS \"date_creation\""
+        "DATE_FORMAT(t.date_creation, \"%d/%m/%Y %H:%i\") AS \"date_creation\"",
       ), // Formata a data de criação
       knex.raw(
-        "DATE_FORMAT(t.solvedate, \"%d/%m/%Y %H:%i\") AS \"solvedate\""
+        "DATE_FORMAT(t.solvedate, \"%d/%m/%Y %H:%i\") AS \"solvedate\"",
       ), // Formata a data de solução
       knex.raw(
-        "DATE_FORMAT(t.date_mod, \"%d/%m/%Y %H:%i\") AS \"date_mod\""
+        "DATE_FORMAT(t.date_mod, \"%d/%m/%Y %H:%i\") AS \"date_mod\"",
       ), // Formata a data de modificação
       "lo.name AS location", // Nome da localização
       knex.raw(`
@@ -63,7 +63,7 @@ export async function getTicketsSearch({ id }: SearchTicketsRequest) {
     query = query.where("t.id", id);
     const tickets = await query.first();
 
-    return { tickets }; 
+    return { tickets };
   }
 
   const tickets = await query;

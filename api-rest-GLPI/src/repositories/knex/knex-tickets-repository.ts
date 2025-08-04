@@ -9,24 +9,31 @@ export class KnexTicketsRepository implements TicketsRepository {
   async list({
     id,
     name,
+    id_recipient,
+    id_request_type,
+    id_categories,
     page,
   }: listTicketsFilters): Promise<{ tickets: Tables["glpi_tickets"][] }> {
-    const query = knex("glpi_tickets").select(
-      "*",
-      knex.raw(
-        'DATE_FORMAT(CONVERT_TZ(glpi_tickets.date_creation, "+00:00", "-03:00"), "%d/%m/%Y %H:%i") as "date_creation"'
-      ),
-      knex.raw(
-        'DATE_FORMAT(CONVERT_TZ(glpi_tickets.solvedate, "+00:00", "-03:00"), "%d/%m/%Y %H:%i") as "solvedate"'
-      )
-    );
+    const query = knex("glpi_tickets").select("*");
 
     if (id !== undefined) {
       query.where("id", id);
     }
 
     if (name) {
-      query.where("id", "like", `${id}`);
+      query.where("name", "like", `${name}`);
+    }
+
+    if (id_recipient) {
+      query.where("users_id_recipient", id_recipient);
+    }
+
+    if (id_request_type) {
+      query.where("users_id_lastupdater", id_request_type);
+    }
+
+    if (id_categories) {
+      query.where("itilcategories_id", id_categories);
     }
 
     const tickets = await query

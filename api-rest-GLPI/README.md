@@ -65,15 +65,15 @@ Esta API conecta-se ao banco de dados do GLPI para extrair e processar informaç
 ### RNFs (Requisitos não-funcionais)
 
 - [x] A senha do usuário precisa estar criptografada
-- [] O usuário deve ser identificado por um JWT (JSON Web Token)
+- [x] O usuário deve ser identificado por um JWT (JSON Web Token)
 
 ### RNs (Regras de negócio)
 
 - [x] O usuário não deve poder se cadastrar com um usuário duplicado
 - [] O usuário que quer algo específico, entrará em contato com os técnicos via WhatsApp
-- [] Todas as consultas devem ter paginação: 10 itens p/página
-- [] Todas as consultas devem permitir o usuário escolher o número de itens (min 10 - max 50)
-- [] Todos os filtros são opcionais
+- [x] Todas as consultas devem ter paginação: 10 itens p/página
+- [x] Todas as consultas devem permitir o usuário escolher o número de itens (min 10 - max 50)
+- [x] Todos os filtros são opcionais
 
 ## Instalação e Uso
 

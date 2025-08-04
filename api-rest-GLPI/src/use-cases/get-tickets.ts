@@ -5,6 +5,9 @@ import { TicketsRepository } from "@/repositories/tickets-repository";
 interface listTicketsFiltersUseCase {
   id?: number;
   name?: string;
+  id_recipient?: number;
+  id_request_type?: number;
+  id_categories?: number;
   page: number;
 }
 
@@ -16,11 +19,21 @@ export class GetTicketsUseCase {
   async execute({
     id,
     name,
+    id_recipient,
+    id_request_type,
+    id_categories,
     page,
   }: listTicketsFiltersUseCase): Promise<{
     tickets: Tables["glpi_tickets"][];
   }> {
-    const { tickets } = await this.ticketsRepository.list({ id, name, page });
+    const { tickets } = await this.ticketsRepository.list({
+      id,
+      name,
+      id_recipient,
+      id_request_type,
+      id_categories,
+      page,
+    });
 
     if (!tickets) {
       throw new WithoutTicketsRegistration();
