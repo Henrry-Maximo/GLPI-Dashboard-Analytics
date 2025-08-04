@@ -10,6 +10,10 @@ export interface listTicketsFilters {
   page: number;
 }
 
+export interface registerTickets {
+  name: string;
+}
+
 export interface TicketsRepository {
   list({
     id,
@@ -19,4 +23,6 @@ export interface TicketsRepository {
     id_categories,
     page,
   }: listTicketsFilters): Promise<{ tickets: Tables["glpi_tickets"][] }>;
+
+  create({ name }: registerTickets): Promise<Tables["glpi_tickets"]>;
 }

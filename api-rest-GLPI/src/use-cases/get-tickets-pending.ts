@@ -5,13 +5,6 @@ import {
 } from "@/@types/tickets-pending";
 import { knex } from "@/database/knex-config";
 
-/**
- * Fetches paginated tickets with formatted data.
- * @param {number} page - Page number.
- * @param {number} pageSize - Number of items per page.
- * @returns {Promise<PropsDataTickets>} Formatted tickets data.
- */
-
 async function statementTickets(): Promise<PropsDataTickets> {
   try {
     const data = await knex("glpi_tickets as t")
@@ -20,7 +13,7 @@ async function statementTickets(): Promise<PropsDataTickets> {
         "t.name",
         "t.type",
         knex.raw(
-          "DATE_FORMAT(t.date_creation, \"%d/%m/%Y %H:%i\") AS \"date_creation\""
+          "DATE_FORMAT(t.date_creation, \"%d/%m/%Y %H:%i\") AS \"date_creation\"",
         ), // Formata a data de criação
         knex.raw("DATE_FORMAT(t.solvedate, \"%d/%m/%Y %H:%i\") AS \"solvedate\""), // Formata a data de solução
         "lo.name AS location",
@@ -102,7 +95,7 @@ function filteredTicketsOnlyPending(data: PropsTickets[]) {
     .filter(
       (ticket) =>
         ticket.status === TicketStatus.PENDING ||
-        ticket.status === TicketStatus.PROCESSING_ASSIGNED
+        ticket.status === TicketStatus.PROCESSING_ASSIGNED,
     )
     .slice(0, 20);
 
@@ -119,12 +112,12 @@ function countsTicketsPriority(pendings: PropsTickets[]) {
     ([name, count]) => ({
       name,
       count,
-    })
+    }),
   );
 
   const priorityOrder = ["veryHigh", "high", "average", "low", "veryLow"];
   const sortedMeta = newArrayPriority.sort(
-    (a, b) => priorityOrder.indexOf(a.name) - priorityOrder.indexOf(b.name)
+    (a, b) => priorityOrder.indexOf(a.name) - priorityOrder.indexOf(b.name),
   );
 
   return { sortedMeta };
@@ -218,7 +211,7 @@ async function statementTicketsDetails(): Promise<PropsTicketsDetails> {
         WHEN status = 5 THEN 'solved'
         WHEN status = 6 THEN 'closed'
       END AS "status"
-    `)
+    `),
     )
     .whereNotIn("status", [1, 4, 5, 6])
     .where("time_to_resolve", "<", knex.fn.now()) // se estiver abaixo do tempo atual, está atrasado
@@ -252,7 +245,7 @@ async function statementTicketsDetails(): Promise<PropsTicketsDetails> {
     .innerJoin(
       "glpi_itilcategories",
       "glpi_tickets.itilcategories_id",
-      "glpi_itilcategories.id"
+      "glpi_itilcategories.id",
     )
     .whereRaw("glpi_tickets.date_creation >= ?", [
       `${new Date().getFullYear()}-01-01`,

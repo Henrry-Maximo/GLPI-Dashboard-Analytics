@@ -5,6 +5,10 @@ import type {
   StatsUsersResponse,
 } from "../stats-repository";
 
+// const categoriesQuantity = await knex("glpi_itilcategories").select([
+//   knex.raw("COUNT(id) AS count"),
+// ]);
+
 export class KnexStatsRepository implements StatsRepository {
   async metricsUsers(): Promise<StatsUsersResponse> {
     const users = await knex("glpi_users").select("*");
