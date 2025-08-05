@@ -11,9 +11,14 @@ export interface listTicketsFilters {
 }
 
 export interface registerTickets {
-  users_id_recipient: number;
   entities_id: number;
   name: string;
+  content: string;
+  users_id_recipient: number;
+  requesttypes_id: number;
+  urgency: number;
+  itilcategories_id: number;
+  locations_id: number;
 }
 
 export interface TicketsRepository {
@@ -26,5 +31,14 @@ export interface TicketsRepository {
     page,
   }: listTicketsFilters): Promise<{ tickets: Tables["glpi_tickets"][] }>;
 
-  create({ users_id_recipient, entities_id, name }: registerTickets): Promise<Tables["glpi_tickets"]>;
+  create({
+    entities_id,
+    name,
+    content,
+    users_id_recipient,
+    requesttypes_id,
+    urgency,
+    itilcategories_id,
+    locations_id,
+  }: registerTickets): Promise<Tables["glpi_tickets"]>;
 }

@@ -57,7 +57,7 @@ Esta API conecta-se ao banco de dados do GLPI para extrair e processar informaç
 - [x] Deve ser possível obter todos os usuários
 - [x] Deve ser possível obter todos os chamados
 - [x] Deve ser possível obter estatísticas dos usuários/chamados
-- [] Deve ser possível cadastrar um chamado
+- [x] Deve ser possível cadastrar um chamado
 - [] Deve ser possível listar todos os chamados disponíveis para atendimento
 - [] Deve ser possível filtrar chamados por suas características
 - [] Deve ser possível visualizar detalhes de um chamado

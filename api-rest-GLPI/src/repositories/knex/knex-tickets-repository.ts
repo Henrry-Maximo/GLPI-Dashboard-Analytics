@@ -7,8 +7,8 @@ import type {
 } from "../tickets-repository";
 
 export class KnexTicketsRepository implements TicketsRepository {
-  async create({ users_id_recipient, entities_id, name }: registerTickets): Promise<Tables["glpi_tickets"]> {
-    const [ticket] = await knex("glpi_tickets").insert({ users_id_recipient, entities_id, name }).returning("*");
+  async create({ entities_id, name, content, users_id_recipient, requesttypes_id, urgency, itilcategories_id, locations_id }: registerTickets): Promise<Tables["glpi_tickets"]> {
+    const [ticket] = await knex("glpi_tickets").insert({ entities_id, name, content, users_id_recipient, requesttypes_id, urgency, itilcategories_id, locations_id, date_creation: knex.fn.now() }).returning("*");
 
     return ticket;
   }
