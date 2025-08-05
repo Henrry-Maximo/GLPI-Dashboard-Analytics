@@ -11,6 +11,8 @@ export interface listTicketsFilters {
 }
 
 export interface registerTickets {
+  users_id_recipient: number;
+  entities_id: number;
   name: string;
 }
 
@@ -24,5 +26,5 @@ export interface TicketsRepository {
     page,
   }: listTicketsFilters): Promise<{ tickets: Tables["glpi_tickets"][] }>;
 
-  create({ name }: registerTickets): Promise<Tables["glpi_tickets"]>;
+  create({ users_id_recipient, entities_id, name }: registerTickets): Promise<Tables["glpi_tickets"]>;
 }

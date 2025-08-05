@@ -17,8 +17,8 @@ export async function appRoutes(app: FastifyInstance) {
   // definindo rotas
   app.post("/sessions", signIn);
   app.post("/register", register);
-  app.get("/me", { onRequest: [verifyJwt] }, profile);
 
+  app.get("/me", { onRequest: [verifyJwt] }, profile);
   app.get("/users", { onRequest: [verifyJwt] }, users);
   app.get("/stats", { onRequest: [verifyJwt] }, stats);
   app.get("/tickets", { onRequest: [verifyJwt] }, tickets);

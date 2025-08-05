@@ -6,30 +6,9 @@ import type {
   TicketsRepository,
 } from "../tickets-repository";
 
-// async create({ name, passwordHash }: createUsersRepository): Promise<{
-//     user: Pick<Tables["glpi_users"], "id" | "name" | "password">;
-//   }> {
-//     const [id] = await knex("glpi_users").insert({
-//       name,
-//       password: passwordHash,
-//     });
-
-//     const user = (await knex("glpi_users")
-//       .where("id", id)
-//       .first()) as Tables["glpi_users"];
-
-//     return { user };
-//   }
-
 export class KnexTicketsRepository implements TicketsRepository {
-  async create({ name }: registerTickets): Promise<Tables["glpi_tickets"]> {
-    const tickets = await knex("glpi_tickets").insert({
-      name,
-    });
-
-    const ticket = (await knex("glpi_tickets")
-      .where("name", "like", tickets)
-      .first()) as Tables["glpi_tickets"];
+  async create({ users_id_recipient, entities_id, name }: registerTickets): Promise<Tables["glpi_tickets"]> {
+    const [ticket] = await knex("glpi_tickets").insert({ users_id_recipient, entities_id, name }).returning("*");
 
     return ticket;
   }
