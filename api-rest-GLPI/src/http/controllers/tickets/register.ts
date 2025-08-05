@@ -43,7 +43,7 @@ export async function registerTickets(
       locations_id,
     });
 
-    return reply.status(201).send({ ticket });
+    return reply.status(201).send({ ...ticket });
   } catch (err) {
     if (err instanceof InvalidCredentialsError) {
       return reply.status(400).send({ message: err.message });
