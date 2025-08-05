@@ -1,9 +1,8 @@
 import { compare } from "bcryptjs";
 
-import { InvalidCredentialsError } from "./errors/invalid-credentials.error";
-import { KnexUsersRepository } from "@/repositories/knex/knex-users-repository";
-import { Tables } from "knex/types/tables";
 import { UsersRepository } from "@/repositories/users-repository";
+import { Tables } from "knex/types/tables";
+import { InvalidCredentialsError } from "./errors/invalid-credentials.error";
 
 interface SignInUseCaseRequest {
   name: string;
@@ -15,15 +14,18 @@ interface SignInUseCaseResponse {
 }
 
 export class SignInUseCase {
-  constructor (private usersRepository: UsersRepository) {
+  constructor(private usersRepository: UsersRepository) {
     this.usersRepository = usersRepository;
   }
 
-  async execute ({ name, password }: SignInUseCaseRequest): Promise<SignInUseCaseResponse> {
+  async execute({
+    name,
+    password,
+  }: SignInUseCaseRequest): Promise<SignInUseCaseResponse> {
     const { user } = await this.usersRepository.signIn(name);
 
     if (!user) {
-      throw new InvalidCredentialsError
+      throw new InvalidCredentialsError();
     }
 
     const doesPasswordMatche = await compare(password, user.password);

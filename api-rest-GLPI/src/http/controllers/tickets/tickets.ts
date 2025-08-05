@@ -7,13 +7,14 @@ export async function tickets(req: FastifyRequest, reply: FastifyReply) {
   const ticketsQuerySchema = z.object({
     id: z.coerce.number().optional(),
     name: z.string().optional(),
+    status: z.coerce.number().min(1).max(6).optional(),
     id_recipient: z.coerce.number().optional(),
     id_request_type: z.coerce.number().optional(),
     id_categories: z.coerce.number().optional(),
     page: z.coerce.number().min(1).default(1),
   });
 
-  const { id, name, id_recipient, id_request_type, id_categories, page } =
+  const { id, name, status, id_recipient, id_request_type, id_categories, page } =
     ticketsQuerySchema.parse(req.query);
 
   try {
@@ -22,6 +23,7 @@ export async function tickets(req: FastifyRequest, reply: FastifyReply) {
     const { tickets } = await getTicketsUseCase.execute({
       id,
       name,
+      status,
       id_recipient,
       id_request_type,
       id_categories,

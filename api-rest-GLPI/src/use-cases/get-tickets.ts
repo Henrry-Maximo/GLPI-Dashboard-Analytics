@@ -5,6 +5,7 @@ import { TicketsRepository } from "@/repositories/tickets-repository";
 interface listTicketsFiltersUseCase {
   id?: number;
   name?: string;
+  status?: number;
   id_recipient?: number;
   id_request_type?: number;
   id_categories?: number;
@@ -19,6 +20,7 @@ export class GetTicketsUseCase {
   async execute({
     id,
     name,
+    status,
     id_recipient,
     id_request_type,
     id_categories,
@@ -29,6 +31,7 @@ export class GetTicketsUseCase {
     const { tickets } = await this.ticketsRepository.list({
       id,
       name,
+      status,
       id_recipient,
       id_request_type,
       id_categories,

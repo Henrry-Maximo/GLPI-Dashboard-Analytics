@@ -7,10 +7,31 @@ import type {
 } from "../tickets-repository";
 
 export class KnexTicketsRepository implements TicketsRepository {
-  async create({ entities_id, name, content, users_id_recipient, requesttypes_id, urgency, itilcategories_id, locations_id }: registerTickets): Promise<Tables["glpi_tickets"]> {
-    const [ticketId] = await knex("glpi_tickets").insert({ entities_id, name, content, users_id_recipient, requesttypes_id, urgency, itilcategories_id, locations_id, date_creation: knex.fn.now() });
+  async create({
+    entities_id,
+    name,
+    content,
+    users_id_recipient,
+    requesttypes_id,
+    urgency,
+    itilcategories_id,
+    locations_id,
+  }: registerTickets): Promise<Tables["glpi_tickets"]> {
+    const [ticketId] = await knex("glpi_tickets").insert({
+      entities_id,
+      name,
+      content,
+      users_id_recipient,
+      requesttypes_id,
+      urgency,
+      itilcategories_id,
+      locations_id,
+      date_creation: knex.fn.now(),
+    });
 
-    const [ticket] = await knex("glpi_tickets").select("*").where("id", "like", ticketId);
+    const [ticket] = await knex("glpi_tickets")
+      .select("*")
+      .where("id", "like", ticketId);
 
     return ticket;
   }
@@ -28,6 +49,7 @@ export class KnexTicketsRepository implements TicketsRepository {
   async list({
     id,
     name,
+    status,
     id_recipient,
     id_request_type,
     id_categories,
@@ -41,6 +63,10 @@ export class KnexTicketsRepository implements TicketsRepository {
 
     if (name) {
       query.where("name", "like", `${name}`);
+    }
+
+    if (status) {
+      query.where("status", status);
     }
 
     if (id_recipient) {

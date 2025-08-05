@@ -25,6 +25,7 @@ export interface TicketsRepository {
   list({
     id,
     name,
+    status,
     id_recipient,
     id_request_type,
     id_categories,

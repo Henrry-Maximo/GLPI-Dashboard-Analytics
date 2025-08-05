@@ -1,6 +1,6 @@
+import { UsersRepository } from "@/repositories/users-repository";
 import { Tables } from "knex/types/tables";
 import { WithoutUsersRegistration } from "./errors/without-users-registration";
-import { UsersRepository } from "@/repositories/users-repository";
 
 interface listUsersFiltersUseCase {
   name?: string;
@@ -15,7 +15,7 @@ export class GetUsersUseCase {
   }
 
   async execute(
-    filters: listUsersFiltersUseCase
+    filters: listUsersFiltersUseCase,
   ): Promise<Tables["glpi_users"][]> {
     const { users } = await this.usersRepository.list(filters);
 
