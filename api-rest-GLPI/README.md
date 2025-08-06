@@ -44,7 +44,7 @@ Esta API conecta-se ao banco de dados do GLPI para extrair e processar informaç
 `GET /api/users?name=Henrique&isActive=true`
 
 ### Chamados (Tickets)
-- `GET /api/tickets` - Lista de chamados (filtros: name)
+- `GET /api/tickets` - Lista de chamados (filtros: id, name, status, id_recipient, id_request_type, id_categories)
 `GET /api/tickets?name=Acesso`
 
 ## Tarefas de Desenvolvimento
@@ -58,9 +58,9 @@ Esta API conecta-se ao banco de dados do GLPI para extrair e processar informaç
 - [x] Deve ser possível obter todos os chamados
 - [x] Deve ser possível obter estatísticas dos usuários/chamados
 - [x] Deve ser possível cadastrar um chamado
-- [] Deve ser possível listar todos os chamados disponíveis para atendimento
+- [x] Deve ser possível listar todos os chamados disponíveis para atendimento
 - [x] Deve ser possível filtrar chamados por suas características
-- [] Deve ser possível visualizar detalhes de um chamado
+- [x] Deve ser possível visualizar detalhes de um chamado
 
 ### RNFs (Requisitos não-funcionais)
 
@@ -104,4 +104,91 @@ src/
 ├── use-cases/      # Lógica de negócio
 ├── app.ts          # Configuração da aplicação
 └── server.ts       # Inicialização do servidor
+```
+
+## Script MySQL Database (teste rápido)
+
+```
+DROP DATABASE IF EXISTS glpi;
+CREATE DATABASE glpi;
+USE glpi;
+
+-- Tabela simplificada de tickets
+CREATE TABLE glpi_tickets (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  entities_id INT NOT NULL DEFAULT 1,
+  name VARCHAR(100) NOT NULL,
+  date DATETIME NULL,
+  closedate DATETIME NULL,
+  solvedate DATETIME NULL,
+  date_mod DATETIME NULL,
+  users_id_lastupdater INT DEFAULT 0,
+  status INT DEFAULT 1,
+  users_id_recipient INT NOT NULL,
+  requesttypes_id INT NOT NULL,
+  content TEXT,
+  urgency INT,
+  impact INT,
+  priority INT,
+  itilcategories_id INT,
+  type INT DEFAULT 1,
+  global_validation INT DEFAULT 1,
+  slas_id_ttr INT DEFAULT 0,
+  slas_id_tto INT DEFAULT 0,
+  slalevels_id_ttr INT DEFAULT 0,
+  time_to_resolve DATETIME NULL,
+  time_to_own DATETIME NULL,
+  begin_waiting_date DATETIME NULL,
+  sla_waiting_duration INT DEFAULT 0,
+  ola_waiting_duration INT DEFAULT 0,
+  olas_id_tto INT DEFAULT 0,
+  olas_id_ttr INT DEFAULT 0,
+  olalevels_id_ttr INT DEFAULT 0,
+  ola_ttr_begin_date DATETIME NULL,
+  internal_time_to_resolve DATETIME NULL,
+  internal_time_to_own DATETIME NULL,
+  waiting_duration INT DEFAULT 0,
+  close_delay_stat INT DEFAULT 0,
+  solve_delay_stat INT DEFAULT 0,
+  takeintoaccount_delay_stat INT DEFAULT 0,
+  actiontime INT DEFAULT 0,
+  is_deleted INT DEFAULT 0,
+  locations_id INT,
+  validation_percent INT DEFAULT 0,
+  date_creation DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Tabela de usuários compatível com sua interface
+CREATE TABLE glpi_users (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  name VARCHAR(100) NOT NULL,
+  password VARCHAR(100) NOT NULL,
+  realname VARCHAR(100) DEFAULT '',
+  firstname VARCHAR(100) DEFAULT '',
+  locations_id INT DEFAULT 1,
+  is_active INT DEFAULT 1,
+  is_deleted INT DEFAULT 0,
+  auths_id INT DEFAULT 1,
+  authtype INT DEFAULT 1,
+  date_mod DATETIME DEFAULT CURRENT_TIMESTAMP,
+  profiles_id INT DEFAULT 1,
+  entities_id INT DEFAULT 1,
+  usertitles_id INT DEFAULT 1,
+  usercategories_id INT DEFAULT 1,
+  csv_delimiter VARCHAR(1) DEFAULT ';',
+  is_deleted_ldap INT DEFAULT 0,
+  date_creation DATETIME DEFAULT CURRENT_TIMESTAMP,
+  groups_id INT DEFAULT 1,
+  users_id_supervisor INT DEFAULT 1,
+  highcontrast_css INT DEFAULT 0
+);
+
+-- Usuário padrão de teste
+INSERT INTO glpi_users (name, password) 
+VALUES ('glpi', '$2a$08$gEmIAv2Wz/kIWdlGr2.2W.6dzIorD9rB9N8gpYrbph60LCVxq6acq');
+
+-- SELECTs pra checar se deu bom
+SELECT * FROM glpi_users;
+SELECT * FROM glpi_tickets;
+
 ```
