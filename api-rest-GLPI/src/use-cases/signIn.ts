@@ -2,7 +2,8 @@ import { compare } from "bcryptjs";
 
 import { UsersRepository } from "@/repositories/users-repository";
 import { Tables } from "knex/types/tables";
-import { InvalidCredentialsError } from "./errors/invalid-credentials.error";
+import { InvalidCredentialsError } from "./errors/invalid-credentials-error";
+import { UserNotAuthorization } from "./errors/user-not-authorization-error";
 
 interface SignInUseCaseRequest {
   name: string;
@@ -24,7 +25,11 @@ export class SignInUseCase {
   }: SignInUseCaseRequest): Promise<SignInUseCaseResponse> {
     const { user } = await this.usersRepository.signIn(name);
 
-    if (!user) {
+    if (user && user.is_active === 0) {
+      throw new UserNotAuthorization();
+    }
+
+    if (user === null) {
       throw new InvalidCredentialsError();
     }
 

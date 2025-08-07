@@ -1,9 +1,10 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
 
-import { InvalidCredentialsError } from "@/use-cases/errors/invalid-credentials.error";
+import { InvalidCredentialsError } from "@/use-cases/errors/invalid-credentials-error";
 
 import { makeSignInUseCase } from "@/use-cases/factories/make-signIn-use-case";
 import z from "zod";
+import { UserNotAuthorization } from "@/use-cases/errors/user-not-authorization-error";
 
 export const signIn = async (req: FastifyRequest, reply: FastifyReply) => {
   const userBodySchema = z.object({
@@ -30,6 +31,10 @@ export const signIn = async (req: FastifyRequest, reply: FastifyReply) => {
 
     return reply.status(200).send({ token });
   } catch (err) {
+    if (err instanceof UserNotAuthorization) {
+      return reply.status(401).send({ message: err.message })
+    }
+
     if (err instanceof InvalidCredentialsError) {
       return reply.status(400).send({ message: err.message });
     }

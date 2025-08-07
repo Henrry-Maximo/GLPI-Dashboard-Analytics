@@ -14,6 +14,7 @@ Esta API conecta-se ao banco de dados do GLPI para extrair e processar informaç
 - **MySQL** (Banco de dados GLPI)
 - **JWT** (Autenticação)
 - **Zod** (Validação de dados)
+- **Vitest** (Testes)
 
 ## API Endpoints
 
@@ -52,7 +53,8 @@ Esta API conecta-se ao banco de dados do GLPI para extrair e processar informaç
 ### RFs (Requisitos Funcionais)
 
 - [x] Deve ser possível cadastrar uma usuário
-- [x] Deve ser possível logar como um usuário
+- [] Deve ser possível logar como um usuário via banco de dados
+- [] Deve ser possível logar como um usuário via GLPi API
 - [x] Deve ser possível obter o perfil de um usuário logado
 - [x] Deve ser possível obter todos os usuários
 - [x] Deve ser possível obter todos os chamados
@@ -278,6 +280,7 @@ Esta API conecta-se ao banco de dados do GLPI para extrair e processar informaç
 - [] Deve ser possível exportar relatórios filtrados (CSV ou JSON)
 - [] Todas as datas devem seguir formato ISO ou estar convertidas conforme locale configurado (ex: DD/MM/YYYY)
 - [] As respostas devem ser consistentes mesmo quando o array estiver vazio (sempre enviar "result": [])
+- [x] Só usuários ativos podem se logar na aplicação
 
 ### RNs (Regras de negócio)
 

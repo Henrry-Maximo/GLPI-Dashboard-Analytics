@@ -11,7 +11,6 @@ export class KnexUsersRepository implements UsersRepository {
     const user = await knex("glpi_users")
       .select("*")
       .where("name", name)
-      .andWhere("is_active", 1)
       .andWhereNot("password", null)
       .first();
 
