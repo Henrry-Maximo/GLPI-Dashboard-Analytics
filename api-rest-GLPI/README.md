@@ -62,10 +62,222 @@ Esta API conecta-se ao banco de dados do GLPI para extrair e processar informaç
 - [x] Deve ser possível filtrar chamados por suas características
 - [x] Deve ser possível visualizar detalhes de um chamado
 
+- [] Deve ser possível visualizar o fluxo de todos os chamados que não forem solucionados/fechados
+```
+{
+    "meta": {
+        "total": 4,
+        "priority": [
+            {
+                "name": "veryHigh",
+                "count": 1
+            },
+            {
+                "name": "high",
+                "count": 1
+            },
+            {
+                "name": "low",
+                "count": 2
+            }
+        ],
+        "type": [
+            {
+                "name": "request",
+                "count": 4
+            }
+        ]
+    },
+    "list": [
+        {
+            "id": 3364,
+            "name": "CRIAR USUARIO DE REDE PARA O COLETOR",
+            "type": 2,
+            "date_creation": "30/05/2025 13:36",
+            "solvedate": null,
+            "location": "PCP",
+            "applicant": "Marcos Fabichaki",
+            "technical": null,
+            "status": "pending",
+            "priority": "veryHigh"
+        },
+        {
+            "id": 3362,
+            "name": "Atualização da licença do solidworks para versão 2025",
+            "type": 2,
+            "date_creation": "30/05/2025 11:30",
+            "solvedate": null,
+            "location": "Engenharia de Produto",
+            "applicant": "Andre Luiz Barreto",
+            "technical": null,
+            "status": "pending",
+            "priority": "high"
+        },
+        {
+            "id": 3327,
+            "name": "Criar usuário",
+            "type": 2,
+            "date_creation": "14/05/2025 09:16",
+            "solvedate": null,
+            "location": "Zamak",
+            "applicant": "Andre Luiz Barreto",
+            "technical": "Washington Dantas",
+            "status": "pending",
+            "priority": "low"
+        },
+        {
+            "id": 3267,
+            "name": "Criação de usuário ",
+            "type": 2,
+            "date_creation": "28/04/2025 17:04",
+            "solvedate": null,
+            "location": "RH",
+            "applicant": "Natalha Magalhaes da Silva",
+            "technical": "Marco Antonio",
+            "status": "pending",
+            "priority": "low"
+        }
+    ]
+}
+```
+
+- [] Deve ser possível visualizar o desempenho mensal dos técnicos (por mês e por técnico)
+```
+{
+  "total": 3,
+  "result": [
+    {
+      "id": 1,
+      "name": "Henrique.maximo",
+      "amount_tickets": 270,
+      "service": "370",
+      "urgency": {
+        "very_high": 33,
+        "high": 24,
+        "medium": 16,
+        "low": 42,
+        "very_low": 120
+      } 
+      "date_creation": "20/08/2003"
+    },
+    {
+      "id": 2,
+      "name": "Bruno.camargo",
+      "amount_tickets": 360,
+      "service": "370",
+      "date_creation": "20/08/2003"
+    },
+    {
+      "id": 3,
+      "name": "Luis",
+      "amount_tickets": 257,
+      "service": "370",
+      "date_creation": "20/08/2003"
+    },
+  ]
+}
+```
+
+- [] Deve ser possível obter último chamado mais lista de pendentes (monitoramento)
+```
+{
+  "meta": {
+    "id": 3364,
+    "title": "CRIAR USUARIO DE REDE PARA O COLETOR",
+    "date_creation": "2025-05-30T16:36:19.000Z",
+    "location": "PCP",
+    "firstname": "Marcos",
+    "realname": "Fabichaki",
+    "validation_date": null,
+    "comment_validation": null,
+    "status": "Pendente",
+    "priority": "Muito Alta",
+    "validation_status": null
+  }
+  "result": [
+    {
+        "date_creation": "30/05/2025 13:36",
+        "entities": "TI",
+        "id": 3364,
+        "title": "CRIAR USUARIO DE REDE PARA O COLETOR",
+        "location": "PCP",
+        "applicant": "Marcos Fabichaki",
+        "technical": null,
+        "status": "Pendente",
+        "priority": "Muito alta"
+    },
+    {
+        "date_creation": "30/05/2025 11:30",
+        "entities": "TI",
+        "id": 3362,
+        "title": "Atualização da licença do solidworks para versão 2025",
+        "location": "Engenharia de Produto",
+        "applicant": "Andre Luiz Barreto",
+        "technical": null,
+        "status": "Pendente",
+        "priority": "Alta"
+    },
+    {
+        "date_creation": "14/05/2025 09:16",
+        "entities": "TI",
+        "id": 3327,
+        "title": "Criar usuário",
+        "location": "Zamak",
+        "applicant": "Andre Luiz Barreto",
+        "technical": "Washington Dantas",
+        "status": "Pendente",
+        "priority": "Baixa"
+    }
+  ]
+}
+```
+
+- [] Deve ser possível visualizar todas as categorias por quantidade de chamados
+```
+{
+  "total": 530,
+  "in_use": 124,
+  "unused": 406,
+  "result": [
+    {
+      "id": 1,
+      "name": "Acesso",
+      "type": 1,
+      "amount_tickets": 54,
+      "author": "Henrique.maximo",
+      "date_creation": "20/08/2003"
+    },
+    {
+      "id": 2,
+      "name": "Remove",
+      "type": 1,
+      "amount_tickets": 34,
+      "author": "Henrique.maximo",
+      "date_creation": "20/08/2003"
+    },
+    {
+      "id": 3,
+      "name": "Altera",
+      "type": 1,
+      "amount_tickets": 24,
+      "author": "Henrique.maximo",
+      "date_creation": "20/08/2003"
+    },
+  ]
+}
+```
+
 ### RNFs (Requisitos não-funcionais)
 
 - [x] A senha do usuário precisa estar criptografada
 - [x] O usuário deve ser identificado por um JWT (JSON Web Token)
+- [] A API deve seguir um padrão de resposta consistente com chave "meta" e "result"
+  - meta para cálculos
+  - result para item ou itens
+- [] Todas as rotas devem retornar status HTTP apropriado (200, 201, 400, etc)
+- [] Deve ser possível exportar relatórios filtrados (CSV ou JSON)
+- [] Todas as datas devem seguir formato ISO ou estar convertidas conforme locale configurado (ex: DD/MM/YYYY)
+- [] As respostas devem ser consistentes mesmo quando o array estiver vazio (sempre enviar "result": [])
 
 ### RNs (Regras de negócio)
 
