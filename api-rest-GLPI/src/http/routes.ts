@@ -2,6 +2,7 @@ import type { FastifyInstance } from "fastify";
 
 import { register } from "./controllers/users/register";
 import { signIn } from "./controllers/users/signIn";
+import { signInExternal } from "./controllers/users/signInExternal";
 
 import { categoriesController } from "./controllers/categories";
 import { ticketsController } from "./controllers/tickets";

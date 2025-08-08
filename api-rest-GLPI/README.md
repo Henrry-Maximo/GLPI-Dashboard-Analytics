@@ -53,8 +53,8 @@ Esta API conecta-se ao banco de dados do GLPI para extrair e processar informaç
 ### RFs (Requisitos Funcionais)
 
 - [x] Deve ser possível cadastrar uma usuário
-- [] Deve ser possível logar como um usuário via banco de dados
-- [] Deve ser possível logar como um usuário via GLPi API
+- [x] Deve ser possível logar como um usuário via banco de dados
+- [x] Deve ser possível logar como um usuário via GLPi API
 - [x] Deve ser possível obter o perfil de um usuário logado
 - [x] Deve ser possível obter todos os usuários
 - [x] Deve ser possível obter todos os chamados
