@@ -9,8 +9,17 @@ export class InMemoryUsersRepository implements UsersRepository {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public items: any = [];
 
-  async signIn(_: string): Promise<{ user: Tables["glpi_users"] | null }> {
-    throw new Error("Method not implemented.");
+  async signIn(name: string): Promise<{ user: Tables["glpi_users"] | null }> {
+    const registerUser = {
+      name,
+    } as Tables["glpi_users"];
+
+    this.items.push(registerUser);
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { user } = this.items.find((item: any) => item.name === name);
+
+    return { user };
   }
 
   async create({ name, passwordHash }: createUsersRepository) {
