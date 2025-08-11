@@ -33,7 +33,7 @@ export async function signInExternalService({
 
     return response.data;
   } catch (err) {
-    console.log(err);
+    // console.log(err.message);
     throw new InvalidCredentialsError();
   }
 }

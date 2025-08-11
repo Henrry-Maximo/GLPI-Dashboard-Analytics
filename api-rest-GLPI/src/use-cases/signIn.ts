@@ -32,7 +32,7 @@ export class SignInUseCase {
     }
 
     // usuário deve estar ativo
-    if (user && user.is_active === 0) {
+    if (user.is_active === 0) {
       throw new UserNotAuthorization();
     }
 

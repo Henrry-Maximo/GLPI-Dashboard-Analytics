@@ -31,11 +31,11 @@ app.register(appRoutes, {
   prefix: "/api", // rotas com prefixo: /api/endpoint
 });
 
-/**
+/*
  * Handler global de erros
  * - Trata erros de validação (ZodError)
  * - Retorna erro genérico para outros tipos
- */
+*/
 app.setErrorHandler((error, _, reply) => {
   if (error instanceof ZodError) {
     return reply.status(400).send({
@@ -44,7 +44,7 @@ app.setErrorHandler((error, _, reply) => {
     });
   }
 
-  if (env.NODE_ENV === "production") {
+  if (env.NODE_ENV !== "production") {
     console.error(error);
   } else {
     // Todo: rastreamento de erros na produção
