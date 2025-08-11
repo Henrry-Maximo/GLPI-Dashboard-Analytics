@@ -1,6 +1,6 @@
-import { env } from "@/env";
-import { InvalidCredentialsError } from "@/use-cases/errors/invalid-credentials-error";
-import { credentialsConvertBase64 } from "@/use-cases/utils/credencials-convert-base64";
+import { InvalidCredentialsError } from "../../use-cases/errors/invalid-credentials-error";
+import { env } from "../../env";
+import { credentialsConvertBase64 } from "../../use-cases/utils/credencials-convert-base64";
 import axios from "axios";
 
 export interface signInExternalRequest {
@@ -26,13 +26,14 @@ export async function signInExternalService({
         headers: {
           "Content-Type": "application/json",
           "Authorization": userFromBase64,
-          "App-Token": env.APP_TOKEN
+          "App-Token": env.APP_TOKEN,
         },
-      }
+      },
     );
 
     return response.data;
   } catch (err) {
+    console.log(err);
     throw new InvalidCredentialsError();
   }
 }

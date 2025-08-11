@@ -10,14 +10,8 @@ export class InMemoryUsersRepository implements UsersRepository {
   public items: any = [];
 
   async signIn(name: string): Promise<{ user: Tables["glpi_users"] | null }> {
-    const registerUser = {
-      name,
-    } as Tables["glpi_users"];
-
-    this.items.push(registerUser);
-
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const { user } = this.items.find((item: any) => item.name === name);
+    const user = this.items.find((item: any) => item.name === name);
 
     return { user };
   }

@@ -4,7 +4,7 @@ import { UsersRepository } from "@/repositories/users-repository";
 import { Tables } from "knex/types/tables";
 import { InvalidCredentialsError } from "./errors/invalid-credentials-error";
 import { UserNotAuthorization } from "./errors/user-not-authorization-error";
-import { signInExternalService } from "@/http/services/signIn-external";
+import { signInExternalService } from "../http/services/signIn-external";
 
 interface SignInUseCaseRequest {
   name: string;
@@ -13,7 +13,6 @@ interface SignInUseCaseRequest {
 
 interface SignInUseCaseResponse {
   user: Pick<Tables["glpi_users"], "id" | "name">;
-  session_token?: string;
 }
 
 export class SignInUseCase {

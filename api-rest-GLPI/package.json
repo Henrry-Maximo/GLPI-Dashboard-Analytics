@@ -4,7 +4,7 @@
   "description": "API Rest GLPI",
   "main": "server.js",
   "scripts": {
-    "start:dev": "tsx watch --env-file .env src/server.ts",
+    "start:dev": "tsx watch -r tsconfig-paths/register --env-file .env src/server.ts",
     "start:build": "node build/server.js",
     "generate:build": "tsup src --out-dir build",
     "start:test": "vitest run",
@@ -36,6 +36,7 @@
     "@vitest/ui": "3.2.4",
     "eslint": "9.31.0",
     "globals": "16.3.0",
+    "tsconfig-paths": "4.2.0",
     "tsup": "8.3.5",
     "tsx": "4.19.2",
     "typescript": "5.7.2",
