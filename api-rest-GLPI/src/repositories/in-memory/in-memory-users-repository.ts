@@ -13,14 +13,15 @@ export class InMemoryUsersRepository implements UsersRepository {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const user = this.items.find((item: any) => item.name === name);
 
-    return { user };
+    return { user: user || null };
   }
 
-  async create({ name, passwordHash }: createUsersRepository) {
+  async create({ name, passwordHash, is_active }: createUsersRepository) {
     const user = {
       id: 1,
       name,
       password: passwordHash,
+      is_active
     } as Tables["glpi_users"];
 
     this.items.push(user);

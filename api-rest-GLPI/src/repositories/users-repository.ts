@@ -3,6 +3,7 @@ import { Tables } from "knex/types/tables";
 export interface createUsersRepository {
   name: string;
   passwordHash: string;
+  is_active?: number;
 }
 
 export interface listUsersFilters {

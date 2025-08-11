@@ -1,20 +1,20 @@
 import { InMemoryUsersRepository } from "../repositories/in-memory/in-memory-users-repository";
-import { describe, expect, it, test } from "vitest";
+import { describe, expect, it } from "vitest";
 import { SignInUseCase } from "./signIn";
 import { hash } from "bcryptjs";
-import { randomInt } from "node:crypto";
+import { InvalidCredentialsError } from "./errors/invalid-credentials-error";
+import { UserNotAuthorization } from "./errors/user-not-authorization-error";
 
 describe("Sign In Use Case", () => {
   it("should be able to authenticate", async () => {
     const usersRepository = new InMemoryUsersRepository();
     const sut = new SignInUseCase(usersRepository);
 
-    // gera o hash da senha
-    const randomSalt = randomInt(6, 10);
-    const passwordHash = await hash("123456", randomSalt);
-
     // cria o usuário em memória
-    await usersRepository.create({ name: "Joe", passwordHash });
+    await usersRepository.create({
+      name: "Joe",
+      passwordHash: await hash("123456", 6),
+    });
 
     // busca usuário criado
     const { user } = await sut.execute({ name: "Joe", password: "123456" });
@@ -23,9 +23,52 @@ describe("Sign In Use Case", () => {
     expect(user.name).toBe("Joe");
   });
 
-  test.skip("should not be able to authenticate with wrong email", async () => {
+  it("should not be able to authenticate with wrong username", async () => {
+    const usersRepository = new InMemoryUsersRepository();
+    const sut = new SignInUseCase(usersRepository);
+
+    await expect(() =>
+      sut.execute({
+        name: "Joe",
+        password: "123456",
+      })
+    ).rejects.toBeInstanceOf(InvalidCredentialsError);
   });
 
-  test.skip("should not be able to authenticate with wrong password", async () => {
+  it("should not be able to authenticate with wrong password", async () => {
+    const usersRepository = new InMemoryUsersRepository();
+    const sut = new SignInUseCase(usersRepository);
+
+    // cria o usuário em memória
+    await usersRepository.create({
+      name: "Joe",
+      passwordHash: await hash("123456", 6),
+    });
+
+    // espera que o usuário tenha inserido a senha erroneamente
+    await expect(() =>
+      sut.execute({
+        name: "Joe",
+        password: "1234567",
+      })
+    ).rejects.toBeInstanceOf(InvalidCredentialsError);
+  });
+
+  it("should not be able to authenticate if user not is active", async () => {
+    const usersRepository = new InMemoryUsersRepository();
+    const sut = new SignInUseCase(usersRepository);
+
+    await usersRepository.create({
+      name: "Joe",
+      passwordHash: await hash("123456", 6),
+      is_active: 0,
+    });
+
+    await expect(() =>
+      sut.execute({
+        name: "Joe",
+        password: "123456",
+      })
+    ).rejects.toBeInstanceOf(UserNotAuthorization);
   });
 });
