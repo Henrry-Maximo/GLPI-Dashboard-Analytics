@@ -1,6 +1,7 @@
 import { UsersRepository } from "@/repositories/users-repository";
 import { Tables } from "knex/types/tables";
 import { WithoutUsersRegistration } from "./errors/without-users-registration";
+import { ResourceNotFoundError } from "./errors/resource-not-found-error";
 
 interface listUsersFiltersUseCase {
   name?: string;
@@ -19,8 +20,8 @@ export class GetUsersUseCase {
   ): Promise<Tables["glpi_users"][]> {
     const { users } = await this.usersRepository.list(filters);
 
-    if (!users) {
-      throw new WithoutUsersRegistration();
+    if (users.length === 0) {
+      throw new ResourceNotFoundError();
     }
 
     return users;

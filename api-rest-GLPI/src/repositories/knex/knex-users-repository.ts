@@ -1,8 +1,8 @@
 import { knex } from "../../database/knex-config";
 import { Tables } from "knex/types/tables";
 import type {
-  createUsersRepository,
-  listUsersFilters,
+  CreateUsersBody,
+  ListUsersQuery,
   UsersRepository,
 } from "../users-repository";
 
@@ -17,13 +17,11 @@ export class KnexUsersRepository implements UsersRepository {
     return { user: user || null };
   }
 
-  async create({ name, passwordHash }: createUsersRepository): Promise<{
+  async create(data: CreateUsersBody): Promise<{
     user: Pick<Tables["glpi_users"], "id" | "name" | "password">;
   }> {
-    const [id] = await knex("glpi_users").insert({
-      name,
-      password: passwordHash,
-    });
+    const { passwordHash, ...rest } = data;
+    const [id] = await knex("glpi_users").insert({ ...rest, password: passwordHash});
 
     const user = (await knex("glpi_users")
       .where("id", id)
@@ -60,7 +58,7 @@ export class KnexUsersRepository implements UsersRepository {
     isActive,
     page,
     item,
-  }: listUsersFilters): Promise<{ users: Tables["glpi_users"][] }> {
+  }: ListUsersQuery): Promise<{ users: Tables["glpi_users"][] }> {
     const query = knex("glpi_users").select("*");
 
     if (name) {

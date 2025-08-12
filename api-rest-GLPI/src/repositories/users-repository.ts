@@ -1,12 +1,12 @@
 import { Tables } from "knex/types/tables";
 
-export interface createUsersRepository {
+export interface CreateUsersBody {
   name: string;
   passwordHash: string;
   is_active?: number;
 }
 
-export interface listUsersFilters {
+export interface ListUsersQuery {
   name?: string;
   isActive?: number;
   page: number;
@@ -14,9 +14,9 @@ export interface listUsersFilters {
 }
 
 export interface UsersRepository {
-  create({ name, passwordHash }: createUsersRepository): Promise<{ user: Pick<Tables["glpi_users"], "id" | "name" | "password">}>
+  create(params: CreateUsersBody): Promise<{ user: Pick<Tables["glpi_users"], "id" | "name" | "password">}>
   signIn(name: string): Promise<{ user: Tables["glpi_users"] | null}>
   findById(userId: string): Promise<Tables["glpi_users"] | null>
   findByName(name: string): Promise<{ user: Pick<Tables["glpi_users"], "id" | "name"> | null }>
-  list(filters: listUsersFilters): Promise<{ users: Tables["glpi_users"][] }>
+  list(filters: ListUsersQuery): Promise<{ users: Tables["glpi_users"][] }>
 }
