@@ -5,7 +5,7 @@ export interface listTicketsFilters {
   name?: string;
   status?: number;
   id_recipient?: number;
-  id_request_type?: number;
+  id_type?: number;
   id_categories?: number;
   page: number;
 }
@@ -27,7 +27,7 @@ export interface TicketsRepository {
     name,
     status,
     id_recipient,
-    id_request_type,
+    id_type,
     id_categories,
     page,
   }: listTicketsFilters): Promise<{ tickets: Tables["glpi_tickets"][] }>;

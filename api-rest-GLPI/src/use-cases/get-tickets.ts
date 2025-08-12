@@ -7,7 +7,7 @@ interface listTicketsFiltersUseCase {
   name?: string;
   status?: number;
   id_recipient?: number;
-  id_request_type?: number;
+  id_type?: number;
   id_categories?: number;
   page: number;
 }
@@ -22,7 +22,7 @@ export class GetTicketsUseCase {
     name,
     status,
     id_recipient,
-    id_request_type,
+    id_type,
     id_categories,
     page,
   }: listTicketsFiltersUseCase): Promise<{
@@ -33,7 +33,7 @@ export class GetTicketsUseCase {
       name,
       status,
       id_recipient,
-      id_request_type,
+      id_type,
       id_categories,
       page,
     });

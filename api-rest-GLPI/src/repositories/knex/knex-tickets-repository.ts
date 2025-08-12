@@ -51,7 +51,7 @@ export class KnexTicketsRepository implements TicketsRepository {
     name,
     status,
     id_recipient,
-    id_request_type,
+    id_type,
     id_categories,
     page,
   }: listTicketsFilters): Promise<{ tickets: Tables["glpi_tickets"][] }> {
@@ -73,8 +73,8 @@ export class KnexTicketsRepository implements TicketsRepository {
       query.where("users_id_recipient", id_recipient);
     }
 
-    if (id_request_type) {
-      query.where("users_id_lastupdater", id_request_type);
+    if (id_type) {
+      query.where("type", id_type);
     }
 
     if (id_categories) {

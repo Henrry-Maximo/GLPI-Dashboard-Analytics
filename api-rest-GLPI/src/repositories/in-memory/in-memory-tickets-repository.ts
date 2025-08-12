@@ -6,7 +6,7 @@ export class InMemoryTicketsRepository implements TicketsRepository {
   public items: any = [];
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  list({ id, name, status, id_recipient, id_request_type, id_categories, page }: listTicketsFilters): Promise<{ tickets: Tables["glpi_tickets"][]; }> {
+  list({ id, name, status, id_recipient, id_type, id_categories, page }: listTicketsFilters): Promise<{ tickets: Tables["glpi_tickets"][]; }> {
     throw new Error("Method not implemented.");
   }
 
