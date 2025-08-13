@@ -10,6 +10,8 @@ export class InMemoryTicketsRepository implements TicketsRepository {
   public items: any = [];
 
   async create({
+    id,
+    entities_id,
     name,
     content,
     users_id_recipient,
@@ -19,6 +21,8 @@ export class InMemoryTicketsRepository implements TicketsRepository {
     locations_id,
   }: RegisterTicketsSchema) {
     const ticket = {
+      id,
+      entities_id,
       name,
       content,
       users_id_recipient,

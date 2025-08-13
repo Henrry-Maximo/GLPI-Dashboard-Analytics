@@ -1,7 +1,9 @@
 import { TicketsRepository } from "@/repositories/tickets-repository";
 import { Tables } from "knex/types/tables";
+import { ServerInternalError } from "./errors/server-internal-error";
 
 interface RegisterTicketUseCase {
+  id?: number;
   entities_id: number;
   name: string;
   content: string;
@@ -20,6 +22,7 @@ export class RegisterTicketsUseCase {
   }
 
   async execute({
+    id,
     entities_id,
     name,
     content,
@@ -31,6 +34,7 @@ export class RegisterTicketsUseCase {
   }: RegisterTicketUseCase): Promise<Tables["glpi_tickets"]> {
 
     const ticket = await this.ticketsRepository.create({
+      id,
       entities_id,
       name,
       content,
@@ -40,6 +44,10 @@ export class RegisterTicketsUseCase {
       itilcategories_id,
       locations_id,
     });
+
+    if (!ticket) {
+      throw new ServerInternalError;
+    }
 
     return ticket;
   }

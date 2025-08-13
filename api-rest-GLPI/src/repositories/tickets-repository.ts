@@ -11,6 +11,7 @@ export interface FiltersTicketsSchema {
 }
 
 export interface RegisterTicketsSchema {
+  id?: number;
   entities_id: number;
   name: string;
   content: string;
