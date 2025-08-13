@@ -2,7 +2,7 @@ import { Tables } from "knex/types/tables";
 import { WithoutTicketsRegistration } from "./errors/without-tickets-registration";
 import { TicketsRepository } from "@/repositories/tickets-repository";
 
-interface listTicketsFiltersUseCase {
+interface FiltersTicketsSchema {
   id?: number;
   name?: string;
   status?: number;
@@ -25,7 +25,7 @@ export class GetTicketsUseCase {
     id_type,
     id_categories,
     page,
-  }: listTicketsFiltersUseCase): Promise<{
+  }: FiltersTicketsSchema): Promise<{
     tickets: Tables["glpi_tickets"][];
   }> {
     const { tickets } = await this.ticketsRepository.list({
@@ -38,7 +38,7 @@ export class GetTicketsUseCase {
       page,
     });
 
-    if (!tickets) {
+    if (!tickets.length) {
       throw new WithoutTicketsRegistration();
     }
 

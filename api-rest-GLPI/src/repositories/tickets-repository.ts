@@ -1,6 +1,6 @@
 import { Tables } from "knex/types/tables";
 
-export interface listTicketsFilters {
+export interface FiltersTicketsSchema {
   id?: number;
   name?: string;
   status?: number;
@@ -10,7 +10,7 @@ export interface listTicketsFilters {
   page: number;
 }
 
-export interface registerTickets {
+export interface RegisterTicketsSchema {
   entities_id: number;
   name: string;
   content: string;
@@ -22,24 +22,6 @@ export interface registerTickets {
 }
 
 export interface TicketsRepository {
-  list({
-    id,
-    name,
-    status,
-    id_recipient,
-    id_type,
-    id_categories,
-    page,
-  }: listTicketsFilters): Promise<{ tickets: Tables["glpi_tickets"][] }>;
-
-  create({
-    entities_id,
-    name,
-    content,
-    users_id_recipient,
-    requesttypes_id,
-    urgency,
-    itilcategories_id,
-    locations_id,
-  }: registerTickets): Promise<Tables["glpi_tickets"]>;
+  create(body: RegisterTicketsSchema): Promise<Tables["glpi_tickets"]>;
+  list(query: FiltersTicketsSchema): Promise<{ tickets: Tables["glpi_tickets"][] }>;
 }

@@ -1,8 +1,8 @@
 import { knex } from "../../database/knex-config";
 import { Tables } from "knex/types/tables";
 import type {
-  listTicketsFilters,
-  registerTickets,
+  FiltersTicketsSchema,
+  RegisterTicketsSchema,
   TicketsRepository,
 } from "../tickets-repository";
 
@@ -16,7 +16,7 @@ export class KnexTicketsRepository implements TicketsRepository {
     urgency,
     itilcategories_id,
     locations_id,
-  }: registerTickets): Promise<Tables["glpi_tickets"]> {
+  }: RegisterTicketsSchema): Promise<Tables["glpi_tickets"]> {
     const [ticketId] = await knex("glpi_tickets").insert({
       entities_id,
       name,
@@ -54,7 +54,7 @@ export class KnexTicketsRepository implements TicketsRepository {
     id_type,
     id_categories,
     page,
-  }: listTicketsFilters): Promise<{ tickets: Tables["glpi_tickets"][] }> {
+  }: FiltersTicketsSchema): Promise<{ tickets: Tables["glpi_tickets"][] }> {
     const query = knex("glpi_tickets").select("*");
 
     if (id !== undefined) {
