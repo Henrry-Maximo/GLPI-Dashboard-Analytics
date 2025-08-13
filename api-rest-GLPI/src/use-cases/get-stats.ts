@@ -1,12 +1,31 @@
 import { StatsRepository } from "@/repositories/stats-repository";
 
+interface AmountProfilesUsers {
+  id: number
+  name: string;
+  amount: number
+}
+
+interface AmountLocationsUsers {
+  id: number;
+  name: string;
+  amount: number;
+  percentage: number;
+  description: string;
+}
+
 interface GetStatsUsersUseCaseResponse {
-  totalUsers: number;
-  totalUsersActive: number;
-  usersWithTickets: number;
-  usersAdmins: number;
-  usersByProfile: Record<string, number>;
-  usersByLocation: Record<string, number>;
+  meta: {
+    totalUsers: number;
+    totalUsersActive: number;
+    totalUsersInactive: number;
+    usersUsersAdmins: number;
+    totalUsersTickets: number
+  },
+  result: {
+    usersByProfile: AmountProfilesUsers[];
+    usersByLocation: AmountLocationsUsers[];
+  }
 }
 
 export interface GetStatsTicketsUseCaseResponse {
@@ -27,22 +46,11 @@ export class GetStatsUseCase {
   }
 
   async execute(): Promise<GetStatsUsersUseCaseResponse> {
-    const  {
-      totalUsers,
-      totalUsersActive,
-      usersAdmins,
-      usersByLocation,
-      usersByProfile,
-      usersWithTickets,
-    }: GetStatsUseCaseSchema["users"] = await this.statsRepository.metricsUsers();
+    const  { meta, result }: GetStatsUseCaseSchema["users"] = await this.statsRepository.metricsUsers();
 
     return {
-      totalUsers,
-      totalUsersActive,
-      usersAdmins,
-      usersByLocation,
-      usersByProfile,
-      usersWithTickets,
+      meta,
+      result
     };
   }
 }

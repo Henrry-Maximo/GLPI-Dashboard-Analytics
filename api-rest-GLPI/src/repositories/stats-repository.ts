@@ -1,19 +1,37 @@
+interface AmountProfilesUsers {
+  id: number
+  name: string;
+  amount: number
+}
+
+interface AmountLocationsUsers {
+  id: number;
+  name: string;
+  amount: number;
+  percentage: number;
+  description: string;
+}
 
 export interface StatsUsersResponse {
-  totalUsers: number;
-  totalUsersActive: number;
-  usersWithTickets: number;
-  usersAdmins: number;
-  usersByProfile: Record<string, number>;
-  usersByLocation: Record<string, number>;
-};
+  meta: {
+    totalUsers: number;
+    totalUsersActive: number;
+    totalUsersInactive: number;
+    usersUsersAdmins: number;
+    totalUsersTickets: number
+  },
+  result: {
+    usersByProfile: AmountProfilesUsers[];
+    usersByLocation: AmountLocationsUsers[];
+  }
+}
 
 export interface StatsTicketsResponse {
   totalTickets: number;
   totalTicketsPending: number;
   ticketsWithSolution: number;
   ticketsByLocation: Record<string, number>;
-};
+}
 
 interface StatsAllResponse {
   usersStats: StatsUsersResponse;
@@ -21,6 +39,6 @@ interface StatsAllResponse {
 }
 
 export interface StatsRepository {
-  metricsUsers(): Promise<StatsAllResponse["usersStats"]>
-  metricsTickets(): Promise<StatsAllResponse["ticketsStats"]>
-};
+  metricsUsers(): Promise<StatsAllResponse["usersStats"]>;
+  metricsTickets(): Promise<StatsAllResponse["ticketsStats"]>;
+}
