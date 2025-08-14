@@ -36,11 +36,11 @@ export async function registerTickets(
       entities_id,
       name,
       content,
-      users_id_recipient: userId,
       requesttypes_id,
       urgency,
       itilcategories_id,
       locations_id,
+      users_id_recipient: userId,
     });
 
     return reply.status(201).send({ ...ticket });

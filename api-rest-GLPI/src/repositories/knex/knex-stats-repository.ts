@@ -6,17 +6,48 @@ import type {
 } from "../stats-repository";
 import { Tables } from "knex/types/tables";
 
+interface UsersTicketsSchema {
+  name: string;
+  amount: number;
+}
+
 export class KnexStatsRepository implements StatsRepository {
   async metricsUsers(): Promise<StatsUsersResponse> {
     const items: Tables["glpi_users"][] = [];
 
+    // retornar array de todos os usuários
     const users = await knex("glpi_users").select("*");
 
+    // retornar array de quantidade de chamados por usuários
+    const usersCountByTickets: UsersTicketsSchema[] = await knex("glpi_tickets")
+      .select("glpi_users.name")
+      .count("glpi_tickets.id as amount")
+      .join("glpi_users", "glpi_tickets.users_id_recipient", "glpi_users.id")
+      .groupBy("glpi_users.name")
+      .orderBy("amount", "desc");
+
     const totalUsers = users.length;
-    const totalUsersActive = users.filter((u) => u.is_active === 1).length;
-    const totalUsersInactive = users.filter((u) => u.is_active === 0).length;
-    const totalUsersAdmins = users.filter((u) => u.profiles_id === 4).length;
-    const totalUsersTickets = 2;
+    const totalUsersActive = users.filter(
+      (item) => item.is_active === 1
+    ).length;
+    const totalUsersInactive = users.filter(
+      (item) => item.is_active === 0
+    ).length;
+    const totalUsersAdmins = users.filter(
+      (item) => item.profiles_id === 4
+    ).length;
+    const totalUsersTickets = usersCountByTickets.reduce(
+      (sum, user) => sum + user.amount,
+      0
+    );
+
+    // retornar array de quantidade de chamados por usuários
+    // const usersByProfile: any[] = await knex("glpi_tickets")
+    //   .select("glpi_users.name")
+    //   .count("glpi_tickets.id as amount")
+    //   .join("glpi_users", "glpi_tickets.users_id_recipient", "glpi_users.id")
+    //   .groupBy("glpi_users.name")
+    //   .orderBy("amount", "desc");
 
     // const usersByProfile: Record<string, number> = {};
     // const usersByLocation: Record<string, number> = {};
@@ -39,12 +70,13 @@ export class KnexStatsRepository implements StatsRepository {
         totalUsers,
         totalUsersActive,
         totalUsersInactive,
-        usersUsersAdmins: totalUsersAdmins,
+        totalUsersAdmins,
         totalUsersTickets,
       },
       result: {
         usersByProfile: [],
         usersByLocation: [],
+        usersCountByTickets,
       },
     };
   }

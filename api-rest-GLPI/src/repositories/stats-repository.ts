@@ -12,17 +12,23 @@ interface AmountLocationsUsers {
   description: string;
 }
 
+interface AmountTicketsUsers {
+  name: string;
+  amount: number
+}
+
 export interface StatsUsersResponse {
   meta: {
     totalUsers: number;
     totalUsersActive: number;
     totalUsersInactive: number;
-    usersUsersAdmins: number;
+    totalUsersAdmins: number;
     totalUsersTickets: number
   },
   result: {
     usersByProfile: AmountProfilesUsers[];
     usersByLocation: AmountLocationsUsers[];
+    usersCountByTickets: AmountTicketsUsers[];
   }
 }
 
