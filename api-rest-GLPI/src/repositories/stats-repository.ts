@@ -1,18 +1,19 @@
 interface AmountProfilesUsers {
   id: number
   name: string;
-  amount: number
+  amount: number;
 }
 
 interface AmountLocationsUsers {
   id: number;
   name: string;
   amount: number;
-  percentage: number;
-  description: string;
+  // percentage: number;
+  // description: string;
 }
 
 interface AmountTicketsUsers {
+  id: number;
   name: string;
   amount: number
 }
@@ -28,7 +29,7 @@ export interface StatsUsersResponse {
   result: {
     usersByProfile: AmountProfilesUsers[];
     usersByLocation: AmountLocationsUsers[];
-    usersCountByTickets: AmountTicketsUsers[];
+    usersByTickets: AmountTicketsUsers[];
   }
 }
 
