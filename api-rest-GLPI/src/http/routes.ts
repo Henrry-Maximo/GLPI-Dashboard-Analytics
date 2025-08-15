@@ -3,8 +3,8 @@ import type { FastifyInstance } from "fastify";
 import { register } from "./controllers/users/register";
 import { signIn } from "./controllers/users/signIn";
 
-import { categoriesController } from "./controllers/categories";
-import { ticketsController } from "./controllers/tickets";
+import { categoriesController } from "./controllers/_legacy/categories";
+import { ticketsController } from "./controllers/_legacy/tickets";
 
 import { stats } from "./controllers/stats/stats";
 import { registerTickets } from "./controllers/tickets/register";

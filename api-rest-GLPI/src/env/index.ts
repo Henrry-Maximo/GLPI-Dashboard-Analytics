@@ -12,6 +12,8 @@ const envSchema = z.object({
   DB_PASSWORD: z.string(),
 
   JWT_SECRET: z.string(),
+  JWT_EXPIRES_IN: z.coerce.string().default("1d"),
+
   API_EXTERNAL: z.string().optional(),
   APP_TOKEN: z.coerce.string().optional(),
 });

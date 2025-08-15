@@ -1,6 +1,6 @@
 import type { FastifyInstance } from "fastify";
 import { z } from "zod";
-import { verifyJwt } from "../middlewares/verify-jwt";
+import { verifyJwt } from "../../middlewares/verify-jwt";
 
 import { getTicketsSearch } from "@/use-cases/_legacy/get-tickets-search";
 import { getTicketsLast } from "@/use-cases/_legacy/get-tickets-last";

@@ -1,6 +1,6 @@
 import { FastifyInstance } from "fastify";
-import { getCategories } from "@/use-cases/get-categories";
-import { categoriesByCount } from "@/use-cases/categories-by-count";
+import { getCategories } from "@/use-cases/_legacy/get-categories";
+import { categoriesByCount } from "@/use-cases/_legacy/categories-by-count";
 
 export async function categoriesController(app: FastifyInstance) {
   // retornar nome de todas as categorias
