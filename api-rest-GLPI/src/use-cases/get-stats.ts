@@ -10,8 +10,14 @@ interface AmountLocationsUsers {
   id: number;
   name: string;
   amount: number;
-  percentage: number;
-  description: string;
+  // percentage: number;
+  // description: string;
+}
+
+interface AmountTicketsUsers {
+  id: number;
+  name: string;
+  amount: number
 }
 
 interface GetStatsUsersUseCaseResponse {
@@ -19,12 +25,13 @@ interface GetStatsUsersUseCaseResponse {
     totalUsers: number;
     totalUsersActive: number;
     totalUsersInactive: number;
-    usersUsersAdmins: number;
+    totalUsersAdmins: number;
     totalUsersTickets: number
   },
   result: {
     usersByProfile: AmountProfilesUsers[];
     usersByLocation: AmountLocationsUsers[];
+    usersByTickets: AmountTicketsUsers[];
   }
 }
 

@@ -2,16 +2,16 @@ import type { FastifyInstance } from "fastify";
 import { z } from "zod";
 import { verifyJwt } from "../middlewares/verify-jwt";
 
-import { getTicketsSearch } from "@/use-cases/get-tickets-search";
-import { getTicketsLast } from "@/use-cases/get-tickets-last";
-import { getTicketsOverview } from "@/use-cases/get-tickets-overview";
-import { getTicketsDateTime } from "@/use-cases/get-tickets-date-time";
-import { getTicketsTechnician } from "@/use-cases/get-tickets-technician";
-import { getTicketsCategories } from "@/use-cases/get-tickets-categories";
+import { getTicketsSearch } from "@/use-cases/_legacy/get-tickets-search";
+import { getTicketsLast } from "@/use-cases/_legacy/get-tickets-last";
+import { getTicketsOverview } from "@/use-cases/_legacy/get-tickets-overview";
+import { getTicketsDateTime } from "@/use-cases/_legacy/get-tickets-date-time";
+import { getTicketsTechnician } from "@/use-cases/_legacy/get-tickets-technician";
+import { getTicketsCategories } from "@/use-cases/_legacy/get-tickets-categories";
 import {
   getTicketsDetails,
   getTicketsPending,
-} from "@/use-cases/get-tickets-pending";
+} from "@/use-cases/_legacy/get-tickets-pending";
 
 export async function ticketsController(app: FastifyInstance) {
   app.get("/search", { onRequest: [verifyJwt] }, async (req, reply) => {
