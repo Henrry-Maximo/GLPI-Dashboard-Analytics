@@ -16,6 +16,12 @@ Esta API conecta-se ao banco de dados do GLPI para extrair e processar informaç
 - **Zod** (Validação de dados)
 - **Vitest** (Testes)
 
+## Arquiteturas
+
+- Clean Architecture
+- Factory Pattern (Dependency Injection)
+- Repository Pattern
+
 ## API Endpoints
 
 ### Autenticação
@@ -68,11 +74,11 @@ Esta API conecta-se ao banco de dados do GLPI para extrair e processar informaç
 - [] Deve ser possível obter último chamado mais lista de pendentes (monitoramento)
 - [] Deve ser possível visualizar todas as categorias por quantidade de chamados
 
-
 ### RNFs (Requisitos não-funcionais)
 
 - [x] A senha do usuário precisa estar criptografada
 - [x] O usuário deve ser identificado por um JWT (JSON Web Token)
+- [] O usuário não deve poder usar recursos da API se estiver desativado 
 - [] A API deve seguir um padrão de resposta consistente com chave "meta" e "result"
   - meta para cálculos
   - result para item ou itens
@@ -81,6 +87,7 @@ Esta API conecta-se ao banco de dados do GLPI para extrair e processar informaç
 - [] Todas as datas devem seguir formato ISO ou estar convertidas conforme locale configurado (ex: DD/MM/YYYY)
 - [] As respostas devem ser consistentes mesmo quando o array estiver vazio (sempre enviar "result": [])
 - [x] Só usuários ativos podem se logar na aplicação
+- [] Em consultar por nome, trabalhar índices otimizados
 
 ### RNs (Regras de negócio)
 

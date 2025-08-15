@@ -71,4 +71,23 @@ describe("Sign In Use Case", () => {
       })
     ).rejects.toBeInstanceOf(UserNotAuthorization);
   });
+
+  it.skip("should be able to authenticate if password is empty, searching in API", async () => {
+    const usersRepository = new InMemoryUsersRepository();
+    const sut = new SignInUseCase(usersRepository);
+
+    await usersRepository.create({
+      name: "Henrique.Maximo",
+      passwordHash: await hash("", 6)
+    });
+
+    await expect(
+      sut.execute({
+        name: "",
+        password: "",
+      })
+    ).resolves.toEqual({
+      user: { id: expect.any(Number), name: "Henrique.Maximo" },
+    });
+  });
 });
