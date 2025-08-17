@@ -1,5 +1,10 @@
 import { signInExternalRequest } from "@/http/services/signIn-external";
 
+/** 
+  @param credentialsConvertBase64 Função para receber nome e senha, convertendo 
+  para base 64.
+*/
+
 export async function credentialsConvertBase64({
   name,
   password,
