@@ -91,15 +91,65 @@ export class KnexTicketsRepository implements TicketsRepository {
   }
 
   async listPending(): Promise<TicketsPendingsSchema> {
-    const tickets = await knex("glpi_tickets").select("id", "name");
+    const data = await knex("glpi_tickets as t")
+      .select([
+        "t.id",
+        "t.name",
+        "t.type",
+        knex.raw(
+          'DATE_FORMAT(t.date_creation, "%d/%m/%Y %H:%i") AS "date_creation"'
+        ), // Formata a data de criação
+        knex.raw('DATE_FORMAT(t.solvedate, "%d/%m/%Y %H:%i") AS "solvedate"'), // Formata a data de solução
+        "lo.name AS location",
+        knex.raw(`
+      GROUP_CONCAT(DISTINCT CONCAT(u.firstname, ' ', u.realname)) AS "applicant"
+    `), // Requerente(s)
+        knex.raw(`
+      GROUP_CONCAT(DISTINCT CONCAT(u2.firstname, ' ', u2.realname)) AS "technical"
+    `), // Técnico(s)
+        knex.raw(`
+      CASE 
+        WHEN t.status = 1 THEN 'new'
+        WHEN t.status = 2 THEN 'processing (assigned)'
+        WHEN t.status = 3 THEN 'processing (planned)'
+        WHEN t.status = 4 THEN 'pending'
+        WHEN t.status = 5 THEN 'solved'
+        WHEN t.status = 6 THEN 'closed'
+      END AS "status"
+    `),
+        knex.raw(`
+      CASE 
+        WHEN t.priority = 1 THEN 'veryLow'
+        WHEN t.priority = 2 THEN 'low'
+        WHEN t.priority = 3 THEN 'average'
+        WHEN t.priority = 4 THEN 'high'
+        WHEN t.priority = 5 THEN 'veryHigh'
+      END AS "priority"
+    `),
+      ])
+      .leftJoin("glpi_locations as lo", "t.locations_id", "lo.id")
+      .leftJoin("glpi_tickets_users as tu1", function () {
+        this.on("tu1.tickets_id", "t.id").andOn("tu1.type", knex.raw(1));
+      })
+      .leftJoin("glpi_users as u", "tu1.users_id", "u.id")
+      .leftJoin("glpi_tickets_users as tu2", function () {
+        this.on("tu2.tickets_id", "t.id").andOn("tu2.type", knex.raw(2));
+      })
+      .leftJoin("glpi_users as u2", "tu2.users_id", "u2.id")
+      .whereNot("t.status", 5)
+      .andWhereNot("t.status", 6)
+      .groupBy("t.id")
+      .orderBy("t.id", "desc");
 
     return {
       meta: {
-        total: 0,
+        total: 120,
+      },
+      result: {
+        list: data,
         priority: [],
         type: [],
       },
-      result: [],
     };
   }
 }

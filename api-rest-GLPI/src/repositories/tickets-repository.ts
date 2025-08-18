@@ -38,14 +38,18 @@ interface PropertiesTicketsSchema {
 export interface TicketsPendingsSchema {
   meta: {
     total: number;
+  };
+  result: {
+    list: PropertiesTicketsSchema[];
     priority: Array<{ name: string; count: number }>;
     type: Array<{ name: string; count: number }>;
   };
-  result: PropertiesTicketsSchema[];
 }
 
 export interface TicketsRepository {
   create(body: RegisterTicketsSchema): Promise<Tables["glpi_tickets"]>;
-  list(query: FiltersTicketsSchema): Promise<{ tickets: Tables["glpi_tickets"][] }>;
+  list(
+    query: FiltersTicketsSchema
+  ): Promise<{ tickets: Tables["glpi_tickets"][] }>;
   listPending(): Promise<TicketsPendingsSchema>;
 }
