@@ -4,7 +4,7 @@ import z from "zod";
 import { InvalidCredentialsError } from "@/use-cases/errors/invalid-credentials-error";
 import { makeRegisterTicketUseCase } from "@/use-cases/factories/make-register-ticket-use-case";
 
-export async function registerTickets(
+export async function register(
   req: FastifyRequest,
   reply: FastifyReply,
 ) {

@@ -78,7 +78,7 @@ Esta API conecta-se ao banco de dados do GLPI para extrair e processar informaç
 
 - [x] A senha do usuário precisa estar criptografada
 - [x] O usuário deve ser identificado por um JWT (JSON Web Token)
-- [] O usuário não deve poder usar recursos da API se estiver desativado 
+- [x] O usuário não deve poder usar recursos da API se estiver desativado 
 - [] A API deve seguir um padrão de resposta consistente com chave "meta" e "result"
   - meta para cálculos
   - result para item ou itens

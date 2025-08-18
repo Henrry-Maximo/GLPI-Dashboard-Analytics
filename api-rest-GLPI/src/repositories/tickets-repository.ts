@@ -22,7 +22,30 @@ export interface RegisterTicketsSchema {
   locations_id: number;
 }
 
+interface PropertiesTicketsSchema {
+  id: number;
+  title: string;
+  date_creation: string;
+  solvedate: string;
+  location: string;
+  applicant: string;
+  technical: string;
+  status: string;
+  priority: number;
+  type: number;
+}
+
+export interface TicketsPendingsSchema {
+  meta: {
+    total: number;
+    priority: Array<{ name: string; count: number }>;
+    type: Array<{ name: string; count: number }>;
+  };
+  result: PropertiesTicketsSchema[];
+}
+
 export interface TicketsRepository {
   create(body: RegisterTicketsSchema): Promise<Tables["glpi_tickets"]>;
   list(query: FiltersTicketsSchema): Promise<{ tickets: Tables["glpi_tickets"][] }>;
+  listPending(): Promise<TicketsPendingsSchema>;
 }

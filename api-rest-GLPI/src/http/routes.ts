@@ -7,7 +7,7 @@ import { categoriesController } from "./controllers/_legacy/categories";
 import { ticketsController } from "./controllers/_legacy/tickets";
 
 import { stats } from "./controllers/stats/stats";
-import { registerTickets } from "./controllers/tickets/register";
+import { pendings } from "./controllers/tickets/pendings";
 import { tickets } from "./controllers/tickets/tickets";
 import { profile } from "./controllers/users/profile";
 import { users } from "./controllers/users/users";
@@ -21,8 +21,10 @@ export async function appRoutes(app: FastifyInstance) {
   app.get("/me", { onRequest: [verifyJwt] }, profile);
   app.get("/users", { onRequest: [verifyJwt] }, users);
   app.get("/stats", { onRequest: [verifyJwt] }, stats);
+
   app.get("/tickets", { onRequest: [verifyJwt] }, tickets);
-  app.post("/tickets", { onRequest: [verifyJwt] }, registerTickets);
+  app.post("/tickets", { onRequest: [verifyJwt] }, register);
+  app.get("/pendings", { onRequest: [verifyJwt] }, pendings);
 
   // registrando módulos
   // app.register(usersController, { prefix: "/users" });

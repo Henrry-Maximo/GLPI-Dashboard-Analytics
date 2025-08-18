@@ -3,6 +3,7 @@ import { Tables } from "knex/types/tables";
 import type {
   FiltersTicketsSchema,
   RegisterTicketsSchema,
+  TicketsPendingsSchema,
   TicketsRepository,
 } from "../tickets-repository";
 
@@ -88,4 +89,28 @@ export class KnexTicketsRepository implements TicketsRepository {
 
     return { tickets };
   }
+
+  async listPending(): Promise<TicketsPendingsSchema> {
+    const tickets = await knex("glpi_tickets").select("id", "name");
+
+    return {
+      meta: {
+        total: 0,
+        priority: [],
+        type: [],
+      },
+      result: [],
+    };
+  }
 }
+
+// id: number;
+//   title: string;
+//   date_creation: string;
+//   solvedate: string;
+//   location: string;
+//   applicant: string;
+//   technical: string;
+//   status: string;
+//   priority: number;
+//   type: number
