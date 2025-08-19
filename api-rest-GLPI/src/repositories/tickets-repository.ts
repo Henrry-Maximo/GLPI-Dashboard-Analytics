@@ -20,6 +20,7 @@ export interface RegisterTicketsSchema {
   urgency: number;
   itilcategories_id: number;
   locations_id: number;
+  date_creation: number;
 }
 
 interface PropertiesTicketsSchema {
@@ -35,14 +36,28 @@ interface PropertiesTicketsSchema {
   type: number;
 }
 
+interface PropertiesTicketsStatus {
+  id: number;
+  name: string;
+  count: number;
+}
+
+interface PropertiesTicketsType {
+  id: number;
+  name: string;
+  count: number;
+}
+
 export interface TicketsPendingsSchema {
   meta: {
     total: number;
+    last_ticket_id: number;
+    last_ticket_date: string;
   };
   result: {
     list: PropertiesTicketsSchema[];
-    priority: Array<{ name: string; count: number }>;
-    type: Array<{ name: string; count: number }>;
+    priority: PropertiesTicketsStatus[];
+    type: PropertiesTicketsType[];
   };
 }
 

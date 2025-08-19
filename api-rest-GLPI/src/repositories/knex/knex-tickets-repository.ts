@@ -8,16 +8,18 @@ import type {
 } from "../tickets-repository";
 
 export class KnexTicketsRepository implements TicketsRepository {
-  async create({
-    entities_id,
-    name,
-    content,
-    users_id_recipient,
-    requesttypes_id,
-    urgency,
-    itilcategories_id,
-    locations_id,
-  }: RegisterTicketsSchema): Promise<Tables["glpi_tickets"]> {
+  async create(body: RegisterTicketsSchema): Promise<Tables["glpi_tickets"]> {
+    const {
+      entities_id,
+      name,
+      content,
+      users_id_recipient,
+      requesttypes_id,
+      urgency,
+      itilcategories_id,
+      locations_id,
+    } = body;
+
     const [ticketId] = await knex("glpi_tickets").insert({
       entities_id,
       name,
@@ -96,17 +98,15 @@ export class KnexTicketsRepository implements TicketsRepository {
         "t.id",
         "t.name",
         "t.type",
-        knex.raw(
-          'DATE_FORMAT(t.date_creation, "%d/%m/%Y %H:%i") AS "date_creation"'
-        ), // Formata a data de criação
-        knex.raw('DATE_FORMAT(t.solvedate, "%d/%m/%Y %H:%i") AS "solvedate"'), // Formata a data de solução
+        "t.date_creation",
+        "t.solvedate",
         "lo.name AS location",
         knex.raw(`
       GROUP_CONCAT(DISTINCT CONCAT(u.firstname, ' ', u.realname)) AS "applicant"
-    `), // Requerente(s)
+    `),
         knex.raw(`
       GROUP_CONCAT(DISTINCT CONCAT(u2.firstname, ' ', u2.realname)) AS "technical"
-    `), // Técnico(s)
+    `),
         knex.raw(`
       CASE 
         WHEN t.status = 1 THEN 'new'
@@ -141,26 +141,91 @@ export class KnexTicketsRepository implements TicketsRepository {
       .groupBy("t.id")
       .orderBy("t.id", "desc");
 
+    const countTicketsTotal = data.length;
+
+    // const concludesRaw = await knex("glpi_tickets")
+    //   .select([
+    //     knex.raw("DATE(date_creation) as date_creation"),
+    //     knex.raw("'concluded' AS status"),
+    //   ])
+    //   .count({ count: "id" })
+    //   .where("date_creation", ">=", new Date().getDate())
+    //   .whereIn("status", [5, 6])
+    //   .groupByRaw("DATE(date_creation)")
+    //   .orderByRaw("DATE(date_creation) ASC")
+    //   .limit(10);
+
+    // const concludes: any[] = concludesRaw.map((item: any) => ({
+    //   date_creation: item.date_creation,
+    //   status: item.status,
+    //   count: Number(item.count),
+    // }));
+
+    // const delayed = await knex("glpi_tickets")
+    //   .select(
+    //     "id",
+    //     "date_creation",
+    //     "time_to_resolve",
+    //     "name",
+    //     knex.raw(`
+    //     WHEN status = 2 THEN 'processing (assigned)'
+    //     WHEN status = 3 THEN 'processing (planned)'
+    //     WHEN status = 4 THEN 'pending'
+    //     WHEN status = 5 THEN 'solved'
+    //     WHEN status = 6 THEN 'closed'
+    //   END AS "status"
+    // `)
+    //   )
+    //   .whereNotIn("status", [1, 4, 5, 6])
+    //   .where("time_to_resolve", "<", knex.fn.now())
+    //   .whereNull("solvedate")
+    //   .limit(10);
+
+    // const categories = await knex("glpi_tickets")
+    //   .select([
+    //     "glpi_itilcategories.name",
+    //     "glpi_itilcategories.completename",
+    //     knex.raw("COUNT(glpi_tickets.id) AS count"),
+    //   ])
+    //   .innerJoin(
+    //     "glpi_itilcategories",
+    //     "glpi_tickets.itilcategories_id",
+    //     "glpi_itilcategories.id"
+    //   )
+    //   .whereRaw("glpi_tickets.date_creation >= ?", [
+    //     `${new Date().getFullYear()}-01-01`,
+    //   ])
+    //   .whereRaw("glpi_tickets.date_creation <= ?", [
+    //     `${new Date().getFullYear()}-12-31`,
+    //   ])
+    //   .whereNot("glpi_itilcategories.name", "Anfe")
+    //   .groupBy("glpi_itilcategories.name", "glpi_itilcategories.completename")
+    //   .orderBy("count", "desc")
+    //   .limit(15);
+
     return {
       meta: {
-        total: 120,
+        total: countTicketsTotal,
+        last_ticket_id: 2324,
+        last_ticket_date: "2025-05-30T13:3600Z",
       },
       result: {
         list: data,
-        priority: [],
-        type: [],
+        priority: [
+          {
+            id: 1,
+            name: "veryHigh",
+            count: 1,
+          },
+        ],
+        type: [
+          {
+            id: 1,
+            name: "incident",
+            count: 2,
+          },
+        ],
       },
     };
   }
 }
-
-// id: number;
-//   title: string;
-//   date_creation: string;
-//   solvedate: string;
-//   location: string;
-//   applicant: string;
-//   technical: string;
-//   status: string;
-//   priority: number;
-//   type: number
