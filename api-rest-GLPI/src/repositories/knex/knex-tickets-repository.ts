@@ -7,6 +7,25 @@ import type {
   TicketsRepository,
 } from "../tickets-repository";
 
+interface TicketsPendingProps {
+  id: number;
+  title: string;
+  date_creation: string;
+  solvedate: string;
+  location: string;
+  applicant: string;
+  technical: string;
+  status: string;
+  priority: number;
+  type: number;
+}
+
+interface PropertiesTickets {
+  id: number;
+  name: string;
+  count: number;
+}
+
 export class KnexTicketsRepository implements TicketsRepository {
   async create(body: RegisterTicketsSchema): Promise<Tables["glpi_tickets"]> {
     const {
@@ -93,11 +112,16 @@ export class KnexTicketsRepository implements TicketsRepository {
   }
 
   async listPending(): Promise<TicketsPendingsSchema> {
-    const data = await knex("glpi_tickets as t")
+    const data: TicketsPendingProps[] = await knex("glpi_tickets as t")
       .select([
         "t.id",
         "t.name",
-        "t.type",
+        knex.raw(`
+            CASE
+              WHEN t.type = 1 THEN "incident"
+              WHEN t.type = 2 THEN "request"
+            END AS "type"
+          `),
         "t.date_creation",
         "t.solvedate",
         "lo.name AS location",
@@ -113,17 +137,15 @@ export class KnexTicketsRepository implements TicketsRepository {
         WHEN t.status = 2 THEN 'processing (assigned)'
         WHEN t.status = 3 THEN 'processing (planned)'
         WHEN t.status = 4 THEN 'pending'
-        WHEN t.status = 5 THEN 'solved'
-        WHEN t.status = 6 THEN 'closed'
       END AS "status"
     `),
         knex.raw(`
       CASE 
-        WHEN t.priority = 1 THEN 'veryLow'
+        WHEN t.priority = 1 THEN 'very low'
         WHEN t.priority = 2 THEN 'low'
         WHEN t.priority = 3 THEN 'average'
         WHEN t.priority = 4 THEN 'high'
-        WHEN t.priority = 5 THEN 'veryHigh'
+        WHEN t.priority = 5 THEN 'very high'
       END AS "priority"
     `),
       ])
@@ -142,89 +164,49 @@ export class KnexTicketsRepository implements TicketsRepository {
       .orderBy("t.id", "desc");
 
     const countTicketsTotal = data.length;
+    const { id, date_creation } = data[0];
 
-    // const concludesRaw = await knex("glpi_tickets")
-    //   .select([
-    //     knex.raw("DATE(date_creation) as date_creation"),
-    //     knex.raw("'concluded' AS status"),
-    //   ])
-    //   .count({ count: "id" })
-    //   .where("date_creation", ">=", new Date().getDate())
-    //   .whereIn("status", [5, 6])
-    //   .groupByRaw("DATE(date_creation)")
-    //   .orderByRaw("DATE(date_creation) ASC")
-    //   .limit(10);
+    const priority: PropertiesTickets[] = await knex("glpi_tickets as t")
+      .select([
+        "t.priority as id",
+        knex.raw(/* sql */ `
+          CASE 
+            WHEN t.priority = 1 THEN 'very low'
+            WHEN t.priority = 2 THEN 'low'
+            WHEN t.priority = 3 THEN 'average'
+            WHEN t.priority = 4 THEN 'high'
+            WHEN t.priority = 5 THEN 'very high'
+          END AS "name"`),
+      ])
+      .count("t.id as count")
+      .whereNot("t.status", 5)
+      .andWhereNot("t.status", 6)
+      .groupBy("t.priority");
 
-    // const concludes: any[] = concludesRaw.map((item: any) => ({
-    //   date_creation: item.date_creation,
-    //   status: item.status,
-    //   count: Number(item.count),
-    // }));
-
-    // const delayed = await knex("glpi_tickets")
-    //   .select(
-    //     "id",
-    //     "date_creation",
-    //     "time_to_resolve",
-    //     "name",
-    //     knex.raw(`
-    //     WHEN status = 2 THEN 'processing (assigned)'
-    //     WHEN status = 3 THEN 'processing (planned)'
-    //     WHEN status = 4 THEN 'pending'
-    //     WHEN status = 5 THEN 'solved'
-    //     WHEN status = 6 THEN 'closed'
-    //   END AS "status"
-    // `)
-    //   )
-    //   .whereNotIn("status", [1, 4, 5, 6])
-    //   .where("time_to_resolve", "<", knex.fn.now())
-    //   .whereNull("solvedate")
-    //   .limit(10);
-
-    // const categories = await knex("glpi_tickets")
-    //   .select([
-    //     "glpi_itilcategories.name",
-    //     "glpi_itilcategories.completename",
-    //     knex.raw("COUNT(glpi_tickets.id) AS count"),
-    //   ])
-    //   .innerJoin(
-    //     "glpi_itilcategories",
-    //     "glpi_tickets.itilcategories_id",
-    //     "glpi_itilcategories.id"
-    //   )
-    //   .whereRaw("glpi_tickets.date_creation >= ?", [
-    //     `${new Date().getFullYear()}-01-01`,
-    //   ])
-    //   .whereRaw("glpi_tickets.date_creation <= ?", [
-    //     `${new Date().getFullYear()}-12-31`,
-    //   ])
-    //   .whereNot("glpi_itilcategories.name", "Anfe")
-    //   .groupBy("glpi_itilcategories.name", "glpi_itilcategories.completename")
-    //   .orderBy("count", "desc")
-    //   .limit(15);
+    const type: PropertiesTickets[] = await knex("glpi_tickets as t")
+      .select([
+        "t.type as id",
+        knex.raw(/* sql */ `
+          CASE 
+            WHEN t.type = 1 THEN 'incident'
+            WHEN t.type = 2 THEN 'request'
+          END AS "name"`),
+      ])
+      .count("t.id as count")
+      .whereNot("t.status", 5)
+      .andWhereNot("t.status", 6)
+      .groupBy("t.type");
 
     return {
       meta: {
         total: countTicketsTotal,
-        last_ticket_id: 2324,
-        last_ticket_date: "2025-05-30T13:3600Z",
+        last_ticket_id: id,
+        last_ticket_date: date_creation,
       },
       result: {
         list: data,
-        priority: [
-          {
-            id: 1,
-            name: "veryHigh",
-            count: 1,
-          },
-        ],
-        type: [
-          {
-            id: 1,
-            name: "incident",
-            count: 2,
-          },
-        ],
+        priority,
+        type,
       },
     };
   }
