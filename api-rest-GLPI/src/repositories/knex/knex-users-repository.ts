@@ -54,12 +54,17 @@ export class KnexUsersRepository implements UsersRepository {
   }
 
   async list({
+    id,
     name,
     isActive,
     page,
     item,
   }: ListUsersQuery): Promise<{ users: Tables["glpi_users"][] }> {
     const query = knex("glpi_users").select("*");
+
+    if (id) {
+      query.where("id", id)
+    }
 
     if (name) {
       query.where("name", "like", `${name}%`);

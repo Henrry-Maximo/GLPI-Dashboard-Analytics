@@ -7,6 +7,7 @@ export interface CreateUsersBody {
 }
 
 export interface ListUsersQuery {
+  id?: number;
   name?: string;
   isActive?: number;
   page: number;

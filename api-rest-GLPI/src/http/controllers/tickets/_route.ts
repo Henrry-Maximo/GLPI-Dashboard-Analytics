@@ -7,7 +7,7 @@ import { register } from "./register";
 import { pendings } from "./pendings";
 
 export async function ticketsRoutes(app: FastifyInstance) {
-  app.get("/tickets", { onRequest: [verifyJwt] }, tickets);
+  app.get("/tickets/:id?", { onRequest: [verifyJwt] }, tickets);
   app.post("/tickets", { onRequest: [verifyJwt] }, register);
-  app.get("/pendings", { onRequest: [verifyJwt] }, pendings);
+  app.get("/tickets/pendings", { onRequest: [verifyJwt] }, pendings);
 }

@@ -1,11 +1,14 @@
-import { WithoutTicketsRegistration } from "@/use-cases/errors/without-tickets-registration";
+import { ResourceNotFoundError } from "@/use-cases/errors/resource-not-found-error";
 import { makeGetTicketsUseCase } from "@/use-cases/factories/make-get-tickets-use-case";
 import { FastifyReply, FastifyRequest } from "fastify";
 import z from "zod";
 
 export async function tickets(req: FastifyRequest, reply: FastifyReply) {
-  const ticketsQuerySchema = z.object({
+  const ticketsParamsSchema = z.object({
     id: z.coerce.number().optional(),
+  });
+
+  const ticketsQuerySchema = z.object({
     name: z.string().optional(),
     status: z.coerce.number().min(1).max(6).optional(),
     id_recipient: z.coerce.number().optional(),
@@ -14,7 +17,9 @@ export async function tickets(req: FastifyRequest, reply: FastifyReply) {
     page: z.coerce.number().min(1).default(1),
   });
 
-  const { id, name, status, id_recipient, id_type, id_categories, page } =
+  const { id } = ticketsParamsSchema.parse(req?.params);
+
+  const { name, status, id_recipient, id_type, id_categories, page } =
     ticketsQuerySchema.parse(req.query);
 
   try {
@@ -29,11 +34,12 @@ export async function tickets(req: FastifyRequest, reply: FastifyReply) {
       id_categories,
       page,
     });
+    console.log(tickets);
 
     return reply.status(200).send({ tickets });
   } catch (err) {
-    if (err instanceof WithoutTicketsRegistration) {
-      return reply.status(400).send({ message: err.message });
+    if (err instanceof ResourceNotFoundError) {
+      return reply.status(404).send({ message: err.message });
     }
 
     throw err;

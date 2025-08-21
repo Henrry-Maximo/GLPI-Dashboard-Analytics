@@ -1,6 +1,7 @@
 import { Tables } from "knex/types/tables";
 import { WithoutTicketsRegistration } from "./errors/without-tickets-registration";
 import { TicketsRepository } from "@/repositories/tickets-repository";
+import { ResourceNotFoundError } from "./errors/resource-not-found-error";
 
 interface FiltersTicketsSchema {
   id?: number;
@@ -38,8 +39,10 @@ export class GetTicketsUseCase {
       page,
     });
 
+    console.log(tickets);
+
     if (!tickets.length) {
-      throw new WithoutTicketsRegistration();
+      throw new ResourceNotFoundError();
     }
 
     return { tickets };
