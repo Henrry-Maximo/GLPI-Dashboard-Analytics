@@ -63,6 +63,7 @@ export interface TicketsPendingsSchema {
 
 export interface TicketsRepository {
   create(body: RegisterTicketsSchema): Promise<Tables["glpi_tickets"]>;
+  // ❗Todo: add pagination for list of tickets
   list(
     query: FiltersTicketsSchema
   ): Promise<{ tickets: Tables["glpi_tickets"][] }>;
