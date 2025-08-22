@@ -20,7 +20,7 @@ export interface RegisterTicketsSchema {
   urgency: number;
   itilcategories_id: number;
   locations_id: number;
-  date_creation: number;
+  date_creation: string;
 }
 
 interface PropertiesTicketsSchema {

@@ -7,7 +7,6 @@ describe("Get Tickets Use Case", () => {
   it("Should be able get list tickets", async () => {
     const ticketsRepository = new InMemoryTicketsRepository();
     const sut = new GetTicketsUseCase(ticketsRepository);
-
     const now = new Date();
 
     // cria chamado em memória
@@ -20,7 +19,7 @@ describe("Get Tickets Use Case", () => {
       urgency: 4,
       itilcategories_id: 66,
       locations_id: 16,
-      date_creation: Number(now.toISOString()),
+      date_creation: now.toISOString(),
     });
 
     await ticketsRepository.create({
@@ -32,7 +31,7 @@ describe("Get Tickets Use Case", () => {
       urgency: 2,
       itilcategories_id: 24,
       locations_id: 16,
-      date_creation: Number(now.toISOString()),
+      date_creation: now.toISOString(),
     });
 
     // busca por todos os usuários
