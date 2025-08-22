@@ -28,9 +28,9 @@ export async function users(req: FastifyRequest, reply: FastifyReply) {
 
   try {
     const usersUseCase = makeGetUsersUseCase();
-    const users = await usersUseCase.execute({ id, name, isActive, page, item });
+    const { users, pagination } = await usersUseCase.execute({ id, name, isActive, page, item });
 
-    return reply.status(200).send({ users });
+    return reply.status(200).send({ users, pagination });
   } catch (err) {
     if (err instanceof ResourceNotFoundError) {
       return reply.status(404).send({ message: err.message });

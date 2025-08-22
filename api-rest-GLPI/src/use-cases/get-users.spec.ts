@@ -17,13 +17,15 @@ describe("Get Users Use Case", () => {
     });
 
     // busca por todos os usuários
-    const users = await sut.execute({
-      page: 0,
+    const { users, pagination } = await sut.execute({
       item: 10,
+      page: 1
     });
 
     expect(Array.isArray(users)).toBe(true);
     expect(users).toHaveLength(1);
+    expect(pagination.page).toBe(0);
+    expect(pagination.item).toBe(10);
   });
 
   it("Should be able to return users list empty", async () => {

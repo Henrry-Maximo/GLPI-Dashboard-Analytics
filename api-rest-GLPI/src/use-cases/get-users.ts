@@ -17,13 +17,13 @@ export class GetUsersUseCase {
 
   async execute(
     filters: listUsersFiltersUseCase,
-  ): Promise<Tables["glpi_users"][]> {
-    const { users } = await this.usersRepository.list(filters);
+  ): Promise<{ users: Tables["glpi_users"][], pagination: Record<string, number> }> {
+    const { users, pagination } = await this.usersRepository.list(filters);
 
     if (!users.length) {
       throw new ResourceNotFoundError();
     }
 
-    return users;
+    return { users, pagination };
   }
 }
