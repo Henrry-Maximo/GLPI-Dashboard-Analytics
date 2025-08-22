@@ -2,6 +2,7 @@ import { Tables } from "knex/types/tables";
 import {
   FiltersTicketsSchema,
   RegisterTicketsSchema,
+  TicketsPendingsSchema,
   TicketsRepository,
 } from "../tickets-repository";
 
@@ -78,5 +79,9 @@ export class InMemoryTicketsRepository implements TicketsRepository {
     result.sort((a, b) => a.id - b.id);
 
     return { tickets: result };
+  }
+
+  listPending(): Promise<TicketsPendingsSchema> {
+    throw new Error("Method not implemented.");
   }
 }

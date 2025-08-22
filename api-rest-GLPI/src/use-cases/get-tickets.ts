@@ -39,8 +39,6 @@ export class GetTicketsUseCase {
       page,
     });
 
-    console.log(tickets);
-
     if (!tickets.length) {
       throw new ResourceNotFoundError();
     }
