@@ -7,6 +7,7 @@ export interface CreateUsersBody {
 }
 
 export interface ListUsersQuery {
+  id?: number;
   name?: string;
   isActive?: number;
   page: number;
@@ -18,5 +19,5 @@ export interface UsersRepository {
   signIn(name: string): Promise<{ user: Tables["glpi_users"] | null}>
   findById(userId: string): Promise<Tables["glpi_users"] | null>
   findByName(name: string): Promise<{ user: Pick<Tables["glpi_users"], "id" | "name"> | null }>
-  list(filters: ListUsersQuery): Promise<{ users: Tables["glpi_users"][] }>
+  list(filters: ListUsersQuery): Promise<{ users: Tables["glpi_users"][], pagination: Record<string, number> }>
 }

@@ -37,6 +37,7 @@ export class KnexTicketsRepository implements TicketsRepository {
       urgency,
       itilcategories_id,
       locations_id,
+      date_creation
     } = body;
 
     const [ticketId] = await knex("glpi_tickets").insert({
@@ -48,7 +49,7 @@ export class KnexTicketsRepository implements TicketsRepository {
       urgency,
       itilcategories_id,
       locations_id,
-      date_creation: knex.fn.now(),
+      date_creation: date_creation && knex.fn.now(),
     });
 
     const [ticket] = await knex("glpi_tickets")

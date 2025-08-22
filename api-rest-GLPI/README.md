@@ -33,7 +33,7 @@ Esta API conecta-se ao banco de dados do GLPI para extrair e processar informaç
   }
 `
 
-- `POST /api/register` - Registro de novo usuário
+- `POST /api/users` - Registro de novo usuário
 `
   {
       "name": "Henrique",

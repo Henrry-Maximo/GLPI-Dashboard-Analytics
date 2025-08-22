@@ -21,7 +21,10 @@ export class KnexUsersRepository implements UsersRepository {
     user: Pick<Tables["glpi_users"], "id" | "name" | "password">;
   }> {
     const { passwordHash, ...rest } = data;
-    const [id] = await knex("glpi_users").insert({ ...rest, password: passwordHash});
+    const [id] = await knex("glpi_users").insert({
+      ...rest,
+      password: passwordHash,
+    });
 
     const user = (await knex("glpi_users")
       .where("id", id)
@@ -41,7 +44,7 @@ export class KnexUsersRepository implements UsersRepository {
   }
 
   async findByName(
-    name: string,
+    name: string
   ): Promise<{ user: Pick<Tables["glpi_users"], "id" | "name"> | null }> {
     const user = await knex("glpi_users")
       .select("id", "name")
@@ -53,13 +56,15 @@ export class KnexUsersRepository implements UsersRepository {
     return { user: null };
   }
 
-  async list({
-    name,
-    isActive,
-    page,
-    item,
-  }: ListUsersQuery): Promise<{ users: Tables["glpi_users"][] }> {
+  async list({ id, name, isActive, page, item }: ListUsersQuery): Promise<{
+    users: Tables["glpi_users"][];
+    pagination: Record<string, number>;
+  }> {
     const query = knex("glpi_users").select("*");
+
+    if (id) {
+      query.where("id", id);
+    }
 
     if (name) {
       query.where("name", "like", `${name}%`);
@@ -69,11 +74,18 @@ export class KnexUsersRepository implements UsersRepository {
       query.where("is_active", isActive);
     }
 
+    // Todo: use cursor for pagination
     const users = await query
       .orderBy("id")
       .limit(item)
+      // partindo de...
       .offset((page - 1) * item);
 
-    return { users };
+    let pagination: Record<string, number> = {
+      limit: item,
+      offset: page,
+    };
+
+    return { users, pagination };
   }
 }

@@ -9,8 +9,10 @@ import { users } from "./users";
 
 export async function usersRoutes(app: FastifyInstance) {
   app.post("/sessions", signIn);
-  app.post("/register", register);
+  app.post("/users", register);
   
   app.get("/me", { onRequest: [verifyJwt] }, profile);
-  app.get("/users", { onRequest: [verifyJwt] }, users);
+  app.get("/users/:id?", { onRequest: [verifyJwt] }, users);
+  
+  // TODO: update for user
 }

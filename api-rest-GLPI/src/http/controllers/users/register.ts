@@ -13,8 +13,6 @@ export async function register(req: FastifyRequest, reply: FastifyReply) {
   const { name, password } = userBodySchema.parse(req.body);
 
   try {
-    // const knexUsersRepository = new KnexUsersRepository();
-    // const registerUseCase = new RegisterUseCase(knexUsersRepository);
     const registerUseCase = makeRegisterUseCase();
 
     const { user } = await registerUseCase.execute({ name, password });

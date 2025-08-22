@@ -1,9 +1,9 @@
 import { UsersRepository } from "@/repositories/users-repository";
 import { Tables } from "knex/types/tables";
-import { WithoutUsersRegistration } from "./errors/without-users-registration";
 import { ResourceNotFoundError } from "./errors/resource-not-found-error";
 
 interface listUsersFiltersUseCase {
+  id?: number;
   name?: string;
   isActive?: number;
   page: number;
@@ -17,13 +17,13 @@ export class GetUsersUseCase {
 
   async execute(
     filters: listUsersFiltersUseCase,
-  ): Promise<Tables["glpi_users"][]> {
-    const { users } = await this.usersRepository.list(filters);
+  ): Promise<{ users: Tables["glpi_users"][], pagination: Record<string, number> }> {
+    const { users, pagination } = await this.usersRepository.list(filters);
 
-    if (users.length === 0) {
+    if (!users.length) {
       throw new ResourceNotFoundError();
     }
 
-    return users;
+    return { users, pagination };
   }
 }
