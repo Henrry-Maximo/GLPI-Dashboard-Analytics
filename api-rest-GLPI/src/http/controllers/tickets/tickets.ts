@@ -34,7 +34,6 @@ export async function tickets(req: FastifyRequest, reply: FastifyReply) {
       id_categories,
       page,
     });
-    console.log(tickets);
 
     return reply.status(200).send({ tickets });
   } catch (err) {
