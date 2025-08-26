@@ -5,8 +5,8 @@ import z from "zod";
 
 export async function categories(req: FastifyRequest, reply: FastifyReply) {
   const categoriesQuerySchema = z.object({
-    start_date: z.string().optional(),
-    end_date: z.string().optional()
+    start_date: z.coerce.date().optional(),
+    end_date: z.coerce.date().optional()
   });
 
   const { start_date, end_date } = categoriesQuerySchema.parse(req.query)

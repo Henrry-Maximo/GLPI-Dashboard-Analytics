@@ -1,11 +1,14 @@
 import { knex } from "@/database/knex-config";
-import { CategoriesRepository, FiltersCategoriesSchema } from "../categories-repository";
+import {
+  CategoriesRepository,
+  CategoriesTicketsSchema,
+  FiltersCategoriesSchema,
+} from "../categories-repository";
 
 export class KnexCategoriesRepository implements CategoriesRepository {
-  async get({ start_date, end_date }: FiltersCategoriesSchema): Promise<any> {
-    console.log(start_date, end_date);
-
-    const data = await knex("glpi_tickets")
+  // ❗ Todo: Performance inefficiencies detected in code.
+  async get({ start_date, end_date }: FiltersCategoriesSchema): Promise<CategoriesTicketsSchema> {
+    let query = knex("glpi_tickets")
       .select(
         "glpi_itilcategories.id",
         "glpi_itilcategories.name",
@@ -17,10 +20,6 @@ export class KnexCategoriesRepository implements CategoriesRepository {
         "glpi_tickets.itilcategories_id",
         "glpi_itilcategories.id"
       )
-      .whereBetween("glpi_tickets.date_creation", [
-        String(start_date),
-        String(end_date),
-      ])
       .groupBy("glpi_itilcategories.completename")
       .orderBy("glpi_itilcategories.id");
 
@@ -44,10 +43,21 @@ export class KnexCategoriesRepository implements CategoriesRepository {
       .whereNull("glpi_tickets.id")
       .first();
 
-    const totalInUse = inUse?.total;
-    const totalUnUsed = unUsed?.total;
+    if (start_date && end_date) {
+      query = query.whereBetween("glpi_tickets.date_creation", [
+        start_date,
+        end_date,
+      ]);
+    } else if (start_date) {
+      query = query.where("glpi_tickets.date_creation", ">=", start_date);
+    } else if (end_date) {
+      query = query.where("glpi_tickets.date_creation", "<=", end_date);
+    }
 
-    const total = Number(totalInUse) + Number(totalUnUsed);
+    const totalInUse: number = Number(inUse?.total ?? 0);
+    const totalUnUsed: number = Number(unUsed?.total ?? 0);
+
+    const total = totalInUse + totalUnUsed;
 
     return {
       meta: {
@@ -55,7 +65,7 @@ export class KnexCategoriesRepository implements CategoriesRepository {
         in_use: totalInUse,
         unused: totalUnUsed,
       },
-      result: data,
+      result: await query,
     };
   }
 }

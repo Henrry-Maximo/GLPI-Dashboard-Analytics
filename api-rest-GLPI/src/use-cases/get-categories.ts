@@ -1,8 +1,8 @@
 import { CategoriesRepository } from "@/repositories/categories-repository";
 
 export interface FiltersCategoriesSchema {
-  start_date?: string;
-  end_date?: string;
+  start_date?: Date;
+  end_date?: Date;
 }
 
 export class GetCategoriesUseCase {
