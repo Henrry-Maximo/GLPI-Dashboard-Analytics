@@ -9,7 +9,7 @@ export class KnexCategoriesRepository implements CategoriesRepository {
         "glpi_itilcategories.name",
         "glpi_itilcategories.date_creation"
       )
-      .count("glpi_tickets.id as amount_tickets")
+      .count({ total: "glpi_tickets.id" })
       .join(
         "glpi_itilcategories",
         "glpi_tickets.itilcategories_id",
@@ -22,31 +22,36 @@ export class KnexCategoriesRepository implements CategoriesRepository {
       .groupBy("glpi_itilcategories.completename")
       .orderBy("glpi_itilcategories.id");
 
-    const inUse = await knex("glpi_tickets")
-      .count("glpi_itilcategories.id")
-      .join(
-        "glpi_itilcategories",
-        "glpi_tickets.itilcategories_id",
-        "glpi_itilcategories.id"
+    const inUse = await knex("glpi_itilcategories")
+      .countDistinct({ total: "glpi_itilcategories.id" })
+      .leftJoin(
+        "glpi_tickets",
+        "glpi_itilcategories.id",
+        "glpi_tickets.itilcategories_id"
       )
-      .groupBy("glpi_itilcategories.id")
-      .havingRaw("COUNT(glpi_tickets.id) > 0");
+      .whereNotNull("glpi_tickets.id")
+      .first();
 
     const unUsed = await knex("glpi_itilcategories")
-      .leftJoin("glpi_tickets", "glpi_itilcategories.id", "glpi_tickets.itilcategories_id")
-      .count("glpi_tickets.id as total_tickets")
-      .groupBy("glpi_itilcategories.id")
-      .havingRaw("COUNT(glpi_tickets.id) = 0");
+      .count({ total: "glpi_itilcategories.id" })
+      .leftJoin(
+        "glpi_tickets",
+        "glpi_itilcategories.id",
+        "glpi_tickets.itilcategories_id"
+      )
+      .whereNull("glpi_tickets.id")
+      .first();
 
-    const total = data.length;
-    const totalInUSE = inUse.length;
-    const unused = unUsed.length;
+    const totalInUse = inUse?.total;
+    const totalUnUsed = unUsed?.total;
+
+    const total = Number(totalInUse) + Number(totalUnUsed);
 
     return {
       meta: {
         total,
-        in_use: totalInUSE,
-        unused: unused,
+        in_use: totalInUse,
+        unused: totalUnUsed,
       },
       result: data,
     };
