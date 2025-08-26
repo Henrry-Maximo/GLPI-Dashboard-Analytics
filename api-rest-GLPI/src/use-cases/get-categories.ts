@@ -1,12 +1,17 @@
 import { CategoriesRepository } from "@/repositories/categories-repository";
 
+export interface FiltersCategoriesSchema {
+  start_date?: string;
+  end_date?: string;
+}
+
 export class GetCategoriesUseCase {
   constructor(private categoriesRepository: CategoriesRepository) {
     this.categoriesRepository = categoriesRepository;
   }
 
-  async execute() {
-    const data = await this.categoriesRepository.get();
+  async execute(props: FiltersCategoriesSchema) {
+    const data = await this.categoriesRepository.get(props);
 
     return data;
   }

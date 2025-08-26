@@ -14,6 +14,11 @@ export interface CategoriesTicketsSchema {
   ]
 }
 
+export interface FiltersCategoriesSchema {
+  start_date?: string;
+  end_date?: string;
+}
+
 export interface CategoriesRepository {
-  get(): Promise<CategoriesTicketsSchema | null>
+  get(props: FiltersCategoriesSchema): Promise<CategoriesTicketsSchema>
 }

@@ -1,8 +1,10 @@
 import { knex } from "@/database/knex-config";
-import { CategoriesRepository } from "../categories-repository";
+import { CategoriesRepository, FiltersCategoriesSchema } from "../categories-repository";
 
 export class KnexCategoriesRepository implements CategoriesRepository {
-  async get(): Promise<any> {
+  async get({ start_date, end_date }: FiltersCategoriesSchema): Promise<any> {
+    console.log(start_date, end_date);
+
     const data = await knex("glpi_tickets")
       .select(
         "glpi_itilcategories.id",
@@ -15,10 +17,10 @@ export class KnexCategoriesRepository implements CategoriesRepository {
         "glpi_tickets.itilcategories_id",
         "glpi_itilcategories.id"
       )
-      // .whereBetween("glpi_tickets.date_creation", [
-      //   "2025-08-01",
-      //   "2025-08-31",
-      // ])
+      .whereBetween("glpi_tickets.date_creation", [
+        String(start_date),
+        String(end_date),
+      ])
       .groupBy("glpi_itilcategories.completename")
       .orderBy("glpi_itilcategories.id");
 

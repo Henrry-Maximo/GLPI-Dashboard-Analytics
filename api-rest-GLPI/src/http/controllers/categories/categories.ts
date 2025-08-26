@@ -1,12 +1,20 @@
 import { ResourceNotFoundError } from "@/use-cases/errors/resource-not-found-error";
 import { makeGetCategoriesUseCase } from "@/use-cases/factories/make-get-categories-use-case";
 import { FastifyReply, FastifyRequest } from "fastify";
+import z from "zod";
 
-export async function categories(_: FastifyRequest, reply: FastifyReply) {
+export async function categories(req: FastifyRequest, reply: FastifyReply) {
+  const categoriesQuerySchema = z.object({
+    start_date: z.string().optional(),
+    end_date: z.string().optional()
+  });
+
+  const { start_date, end_date } = categoriesQuerySchema.parse(req.query)
+
   try {
     const getCategories = makeGetCategoriesUseCase();
 
-    const categories = await getCategories.execute();
+    const categories = await getCategories.execute({ start_date, end_date });
 
     return reply.status(200).send({ ...categories });
   } catch (err) {
