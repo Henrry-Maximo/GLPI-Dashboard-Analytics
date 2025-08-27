@@ -69,20 +69,20 @@ Esta API conecta-se ao banco de dados do GLPI para extrair e processar informaç
 - [x] Deve ser possível listar todos os chamados disponíveis para atendimento
 - [x] Deve ser possível filtrar chamados por suas características
 - [x] Deve ser possível visualizar detalhes de um chamado
-- [] Deve ser possível visualizar o fluxo de todos os chamados que não forem solucionados/fechados
+- [x] Deve ser possível visualizar o fluxo de todos os chamados que não forem solucionados/fechados
 - [] Deve ser possível visualizar o desempenho mensal dos técnicos (por mês e por técnico)
 - [] Deve ser possível obter último chamado mais lista de pendentes (monitoramento)
-- [] Deve ser possível visualizar todas as categorias por quantidade de chamados
+- [x] Deve ser possível visualizar todas as categorias por quantidade de chamados
 
 ### RNFs (Requisitos não-funcionais)
 
 - [x] A senha do usuário precisa estar criptografada
 - [x] O usuário deve ser identificado por um JWT (JSON Web Token)
 - [x] O usuário não deve poder usar recursos da API se estiver desativado 
-- [] A API deve seguir um padrão de resposta consistente com chave "meta" e "result"
+- [x] A API deve seguir um padrão de resposta consistente com chave "meta" e "result"
   - meta para cálculos
   - result para item ou itens
-- [] Todas as rotas devem retornar status HTTP apropriado (200, 201, 400, etc)
+- [x] Todas as rotas devem retornar status HTTP apropriado (200, 201, 400, etc)
 - [] Deve ser possível exportar relatórios filtrados (CSV ou JSON)
 - [] Todas as datas devem seguir formato ISO ou estar convertidas conforme locale configurado (ex: DD/MM/YYYY)
 - [] As respostas devem ser consistentes mesmo quando o array estiver vazio (sempre enviar "result": [])
