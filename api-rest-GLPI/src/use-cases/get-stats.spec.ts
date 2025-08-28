@@ -10,7 +10,7 @@ describe("Get Stats Use Case", () => {
     const { meta, result } = await sut.execute();
 
     expect(meta).toEqual(
-      expect.objectContaining({
+      expect.objectContaining({ 
         totalUsers: expect.any(Number),
         totalUsersActive: expect.any(Number),
         totalUsersInactive: expect.any(Number),
