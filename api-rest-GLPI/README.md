@@ -24,6 +24,23 @@ Esta API conecta-se ao banco de dados do GLPI para extrair e processar informaç
 
 ## API Endpoints
 
+**Padrão de Resposta:**
+Todas as respostas seguem o formato:
+```json
+{
+  "meta": { /* metadados, contadores, paginação */ },
+  "result": { /* dados principais */ }
+}
+```
+
+**Códigos de Status HTTP:**
+- `200` - Sucesso
+- `201` - Criado com sucesso
+- `400` - Erro de validação
+- `401` - Não autorizado
+- `404` - Recurso não encontrado
+- `500` - Erro interno do servidor
+
 ### Autenticação
 - `POST /api/sessions` - Login de usuário
 `
@@ -44,15 +61,112 @@ Esta API conecta-se ao banco de dados do GLPI para extrair e processar informaç
 - `GET /api/me` - Informações do usuário logado
 
 ### Estatísticas Gerais
-- `GET /api/stats` - Lista de estatísticas sobre usuários e chamados
+- `GET /api/stats` - Estatísticas sobre usuários e chamados
+```json
+{
+  "meta": {
+    "generated_at": "2024-01-15T10:30:00Z"
+  },
+  "result": {
+    "users_total": 150,
+    "tickets_total": 1250,
+    "tickets_open": 45,
+    "tickets_closed": 1205
+  }
+}
+```
+
+### Categorias
+- `GET /api/categories` - Lista de categorias com contagem de chamados
+```json
+{
+  "meta": {
+    "total": 10
+  },
+  "result": [
+    {
+      "id": 1,
+      "name": "Hardware",
+      "count": 25
+    }
+  ]
+}
+```
+
+### Técnicos
+- `GET /api/technicians` - Lista de técnicos com estatísticas de desempenho
+```json
+{
+  "meta": {
+    "total": 8
+  },
+  "result": [
+    {
+      "id": 1,
+      "name": "João Silva",
+      "tickets_assigned": 15,
+      "tickets_solved": 12
+    }
+  ]
+}
+```
 
 ### Usuários
-- `GET /api/users` - Lista de usuários (fitros: name, isActive)
-`GET /api/users?name=Henrique&isActive=true`
+- `GET /api/users` - Lista de usuários (filtros: name, isActive, page)
+`GET /api/users?name=Henrique&isActive=true&page=1`
 
 ### Chamados (Tickets)
-- `GET /api/tickets` - Lista de chamados (filtros: id, name, status, id_recipient, id_request_type, id_categories)
-`GET /api/tickets?name=Acesso`
+- `GET /api/tickets` - Lista de chamados (filtros: id, name, status, id_recipient, id_type, id_categories)
+`GET /api/tickets?name=Acesso&status=1&page=1`
+
+- `GET /api/tickets/:id` - Detalhes de um chamado específico
+
+- `POST /api/tickets` - Cadastrar novo chamado
+```json
+{
+  "entities_id": 1,
+  "name": "Problema no sistema",
+  "content": "Descrição detalhada do problema",
+  "users_id_recipient": 2,
+  "requesttypes_id": 1,
+  "urgency": 3,
+  "itilcategories_id": 5,
+  "locations_id": 1,
+  "date_creation": "2024-01-15T10:30:00Z"
+}
+```
+
+- `GET /api/tickets/pendings` - Lista de chamados pendentes com estatísticas
+```json
+{
+  "meta": {
+    "total": 25,
+    "last_ticket_id": 1234,
+    "last_ticket_date": "2024-01-15T10:30:00Z"
+  },
+  "result": {
+    "list": [...],
+    "priority": [...],
+    "type": [...]
+  }
+}
+```
+
+## Filtros Disponíveis
+
+### Tickets
+- `id` - ID específico do chamado
+- `name` - Nome/título do chamado (busca parcial)
+- `status` - Status do chamado (1=novo, 2=atribuído, 3=planejado, 4=pendente, 5=solucionado, 6=fechado)
+- `id_recipient` - ID do usuário solicitante
+- `id_type` - Tipo do chamado (1=incidente, 2=solicitação)
+- `id_categories` - ID da categoria
+- `page` - Página da paginação (padrão: 1)
+
+### Usuários
+- `name` - Nome do usuário (busca parcial)
+- `isActive` - Status ativo (true/false)
+- `page` - Página da paginação (padrão: 1)
 
 ## Tarefas de Desenvolvimento
 
@@ -73,6 +187,7 @@ Esta API conecta-se ao banco de dados do GLPI para extrair e processar informaç
 - [] Deve ser possível visualizar o desempenho mensal dos técnicos (por mês e por técnico)
 - [] Deve ser possível obter último chamado mais lista de pendentes (monitoramento)
 - [x] Deve ser possível visualizar todas as categorias por quantidade de chamados
+- [x] Deve ser possível listar técnicos com estatísticas
 
 ### RNFs (Requisitos não-funcionais)
 
@@ -93,8 +208,8 @@ Esta API conecta-se ao banco de dados do GLPI para extrair e processar informaç
 
 - [x] O usuário não deve poder se cadastrar com um usuário duplicado
 - [] O usuário que quer algo específico, entrará em contato com os técnicos via WhatsApp
-- [x] Todas as consultas devem ter paginação: 10 itens p/página
-- [x] Todas as consultas devem permitir o usuário escolher o número de itens (min 10 - max 50)
+- [x] Todas as consultas devem ter paginação: 10 itens p/página (parâmetro `page`)
+- [ ] Todas as consultas devem permitir o usuário escolher o número de itens (min 10 - max 50)
 - [x] Todos os filtros são opcionais
 
 ## Instalação e Uso
