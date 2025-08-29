@@ -13,6 +13,11 @@ interface FiltersTicketsSchema {
   limit: number
 }
 
+interface offesetTicketsPagination {
+  limit: number;
+  offset: number;
+}
+
 export class GetTicketsUseCase {
   constructor(private ticketsRepository: TicketsRepository) {
     this.ticketsRepository = ticketsRepository;
@@ -29,8 +34,9 @@ export class GetTicketsUseCase {
     limit
   }: FiltersTicketsSchema): Promise<{
     tickets: Tables["glpi_tickets"][];
+    pagination: offesetTicketsPagination;
   }> {
-    const { tickets } = await this.ticketsRepository.list({
+    const { tickets, pagination } = await this.ticketsRepository.list({
       id,
       name,
       status,
@@ -45,6 +51,6 @@ export class GetTicketsUseCase {
       throw new ResourceNotFoundError();
     }
 
-    return { tickets };
+    return { tickets, pagination };
   }
 }

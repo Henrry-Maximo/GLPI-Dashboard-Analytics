@@ -62,11 +62,19 @@ export interface TicketsPendingsSchema {
   };
 }
 
+export interface offesetTicketsPagination {
+  limit: number;
+  offset: number;
+}
+
 export interface TicketsRepository {
   create(body: RegisterTicketsSchema): Promise<Tables["glpi_tickets"]>;
   // ❗Todo: add pagination for list of tickets
   list(
     query: FiltersTicketsSchema
-  ): Promise<{ tickets: Tables["glpi_tickets"][] }>;
+  ): Promise<{
+    tickets: Tables["glpi_tickets"][];
+    pagination: offesetTicketsPagination;
+  }>;
   listPending(): Promise<TicketsPendingsSchema>;
 }

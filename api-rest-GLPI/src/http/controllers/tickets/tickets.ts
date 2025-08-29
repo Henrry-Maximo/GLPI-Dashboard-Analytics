@@ -26,7 +26,7 @@ export async function tickets(req: FastifyRequest, reply: FastifyReply) {
   try {
     const getTicketsUseCase = makeGetTicketsUseCase();
 
-    const { tickets } = await getTicketsUseCase.execute({
+    const { tickets, pagination } = await getTicketsUseCase.execute({
       id,
       name,
       status,
@@ -37,7 +37,7 @@ export async function tickets(req: FastifyRequest, reply: FastifyReply) {
       offset
     });
 
-    return reply.status(200).send({ tickets });
+    return reply.status(200).send({ tickets, pagination });
   } catch (err) {
     if (err instanceof ResourceNotFoundError) {
       return reply.status(404).send({ message: err.message });
