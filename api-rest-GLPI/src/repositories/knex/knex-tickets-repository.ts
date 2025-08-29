@@ -2,6 +2,7 @@ import { knex } from "../../database/knex-config";
 import { Tables } from "knex/types/tables";
 import type {
   FiltersTicketsSchema,
+  offesetTicketsPagination,
   RegisterTicketsSchema,
   TicketsPendingsSchema,
   TicketsRepository,
@@ -49,7 +50,7 @@ export class KnexTicketsRepository implements TicketsRepository {
       urgency,
       itilcategories_id,
       locations_id,
-      date_creation: date_creation && knex.fn.now(),
+      date_creation: date_creation ?? knex.fn.now()
     });
 
     const [ticket] = await knex("glpi_tickets")
@@ -76,8 +77,9 @@ export class KnexTicketsRepository implements TicketsRepository {
     id_recipient,
     id_type,
     id_categories,
-    page,
-  }: FiltersTicketsSchema): Promise<{ tickets: Tables["glpi_tickets"][] }> {
+    limit,
+    offset,
+  }: FiltersTicketsSchema): Promise<{ tickets: Tables["glpi_tickets"][], pagination: offesetTicketsPagination }> {
     const query = knex("glpi_tickets").select("*");
 
     if (id !== undefined) {
@@ -85,7 +87,7 @@ export class KnexTicketsRepository implements TicketsRepository {
     }
 
     if (name) {
-      query.where("name", "like", `${name}`);
+      query.where("name", "like", `%${name}%`);
     }
 
     if (status) {
@@ -106,10 +108,15 @@ export class KnexTicketsRepository implements TicketsRepository {
 
     const tickets = await query
       .orderBy("id")
-      .limit(10)
-      .offset((page - 1) * 10);
+      .limit(limit)
+      .offset((offset - 1) * limit);
 
-    return { tickets };
+    const pagination: offesetTicketsPagination = {
+      limit,
+      offset,
+    };
+
+    return { tickets, pagination };
   }
 
   async listPending(): Promise<TicketsPendingsSchema> {

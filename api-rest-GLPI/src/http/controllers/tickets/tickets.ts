@@ -14,28 +14,30 @@ export async function tickets(req: FastifyRequest, reply: FastifyReply) {
     id_recipient: z.coerce.number().optional(),
     id_type: z.coerce.number().optional(),
     id_categories: z.coerce.number().optional(),
-    page: z.coerce.number().min(1).default(1),
+    limit: z.coerce.number().min(1).max(50).default(1),
+    offset: z.coerce.number().min(1).default(1),
   });
 
   const { id } = ticketsParamsSchema.parse(req?.params);
 
-  const { name, status, id_recipient, id_type, id_categories, page } =
+  const { name, status, id_recipient, id_type, id_categories, limit, offset } =
     ticketsQuerySchema.parse(req.query);
 
   try {
     const getTicketsUseCase = makeGetTicketsUseCase();
 
-    const { tickets } = await getTicketsUseCase.execute({
+    const { tickets, pagination } = await getTicketsUseCase.execute({
       id,
       name,
       status,
       id_recipient,
       id_type,
       id_categories,
-      page,
+      limit,
+      offset
     });
 
-    return reply.status(200).send({ tickets });
+    return reply.status(200).send({ tickets, pagination });
   } catch (err) {
     if (err instanceof ResourceNotFoundError) {
       return reply.status(404).send({ message: err.message });

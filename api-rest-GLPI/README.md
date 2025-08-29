@@ -11,7 +11,10 @@ Esta API conecta-se ao banco de dados do GLPI para extrair e processar informaç
 - **Node.js** com **TypeScript**
 - **Fastify** (Framework web)
 - **Knex.js** (Query builder)
+- **Date-fns** (Date Utility Library)
 - **MySQL** (Banco de dados GLPI)
+- **Axios** (Client HTTP)
+- **Bcrypt.js** (Generate Hash)
 - **JWT** (Autenticação)
 - **Zod** (Validação de dados)
 - **Vitest** (Testes)
@@ -24,35 +27,182 @@ Esta API conecta-se ao banco de dados do GLPI para extrair e processar informaç
 
 ## API Endpoints
 
-### Autenticação
-- `POST /api/sessions` - Login de usuário
-`
-  {
-      "name": "Henrique",
-      "password": "xxxxxxxx"
+**Padrão de Resposta:**
+Todas as respostas seguem o formato:
+
+```json
+{
+  "meta": {
+    /* metadados, contadores, paginação */
+  },
+  "result": {
+    /* dados principais */
   }
-`
+}
+```
+
+**Códigos de Status HTTP:**
+
+- `200` - Sucesso
+- `201` - Criado com sucesso
+- `400` - Erro de validação
+- `401` - Não autorizado
+- `404` - Recurso não encontrado
+- `500` - Erro interno do servidor
+
+### Autenticação
+
+- `POST /api/sessions` - Login de usuário
+  `  {
+    "name": "Henrique",
+    "password": "xxxxxxxx"
+}`
 
 - `POST /api/users` - Registro de novo usuário
-`
-  {
-      "name": "Henrique",
-      "password": "xxxxxxxx"
-  }
-`
+  `  {
+    "name": "Henrique",
+    "password": "xxxxxxxx"
+}`
 
 - `GET /api/me` - Informações do usuário logado
 
 ### Estatísticas Gerais
-- `GET /api/stats` - Lista de estatísticas sobre usuários e chamados
+
+- `GET /api/stats` - Estatísticas sobre usuários e chamados
+
+```json
+{
+  "meta": {
+    "totalUsers": 336,
+    "totalUsersActive": 334,
+    "totalUsersInactive": 2,
+    "totalUsersAdmins": 1,
+    "totalUsersTickets": 3302
+  },
+  "result": {
+    "usersByProfile": [
+      {
+        "id": 4,
+        "name": "Super-Admin",
+        "amount": 1
+      }
+    ]
+  }
+}
+```
+
+### Categorias
+
+- `GET /api/categories` - Lista de categorias com contagem de chamados
+
+```json
+{
+  "meta": {
+    "total": 2,
+    "in_use": 2,
+    "unused": 0
+  },
+  "result": [
+    {
+      "id": 1,
+      "name": "Anfe",
+      "date_creation": "2022-04-07T14:15:54.000Z",
+      "total": 3
+    }
+  ]
+}
+```
+
+### Técnicos
+
+- `GET /api/technicians` - Lista de técnicos com estatísticas de desempenho
+
+```json
+{
+  "meta": {
+    "total": 8
+  },
+  "result": [
+    {
+      "id": 1,
+      "name": "Henrique.maximo",
+      "amount_tickets": 270,
+      "service": 370,
+      "urgency": {
+        "very_high": 33,
+        "high": 24,
+        "average": 16,
+        "low": 42,
+        "very_low": 120
+      },
+      "date_creation": "20/08/2003"
+    }
+  ]
+}
+```
 
 ### Usuários
-- `GET /api/users` - Lista de usuários (fitros: name, isActive)
-`GET /api/users?name=Henrique&isActive=true`
+
+- `GET /api/users` - Lista de usuários (filtros: name, isActive, page)
+  `GET /api/users?name=Henrique&isActive=true&page=1`
 
 ### Chamados (Tickets)
-- `GET /api/tickets` - Lista de chamados (filtros: id, name, status, id_recipient, id_request_type, id_categories)
-`GET /api/tickets?name=Acesso`
+
+- `GET /api/tickets` - Lista de chamados (filtros: id, name, status, id_recipient, id_type, id_categories)
+  `GET /api/tickets?name=Acesso&status=1&page=1`
+
+- `GET /api/tickets/:id` - Detalhes de um chamado específico
+
+- `POST /api/tickets` - Cadastrar novo chamado
+
+```json
+{
+  "entities_id": 1,
+  "name": "Problema no sistema",
+  "content": "Descrição detalhada do problema",
+  "users_id_recipient": 2,
+  "requesttypes_id": 1,
+  "urgency": 3,
+  "itilcategories_id": 5,
+  "locations_id": 1,
+  "date_creation": "2024-01-15T10:30:00Z"
+}
+```
+
+- `GET /api/tickets/pendings` - Lista de chamados pendentes com estatísticas
+
+```json
+{
+  "meta": {
+    "total": 25,
+    "last_ticket_id": 1234,
+    "last_ticket_date": "2024-01-15T10:30:00Z"
+  },
+  "result": {
+    "list": [...],
+    "priority": [...],
+    "type": [...]
+  }
+}
+```
+
+## Filtros Disponíveis
+
+### Tickets
+
+- `id` - ID específico do chamado
+- `name` - Nome/título do chamado (busca parcial)
+- `status` - Status do chamado (1=novo, 2=atribuído, 3=planejado, 4=pendente, 5=solucionado, 6=fechado)
+- `id_recipient` - ID do usuário solicitante
+- `id_type` - Tipo do chamado (1=incidente, 2=solicitação)
+- `id_categories` - ID da categoria
+- `page` - Página da paginação (padrão: 1)
+
+### Usuários
+
+- `name` - Nome do usuário (busca parcial)
+- `isActive` - Status ativo (true/false)
+- `page` - Página da paginação (padrão: 1)
 
 ## Tarefas de Desenvolvimento
 
@@ -73,12 +223,13 @@ Esta API conecta-se ao banco de dados do GLPI para extrair e processar informaç
 - [] Deve ser possível visualizar o desempenho mensal dos técnicos (por mês e por técnico)
 - [] Deve ser possível obter último chamado mais lista de pendentes (monitoramento)
 - [x] Deve ser possível visualizar todas as categorias por quantidade de chamados
+- [x] Deve ser possível listar técnicos com estatísticas
 
 ### RNFs (Requisitos não-funcionais)
 
 - [x] A senha do usuário precisa estar criptografada
 - [x] O usuário deve ser identificado por um JWT (JSON Web Token)
-- [x] O usuário não deve poder usar recursos da API se estiver desativado 
+- [x] O usuário não deve poder usar recursos da API se estiver desativado
 - [x] A API deve seguir um padrão de resposta consistente com chave "meta" e "result"
   - meta para cálculos
   - result para item ou itens
@@ -93,8 +244,8 @@ Esta API conecta-se ao banco de dados do GLPI para extrair e processar informaç
 
 - [x] O usuário não deve poder se cadastrar com um usuário duplicado
 - [] O usuário que quer algo específico, entrará em contato com os técnicos via WhatsApp
-- [x] Todas as consultas devem ter paginação: 10 itens p/página
-- [x] Todas as consultas devem permitir o usuário escolher o número de itens (min 10 - max 50)
+- [x] Todas as consultas devem ter paginação: 10 itens p/página (parâmetro `page`)
+- [ ] Todas as consultas devem permitir o usuário escolher o número de itens (min 10 - max 50)
 - [x] Todos os filtros são opcionais
 
 ## Instalação e Uso
@@ -206,7 +357,7 @@ CREATE TABLE glpi_users (
 );
 
 -- Usuário padrão de teste
-INSERT INTO glpi_users (name, password) 
+INSERT INTO glpi_users (name, password)
 VALUES ('glpi', '$2a$08$gEmIAv2Wz/kIWdlGr2.2W.6dzIorD9rB9N8gpYrbph60LCVxq6acq');
 
 -- SELECTs pra checar se deu bom
