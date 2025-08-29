@@ -11,7 +11,10 @@ Esta API conecta-se ao banco de dados do GLPI para extrair e processar informaç
 - **Node.js** com **TypeScript**
 - **Fastify** (Framework web)
 - **Knex.js** (Query builder)
+- **Date-fns** (Date Utility Library)
 - **MySQL** (Banco de dados GLPI)
+- **Axios** (Client HTTP)
+- **Bcrypt.js** (Generate Hash)
 - **JWT** (Autenticação)
 - **Zod** (Validação de dados)
 - **Vitest** (Testes)
@@ -26,14 +29,20 @@ Esta API conecta-se ao banco de dados do GLPI para extrair e processar informaç
 
 **Padrão de Resposta:**
 Todas as respostas seguem o formato:
+
 ```json
 {
-  "meta": { /* metadados, contadores, paginação */ },
-  "result": { /* dados principais */ }
+  "meta": {
+    /* metadados, contadores, paginação */
+  },
+  "result": {
+    /* dados principais */
+  }
 }
 ```
 
 **Códigos de Status HTTP:**
+
 - `200` - Sucesso
 - `201` - Criado com sucesso
 - `400` - Erro de validação
@@ -42,59 +51,72 @@ Todas as respostas seguem o formato:
 - `500` - Erro interno do servidor
 
 ### Autenticação
+
 - `POST /api/sessions` - Login de usuário
-`
-  {
-      "name": "Henrique",
-      "password": "xxxxxxxx"
-  }
-`
+  `  {
+    "name": "Henrique",
+    "password": "xxxxxxxx"
+}`
 
 - `POST /api/users` - Registro de novo usuário
-`
-  {
-      "name": "Henrique",
-      "password": "xxxxxxxx"
-  }
-`
+  `  {
+    "name": "Henrique",
+    "password": "xxxxxxxx"
+}`
 
 - `GET /api/me` - Informações do usuário logado
 
 ### Estatísticas Gerais
+
 - `GET /api/stats` - Estatísticas sobre usuários e chamados
+
 ```json
 {
   "meta": {
-    "generated_at": "2024-01-15T10:30:00Z"
+    "totalUsers": 336,
+    "totalUsersActive": 334,
+    "totalUsersInactive": 2,
+    "totalUsersAdmins": 1,
+    "totalUsersTickets": 3302
   },
   "result": {
-    "users_total": 150,
-    "tickets_total": 1250,
-    "tickets_open": 45,
-    "tickets_closed": 1205
+    "usersByProfile": [
+      {
+        "id": 4,
+        "name": "Super-Admin",
+        "amount": 1
+      }
+    ]
   }
 }
 ```
 
 ### Categorias
+
 - `GET /api/categories` - Lista de categorias com contagem de chamados
+
 ```json
 {
   "meta": {
-    "total": 10
+    "total": 2,
+    "in_use": 2,
+    "unused": 0
   },
   "result": [
     {
       "id": 1,
-      "name": "Hardware",
-      "count": 25
+      "name": "Anfe",
+      "date_creation": "2022-04-07T14:15:54.000Z",
+      "total": 3
     }
   ]
 }
 ```
 
 ### Técnicos
+
 - `GET /api/technicians` - Lista de técnicos com estatísticas de desempenho
+
 ```json
 {
   "meta": {
@@ -103,25 +125,36 @@ Todas as respostas seguem o formato:
   "result": [
     {
       "id": 1,
-      "name": "João Silva",
-      "tickets_assigned": 15,
-      "tickets_solved": 12
+      "name": "Henrique.maximo",
+      "amount_tickets": 270,
+      "service": 370,
+      "urgency": {
+        "very_high": 33,
+        "high": 24,
+        "average": 16,
+        "low": 42,
+        "very_low": 120
+      },
+      "date_creation": "20/08/2003"
     }
   ]
 }
 ```
 
 ### Usuários
+
 - `GET /api/users` - Lista de usuários (filtros: name, isActive, page)
-`GET /api/users?name=Henrique&isActive=true&page=1`
+  `GET /api/users?name=Henrique&isActive=true&page=1`
 
 ### Chamados (Tickets)
+
 - `GET /api/tickets` - Lista de chamados (filtros: id, name, status, id_recipient, id_type, id_categories)
-`GET /api/tickets?name=Acesso&status=1&page=1`
+  `GET /api/tickets?name=Acesso&status=1&page=1`
 
 - `GET /api/tickets/:id` - Detalhes de um chamado específico
 
 - `POST /api/tickets` - Cadastrar novo chamado
+
 ```json
 {
   "entities_id": 1,
@@ -137,6 +170,7 @@ Todas as respostas seguem o formato:
 ```
 
 - `GET /api/tickets/pendings` - Lista de chamados pendentes com estatísticas
+
 ```json
 {
   "meta": {
@@ -155,6 +189,7 @@ Todas as respostas seguem o formato:
 ## Filtros Disponíveis
 
 ### Tickets
+
 - `id` - ID específico do chamado
 - `name` - Nome/título do chamado (busca parcial)
 - `status` - Status do chamado (1=novo, 2=atribuído, 3=planejado, 4=pendente, 5=solucionado, 6=fechado)
@@ -164,6 +199,7 @@ Todas as respostas seguem o formato:
 - `page` - Página da paginação (padrão: 1)
 
 ### Usuários
+
 - `name` - Nome do usuário (busca parcial)
 - `isActive` - Status ativo (true/false)
 - `page` - Página da paginação (padrão: 1)
@@ -193,7 +229,7 @@ Todas as respostas seguem o formato:
 
 - [x] A senha do usuário precisa estar criptografada
 - [x] O usuário deve ser identificado por um JWT (JSON Web Token)
-- [x] O usuário não deve poder usar recursos da API se estiver desativado 
+- [x] O usuário não deve poder usar recursos da API se estiver desativado
 - [x] A API deve seguir um padrão de resposta consistente com chave "meta" e "result"
   - meta para cálculos
   - result para item ou itens
@@ -321,7 +357,7 @@ CREATE TABLE glpi_users (
 );
 
 -- Usuário padrão de teste
-INSERT INTO glpi_users (name, password) 
+INSERT INTO glpi_users (name, password)
 VALUES ('glpi', '$2a$08$gEmIAv2Wz/kIWdlGr2.2W.6dzIorD9rB9N8gpYrbph60LCVxq6acq');
 
 -- SELECTs pra checar se deu bom
