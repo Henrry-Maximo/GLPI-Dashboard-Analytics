@@ -1,5 +1,4 @@
 import { Tables } from "knex/types/tables";
-import { WithoutTicketsRegistration } from "./errors/without-tickets-registration";
 import { TicketsRepository } from "@/repositories/tickets-repository";
 import { ResourceNotFoundError } from "./errors/resource-not-found-error";
 
@@ -10,7 +9,8 @@ interface FiltersTicketsSchema {
   id_recipient?: number;
   id_type?: number;
   id_categories?: number;
-  page: number;
+  offset: number,
+  limit: number
 }
 
 export class GetTicketsUseCase {
@@ -25,7 +25,8 @@ export class GetTicketsUseCase {
     id_recipient,
     id_type,
     id_categories,
-    page,
+    offset,
+    limit
   }: FiltersTicketsSchema): Promise<{
     tickets: Tables["glpi_tickets"][];
   }> {
@@ -36,7 +37,8 @@ export class GetTicketsUseCase {
       id_recipient,
       id_type,
       id_categories,
-      page,
+      offset,
+      limit
     });
 
     if (!tickets.length) {

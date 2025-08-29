@@ -7,7 +7,8 @@ export interface FiltersTicketsSchema {
   id_recipient?: number;
   id_type?: number;
   id_categories?: number;
-  page: number;
+  limit: number;
+  offset: number;
 }
 
 export interface RegisterTicketsSchema {

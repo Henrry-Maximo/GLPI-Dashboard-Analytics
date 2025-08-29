@@ -76,7 +76,8 @@ export class KnexTicketsRepository implements TicketsRepository {
     id_recipient,
     id_type,
     id_categories,
-    page,
+    limit,
+    offset,
   }: FiltersTicketsSchema): Promise<{ tickets: Tables["glpi_tickets"][] }> {
     const query = knex("glpi_tickets").select("*");
 
@@ -106,8 +107,8 @@ export class KnexTicketsRepository implements TicketsRepository {
 
     const tickets = await query
       .orderBy("id")
-      .limit(10)
-      .offset((page - 1) * 10);
+      .limit(limit)
+      .offset((offset - 1) * limit);
 
     return { tickets };
   }
