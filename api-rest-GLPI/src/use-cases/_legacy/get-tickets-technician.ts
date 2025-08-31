@@ -23,12 +23,6 @@ export async function getTicketsTechnician() {
       "glpi_groups_users.users_id",
     )
     .innerJoin("glpi_groups", "glpi_groups_users.groups_id", "glpi_groups.id")
-
-    // .whereNotIn("glpi_users.name", [
-    //   "luana.yasmim",
-    //   "cassia.martins",
-    //   "kevin.araujo",
-    // ])
     .groupBy("glpi_tickets_users.users_id", "glpi_groups.name")
     .orderBy("count", "desc");
 

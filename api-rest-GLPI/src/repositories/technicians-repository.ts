@@ -24,5 +24,5 @@ export interface TechniciansResponseSchema {
 }
 
 export interface TechniciansRepository {
-  get(props: TechniciansRequestSchema): TechniciansResponseSchema;
+  get(props: TechniciansRequestSchema): Promise<TechniciansResponseSchema>;
 }

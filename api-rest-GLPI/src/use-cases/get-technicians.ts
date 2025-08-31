@@ -30,41 +30,9 @@ export class GetTechniciansUseCase {
     this.techniciansRepository = techniciansRepository;
   }
 
-  execute(props: TechniciansRequestSchema): TechniciansResponseSchema {
-    return {
-      meta: {
-        total: 3
-      },
-      result: [
-        {
-          id: 1,
-          name: "Henrique.maximo",
-          amount_tickets: 270,
-          service: 370,
-          urgency: {
-            very_high: 33,
-            high: 24,
-            average: 16,
-            low: 42,
-            very_low: 120,
-          },
-          date_creation: "20/08/2003"
-        },
-        {
-          id: 2,
-          name: "Joe.doe",
-          amount_tickets: 272,
-          service: 373,
-          urgency: {
-            very_high: 32,
-            high: 22,
-            average: 10,
-            low: 32,
-            very_low: 230,
-          },
-          date_creation: "10/02/2020"
-        }
-      ]
-    }
+  async execute(props: TechniciansRequestSchema): Promise<TechniciansResponseSchema> {
+    const { meta, result } = await this.techniciansRepository.get(props);
+
+    return { meta, result };
   }
 }
