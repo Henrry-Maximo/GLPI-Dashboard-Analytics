@@ -38,7 +38,7 @@ export class KnexTicketsRepository implements TicketsRepository {
       urgency,
       itilcategories_id,
       locations_id,
-      date_creation
+      date_creation,
     } = body;
 
     const [ticketId] = await knex("glpi_tickets").insert({
@@ -50,7 +50,7 @@ export class KnexTicketsRepository implements TicketsRepository {
       urgency,
       itilcategories_id,
       locations_id,
-      date_creation: date_creation ?? knex.fn.now()
+      date_creation: date_creation ?? knex.fn.now(),
     });
 
     const [ticket] = await knex("glpi_tickets")
@@ -79,7 +79,10 @@ export class KnexTicketsRepository implements TicketsRepository {
     id_categories,
     limit,
     offset,
-  }: FiltersTicketsSchema): Promise<{ tickets: Tables["glpi_tickets"][], pagination: offesetTicketsPagination }> {
+  }: FiltersTicketsSchema): Promise<{
+    tickets: Tables["glpi_tickets"][];
+    pagination: offesetTicketsPagination;
+  }> {
     const query = knex("glpi_tickets").select("*");
 
     if (id !== undefined) {
@@ -124,38 +127,45 @@ export class KnexTicketsRepository implements TicketsRepository {
       .select([
         "t.id",
         "t.name",
-        knex.raw(`
-            CASE
-              WHEN t.type = 1 THEN "incident"
-              WHEN t.type = 2 THEN "request"
-            END AS "type"
-          `),
-        "t.date_creation",
-        "t.solvedate",
+        knex.raw(/* sql */ `
+          CASE
+            WHEN t.type = 1 THEN "incident"
+            WHEN t.type = 2 THEN "request"
+          END AS "type"
+        `),
+        knex.raw(/* sql */ `
+          CASE 
+            WHEN t.status = 1 THEN 'new'
+            WHEN t.status = 2 THEN 'processing (assigned)'
+            WHEN t.status = 3 THEN 'processing (planned)'
+            WHEN t.status = 4 THEN 'pending'
+          END AS "status"
+        `),
+        knex.raw(/* sql */ `
+          CASE 
+            WHEN t.priority = 1 THEN 'very low'
+            WHEN t.priority = 2 THEN 'low'
+            WHEN t.priority = 3 THEN 'average'
+            WHEN t.priority = 4 THEN 'high'
+            WHEN t.priority = 5 THEN 'very high'
+          END AS "priority"
+        `),
         "lo.name AS location",
-        knex.raw(`
-      GROUP_CONCAT(DISTINCT CONCAT(u.firstname, ' ', u.realname)) AS "applicant"
-    `),
-        knex.raw(`
-      GROUP_CONCAT(DISTINCT CONCAT(u2.firstname, ' ', u2.realname)) AS "technical"
-    `),
-        knex.raw(`
-      CASE 
-        WHEN t.status = 1 THEN 'new'
-        WHEN t.status = 2 THEN 'processing (assigned)'
-        WHEN t.status = 3 THEN 'processing (planned)'
-        WHEN t.status = 4 THEN 'pending'
-      END AS "status"
-    `),
-        knex.raw(`
-      CASE 
-        WHEN t.priority = 1 THEN 'very low'
-        WHEN t.priority = 2 THEN 'low'
-        WHEN t.priority = 3 THEN 'average'
-        WHEN t.priority = 4 THEN 'high'
-        WHEN t.priority = 5 THEN 'very high'
-      END AS "priority"
-    `),
+        knex.raw(/* sql */ `
+          GROUP_CONCAT(DISTINCT CONCAT(u.firstname, ' ', u.realname)) AS "applicant"
+        `),
+        knex.raw(/* sql */ `
+          GROUP_CONCAT(DISTINCT CONCAT(u2.firstname, ' ', u2.realname)) AS "technical"
+        `),
+        knex.raw(/* sql */ `
+          CASE
+            WHEN tv.status = 2 THEN 'Waiting'
+            WHEN tv.status = 3 THEN 'Approved'
+            WHEN tv.status = 4 THEN 'Refused'
+          END AS validation_status
+        `),
+        "tv.comment_validation",
+        "t.date_creation"
       ])
       .leftJoin("glpi_locations as lo", "t.locations_id", "lo.id")
       .leftJoin("glpi_tickets_users as tu1", function () {
@@ -166,6 +176,7 @@ export class KnexTicketsRepository implements TicketsRepository {
         this.on("tu2.tickets_id", "t.id").andOn("tu2.type", knex.raw(2));
       })
       .leftJoin("glpi_users as u2", "tu2.users_id", "u2.id")
+      .leftJoin("glpi_ticketvalidations as tv", "tu2.id", "tv.tickets_id")
       .whereNot("t.status", 5)
       .andWhereNot("t.status", 6)
       .groupBy("t.id")
