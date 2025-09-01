@@ -6,7 +6,10 @@ import {
 } from "../technicians-repository";
 
 export class KnexTechniciansRepository implements TechniciansRepository {
-  async get({ id, name }: TechniciansRequestSchema): Promise<TechniciansResponseSchema> {
+  async get({
+    id,
+    name,
+  }: TechniciansRequestSchema): Promise<TechniciansResponseSchema> {
     const data = await knex("glpi_users as u")
       .select(
         "u.id",
@@ -26,24 +29,26 @@ export class KnexTechniciansRepository implements TechniciansRepository {
       .groupBy("u.id", "u.name", "u.date_creation")
       .orderBy("amount_tickets", "desc");
 
-      return {
-        meta: {
-          total: data.length,
-        },
-        result: data.map((row) => ({
-          id: row.id,
-          name: row.name,
-          amount_tickets: row.amount_tickets,
-          service: row.service,
-          urgency: {
-            very_high: row.very_high,
-            high: row.high,
-            average: row.medium,
-            low: row.low,
-            very_low: row.very_low,
-          },
-          date_creation: row.date_creation,
-        }))
-      }
+    const result: TechniciansResponseSchema["result"] = data.map((row) => ({
+      id: row.id,
+      name: row.name,
+      amount_tickets: row.amount_tickets,
+      service: row.service,
+      urgency: {
+        very_high: row.very_high,
+        high: row.high,
+        average: row.medium,
+        low: row.low,
+        very_low: row.very_low,
+      },
+      date_creation: row.date_creation,
+    }));
+
+    return {
+      meta: {
+        total: data.length,
+      },
+      result,
+    };
   }
 }
