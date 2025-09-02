@@ -4,7 +4,11 @@ import { Navigate, Outlet } from 'react-router-dom';
 const checkAuthenticatedJWT = () => {
   const userToken = sessionStorage.getItem('jwt');
 
-  return userToken && userToken;
+  if (!userToken) {
+    return null;
+  }
+
+  return userToken;
 };
 
 // se jwt existir, retornar usuário para home

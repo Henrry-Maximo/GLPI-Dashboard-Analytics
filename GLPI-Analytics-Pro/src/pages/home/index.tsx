@@ -23,7 +23,6 @@ import {
 import { useTicketsPending, useTicketsSummary } from "./api/tickets.queries";
 import { useEffect, useState } from "react";
 import { SpinnerBall } from "@phosphor-icons/react";
-import { BarChartsTickets } from "./components/BarCharts";
 
 export const Home = () => {
   const { data: statusData, isLoading: isLoadingStatus } = useTicketsPending();
@@ -54,7 +53,7 @@ export const Home = () => {
           <CardRoot>
             {/* style default: but add style custom */}
             <CardWrapper>
-              {statusTickets.meta.type.map((row) => (
+              {statusTickets.result.type.map((row) => (
                 <CardFlash key={row.name}>
                   <CardIcon className={levelTypeStyle[row.name]}>
                     {levelTypeIcons[row.name]}
@@ -86,7 +85,7 @@ export const Home = () => {
             </CardIcon>
 
             <CardWrapper className="flex flex-row">
-              {statusTickets.meta.priority.map((row) => (
+              {statusTickets.result.priority.map((row) => (
                 <CardFlash key={row.name}>
                   <CardIcon className={levelPriorityStyle[row.name]}>
                     {levelPriorityIcons[row.name]}
@@ -101,7 +100,7 @@ export const Home = () => {
             </CardWrapper>
           </CardRoot>
 
-          <div className="flex flex-col max-h-screen w-full mt-2 flex-1">
+          {/* <div className="flex flex-col max-h-screen w-full mt-2 flex-1">
             {summaryData && (
               <BarChartsTickets
                 // priority={statusTickets.meta.priority}
@@ -112,7 +111,7 @@ export const Home = () => {
                 // technician={technicianData}
               />
             )}
-          </div>
+          </div> */}
         </>
       )}
     </main>

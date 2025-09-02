@@ -29,6 +29,4 @@ describe("Get Categories Use Case", () => {
       })
     ]));
   });
-
-  it.skip("Should be able to return categories list empty", async () => {});
 });

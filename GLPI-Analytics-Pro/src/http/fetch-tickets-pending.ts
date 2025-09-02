@@ -13,12 +13,50 @@ type propsTicketsPendingResponse = {
   type: number;
 };
 
-interface PropsTicketsPendingResponse {
-  list: propsTicketsPendingResponse[];
+// interface PropsTicketsPendingResponse {
+//   list: propsTicketsPendingResponse[];
+//   meta: {
+//     total: number;
+//     priority: Array<{ name: string; count: number }>;
+//     type: Array<{ name: string; count: number }>;
+//   };
+// }
+
+interface PropertiesTicketsSchema {
+  id: number;
+  title: string;
+  date_creation: string;
+  solvedate: string;
+  location: string;
+  applicant: string;
+  technical: string;
+  status: string;
+  priority: number;
+  type: number;
+}
+
+interface PropertiesTicketsStatus {
+  id: number;
+  name: string;
+  count: number;
+}
+
+interface PropertiesTicketsType {
+  id: number;
+  name: string;
+  count: number;
+}
+
+export interface PropsTicketsPendingResponse {
   meta: {
     total: number;
-    priority: Array<{ name: string; count: number }>;
-    type: Array<{ name: string; count: number }>;
+    last_ticket_id: number;
+    last_ticket_date: string;
+  };
+  result: {
+    list: PropertiesTicketsSchema[];
+    priority: PropertiesTicketsStatus[];
+    type: PropertiesTicketsType[];
   };
 }
 
@@ -40,7 +78,7 @@ interface PropsTicketsPendingResponse {
 export async function fetchTicketsPending(): Promise<PropsTicketsPendingResponse> {
   const API_URL = import.meta.env.VITE_API_URL;
 
-  const response = await fetchWithAuth(`${API_URL}/api/tickets/pending`, {
+  const response = await fetchWithAuth(`${API_URL}/api/tickets/pendings`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
