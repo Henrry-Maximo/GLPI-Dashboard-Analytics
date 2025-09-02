@@ -46,7 +46,8 @@ export class InMemoryTicketsRepository implements TicketsRepository {
     id_recipient,
     id_type,
     id_categories,
-    page,
+    limit,
+    offset
   }: FiltersTicketsSchema): Promise<{ tickets: Tables["glpi_tickets"][] }> {
     let result = [...this.items];
 

@@ -1,4 +1,4 @@
-import { InMemoryCategoriesRepository } from "@/repositories/in-memory/in-memory-categories-repository";
+import { InMemoryCategoriesRepository } from "../repositories/in-memory/in-memory-categories-repository";
 import { describe, expect, it } from "vitest";
 import { GetCategoriesUseCase } from "./get-categories";
 
@@ -24,9 +24,8 @@ describe("Get Categories Use Case", () => {
       expect.objectContaining({
         id: expect.any(Number),
         name: expect.any(String),
-        description: expect.any(String),
-        created_at: expect.any(Date),
-        updated_at: expect.any(Date),
+        date_creation: expect.any(String),
+        total: expect.any(Number)
       })
     ]));
   });

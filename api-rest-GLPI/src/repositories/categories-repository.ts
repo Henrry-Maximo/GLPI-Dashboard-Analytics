@@ -7,7 +7,7 @@ export interface CategoriesTicketsSchema {
   result: Array<{
     id: number;
     name: string;
-    amount_tickets: number;
+    total: number;
     date_creation: string;
   }>;
 }
