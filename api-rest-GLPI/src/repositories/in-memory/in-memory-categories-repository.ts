@@ -14,13 +14,13 @@ export class InMemoryCategoriesRepository implements CategoriesRepository {
       {
         id: 1,
         name: "Hardware",
-        date_creation: Date(),
+        date_creation: new Date().toISOString().split("T")[0],
         total: 100,
       },
       {
         id: 2,
         name: "Hardware",
-        date_creation: Date(),
+        date_creation: new Date().toISOString().split("T")[0],
         total: 100,
       },
     ],
@@ -43,20 +43,25 @@ export class InMemoryCategoriesRepository implements CategoriesRepository {
       .toISOString()
       .split("T")[0];
 
+    const categoriesFiltered = this.items.result.filter(
+      (item) => item.date_creation > startDate && item.date_creation < endDate
+    );
+
+    const total = categoriesFiltered.length;
+    const totalInUse = categoriesFiltered.filter(
+      (item) => item.total > 0
+    ).length;
+    const totalUnUsed = categoriesFiltered.filter(
+      (item) => item.total === 0
+    ).length;
+
     return {
       meta: {
-        total: 103,
-        in_use: 103,
-        unused: 0,
+        total,
+        in_use: totalInUse,
+        unused: totalUnUsed,
       },
-      result: [
-        {
-          id: 1,
-          name: "Hardware",
-          date_creation: Date(),
-          total: 100,
-        },
-      ],
+      result: this.items.result,
     };
   }
 }
