@@ -56,7 +56,7 @@ export class KnexUsersRepository implements UsersRepository {
     return { user: null };
   }
 
-  async list({ id, name, isActive, page, item }: ListUsersQuery): Promise<{
+  async list({ id, name, isActive, offset, limit }: ListUsersQuery): Promise<{
     users: Tables["glpi_users"][];
     pagination: Record<string, number>;
   }> {
@@ -77,13 +77,13 @@ export class KnexUsersRepository implements UsersRepository {
     // Todo: use cursor for pagination
     const users = await query
       .orderBy("id")
-      .limit(item)
+      .limit(limit)
       // partindo de...
-      .offset((page - 1) * item);
+      .offset((offset - 1) * limit);
 
     let pagination: Record<string, number> = {
-      limit: item,
-      offset: page,
+      limit,
+      offset
     };
 
     return { users, pagination };

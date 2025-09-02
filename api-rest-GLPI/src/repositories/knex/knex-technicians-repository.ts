@@ -10,7 +10,7 @@ export class KnexTechniciansRepository implements TechniciansRepository {
     id,
     name,
   }: TechniciansRequestSchema): Promise<TechniciansResponseSchema> {
-    const data = await knex("glpi_users as u")
+    let query = knex("glpi_users as u")
       .select(
         "u.id",
         "u.name",
@@ -29,24 +29,34 @@ export class KnexTechniciansRepository implements TechniciansRepository {
       .groupBy("u.id", "u.name", "u.date_creation")
       .orderBy("amount_tickets", "desc");
 
-    const result: TechniciansResponseSchema["result"] = data.map((row) => ({
-      id: row.id,
-      name: row.name,
-      amount_tickets: row.amount_tickets,
-      service: row.service,
-      urgency: {
-        very_high: row.very_high,
-        high: row.high,
-        average: row.medium,
-        low: row.low,
-        very_low: row.very_low,
-      },
-      date_creation: row.date_creation,
-    }));
+    if (id) {
+      query = query.where("t.id", id);
+    }
+
+    if (name) {
+      query = query.where("t.name", "like", `%${name}%`);
+    }
+
+    const result: TechniciansResponseSchema["result"] = (await query).map(
+      (row) => ({
+        id: row.id,
+        name: row.name,
+        amount_tickets: row.amount_tickets,
+        service: row.service,
+        urgency: {
+          very_high: row.very_high,
+          high: row.high,
+          average: row.medium,
+          low: row.low,
+          very_low: row.very_low,
+        },
+        date_creation: row.date_creation,
+      })
+    );
 
     return {
       meta: {
-        total: data.length,
+        total: result.length,
       },
       result,
     };

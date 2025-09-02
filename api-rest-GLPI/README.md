@@ -221,7 +221,7 @@ Todas as respostas seguem o formato:
 - [x] Deve ser possível visualizar detalhes de um chamado
 - [x] Deve ser possível visualizar o fluxo de todos os chamados que não forem solucionados/fechados
 - [] Deve ser possível visualizar o desempenho mensal dos técnicos (por mês e por técnico)
-- [] Deve ser possível obter último chamado mais lista de pendentes (monitoramento)
+- [x] Deve ser possível obter último chamado mais lista de pendentes (monitoramento)
 - [x] Deve ser possível visualizar todas as categorias por quantidade de chamados
 - [x] Deve ser possível listar técnicos com estatísticas
 
@@ -235,8 +235,8 @@ Todas as respostas seguem o formato:
   - result para item ou itens
 - [x] Todas as rotas devem retornar status HTTP apropriado (200, 201, 400, etc)
 - [] Deve ser possível exportar relatórios filtrados (CSV ou JSON)
-- [] Todas as datas devem seguir formato ISO ou estar convertidas conforme locale configurado (ex: DD/MM/YYYY)
-- [] As respostas devem ser consistentes mesmo quando o array estiver vazio (sempre enviar "result": [])
+- [x] Todas as datas devem seguir formato ISO ou estar convertidas conforme locale configurado (ex: DD/MM/YYYY)
+- [x] As respostas devem ser consistentes mesmo quando o array estiver vazio (sempre enviar "result": [])
 - [x] Só usuários ativos podem se logar na aplicação
 - [] Em consultar por nome, trabalhar índices otimizados
 

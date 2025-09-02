@@ -6,8 +6,8 @@ interface listUsersFiltersUseCase {
   id?: number;
   name?: string;
   isActive?: number;
-  page: number;
-  item: number;
+  offset: number;
+  limit: number;
 }
 
 export class GetUsersUseCase {

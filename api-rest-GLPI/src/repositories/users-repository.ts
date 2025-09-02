@@ -10,8 +10,8 @@ export interface ListUsersQuery {
   id?: number;
   name?: string;
   isActive?: number;
-  page: number;
-  item: number
+  offset: number;
+  limit: number;
 }
 
 export interface UsersRepository {
