@@ -1,6 +1,7 @@
 import { Tables } from "knex/types/tables";
 import {
   FiltersTicketsSchema,
+  offesetTicketsPagination,
   RegisterTicketsSchema,
   TicketsPendingsSchema,
   TicketsRepository,
@@ -48,7 +49,7 @@ export class InMemoryTicketsRepository implements TicketsRepository {
     id_categories,
     limit,
     offset
-  }: FiltersTicketsSchema): Promise<{ tickets: Tables["glpi_tickets"][] }> {
+  }: FiltersTicketsSchema): Promise<{ tickets: Tables["glpi_tickets"][], pagination: offesetTicketsPagination }> {
     let result = [...this.items];
 
     if (id !== undefined) {
@@ -79,7 +80,12 @@ export class InMemoryTicketsRepository implements TicketsRepository {
 
     result.sort((a, b) => a.id - b.id);
 
-    return { tickets: result };
+    const pagination: offesetTicketsPagination = { 
+      limit,
+      offset: (offset - 1) * limit,
+     }
+
+    return { tickets: result, pagination };
   }
 
   listPending(): Promise<TicketsPendingsSchema> {

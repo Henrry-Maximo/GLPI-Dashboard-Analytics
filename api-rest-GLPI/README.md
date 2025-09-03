@@ -238,6 +238,7 @@ Todas as respostas seguem o formato:
 - [x] Todas as datas devem seguir formato ISO ou estar convertidas conforme locale configurado (ex: DD/MM/YYYY)
 - [x] As respostas devem ser consistentes mesmo quando o array estiver vazio (sempre enviar "result": [])
 - [x] Só usuários ativos podem se logar na aplicação
+- [] Obter localidade do usuário através da requisição 
 - [] Em consultar por nome, trabalhar índices otimizados
 
 ### RNs (Regras de negócio)
