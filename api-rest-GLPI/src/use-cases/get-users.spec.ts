@@ -18,14 +18,14 @@ describe("Get Users Use Case", () => {
 
     // busca por todos os usuários
     const { users, pagination } = await sut.execute({
-      item: 10,
-      page: 1
+      limit: 10,
+      offset: 1
     });
 
     expect(Array.isArray(users)).toBe(true);
     expect(users).toHaveLength(1);
-    expect(pagination.page).toBe(0);
-    expect(pagination.item).toBe(10);
+    expect(pagination.offset).toBe(0);
+    expect(pagination.limit).toBe(10);
   });
 
   it("Should be able to return users list empty", async () => {
@@ -34,8 +34,8 @@ describe("Get Users Use Case", () => {
 
     await expect(() =>
       sut.execute({
-        page: 1,
-        item: 10,
+        offset: 1,
+        limit: 10,
       })
     ).rejects.toBeInstanceOf(ResourceNotFoundError);
   });

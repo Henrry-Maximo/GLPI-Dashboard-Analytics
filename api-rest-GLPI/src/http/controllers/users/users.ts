@@ -19,16 +19,16 @@ export async function users(req: FastifyRequest, reply: FastifyReply) {
         return undefined;
       })
       .optional(),
-    page: z.coerce.number().min(1).default(1),
-    item: z.coerce.number().min(10).max(50).default(10),
+    offset: z.coerce.number().min(1).default(1),
+    limit: z.coerce.number().min(10).max(50).default(10),
   });
 
   const { id } = usersParamsSchema.parse(req.params);
-  const { name, isActive, page, item } = usersQuerySchema.parse(req.query);
+  const { name, isActive, offset, limit } = usersQuerySchema.parse(req.query);
 
   try {
     const usersUseCase = makeGetUsersUseCase();
-    const { users, pagination } = await usersUseCase.execute({ id, name, isActive, page, item });
+    const { users, pagination } = await usersUseCase.execute({ id, name, isActive, offset, limit });
 
     return reply.status(200).send({ users, pagination });
   } catch (err) {

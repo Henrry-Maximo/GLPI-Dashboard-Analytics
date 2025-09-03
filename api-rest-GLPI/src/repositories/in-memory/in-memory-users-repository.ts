@@ -80,8 +80,8 @@ export class InMemoryUsersRepository implements UsersRepository {
     // console.log(paginated);
     
     let pagination: Record<string, number> = { 
-      "item": limit,
-      "page": (offset - 1) * limit,
+      limit,
+      offset: (offset - 1) * limit,
      }
 
     return { users: result, pagination };
