@@ -11,6 +11,7 @@ describe("Get Tickets Use Case", () => {
 
     // cria chamado em memória
     await ticketsRepository.create({
+      id: 1,
       entities_id: 1,
       name: "Permissão de Acesso: Painel GLPI",
       content: "Preciso de acesso para efetuar...",
@@ -23,6 +24,7 @@ describe("Get Tickets Use Case", () => {
     });
 
     await ticketsRepository.create({
+      id: 2,
       entities_id: 1,
       name: "Alteração de senha: Microsoft Teams",
       content: "Preciso trocar minha senha para...",
@@ -36,7 +38,8 @@ describe("Get Tickets Use Case", () => {
 
     // busca por todos os usuários
     const { tickets } = await sut.execute({
-      page: 1,
+      limit: 10,
+      offset: 1,
     });
 
     expect(Array.isArray(tickets)).toBe(true);
@@ -49,7 +52,8 @@ describe("Get Tickets Use Case", () => {
 
     await expect(() =>
       sut.execute({
-        page: 1,
+        limit: 10,
+        offset: 1,
       })
     ).rejects.toBeInstanceOf(ResourceNotFoundError);
   });
