@@ -88,7 +88,52 @@ export class InMemoryTicketsRepository implements TicketsRepository {
     return { tickets: result, pagination };
   }
 
-  listPending(): Promise<TicketsPendingsSchema> {
-    throw new Error("Method not implemented.");
+  async listPending() {
+    const data: TicketsPendingsSchema = {
+      meta: {
+        total: 10,
+        last_ticket_id: 255,
+        last_ticket_date: new Date().toDateString(),
+      },
+      result: {
+        list: [
+          {
+            id: 255,
+            title: "Ticket 1",
+            type: 1,
+            status: "new",
+            solvedate: "",
+            priority: 2,
+            location: "RH",
+            applicant: "Henrique",
+            technical: "Henrique.maximo",
+            date_creation: new Date().toISOString(),
+          },
+        ],
+        priority: [
+          {
+            id: 1,
+            name: "very low",
+            count: 1,
+          },
+        ],
+        type: [
+          {
+            id: 1,
+            name: "incident",
+            count: 1,
+          },
+          {
+            id: 2,
+            name: "request",
+            count: 0,
+          },
+        ]
+      }
+    }
+
+    // const { meta, result } = data;
+
+    return data;
   }
 }
