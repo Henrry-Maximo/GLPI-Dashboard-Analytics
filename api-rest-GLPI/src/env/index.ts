@@ -4,6 +4,8 @@ import { z } from "zod";
 const envSchema = z.object({
   NODE_ENV: z.enum(["dev", "test", "production"]).default("dev"),
   NODE_PORT: z.coerce.number().default(5000),
+  NODE_CORS: z.coerce.string().default("*"),
+  NODE_LOGS: z.coerce.boolean().default(false),
 
   DB_HOST: z.string(),
   DB_DATABASE: z.string(),
@@ -12,7 +14,7 @@ const envSchema = z.object({
   DB_PASSWORD: z.string(),
 
   JWT_SECRET: z.string(),
-  JWT_EXPIRES_IN: z.coerce.string().default("1d"),
+  JWT_EXPIRES_IN: z.coerce.string().default("7d"),
 
   API_EXTERNAL: z.string().optional(),
   APP_TOKEN: z.coerce.string().optional(),

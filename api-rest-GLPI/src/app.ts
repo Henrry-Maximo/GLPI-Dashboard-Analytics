@@ -6,19 +6,21 @@ import { ZodError } from "zod";
 
 import { env } from "./env";
 import { appRoutes } from "./http/routes";
+import path from "node:path";
+import fs from "node:fs";
 
 /**
  * Configuração da aplicação Fastify
  */
 export const app = fastify({
-  logger: false, // habilitar logs do servidor
+  logger: env.NODE_LOGS, // habilitar logs do servidor
 });
 
 /**
  * Registro de plugins
  */
 app.register(fastifyCors, {
-  origin: "*", // sem restrição de solicitação de endereço
+  origin: env.NODE_CORS, // sem restrição de solicitação de endereço
 });
 
 app.register(fastifyJwt, {
@@ -35,7 +37,7 @@ app.register(appRoutes, {
  * Handler global de erros
  * - Trata erros de validação (ZodError)
  * - Retorna erro genérico para outros tipos
-*/
+ */
 app.setErrorHandler((error, _, reply) => {
   if (error instanceof ZodError) {
     return reply.status(400).send({
@@ -48,7 +50,17 @@ app.setErrorHandler((error, _, reply) => {
     console.error(error);
   } else {
     // Todo: rastreamento de erros na produção
+    const logFile = path.join(__dirname, "errors.log");
+
+    function logError(error: any) {
+      const message = `[${new Date().toISOString()}] ${
+        error.stack || error
+      }\n\n`;
+      fs.appendFileSync(logFile, message, "utf8");
+    }
+
+    logError(error);
   }
 
-  return reply.status(500).send({ message: error.message });
+  return reply.status(500).send({ message: "Internal Server Error." });
 });

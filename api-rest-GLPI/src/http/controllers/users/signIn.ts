@@ -5,6 +5,7 @@ import { InvalidCredentialsError } from "@/use-cases/errors/invalid-credentials-
 import { makeSignInUseCase } from "@/use-cases/factories/make-signIn-use-case";
 import z from "zod";
 import { UserNotAuthorization } from "@/use-cases/errors/user-not-authorization-error";
+import { env } from "@/env";
 
 export const signIn = async (req: FastifyRequest, reply: FastifyReply) => {
   const userBodySchema = z.object({
@@ -25,7 +26,7 @@ export const signIn = async (req: FastifyRequest, reply: FastifyReply) => {
         name: user.name,
       },
       {
-        expiresIn: "1d",
+        expiresIn: env.JWT_EXPIRES_IN,
       },
     );
 
