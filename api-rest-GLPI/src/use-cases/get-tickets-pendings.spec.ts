@@ -12,6 +12,4 @@ describe("Get Tickets Pendings Use Case", () => {
     expect(typeof data).toBe("object");
     expect(data.result.list).toHaveLength(1);
   });
-
-  it.skip("Should be able to return tickets pendings list empty", async () => {});
 });
