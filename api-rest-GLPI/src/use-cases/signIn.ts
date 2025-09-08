@@ -40,8 +40,8 @@ export class SignInUseCase {
       throw new UserNotAuthorization();
     }
 
-    // utilizar API para autenticar (se não existir no banco)
-    if (!user.password) {
+    // utilizar API para autenticar (se não existir senha no banco)
+    if (!user.password || user.password === "") {
       const { session_token } = await this.authService.authenticate({
         name,
         password,

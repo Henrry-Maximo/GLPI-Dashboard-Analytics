@@ -1,5 +1,5 @@
 import { InMemoryUsersRepository } from "../repositories/in-memory/in-memory-users-repository";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { SignInUseCase } from "./signIn";
 import { hash } from "bcryptjs";
 import { InvalidCredentialsError } from "./errors/invalid-credentials-error";
@@ -77,23 +77,47 @@ describe("Sign In Use Case", () => {
     ).rejects.toBeInstanceOf(UserNotAuthorization);
   });
 
-  it.skip("should be able to authenticate if password is empty, searching in API", async () => {
+  it("should authenticate via API when user has no password", async () => {
     const usersRepository = new InMemoryUsersRepository();
-    const authUser = new HttpExternalAuthService();
-    const sut = new SignInUseCase(usersRepository, authUser);
+    const authService = {
+      authenticate: vi.fn().mockResolvedValue({ session_token: "valid-token" })
+    };
+    const sut = new SignInUseCase(usersRepository, authService);
 
     await usersRepository.create({
-      name: "Henrique.Maximo",
-      passwordHash: await hash("", 6),
+      name: "john.doe",
+      passwordHash: "", // Sem senha força autenticação via API
     });
 
-    await expect(
-      sut.execute({
-        name: "",
-        password: "",
-      })
-    ).resolves.toEqual({
-      user: { id: expect.any(Number), name: "Henrique.Maximo" },
+    const result = await sut.execute({
+      name: "john.doe",
+      password: "senha-glpi",
     });
+
+    expect(authService.authenticate).toHaveBeenCalledWith({
+      name: "john.doe",
+      password: "senha-glpi"
+    });
+    expect(result.user.name).toBe("john.doe");
+  });
+
+  it("should throw error when API returns no token", async () => {
+    const usersRepository = new InMemoryUsersRepository();
+    const authService = {
+      authenticate: vi.fn().mockResolvedValue({ session_token: null })
+    };
+    const sut = new SignInUseCase(usersRepository, authService);
+
+    await usersRepository.create({
+      name: "john.doe",
+      passwordHash: "",
+    });
+
+    await expect(() =>
+      sut.execute({
+        name: "john.doe",
+        password: "senha-errada",
+      })
+    ).rejects.toBeInstanceOf(InvalidCredentialsError);
   });
 });
