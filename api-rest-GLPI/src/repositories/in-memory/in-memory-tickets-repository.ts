@@ -88,7 +88,7 @@ export class InMemoryTicketsRepository implements TicketsRepository {
     return { tickets: result, pagination };
   }
 
-  async listPending() {
+  async getPendings() {
     const data: TicketsPendingsSchema = {
       meta: {
         total: 10,

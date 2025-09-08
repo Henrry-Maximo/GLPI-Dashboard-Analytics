@@ -75,5 +75,5 @@ export interface TicketsRepository {
     tickets: Tables["glpi_tickets"][];
     pagination: offesetTicketsPagination;
   }>;
-  listPending(): Promise<TicketsPendingsSchema>;
+  getPendings(): Promise<TicketsPendingsSchema>;
 }

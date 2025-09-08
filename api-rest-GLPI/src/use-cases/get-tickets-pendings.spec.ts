@@ -1,6 +1,6 @@
 import { InMemoryTicketsRepository } from "../repositories/in-memory/in-memory-tickets-repository";
 import { describe, expect, it } from "vitest";
-import { GeTicketsPendingUseCase } from "./get-tickets-pending";
+import { GeTicketsPendingUseCase } from "./get-tickets-pendings";
 
 describe("Get Tickets Pendings Use Case", () => {
   it("Should be able get list tickets pendings", async () => {

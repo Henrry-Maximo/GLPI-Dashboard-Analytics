@@ -6,7 +6,7 @@ export class GeTicketsPendingUseCase {
   }
 
   async execute() {
-    const data = await this.ticketsRepository.listPending();
+    const data = await this.ticketsRepository.getPendings();
 
     return data;
   }

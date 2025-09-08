@@ -122,7 +122,7 @@ export class KnexTicketsRepository implements TicketsRepository {
     return { tickets, pagination };
   }
 
-  async listPending(): Promise<TicketsPendingsSchema> {
+  async getPendings(): Promise<TicketsPendingsSchema> {
     const data: TicketsPendingProps[] = await knex("glpi_tickets as t")
       .select([
         "t.id",
