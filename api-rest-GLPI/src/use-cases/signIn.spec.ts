@@ -4,11 +4,13 @@ import { SignInUseCase } from "./signIn";
 import { hash } from "bcryptjs";
 import { InvalidCredentialsError } from "./errors/invalid-credentials-error";
 import { UserNotAuthorization } from "./errors/user-not-authorization-error";
+import { HttpExternalAuthService } from "../http/services/glpi-api/signIn-external";
 
 describe("Sign In Use Case", () => {
   it("should be able to authenticate", async () => {
     const usersRepository = new InMemoryUsersRepository();
-    const sut = new SignInUseCase(usersRepository);
+    const authUser = new HttpExternalAuthService();
+    const sut = new SignInUseCase(usersRepository, authUser);
 
     // cria o usuário em memória
     await usersRepository.create({
@@ -25,7 +27,8 @@ describe("Sign In Use Case", () => {
 
   it("should not be able to authenticate with wrong username", async () => {
     const usersRepository = new InMemoryUsersRepository();
-    const sut = new SignInUseCase(usersRepository);
+    const authUser = new HttpExternalAuthService();
+    const sut = new SignInUseCase(usersRepository, authUser);
 
     await expect(() =>
       sut.execute({
@@ -37,7 +40,8 @@ describe("Sign In Use Case", () => {
 
   it("should not be able to authenticate with wrong password", async () => {
     const usersRepository = new InMemoryUsersRepository();
-    const sut = new SignInUseCase(usersRepository);
+    const authUser = new HttpExternalAuthService();
+    const sut = new SignInUseCase(usersRepository, authUser);
 
     // cria o usuário em memória
     await usersRepository.create({
@@ -56,7 +60,8 @@ describe("Sign In Use Case", () => {
 
   it("should not be able to authenticate if user not is active", async () => {
     const usersRepository = new InMemoryUsersRepository();
-    const sut = new SignInUseCase(usersRepository);
+    const authUser = new HttpExternalAuthService();
+    const sut = new SignInUseCase(usersRepository, authUser);
 
     await usersRepository.create({
       name: "Joe",
@@ -74,11 +79,12 @@ describe("Sign In Use Case", () => {
 
   it.skip("should be able to authenticate if password is empty, searching in API", async () => {
     const usersRepository = new InMemoryUsersRepository();
-    const sut = new SignInUseCase(usersRepository);
+    const authUser = new HttpExternalAuthService();
+    const sut = new SignInUseCase(usersRepository, authUser);
 
     await usersRepository.create({
       name: "Henrique.Maximo",
-      passwordHash: await hash("", 6)
+      passwordHash: await hash("", 6),
     });
 
     await expect(

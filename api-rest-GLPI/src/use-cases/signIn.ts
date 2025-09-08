@@ -4,7 +4,7 @@ import { UsersRepository } from "@/repositories/users-repository";
 import { Tables } from "knex/types/tables";
 import { InvalidCredentialsError } from "./errors/invalid-credentials-error";
 import { UserNotAuthorization } from "./errors/user-not-authorization-error";
-import { signInExternalService } from "../http/services/signIn-external";
+import { AuthService } from "@/http/services/auth-service";
 
 interface SignInUseCaseRequest {
   name: string;
@@ -16,8 +16,12 @@ interface SignInUseCaseResponse {
 }
 
 export class SignInUseCase {
-  constructor(private usersRepository: UsersRepository) {
+  constructor(
+    private usersRepository: UsersRepository,
+    private authService: AuthService
+  ) {
     this.usersRepository = usersRepository;
+    this.authService = authService;
   }
 
   async execute({
@@ -38,7 +42,10 @@ export class SignInUseCase {
 
     // utilizar API para autenticar (se não existir no banco)
     if (!user.password) {
-      const { session_token } = await signInExternalService({ name, password });
+      const { session_token } = await this.authService.authenticate({
+        name,
+        password,
+      });
 
       if (!session_token) {
         throw new InvalidCredentialsError();

@@ -16,8 +16,8 @@ const envSchema = z.object({
   JWT_SECRET: z.string(),
   JWT_EXPIRES_IN: z.coerce.string().default("7d"),
 
-  API_EXTERNAL: z.string().optional(),
-  APP_TOKEN: z.coerce.string().optional(),
+  API_EXTERNAL: z.string(),
+  APP_TOKEN: z.string(),
 });
 
 const _env = envSchema.safeParse(process.env);
