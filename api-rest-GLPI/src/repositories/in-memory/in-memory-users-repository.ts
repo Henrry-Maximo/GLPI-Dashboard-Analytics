@@ -58,8 +58,11 @@ export class InMemoryUsersRepository implements UsersRepository {
 
   async list(
     filters: ListUsersQuery
-  ): Promise<{ users: Tables["glpi_users"][], pagination: Record<string, number> }> {
-    const { name, isActive, limit, offset} = filters;
+  ): Promise<{
+    users: Tables["glpi_users"][];
+    pagination: Record<string, number>;
+  }> {
+    const { name, isActive, limit, offset } = filters;
 
     let result = [...this.items];
 
@@ -78,12 +81,12 @@ export class InMemoryUsersRepository implements UsersRepository {
     // const offset = (page - 1) * item;
     // const paginated: Tables["glpi_users"][] = result.slice(offset, offset + item);
     // console.log(paginated);
-    
-    let pagination: Record<string, number> = { 
+
+    const pagination: Record<string, number> = {
       limit,
       offset: (offset - 1) * limit,
-     }
+    };
 
     return { users: result, pagination };
   }
-  }
+}

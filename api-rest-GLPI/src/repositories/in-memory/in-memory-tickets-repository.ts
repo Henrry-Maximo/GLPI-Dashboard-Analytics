@@ -39,7 +39,6 @@ export class InMemoryTicketsRepository implements TicketsRepository {
     return ticket;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async list({
     id,
     name,
@@ -48,8 +47,11 @@ export class InMemoryTicketsRepository implements TicketsRepository {
     id_type,
     id_categories,
     limit,
-    offset
-  }: FiltersTicketsSchema): Promise<{ tickets: Tables["glpi_tickets"][], pagination: offesetTicketsPagination }> {
+    offset,
+  }: FiltersTicketsSchema): Promise<{
+    tickets: Tables["glpi_tickets"][];
+    pagination: offesetTicketsPagination;
+  }> {
     let result = [...this.items];
 
     if (id !== undefined) {
@@ -80,10 +82,10 @@ export class InMemoryTicketsRepository implements TicketsRepository {
 
     result.sort((a, b) => a.id - b.id);
 
-    const pagination: offesetTicketsPagination = { 
+    const pagination: offesetTicketsPagination = {
       limit,
       offset: (offset - 1) * limit,
-     }
+    };
 
     return { tickets: result, pagination };
   }
@@ -128,9 +130,9 @@ export class InMemoryTicketsRepository implements TicketsRepository {
             name: "request",
             count: 0,
           },
-        ]
-      }
-    }
+        ],
+      },
+    };
 
     // const { meta, result } = data;
 

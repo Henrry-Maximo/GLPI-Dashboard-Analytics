@@ -5,22 +5,22 @@ export interface TechniciansRequestSchema {
 
 export interface TechniciansResponseSchema {
   meta: {
-    total: number,
-  },
+    total: number;
+  };
   result: {
-    id: number,
-    name: string,
-    amount_tickets: number,
-    service: number,
+    id: number;
+    name: string;
+    amount_tickets: number;
+    service: number;
     urgency: {
-      very_high: number,
-      high: number,
-      average: number,
-      low: number,
-      very_low: number,
-    },
-    date_creation: string
-  }[]
+      very_high: number;
+      high: number;
+      average: number;
+      low: number;
+      very_low: number;
+    };
+    date_creation: string;
+  }[];
 }
 
 export interface TechniciansRepository {

@@ -1,38 +1,23 @@
-import js from "@eslint/js";
-import globals from "globals";
-import tseslint from "typescript-eslint";
-import { defineConfig } from "eslint/config";
+import eslint from "@eslint/js"; // importa regras básicas do eslint
+import tseslint from "typescript-eslint"; // plugin para entender TypeScript
 
-export default defineConfig([
+export default tseslint.config(
   {
-    files: ["**/*.{js,mjs,cjs,ts,mts,cts}"],
-    plugins: { js },
-    extends: ["js/recommended"],
+    ignores: ["build/**", "coverage/**", "node_modules/**"], // pastas ignoradas
   },
+  eslint.configs.recommended, // regras recomendadas do eslint
+  ...tseslint.configs.recommended, // regras recomendadas do typescript-eslint
   {
-    files: ["**/*.{js,mjs,cjs,ts,mts,cts}"],
-    languageOptions: { globals: globals.node },
-  },
-  tseslint.configs.recommended,
-  {
-    rules: {
-      // Estilo
-      "comma-dangle": ["error", "always-multiline"],
-      "semi": ["error", "always"],
-      "quotes": ["error", "double"],
-      "indent": ["error", 2],
-      "no-trailing-spaces": "error",
-      "eol-last": ["error", "always"],
-      "no-useless-constructor": "off",
-
-      // TypeScript
-      "@typescript-eslint/no-unused-vars": [
-        "error",
-        {
-          "argsIgnorePattern": "^_",
-          "varsIgnorePattern": "^_",
-        },
-      ],
+    files: ["src/**/*.ts"], // aplica só em arquivos .ts da pasta src
+    languageOptions: {
+      parser: tseslint.parser, // parser TS
+      parserOptions: {
+        project: "./tsconfig.json", // aponta para seu tsconfig
+      },
     },
-  },
-]);
+    rules: {
+      "@typescript-eslint/no-unused-vars": "warn", // avisa variáveis não usadas
+      "@typescript-eslint/no-explicit-any": "warn", // avisa uso de "any"
+    },
+  }
+);

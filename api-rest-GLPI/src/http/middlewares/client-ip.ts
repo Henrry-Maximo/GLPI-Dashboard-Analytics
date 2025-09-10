@@ -24,6 +24,6 @@ export async function clientIp(req: FastifyRequest, reply: FastifyReply) {
 
     return info;
   } catch (err) {
-    throw new Error("Erro ao coletar informações do cliente")
+    throw new Error("Erro ao coletar informações do cliente");
   }
 }

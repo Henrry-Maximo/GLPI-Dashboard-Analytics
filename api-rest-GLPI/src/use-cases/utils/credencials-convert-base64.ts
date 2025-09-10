@@ -8,7 +8,7 @@ export interface propsAuthUser {
   password: string;
 }
 
-export class Convert {  
+export class Convert {
   public inFormatBase64({ name, password }: propsAuthUser) {
     const encoded = Buffer.from(`${name}:${password}`).toString("base64");
 

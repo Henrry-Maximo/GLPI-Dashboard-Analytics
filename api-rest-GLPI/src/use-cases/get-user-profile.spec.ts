@@ -32,7 +32,7 @@ describe("Get User Profile Use Case", () => {
     await expect(() =>
       sut.execute({
         userId: "1",
-      }),
+      })
     ).rejects.toBeInstanceOf(ResourceNotFoundError);
   });
 });

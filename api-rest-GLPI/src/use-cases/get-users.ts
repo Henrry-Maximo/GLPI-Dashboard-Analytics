@@ -15,9 +15,10 @@ export class GetUsersUseCase {
     this.usersRepository = usersRepository;
   }
 
-  async execute(
-    filters: listUsersFiltersUseCase,
-  ): Promise<{ users: Tables["glpi_users"][], pagination: Record<string, number> }> {
+  async execute(filters: listUsersFiltersUseCase): Promise<{
+    users: Tables["glpi_users"][];
+    pagination: Record<string, number>;
+  }> {
     const { users, pagination } = await this.usersRepository.list(filters);
 
     if (!users.length) {

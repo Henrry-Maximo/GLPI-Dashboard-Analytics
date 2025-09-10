@@ -5,7 +5,10 @@ import { HttpExternalAuthService } from "@/http/services/glpi-api/signIn-externa
 export function makeSignInUseCase() {
   const knexUsersRepository = new KnexUsersRepository();
   const authUsersService = new HttpExternalAuthService();
-  const signInUseCase = new SignInUseCase(knexUsersRepository, authUsersService);
+  const signInUseCase = new SignInUseCase(
+    knexUsersRepository,
+    authUsersService
+  );
 
   return signInUseCase;
 }

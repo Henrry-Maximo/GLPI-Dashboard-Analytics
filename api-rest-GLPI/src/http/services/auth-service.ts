@@ -1,4 +1,3 @@
-
 export interface signInExternalRequest {
   name: string;
   password: string;
@@ -9,5 +8,8 @@ export interface signInExternalResponse {
 }
 
 export interface AuthService {
-  authenticate({ name, password }: signInExternalRequest): Promise<signInExternalResponse>
+  authenticate({
+    name,
+    password,
+  }: signInExternalRequest): Promise<signInExternalResponse>;
 }

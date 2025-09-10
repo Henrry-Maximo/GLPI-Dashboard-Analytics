@@ -1,9 +1,13 @@
-import { TechniciansRepository, TechniciansRequestSchema, TechniciansResponseSchema } from "../technicians-repository";
+import {
+  TechniciansRepository,
+  TechniciansRequestSchema,
+  TechniciansResponseSchema,
+} from "../technicians-repository";
 
 export class InMemoryTechnicians implements TechniciansRepository {
   public items: TechniciansResponseSchema = {
     meta: {
-      total: 10
+      total: 10,
     },
     result: [
       {
@@ -18,15 +22,16 @@ export class InMemoryTechnicians implements TechniciansRepository {
           low: 0,
           very_low: 1,
         },
-        date_creation: "2023-01-01T00:00:00.000Z"
-      }
-    ]
+        date_creation: "2023-01-01T00:00:00.000Z",
+      },
+    ],
   };
 
-  async get(props: TechniciansRequestSchema): Promise<TechniciansResponseSchema> {
+  async get(
+    props: TechniciansRequestSchema
+  ): Promise<TechniciansResponseSchema> {
     const { meta, result } = this.items;
-    
+
     return { meta, result };
   }
 }
-

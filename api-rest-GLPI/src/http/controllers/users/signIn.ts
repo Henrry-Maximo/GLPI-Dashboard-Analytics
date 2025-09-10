@@ -27,13 +27,13 @@ export const signIn = async (req: FastifyRequest, reply: FastifyReply) => {
       },
       {
         expiresIn: env.JWT_EXPIRES_IN,
-      },
+      }
     );
 
     return reply.status(200).send({ token });
   } catch (err) {
     if (err instanceof UserNotAuthorization) {
-      return reply.status(403).send({ message: err.message })
+      return reply.status(403).send({ message: err.message });
     }
 
     if (err instanceof InvalidCredentialsError) {

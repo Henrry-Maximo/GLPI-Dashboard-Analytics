@@ -32,7 +32,6 @@ export class RegisterTicketsUseCase {
     itilcategories_id,
     locations_id,
   }: RegisterTicketUseCase): Promise<Tables["glpi_tickets"]> {
-
     const ticket = await this.ticketsRepository.create({
       id,
       entities_id,
@@ -43,11 +42,11 @@ export class RegisterTicketsUseCase {
       urgency,
       itilcategories_id,
       locations_id,
-      date_creation: String(Date.now())
+      date_creation: String(Date.now()),
     });
 
     if (!ticket) {
-      throw new ServerInternalError;
+      throw new ServerInternalError();
     }
 
     return ticket;

@@ -81,9 +81,9 @@ export class KnexUsersRepository implements UsersRepository {
       // partindo de...
       .offset((offset - 1) * limit);
 
-    let pagination: Record<string, number> = {
+    const pagination: Record<string, number> = {
       limit,
-      offset
+      offset,
     };
 
     return { users, pagination };

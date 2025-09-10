@@ -1,4 +1,14 @@
-// {
-//   "editor.formatOnSave": true,
-//   "editor.defaultFormatter": "esbenp.prettier-vscode",
-// }
+{
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode", // define Prettier como formatador padrão
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  // garante que Prettier seja o formatador usado para arquivos .ts e .js
+  "eslint.validate": [
+    "typescript"
+  ], // ESLint: analisar arquivos TS
+  "eslint.workingDirectories": [
+    "."
+  ] // diretório atual é a raiz onde o ESLint deve procurar configs
+}

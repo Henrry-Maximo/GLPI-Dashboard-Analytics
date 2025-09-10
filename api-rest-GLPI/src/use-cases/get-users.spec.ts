@@ -19,7 +19,7 @@ describe("Get Users Use Case", () => {
     // busca por todos os usuários
     const { users, pagination } = await sut.execute({
       limit: 10,
-      offset: 1
+      offset: 1,
     });
 
     expect(Array.isArray(users)).toBe(true);

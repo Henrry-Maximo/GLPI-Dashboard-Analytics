@@ -1,9 +1,9 @@
 import { StatsRepository } from "@/repositories/stats-repository";
 
 interface AmountProfilesUsers {
-  id: number
+  id: number;
   name: string;
-  amount: number
+  amount: number;
 }
 
 interface AmountLocationsUsers {
@@ -17,7 +17,7 @@ interface AmountLocationsUsers {
 interface AmountTicketsUsers {
   id: number;
   name: string;
-  amount: number
+  amount: number;
 }
 
 interface GetStatsUsersUseCaseResponse {
@@ -26,13 +26,13 @@ interface GetStatsUsersUseCaseResponse {
     totalUsersActive: number;
     totalUsersInactive: number;
     totalUsersAdmins: number;
-    totalUsersTickets: number
-  },
+    totalUsersTickets: number;
+  };
   result: {
     usersByProfile: AmountProfilesUsers[];
     usersByLocation: AmountLocationsUsers[];
     usersByTickets: AmountTicketsUsers[];
-  }
+  };
 }
 
 export interface GetStatsTicketsUseCaseResponse {
@@ -40,12 +40,12 @@ export interface GetStatsTicketsUseCaseResponse {
   totalTicketsPending: number;
   ticketsWithSolution: number;
   ticketsByLocation: Record<string, number>;
-};
+}
 
 interface GetStatsUseCaseSchema {
   users: GetStatsUsersUseCaseResponse;
   tickets: GetStatsTicketsUseCaseResponse;
-};
+}
 
 export class GetStatsUseCase {
   constructor(private statsRepository: StatsRepository) {
@@ -53,11 +53,12 @@ export class GetStatsUseCase {
   }
 
   async execute(): Promise<GetStatsUsersUseCaseResponse> {
-    const  { meta, result }: GetStatsUseCaseSchema["users"] = await this.statsRepository.metricsUsers();
+    const { meta, result }: GetStatsUseCaseSchema["users"] =
+      await this.statsRepository.metricsUsers();
 
     return {
       meta,
-      result
+      result,
     };
   }
 }

@@ -69,9 +69,7 @@ export interface offesetTicketsPagination {
 
 export interface TicketsRepository {
   create(body: RegisterTicketsSchema): Promise<Tables["glpi_tickets"]>;
-  list(
-    query: FiltersTicketsSchema
-  ): Promise<{
+  list(query: FiltersTicketsSchema): Promise<{
     tickets: Tables["glpi_tickets"][];
     pagination: offesetTicketsPagination;
   }>;

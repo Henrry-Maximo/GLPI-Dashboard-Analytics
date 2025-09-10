@@ -14,15 +14,11 @@ export class RegisterUseCase {
     this.usersRepository = usersRepository;
   }
 
-  async execute({
-    name,
-    password,
-  }: RegisterUseCaseRequest): Promise<{
+  async execute({ name, password }: RegisterUseCaseRequest): Promise<{
     user: Pick<Tables["glpi_users"], "id" | "name" | "password">;
   }> {
-    const { user: isUserAlreadyExists } = await this.usersRepository.findByName(
-      name,
-    );
+    const { user: isUserAlreadyExists } =
+      await this.usersRepository.findByName(name);
 
     if (isUserAlreadyExists) {
       throw new UserAlreadyExistsError();

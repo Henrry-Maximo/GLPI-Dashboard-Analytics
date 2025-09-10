@@ -80,7 +80,7 @@ describe("Sign In Use Case", () => {
   it("should authenticate via API when user has no password", async () => {
     const usersRepository = new InMemoryUsersRepository();
     const authService = {
-      authenticate: vi.fn().mockResolvedValue({ session_token: "valid-token" })
+      authenticate: vi.fn().mockResolvedValue({ session_token: "valid-token" }),
     };
     const sut = new SignInUseCase(usersRepository, authService);
 
@@ -96,7 +96,7 @@ describe("Sign In Use Case", () => {
 
     expect(authService.authenticate).toHaveBeenCalledWith({
       name: "john.doe",
-      password: "senha-glpi"
+      password: "senha-glpi",
     });
     expect(result.user.name).toBe("john.doe");
   });
@@ -104,7 +104,7 @@ describe("Sign In Use Case", () => {
   it("should throw error when API returns no token", async () => {
     const usersRepository = new InMemoryUsersRepository();
     const authService = {
-      authenticate: vi.fn().mockResolvedValue({ session_token: null })
+      authenticate: vi.fn().mockResolvedValue({ session_token: null }),
     };
     const sut = new SignInUseCase(usersRepository, authService);
 

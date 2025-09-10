@@ -3,7 +3,9 @@ import { KnexTicketsRepository } from "@/repositories/knex/knex-tickets-reposito
 
 export function makeRegisterTicketUseCase() {
   const knexTicketsRepository = new KnexTicketsRepository();
-  const registerTicketsUseCase = new RegisterTicketsUseCase(knexTicketsRepository);
+  const registerTicketsUseCase = new RegisterTicketsUseCase(
+    knexTicketsRepository
+  );
 
   return registerTicketsUseCase;
 }

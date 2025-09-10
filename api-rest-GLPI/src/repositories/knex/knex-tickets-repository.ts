@@ -165,7 +165,7 @@ export class KnexTicketsRepository implements TicketsRepository {
           END AS validation_status
         `),
         "tv.comment_validation",
-        "t.date_creation"
+        "t.date_creation",
       ])
       .leftJoin("glpi_locations as lo", "t.locations_id", "lo.id")
       .leftJoin("glpi_tickets_users as tu1", function () {

@@ -6,7 +6,7 @@ describe("Get Tickets Pendings Use Case", () => {
   it("Should be able get list tickets pendings", async () => {
     const ticketsRepository = new InMemoryTicketsRepository();
     const sut = new GeTicketsPendingUseCase(ticketsRepository);
-    
+
     const data = await sut.execute();
 
     expect(typeof data).toBe("object");

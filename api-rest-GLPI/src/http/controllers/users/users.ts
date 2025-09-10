@@ -28,7 +28,13 @@ export async function users(req: FastifyRequest, reply: FastifyReply) {
 
   try {
     const usersUseCase = makeGetUsersUseCase();
-    const { users, pagination } = await usersUseCase.execute({ id, name, isActive, offset, limit });
+    const { users, pagination } = await usersUseCase.execute({
+      id,
+      name,
+      isActive,
+      offset,
+      limit,
+    });
 
     return reply.status(200).send({ users, pagination });
   } catch (err) {

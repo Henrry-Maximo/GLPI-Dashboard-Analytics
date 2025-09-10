@@ -20,13 +20,15 @@ describe("Get Categories Use Case", () => {
       })
     );
 
-    expect(result).toEqual(expect.arrayContaining([
-      expect.objectContaining({
-        id: expect.any(Number),
-        name: expect.any(String),
-        date_creation: expect.any(String),
-        total: expect.any(Number)
-      })
-    ]));
+    expect(result).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          id: expect.any(Number),
+          name: expect.any(String),
+          date_creation: expect.any(String),
+          total: expect.any(Number),
+        }),
+      ])
+    );
   });
 });

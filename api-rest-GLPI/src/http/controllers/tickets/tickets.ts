@@ -34,7 +34,7 @@ export async function tickets(req: FastifyRequest, reply: FastifyReply) {
       id_type,
       id_categories,
       limit,
-      offset
+      offset,
     });
 
     return reply.status(200).send({ tickets, pagination });

@@ -9,8 +9,8 @@ interface FiltersTicketsSchema {
   id_recipient?: number;
   id_type?: number;
   id_categories?: number;
-  offset: number,
-  limit: number
+  offset: number;
+  limit: number;
 }
 
 interface offesetTicketsPagination {
@@ -31,7 +31,7 @@ export class GetTicketsUseCase {
     id_type,
     id_categories,
     offset,
-    limit
+    limit,
   }: FiltersTicketsSchema): Promise<{
     tickets: Tables["glpi_tickets"][];
     pagination: offesetTicketsPagination;
@@ -44,7 +44,7 @@ export class GetTicketsUseCase {
       id_type,
       id_categories,
       offset,
-      limit
+      limit,
     });
 
     if (!tickets.length) {

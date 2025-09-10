@@ -10,7 +10,7 @@ describe("Get Technicians Use Case", () => {
     const { meta, result } = await sut.execute({});
 
     expect(meta).toEqual(
-      expect.objectContaining({ 
+      expect.objectContaining({
         total: expect.any(Number),
       })
     );
@@ -29,9 +29,9 @@ describe("Get Technicians Use Case", () => {
             low: expect.any(Number),
             very_low: expect.any(Number),
           }),
-          date_creation: expect.any(String)
-        })
+          date_creation: expect.any(String),
+        }),
       ])
     );
-  })
-})
+  });
+});

@@ -22,7 +22,10 @@ describe("Register Use Case", () => {
     const usersRepository = new InMemoryUsersRepository();
     const sut = new RegisterUseCase(usersRepository);
 
-    const { user } = await sut.execute({ name: "John Doe", password: "123456" });
+    const { user } = await sut.execute({
+      name: "John Doe",
+      password: "123456",
+    });
 
     const isPasswordCorrectlyHashed = await compare("123456", user.password);
 
@@ -36,7 +39,7 @@ describe("Register Use Case", () => {
     await sut.execute({ name: "Joe.doe", password: "123456" });
 
     await expect(() =>
-      sut.execute({ name: "Joe.doe", password: "123456" }),
+      sut.execute({ name: "Joe.doe", password: "123456" })
     ).rejects.toBeInstanceOf(UserAlreadyExistsError);
   });
 });

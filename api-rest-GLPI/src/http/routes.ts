@@ -13,4 +13,3 @@ export async function appRoutes(app: FastifyInstance) {
   app.register(categoriesRoutes);
   app.register(techniciansRoutes);
 }
-

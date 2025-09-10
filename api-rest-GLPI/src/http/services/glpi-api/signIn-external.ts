@@ -14,7 +14,7 @@ export class HttpExternalAuthService implements AuthService {
     password,
   }: signInExternalRequest): Promise<signInExternalResponse> {
     try {
-      const convert = new Convert()
+      const convert = new Convert();
       const response = await axios.post(
         `${env.API_EXTERNAL}/initSession`,
         {},
