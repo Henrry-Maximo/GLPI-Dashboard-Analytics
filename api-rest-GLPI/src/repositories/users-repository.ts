@@ -19,9 +19,7 @@ export interface UsersRepository {
     params: CreateUsersBody
   ): Promise<{ user: Pick<Tables["glpi_users"], "id" | "name" | "password"> }>;
   signIn(name: string): Promise<{ user: Tables["glpi_users"] | null }>;
-  findById(
-    userId: string
-  ): Promise<Omit<Tables["glpi_users"], "id" | "name"> | null>;
+  findById(userId: string): Promise<Tables["glpi_users"] | null>;
   findByName(
     name: string
   ): Promise<{ user: Pick<Tables["glpi_users"], "id" | "name"> | null }>;

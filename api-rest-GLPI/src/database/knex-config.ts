@@ -24,7 +24,7 @@ async function testConnectionDatabase() {
     console.log("Connection with the database successful.");
   } catch (error) {
     console.error("Error connection with the database:", error);
-    throw error;
+    setTimeout(testConnectionDatabase, 10000);
   }
 }
 

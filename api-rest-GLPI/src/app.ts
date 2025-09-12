@@ -6,8 +6,7 @@ import { ZodError } from "zod";
 
 import { env } from "./env";
 import { appRoutes } from "./http/routes";
-import path from "node:path";
-import fs from "node:fs";
+import { ErrorServerHandler } from "./use-cases/utils/error-server-handler";
 
 /**
  * Configuração da aplicação Fastify
@@ -50,16 +49,7 @@ app.setErrorHandler((error, _, reply) => {
     console.error(error);
   } else {
     // Todo: rastreamento de erros na produção
-    const logFile = path.join(__dirname, "errors.log");
-
-    function logError(error: any) {
-      const message = `[${new Date().toISOString()}] ${
-        error.stack || error
-      }\n\n`;
-      fs.appendFileSync(logFile, message, "utf8");
-    }
-
-    logError(error);
+    new ErrorServerHandler(error).execute();
   }
 
   return reply.status(500).send({ message: "Internal Server Error." });
