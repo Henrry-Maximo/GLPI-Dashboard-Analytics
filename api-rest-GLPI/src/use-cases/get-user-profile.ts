@@ -7,7 +7,7 @@ interface GetUserProfileUseCaseRequest {
 }
 
 interface GetUserProfileUseCaseResponse {
-  user: Tables["glpi_users"];
+  user: Omit<Tables["glpi_users"], "id" | "name">;
 }
 
 export class GetUserProfileUseCase {

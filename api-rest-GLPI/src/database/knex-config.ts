@@ -18,7 +18,7 @@ export const config: Knex.Config = {
 export const knex = setupKnex(config);
 
 // Testar a conexão
-export async function testConnectionDatabase() {
+async function testConnectionDatabase() {
   try {
     await knex.raw("SELECT 1");
     console.log("Connection with the database successful.");

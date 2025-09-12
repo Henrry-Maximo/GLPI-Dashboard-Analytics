@@ -12,11 +12,12 @@ app
   }) // objeto de configuração do servidor
   .then(() => {
     console.log(
-      `🚀 Server Running, port: ${env.NODE_PORT}, status: ${env.NODE_ENV}`,
+      `🚀 Server Running, port: ${env.NODE_PORT}, status: ${env.NODE_ENV}`
     ); // resposta de solicitação bem-sucedida
   }) // promises que será executada se correr tudo bem
   .catch((err) => {
     console.error(`❌ Server with Error: ${err.message}`);
+    app.close();
     process.exit(1); // encerra o servidor
   });
 
@@ -32,4 +33,3 @@ app
  *  process.exit(1); // Encerrar o servidor
  * }
  */
-

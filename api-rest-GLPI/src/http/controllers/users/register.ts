@@ -3,6 +3,7 @@ import z from "zod";
 
 import { InvalidCredentialsError } from "@/use-cases/errors/invalid-credentials-error";
 import { makeRegisterUseCase } from "@/use-cases/factories/make-register-use-case";
+import { UserAlreadyExistsError } from "@/use-cases/errors/user-already-exists-error";
 
 export async function register(req: FastifyRequest, reply: FastifyReply) {
   const userBodySchema = z.object({
@@ -17,12 +18,13 @@ export async function register(req: FastifyRequest, reply: FastifyReply) {
 
     const { user } = await registerUseCase.execute({ name, password });
 
-    return reply
-      .status(201)
-      .send({ message: "User creating with successful.", name: user?.name });
+    return reply.status(201).send({
+      message: "User creating with successful.",
+      name: user.name ?? null,
+    });
   } catch (err) {
-    if (err instanceof InvalidCredentialsError) {
-      return reply.status(400).send({ message: err.message });
+    if (err instanceof UserAlreadyExistsError) {
+      return reply.status(409).send({ message: err.message });
     }
 
     throw err;
