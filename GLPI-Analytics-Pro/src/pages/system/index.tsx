@@ -4,7 +4,7 @@ export const Settings = () => {
   return (
     <div className="w-full m-24">
       <div className="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-md">
-        <h1 className="text-2xl font-semibold text-gray-700">Configurações</h1>
+        <h1 className="text-2xl font-semibold text-gray-300">Configurações</h1>
 
         <form className="space-y-6 mt-6">
           {/* <div>
