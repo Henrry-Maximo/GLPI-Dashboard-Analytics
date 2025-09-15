@@ -1,105 +1,90 @@
-import type { FastifyInstance } from "fastify";
-import { z } from "zod";
-import { verifyJwt } from "../../middlewares/verify-jwt";
+// export async function ticketsController(app: FastifyInstance) {
+//   app.get("/search", { onRequest: [verifyJwt] }, async (req, reply) => {
+//     const requestIdTicketQuerySchema = z.object({
+//       id: z.coerce.number().optional(),
+//     });
 
-import { getTicketsSearch } from "@/use-cases/_legacy/get-tickets-search";
-import { getTicketsLast } from "@/use-cases/_legacy/get-tickets-last";
-import { getTicketsOverview } from "@/use-cases/_legacy/get-tickets-overview";
-import { getTicketsDateTime } from "@/use-cases/_legacy/get-tickets-date-time";
-import { getTicketsTechnician } from "@/use-cases/_legacy/get-tickets-technician";
-import { getTicketsCategories } from "@/use-cases/_legacy/get-tickets-categories";
-import {
-  getTicketsDetails,
-  getTicketsPending,
-} from "@/use-cases/_legacy/get-tickets-pending";
+//     const { id } = requestIdTicketQuerySchema.parse(req.query);
 
-export async function ticketsController(app: FastifyInstance) {
-  app.get("/search", { onRequest: [verifyJwt] }, async (req, reply) => {
-    const requestIdTicketQuerySchema = z.object({
-      id: z.coerce.number().optional(),
-    });
+//     const { tickets } = await getTicketsSearch({ id });
 
-    const { id } = requestIdTicketQuerySchema.parse(req.query);
+//     return reply.status(200).send(tickets);
 
-    const { tickets } = await getTicketsSearch({ id });
+//     /*
+//       Rota para retornar todos os chamados existentes
+//       no banco de dados
+//     */
+//   });
 
-    return reply.status(200).send(tickets);
+//   app.get("/pending", { onRequest: [verifyJwt] }, async (_, reply) => {
+//     const { meta, list } = await getTicketsPending();
 
-    /*
-      Rota para retornar todos os chamados existentes
-      no banco de dados
-    */
-  });
+//     return reply.status(200).send({ meta, list });
 
-  app.get("/pending", { onRequest: [verifyJwt] }, async (_, reply) => {
-    const { meta, list } = await getTicketsPending();
+//     /*
+//       Rota para retornar total, prioridade, tipo e lista
+//       de chamados
+//     */
+//   });
 
-    return reply.status(200).send({ meta, list });
+//   app.get("/summary", { onRequest: [verifyJwt] }, async (_, reply) => {
+//     const { meta, list } = await getTicketsDetails();
 
-    /*
-      Rota para retornar total, prioridade, tipo e lista
-      de chamados
-    */
-  });
+//     return reply.status(200).send({ meta, list });
 
-  app.get("/summary", { onRequest: [verifyJwt] }, async (_, reply) => {
-    const { meta, list } = await getTicketsDetails();
+//     /*
+//       Rota para retornar lista de resumo sobre
+//       chamados: atrasados, categorias e lista de concluídos.
+//     */
+//   });
 
-    return reply.status(200).send({ meta, list });
+//   app.get("/last", { onRequest: [verifyJwt] }, async (_, reply) => {
+//     const { ticketLastSchema } = await getTicketsLast();
 
-    /*
-      Rota para retornar lista de resumo sobre 
-      chamados: atrasados, categorias e lista de concluídos.
-    */
-  });
+//     if (!ticketLastSchema) {
+//       return reply.status(404).send({ message: "Not found ticket." });
+//     }
 
-  app.get("/last", { onRequest: [verifyJwt] }, async (_, reply) => {
-    const { ticketLastSchema } = await getTicketsLast();
+//     return reply.status(200).send(ticketLastSchema);
 
-    if (!ticketLastSchema) {
-      return reply.status(404).send({ message: "Not found ticket." });
-    }
+//     /*
+//       Rota para retornar o último chamado cadastrado
+//       no banco de dados, última data de criação.
+//     */
+//   });
 
-    return reply.status(200).send(ticketLastSchema);
+//   app.get("/categories", { onRequest: [verifyJwt] }, async (_, reply) => {
+//     const result = await getTicketsCategories();
 
-    /*
-      Rota para retornar o último chamado cadastrado
-      no banco de dados, última data de criação.
-    */
-  });
+//     return reply.status(200).send(result);
+//   });
 
-  app.get("/categories", { onRequest: [verifyJwt] }, async (_, reply) => {
-    const result = await getTicketsCategories();
+//   app.get("/overview", { onRequest: [verifyJwt] }, async (_, reply) => {
+//     const tickets = await getTicketsOverview();
 
-    return reply.status(200).send(result);
-  });
+//     return reply.status(200).send(tickets);
+//   });
 
-  app.get("/overview", { onRequest: [verifyJwt] }, async (_, reply) => {
-    const tickets = await getTicketsOverview();
+//   app.get(
+//     "/tickets-date-time",
+//     { onRequest: [verifyJwt] },
+//     async (_, reply) => {
+//       const { tickets } = await getTicketsDateTime();
 
-    return reply.status(200).send(tickets);
-  });
+//       return reply.status(200).send(tickets);
+//     }
+//   );
 
-  app.get(
-    "/tickets-date-time",
-    { onRequest: [verifyJwt] },
-    async (_, reply) => {
-      const { tickets } = await getTicketsDateTime();
+//   app.get(
+//     "/tickets-technician",
+//     { onRequest: [verifyJwt] },
+//     async (_, reply) => {
+//       const { ticketsAmountTechnician, ticketsAmountTechnicianSolution } =
+//         await getTicketsTechnician();
 
-      return reply.status(200).send(tickets);
-    }
-  );
-
-  app.get(
-    "/tickets-technician",
-    { onRequest: [verifyJwt] },
-    async (_, reply) => {
-      const { ticketsAmountTechnician, ticketsAmountTechnicianSolution } =
-        await getTicketsTechnician();
-
-      return reply
-        .status(200)
-        .send({ ticketsAmountTechnician, ticketsAmountTechnicianSolution });
-    }
-  );
-}
+//       return reply
+//         .status(200)
+//         .send({ ticketsAmountTechnician, ticketsAmountTechnicianSolution });
+//     }
+//   );
+// }

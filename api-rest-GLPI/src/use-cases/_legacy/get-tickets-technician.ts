@@ -11,16 +11,13 @@ export async function getTicketsTechnician() {
     .orderBy("quantity", "desc");
 
   const ticketsAmountTechnicianSolution = await knex("glpi_tickets_users")
-    .select(
-      "glpi_users.name as technician",
-      "glpi_groups.name as group",
-    )
+    .select("glpi_users.name as technician", "glpi_groups.name as group")
     .count("glpi_tickets_users.tickets_id as count")
     .innerJoin("glpi_users", "glpi_tickets_users.users_id", "glpi_users.id")
     .innerJoin(
       "glpi_groups_users",
       "glpi_tickets_users.users_id",
-      "glpi_groups_users.users_id",
+      "glpi_groups_users.users_id"
     )
     .innerJoin("glpi_groups", "glpi_groups_users.groups_id", "glpi_groups.id")
     .groupBy("glpi_tickets_users.users_id", "glpi_groups.name")

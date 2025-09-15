@@ -12,7 +12,7 @@ export class ErrorServerHandler {
     }
   }
 
-  private logFile = path.join(__dirname, "../../logs/errors.log");
+  private logFile = path.join(__dirname, "../../../logs/errors.log");
 
   public execute() {
     // formatter message error

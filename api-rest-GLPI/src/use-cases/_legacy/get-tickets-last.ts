@@ -43,18 +43,18 @@ export async function getTicketsLast() {
     .leftJoin(
       "glpi_locations",
       "glpi_tickets.locations_id",
-      "glpi_locations.id",
+      "glpi_locations.id"
     )
     .leftJoin(
       "glpi_tickets_users",
       "glpi_tickets.id",
-      "glpi_tickets_users.tickets_id",
+      "glpi_tickets_users.tickets_id"
     )
     .leftJoin("glpi_users", "glpi_tickets_users.users_id", "glpi_users.id")
     .leftJoin(
       "glpi_ticketvalidations",
       "glpi_tickets.id",
-      "glpi_ticketvalidations.tickets_id",
+      "glpi_ticketvalidations.tickets_id"
     )
     .where("glpi_tickets_users.type", 1)
     .whereNot("glpi_tickets.status", 6)
