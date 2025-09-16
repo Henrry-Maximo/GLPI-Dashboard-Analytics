@@ -1,7 +1,13 @@
-export function App() {
+import { Button } from "./components/ui/button";
+import { Input } from "./components/ui/input";
+import { Sidebar } from "./components/ui/sidebar"
+
+export const App = () => {
   return (
-    <>
-      <h1>teste</h1>
-    </>
+    <div className="flex justify-center items-center h-screen">
+      <Button>Enviar</Button>
+      <Input />
+      <Sidebar />
+    </div>
   );
 }
