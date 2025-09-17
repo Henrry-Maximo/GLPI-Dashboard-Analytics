@@ -1,13 +1,10 @@
-import { Button } from "./components/ui/button";
-import { Input } from "./components/ui/input";
-import { Sidebar } from "./components/ui/sidebar"
+import { BrowserRouter } from "react-router-dom"
+import { Router } from "./routes"
 
 export const App = () => {
   return (
-    <div className="flex justify-center items-center h-screen">
-      <Button>Enviar</Button>
-      <Input />
-      <Sidebar />
-    </div>
-  );
+    <BrowserRouter>
+      <Router />
+    </BrowserRouter>
+  )
 }
