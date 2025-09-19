@@ -182,9 +182,6 @@ export class KnexTicketsRepository implements TicketsRepository {
       .groupBy("t.id")
       .orderBy("t.id", "desc");
 
-    const countTicketsTotal = data.length;
-    const { id, date_creation } = data[0];
-
     const priority: PropertiesTickets[] = await knex("glpi_tickets as t")
       .select([
         "t.priority as id",
@@ -218,9 +215,9 @@ export class KnexTicketsRepository implements TicketsRepository {
 
     return {
       meta: {
-        total: countTicketsTotal,
-        last_ticket_id: id,
-        last_ticket_date: date_creation,
+        total: data.length,
+        last_ticket_id: data[0]?.id ?? null,
+        last_ticket_date: data[0]?.date_creation ?? null,
       },
       result: {
         list: data,

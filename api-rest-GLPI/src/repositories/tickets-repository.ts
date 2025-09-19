@@ -52,8 +52,8 @@ interface PropertiesTicketsType {
 export interface TicketsPendingsSchema {
   meta: {
     total: number;
-    last_ticket_id: number;
-    last_ticket_date: string;
+    last_ticket_id: number | null;
+    last_ticket_date: string | null;
   };
   result: {
     list: PropertiesTicketsSchema[];
