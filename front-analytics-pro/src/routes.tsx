@@ -9,6 +9,8 @@ import { Settings } from "./pages/settings";
 import { Tickets } from "./pages/tickets";
 import { Help } from "./pages/help";
 import { Monitoring } from "./pages/monitoring";
+import { Analytics } from "./pages/analytics";
+import { Statistics } from "./pages/statistics";
 
 export function Routers() {
   return (
@@ -22,6 +24,8 @@ export function Routers() {
         <Route path="" element={<Home />} />
         <Route path="tickets" element={<Tickets />} />
         <Route path="monitoring" element={<Monitoring />} />
+        <Route path="analytics" element={<Analytics />} />
+        <Route path="statistics" element={<Statistics />} />
         <Route path="help" element={<Help />} />
         <Route path="system" element={<Settings />} />
       </Route>
