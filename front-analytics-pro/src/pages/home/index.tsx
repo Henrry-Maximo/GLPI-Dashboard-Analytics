@@ -1,6 +1,6 @@
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
 
-export function Home() {
+export const Home = () => {
   return (
     <>
       <nav className="flex justify-between gap-2 bg-red-400 text-gray-50">
@@ -8,5 +8,5 @@ export function Home() {
         <Link to="/register">Register</Link>
       </nav>
     </>
-  )
-}
+  );
+};

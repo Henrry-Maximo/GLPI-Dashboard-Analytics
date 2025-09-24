@@ -1,3 +1,3 @@
-export function Register() {
-  return <>Register</>
-}
+export const Register = () => {
+  return <>Register</>;
+};
