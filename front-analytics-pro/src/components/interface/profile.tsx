@@ -11,14 +11,19 @@ export const Profile = () => {
         {/* Exibindo o ícone diretamente */}
       </div>
 
-      <div className="flex flex-col truncate">
+      <div className="flex w-40 flex-col">
         <span
-          className="font semibold truncate text-sm text-zinc-700"
+          className="truncate text-sm font-semibold text-zinc-700"
           title="Henrique Maximo Lima da Silva"
         >
           Henrique Maximo
         </span>
-        <span className="truncate text-sm text-zinc-500">...@gmail.com</span>
+        <span
+          className="w-full truncate text-sm text-zinc-500"
+          aria-placeholder="tez"
+        >
+          henrique.maximo@gmail.com
+        </span>
       </div>
     </div>
   );

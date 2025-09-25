@@ -60,6 +60,7 @@ export const Sidebar = (className: any) => {
       </nav>
 
       <div className="flex flex-col gap-4">
+        <Separator />
         <Profile />
         <nav className="rounded-md bg-white">
           <Link

@@ -12,7 +12,7 @@ export const Layout = () => {
 
         <Sidebar />
 
-        <div className="mx-6 mt-6 flex flex-grow overflow-y-auto">
+        <div className="flex flex-1 overflow-y-auto p-4">
           <Outlet />
         </div>
       </div>
