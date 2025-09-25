@@ -3,6 +3,7 @@ import {
   Database,
   HelpCircleIcon,
   Home,
+  LogOut,
   MonitorIcon,
   Settings,
   Tickets,
@@ -10,6 +11,7 @@ import {
 import { Link } from "react-router-dom";
 import { Separator } from "../ui/separator";
 import { Profile } from "./profile";
+import { Button } from "../ui/button";
 
 export const Sidebar = (className: any) => {
   return (
@@ -80,6 +82,14 @@ export const Sidebar = (className: any) => {
             <Settings className="h-5 w-5 text-gray-500 transition duration-300 ease-in-out group-hover:animate-bounce group-hover:text-orange-500" />
             Configurações
           </Link>
+          <Separator />
+          <Button
+            type="button"
+            className="group flex w-full gap-2 rounded border border-transparent bg-white p-2 text-gray-500 transition duration-300 ease-in-out hover:border-orange-400 hover:bg-white"
+          >
+            <LogOut className="h-5 w-5 text-gray-700 transition duration-300 ease-in-out group-hover:text-orange-500" />
+            Sair
+          </Button>
         </nav>
       </div>
     </aside>

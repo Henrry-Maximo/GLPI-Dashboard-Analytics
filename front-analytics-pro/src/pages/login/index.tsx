@@ -88,9 +88,15 @@ export const Login = () => {
           </button>
 
           {/* Help Link */}
-          <div className="mt-16">
+          <div className="mt-16 flex flex-col">
             <a
-              href="/help"
+              href="/register"
+              className="font-normal text-gray-700 no-underline hover:text-orange-500"
+            >
+              Criar conta.
+            </a>
+            <a
+              href="/home/help"
               className="font-normal text-gray-700 no-underline hover:text-orange-500"
             >
               Precisa de ajuda?
