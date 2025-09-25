@@ -11,6 +11,7 @@ import { Help } from "./pages/help";
 import { Monitoring } from "./pages/monitoring";
 import { Analytics } from "./pages/analytics";
 import { Statistics } from "./pages/statistics";
+import { ResetPassword } from "./pages/reset_password";
 
 export function Routers() {
   return (
@@ -18,6 +19,7 @@ export function Routers() {
       <Route path="/" element={<Auth />}>
         <Route path="" element={<Login />} />
         <Route path="register" element={<Register />} />
+        <Route path="reset-password" element={<ResetPassword />} />
       </Route>
 
       <Route path="/home" element={<Layout />}>
@@ -27,7 +29,7 @@ export function Routers() {
         <Route path="analytics" element={<Analytics />} />
         <Route path="statistics" element={<Statistics />} />
         <Route path="help" element={<Help />} />
-        <Route path="system" element={<Settings />} />
+        <Route path="settings" element={<Settings />} />
       </Route>
 
       <Route path="*" element={<Navigate to="/" replace />} />
