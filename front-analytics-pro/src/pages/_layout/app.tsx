@@ -1,4 +1,3 @@
-import { Footer } from "@/components/interface/footer";
 import { Header } from "@/components/interface/header";
 import { Sidebar } from "@/components/interface/sidebar";
 import { Outlet } from "react-router-dom";
@@ -13,7 +12,7 @@ export const Layout = () => {
 
         <Sidebar />
 
-        <div className="mx-6 mt-6 flex flex-grow overflow-y-auto bg-red-700">
+        <div className="mx-6 mt-6 flex flex-grow overflow-y-auto">
           <Outlet />
         </div>
       </div>
