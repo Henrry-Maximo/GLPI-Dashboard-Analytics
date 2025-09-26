@@ -1,6 +1,7 @@
 import {
   Calculator,
   Database,
+  Ellipsis,
   HelpCircleIcon,
   Home,
   LogOut,
@@ -8,57 +9,103 @@ import {
   Settings,
   Tickets,
 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Separator } from "../ui/separator";
 import { Profile } from "./profile";
 import { Button } from "../ui/button";
+import { Label } from "../ui/label";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "../ui/breadcrumb";
 
 export const Sidebar = (className: any) => {
+  const location = useLocation();
+  const pathname = location.pathname.split("/");
+
   return (
     <aside
       className={`flex flex-col justify-between border-r border-gray-300 bg-gray-50 p-2 transition-all duration-300 ease-in-out ${className}`}
     >
-      <nav className=" space-y-0.5">
-        <Link
-          className="group flex items-center gap-2 rounded border border-transparent p-2 transition duration-300 ease-in-out hover:border-orange-400 hover:bg-white"
-          title="Home"
-          to="/home"
-        >
-          <Home className="h-5 w-5 text-gray-500 transition duration-300 ease-in-out group-hover:animate-bounce group-hover:text-orange-500" />
-          Home
-        </Link>
-        <Link
-          className="group flex items-center gap-2 rounded border border-transparent p-2 transition duration-300 ease-in-out hover:border-orange-400 hover:bg-white"
-          title="Tickets"
-          to="/home/tickets"
-        >
-          <Tickets className="h-5 w-5 text-gray-500 transition duration-300 ease-in-out group-hover:animate-bounce group-hover:text-orange-500" />
-          Chamados
-        </Link>
-        <Link
-          className="group flex items-center gap-2 rounded border border-transparent p-2 transition duration-300 ease-in-out hover:border-orange-400 hover:bg-white"
-          title="Monitoring"
-          to="/home/monitoring"
-        >
-          <MonitorIcon className="h-5 w-5 text-gray-500 transition duration-300 ease-in-out group-hover:animate-bounce group-hover:text-orange-500" />
-          Monitoramento
-        </Link>
-        <Link
-          className="group flex items-center gap-2 rounded border border-transparent p-2 transition duration-300 ease-in-out hover:border-orange-400 hover:bg-white"
-          title="Analytics"
-          to="/home/analytics"
-        >
-          <Database className="h-5 w-5 text-gray-500 transition duration-300 ease-in-out group-hover:animate-bounce group-hover:text-orange-500" />
-          Análises
-        </Link>
-        <Link
-          className="group flex items-center gap-2 rounded border border-transparent p-2 transition duration-300 ease-in-out hover:border-orange-400 hover:bg-white"
-          title="Statistics"
-          to="/home/statistics"
-        >
-          <Calculator className="h-5 w-5 text-gray-500 transition duration-300 ease-in-out group-hover:animate-bounce group-hover:text-orange-500" />
-          Estatísticas
-        </Link>
+      <nav className="flex flex-1 flex-col pb-2 pt-2">
+        <Breadcrumb className="pl-2">
+          <BreadcrumbList>
+            {pathname.length > 2 && (
+              <>
+                <BreadcrumbItem>
+                  <BreadcrumbLink href="/home" className="capitalize">
+                    {pathname.at(-2)}
+                  </BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator />
+              </>
+            )}
+            <BreadcrumbItem>
+              <BreadcrumbLink href={location.pathname} className="capitalize">
+                {pathname.at(-1)}
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+
+        <div className="flex h-full flex-col justify-between">
+          <div>
+            <Link
+              className="group flex items-center gap-2 rounded border border-transparent p-2 transition duration-300 ease-in-out hover:border-orange-400 hover:bg-white"
+              title="Home"
+              to="/home"
+            >
+              <Home className="h-5 w-5 text-gray-500 transition duration-300 ease-in-out group-hover:animate-bounce group-hover:text-orange-500" />
+              Home
+            </Link>
+            <Link
+              className="group flex items-center gap-2 rounded border border-transparent p-2 transition duration-300 ease-in-out hover:border-orange-400 hover:bg-white"
+              title="Tela para busca/filtragem de chamados."
+              to="/home/tickets"
+            >
+              <Tickets className="h-5 w-5 text-gray-500 transition duration-300 ease-in-out group-hover:animate-bounce group-hover:text-orange-500" />
+              Chamados
+            </Link>
+            <Link
+              className="group flex items-center gap-2 rounded border border-transparent p-2 transition duration-300 ease-in-out hover:border-orange-400 hover:bg-white"
+              title="Tela de monitoramento das operações | Em tempo real."
+              to="/home/monitoring"
+            >
+              <MonitorIcon className="h-5 w-5 text-gray-500 transition duration-300 ease-in-out group-hover:animate-bounce group-hover:text-orange-500" />
+              Monitoramento
+            </Link>
+            <Link
+              className="group flex items-center gap-2 rounded border border-transparent p-2 transition duration-300 ease-in-out hover:border-orange-400 hover:bg-white"
+              title="Dashboard para análise a curto prazo das operações."
+              to="/home/analytics"
+            >
+              <Database className="h-5 w-5 text-gray-500 transition duration-300 ease-in-out group-hover:animate-bounce group-hover:text-orange-500" />
+              Análises
+            </Link>
+            <Link
+              className="group flex items-center gap-2 rounded border border-transparent p-2 transition duration-300 ease-in-out hover:border-orange-400 hover:bg-white"
+              title="Dashboard para relatório de estatísticas sobre a operação."
+              to="/home/statistics"
+            >
+              <Calculator className="h-5 w-5 text-gray-500 transition duration-300 ease-in-out group-hover:animate-bounce group-hover:text-orange-500" />
+              Estatísticas
+            </Link>
+          </div>
+          <div>
+            <Link
+              className="group flex items-center gap-2 rounded border border-transparent p-2 transition duration-300 ease-in-out hover:border-orange-400 hover:bg-white"
+              title="Detalhes"
+              to="/home"
+            >
+              <Ellipsis className="h-5 w-5 text-gray-500 transition duration-300 ease-in-out group-hover:animate-pulse group-hover:text-orange-500" />
+              Mais
+            </Link>
+          </div>
+        </div>
       </nav>
 
       <div className="flex flex-col gap-4">
@@ -67,7 +114,7 @@ export const Sidebar = (className: any) => {
         <nav className="rounded-md bg-white">
           <Link
             className="group flex items-center gap-2 rounded border border-transparent p-2 transition duration-300 ease-in-out hover:border-orange-400 hover:bg-white"
-            title="Help"
+            title="Precisa de ajuda? Aperta aqui."
             to="/home/help"
           >
             <HelpCircleIcon className="h-5 w-5 text-gray-500 transition duration-300 ease-in-out group-hover:animate-bounce group-hover:text-orange-500" />
@@ -76,7 +123,7 @@ export const Sidebar = (className: any) => {
           <Separator />
           <Link
             className="group flex items-center gap-2 rounded border border-transparent p-2 transition duration-300 ease-in-out hover:border-orange-400 hover:bg-white"
-            title="Settings"
+            title="Tela para modificar configurações do sistema."
             to="/home/settings"
           >
             <Settings className="h-5 w-5 text-gray-500 transition duration-300 ease-in-out group-hover:animate-bounce group-hover:text-orange-500" />
