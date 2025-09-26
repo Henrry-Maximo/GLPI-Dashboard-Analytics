@@ -3,6 +3,8 @@ import { Sidebar } from "@/components/interface/sidebar";
 import { Outlet } from "react-router-dom";
 
 export const Layout = () => {
+  // const [isOpen, setIsOpen] = useState(false);
+
   return (
     <>
       <div className="grid h-screen grid-cols-[auto_1fr] grid-rows-[auto_1fr]">

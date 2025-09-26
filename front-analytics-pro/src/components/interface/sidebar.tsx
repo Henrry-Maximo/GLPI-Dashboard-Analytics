@@ -13,13 +13,11 @@ import { Link, useLocation } from "react-router-dom";
 import { Separator } from "../ui/separator";
 import { Profile } from "./profile";
 import { Button } from "../ui/button";
-import { Label } from "../ui/label";
 import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
-  BreadcrumbPage,
   BreadcrumbSeparator,
 } from "../ui/breadcrumb";
 
