@@ -21,13 +21,22 @@ import {
   BreadcrumbSeparator,
 } from "../ui/breadcrumb";
 
-export const Sidebar = (className: any) => {
+interface PropsSidebarHandler {
+  disabled?: boolean;
+}
+
+export const Sidebar = ({ disabled }: PropsSidebarHandler) => {
   const location = useLocation();
   const pathname = location.pathname.split("/");
 
   return (
     <aside
-      className={`flex flex-col justify-between border-r border-gray-300 bg-gray-50 p-2 transition-all duration-300 ease-in-out ${className}`}
+      className={`flex flex-col justify-between border-r border-gray-300 bg-gray-50 p-2 transition-all duration-300 ease-in-out
+      ${
+        disabled
+          ? "visible w-62"
+          : "invisible w-0 overflow-hidden px-0 py-0"
+      }`}
     >
       <nav className="flex flex-1 flex-col pb-2 pt-2">
         <Breadcrumb className="pl-2">

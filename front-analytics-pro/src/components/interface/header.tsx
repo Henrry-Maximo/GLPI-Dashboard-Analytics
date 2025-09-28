@@ -5,11 +5,12 @@ import { Button } from "../ui/button";
 import logo from "@/assets/logo.png";
 import { Link } from "react-router-dom";
 
-export const Header = () => {
+export const Header = ({ onOpenSidebar }: any) => {
   return (
     <div className="flex h-16 items-center justify-between border border-b-orange-500 bg-gray-50 p-8 text-slate-900">
       <div>
         <Button
+          onClick={onOpenSidebar}
           type="button"
           className="group flex items-center gap-2 rounded border border-white bg-slate-100 p-2 transition duration-300 ease-in-out hover:border-orange-400 hover:bg-white"
         >
