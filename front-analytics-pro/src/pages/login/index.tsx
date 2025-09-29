@@ -27,7 +27,7 @@ export const Login = () => {
                 required
                 autoFocus
                 maxLength={25}
-                className="peer flex-1 border-b border-none border-gray-700 bg-transparent py-2 pl-10 pr-2 text-gray-700 outline-none transition-all duration-300 hover:border-b-2 hover:border-orange-500 focus:border-b-2 focus:border-orange-500"
+                className=" flex-1 border-b border-gray-300 bg-transparent py-2 pl-10 pr-2 text-gray-700 outline-none transition-all duration-300 hover:border-b-2 hover:border-orange-500 focus:border-b-2 focus:border-orange-500"
                 id="username"
               />
               <label
@@ -47,7 +47,7 @@ export const Login = () => {
                 type="password"
                 required
                 maxLength={25}
-                className="peer flex-1 border-b border-none border-gray-700 bg-transparent py-2 pl-10 pr-2 text-gray-700 outline-none transition-all duration-300 hover:border-b-2 hover:border-orange-500 focus:border-b-2 focus:border-orange-500"
+                className="flex-1 border-b border-gray-300 bg-transparent py-2 pl-10 pr-2 text-gray-700 outline-none transition-all duration-300 hover:border-b-2 hover:border-orange-500 focus:border-b-2 focus:border-orange-500"
                 id="password"
               />
               <label
@@ -79,15 +79,13 @@ export const Login = () => {
             </a>
           </div>
 
-          {/* Login Button */}
           <button
             type="submit"
-            className="w-4/5 cursor-pointer rounded border-none bg-white py-2.5 font-normal text-gray-700 transition-all duration-500 hover:bg-orange-500 max-md:w-full"
+            className="w-4/5 cursor-pointer rounded border-none bg-white py-2.5 font-normal text-gray-700 transition-all duration-500 hover:bg-orange-500 hover:text-white max-md:w-full"
           >
             Acessar
           </button>
 
-          {/* Help Link */}
           <div className="mt-16 flex flex-col">
             <a
               href="/register"
@@ -101,6 +99,9 @@ export const Login = () => {
             >
               Precisa de ajuda?
             </a>
+            <footer className="font-normal text-gray-700 no-underline">
+              Painel de Gestão Técnica &copy; GLPI - {new Date().getFullYear()}
+            </footer>
           </div>
         </form>
       </div>

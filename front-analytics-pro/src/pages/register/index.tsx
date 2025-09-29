@@ -17,7 +17,7 @@ export const Register = () => {
                 required
                 autoFocus
                 maxLength={25}
-                className="peer flex-1 border-b border-none border-gray-700 bg-transparent py-2 pl-10 pr-2 text-gray-700 outline-none transition-all duration-300 hover:border-b-2 hover:border-orange-500 focus:border-b-2 focus:border-orange-500"
+                className="peer flex-1 border-b border-gray-300 bg-transparent py-2 pl-10 pr-2 text-gray-700 outline-none transition-all duration-300 hover:border-b-2 hover:border-orange-500 focus:border-b-2 focus:border-orange-500"
                 id="username"
               />
               <label
@@ -37,7 +37,7 @@ export const Register = () => {
                 type="password"
                 required
                 maxLength={25}
-                className="peer flex-1 border-b border-none border-gray-700 bg-transparent py-2 pl-10 pr-2 text-gray-700 outline-none transition-all duration-300 hover:border-b-2 hover:border-orange-500 focus:border-b-2 focus:border-orange-500"
+                className="peer flex-1 border-b border-gray-300 bg-transparent py-2 pl-10 pr-2 text-gray-700 outline-none transition-all duration-300 hover:border-b-2 hover:border-orange-500 focus:border-b-2 focus:border-orange-500"
                 id="password"
               />
               <label
@@ -51,7 +51,7 @@ export const Register = () => {
 
           <button
             type="submit"
-            className="w-4/5 cursor-pointer rounded border-none bg-white py-2.5 font-normal text-gray-700 transition-all duration-500 hover:bg-orange-500 max-md:w-full"
+            className="w-4/5 cursor-pointer rounded border-none bg-white py-2.5 font-normal text-gray-700 transition-all duration-500 hover:bg-orange-500 hover:text-white max-md:w-full"
           >
             Registrar-se
           </button>
