@@ -32,11 +32,7 @@ export const Sidebar = ({ disabled }: PropsSidebarHandler) => {
   return (
     <aside
       className={`flex flex-col justify-between border-r border-gray-300 bg-gray-50 p-2 transition-all duration-300 ease-in-out
-      ${
-        disabled
-          ? "visible w-62"
-          : "invisible w-0 overflow-hidden px-0 py-0"
-      }`}
+      ${disabled ? "w-62 visible" : "invisible w-0 overflow-hidden px-0 py-0"}`}
     >
       <nav className="flex flex-1 flex-col pb-2 pt-2">
         <Breadcrumb className="pl-2">

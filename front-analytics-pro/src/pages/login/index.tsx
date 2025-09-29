@@ -2,8 +2,58 @@ import { KeyRound, User } from "lucide-react";
 import { Label } from "@/components/ui/label";
 
 import logo from "@/assets/logo.png";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { PostSession } from "@/http/post-session";
+
+// interface CustomJwtPayload extends JwtPayload {
+//   token: string;
+//   name: string;
+// }
 
 export const Login = () => {
+  const [formData, setFormData] = useState({ username: "", password: "" });
+  const [warning, setWarning] = useState("");
+
+  // função para receber erro e limpar depois de um tempo
+  function warningSubmit(message: string) {
+    setWarning(message);
+    setTimeout(() => {
+      setWarning("");
+    }, 5000);
+  }
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+
+    const navigate = useNavigate();
+    const { username, password } = formData;
+
+    try {
+      if (!username.trim() || !password.trim()) {
+        return warningSubmit("Fill in all fields.");
+      }
+
+      const { token } = await PostSession({ username, password });
+
+      if (!token) {
+        return warningSubmit("Username or password incorrect!");
+      }
+
+      // const decoded = jwtDecode<CustomJwtPayload>(token);
+      // const { name } = decoded;
+
+      // TODO FIX: Cookies HttpOnly  / Protection against multiple login attempts
+      // const storage = rememberMe ? localStorage : sessionStorage;
+      // storage.setItem("jwt", token);
+      // storage.setItem("name", name);
+
+      navigate("/main/home");
+    } catch (error) {
+      warningSubmit("Error in connection. Try again.");
+    }
+  }
+
   return (
     <div className="flex h-screen w-full border-t border-orange-500 bg-gray-100">
       <div className="mx-auto flex flex-row-reverse items-center justify-center gap-40 text-center max-md:flex-col max-md:gap-8 max-md:p-4">
@@ -15,7 +65,10 @@ export const Login = () => {
           />
         </div>
 
-        <form className="flex flex-col items-center gap-12 p-4 text-center max-md:w-full max-md:gap-8">
+        <form
+          className="flex flex-col items-center gap-12 p-4 text-center max-md:w-full max-md:gap-8"
+          onSubmit={handleSubmit}
+        >
           <div className="flex w-full flex-col gap-[35px] max-md:gap-5">
             <div className="relative flex items-center gap-2">
               <User
@@ -27,7 +80,7 @@ export const Login = () => {
                 required
                 autoFocus
                 maxLength={25}
-                className=" flex-1 border-b border-gray-300 bg-transparent py-2 pl-10 pr-2 text-gray-700 outline-none transition-all duration-300 hover:border-b-2 hover:border-orange-500 focus:border-b-2 focus:border-orange-500"
+                className="peer flex-1 border-b border-gray-300 bg-transparent py-2 pl-10 pr-2 text-gray-700 outline-none transition-all duration-300 hover:border-b-2 hover:border-orange-500 focus:border-b-2 focus:border-orange-500"
                 id="username"
               />
               <label
@@ -41,13 +94,14 @@ export const Login = () => {
             <div className="relative flex items-center gap-2">
               <KeyRound
                 size={24}
-                className="pointer-events-none absolute left-2 -translate-y-[10%] text-gray-700 transition-all duration-300"
+                className="pointer-events-none absolute left-2 -translate-y-[10%] text-gray-700 transition-all duration-300 focus:border-orange-500"
               />
               <input
                 type="password"
                 required
+                autoFocus
                 maxLength={25}
-                className="flex-1 border-b border-gray-300 bg-transparent py-2 pl-10 pr-2 text-gray-700 outline-none transition-all duration-300 hover:border-b-2 hover:border-orange-500 focus:border-b-2 focus:border-orange-500"
+                className="peer flex-1 border-b border-gray-300 bg-transparent py-2 pl-10 pr-2 text-gray-700 outline-none transition-all duration-300 hover:border-b-2 hover:border-orange-500 focus:border-b-2 focus:border-orange-500"
                 id="password"
               />
               <label
