@@ -11,7 +11,6 @@ import {
 } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { Separator } from "../ui/separator";
-import { Profile } from "./profile";
 import { Button } from "../ui/button";
 import {
   Breadcrumb,
@@ -20,6 +19,7 @@ import {
   BreadcrumbList,
   BreadcrumbSeparator,
 } from "../ui/breadcrumb";
+import { Profile } from "./Profile";
 
 interface PropsSidebarHandler {
   disabled?: boolean;

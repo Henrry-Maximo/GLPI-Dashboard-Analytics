@@ -1,8 +1,8 @@
 import {
-  HeaderButton,
-  HeaderIcon,
   HeaderRoot,
-} from "@/components/interface/main/header";
+  HeaderIcon,
+  HeaderButton,
+} from "@/components/interface/main/Header";
 import { ChartLine } from "lucide-react";
 
 export const Home = () => {
