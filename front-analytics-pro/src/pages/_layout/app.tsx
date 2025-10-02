@@ -8,7 +8,7 @@ export const Layout = () => {
 
   function handlerSidenar() {
     setIsOpen(!isOpen);
-  };
+  }
 
   return (
     <>
