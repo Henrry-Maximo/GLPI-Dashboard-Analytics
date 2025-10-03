@@ -8,7 +8,7 @@ import { Outlet } from "react-router-dom";
 export const Layout = () => {
   const [isOpen, setIsOpen] = useState(true);
 
-  function handlerSidenar() {
+  function handlerSidebar() {
     setIsOpen(!isOpen);
   }
 
@@ -16,7 +16,7 @@ export const Layout = () => {
     <>
       <div className="grid h-screen grid-cols-[auto_1fr] grid-rows-[auto_1fr]">
         <div className="col-span-full">
-          <Header onOpenSidebar={handlerSidenar} />
+          <Header onOpenSidebar={handlerSidebar} />
         </div>
 
         <Sidebar disabled={isOpen} />

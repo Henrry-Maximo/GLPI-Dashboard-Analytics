@@ -27,7 +27,7 @@ export const HeaderButton = ({ ...props }: HeaderButtonProps) => {
   return (
     <div className="flex items-center justify-center gap-2">
       <button
-        className="flex h-full cursor-pointer items-center gap-2 rounded-sm bg-red-500 px-4 py-2 text-white hover:bg-red-800"
+        className="flex h-full cursor-pointer items-center gap-2 rounded-sm bg-red-500 px-4 py-2 text-white transition-all duration-300 ease-in-out hover:bg-red-800"
         {...props}
       />
     </div>

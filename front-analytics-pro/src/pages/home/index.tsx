@@ -90,37 +90,39 @@ export const Home = () => {
         <HeaderButton>Relatório</HeaderButton>
       </HeaderRoot>
 
-      <div>
-        {type.map((row) => (
-          <CardStatus
-            title={row.name}
-            count={row.count}
-            iconClassName={levelTypeStyle[row.name]}
-            icon={levelTypeIcons[row.name]}
-          />
-        ))}
-      </div>
+      <div className="flex flex-row">
+        <div>
+          {type.map((row) => (
+            <CardStatus
+              title={row.name}
+              count={row.count}
+              iconClassName={levelTypeStyle[row.name]}
+              icon={levelTypeIcons[row.name]}
+            />
+          ))}
+        </div>
 
-      <CardStatus
-        title={"pending"}
-        count={30}
-        iconClassName="bg-yellow-400 border border-yellow-600 text-4xl"
-        icon={Timer}
-      />
+        <CardStatus
+          title={"pending"}
+          count={30}
+          iconClassName="bg-yellow-400 border border-yellow-600 text-4xl"
+          icon={Timer}
+        />
 
-      <div className="teanimate-pulse rounded-md border bg-gray-50 p-2 shadow-lg ">
-        <ArrowRightToLine className="animate-pulse text-orange-600" />
-      </div>
+        <div className="teanimate-pulse rounded-md border bg-gray-50 p-2 shadow-lg ">
+          <ArrowRightToLine className="animate-pulse text-orange-600" />
+        </div>
 
-      <div>
-        {status.map((row) => (
-          <CardStatus
-            title={row.name}
-            count={row.count}
-            iconClassName={levelPriorityStyle[row.name]}
-            icon={dataStatusIcons[row.name]}
-          />
-        ))}
+        <div className="flex flex-1 gap-2">
+          {status.map((row) => (
+            <CardStatus
+              title={row.name}
+              count={row.count}
+              iconClassName={levelPriorityStyle[row.name]}
+              icon={dataStatusIcons[row.name]}
+            />
+          ))}
+        </div>
       </div>
     </main>
   );

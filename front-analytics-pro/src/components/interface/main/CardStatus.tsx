@@ -1,4 +1,4 @@
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import type { ComponentProps } from "react";
 
 interface CardStatusProps extends ComponentProps<"div"> {
@@ -6,6 +6,7 @@ interface CardStatusProps extends ComponentProps<"div"> {
   title: string;
   icon: React.ElementType;
   iconClassName: string;
+  className?: string;
 }
 
 export function CardStatus({
@@ -13,9 +14,12 @@ export function CardStatus({
   title,
   icon: Icon,
   iconClassName,
+  className,
 }: CardStatusProps) {
   return (
-    <Card className="grid w-full grid-cols-[auto_1fr] rounded-md bg-gray-50 shadow-lg">
+    <Card
+      className={`grid w-full grid-cols-[auto_1fr] items-center rounded-md bg-gray-50 shadow-lg ${className}`}
+    >
       <CardHeader className="items-center gap-4 p-4">
         <div
           className={`flex items-center justify-center rounded-md border p-4 text-2xl text-white shadow-lg ${iconClassName}`}
