@@ -21,7 +21,7 @@ export const Layout = () => {
 
         <Sidebar disabled={isOpen} />
 
-        <div className="flex flex-1 overflow-y-auto p-4">
+        <div className="flex flex-1 overflow-y-auto bg-white p-4">
           <Outlet />
         </div>
       </div>
