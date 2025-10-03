@@ -1,7 +1,9 @@
-import { Header } from "@/components/interface/header";
-import { Sidebar } from "@/components/interface/sidebar";
+import { Header } from "@/components/interface/Header";
+import { Sidebar } from "@/components/interface/Sidebar";
 import { useState } from "react";
 import { Outlet } from "react-router-dom";
+
+// 👌 Todo: Adding more state controller content visible (hide sidebar/header, add button)
 
 export const Layout = () => {
   const [isOpen, setIsOpen] = useState(true);

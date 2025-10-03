@@ -13,6 +13,7 @@ import { Statistics } from "@/pages/statistics";
 import { Settings } from "@/pages/system";
 import { ListTickets } from "@/pages/tickets";
 
+
 export const Router = () => {
   return (
     <Routes>

@@ -1,5 +1,6 @@
 import { KeyRound, User } from "lucide-react";
 import logo from "@/assets/logo.png";
+import { Label } from "@/components/ui/label";
 
 export const Register = () => {
   return (
@@ -46,6 +47,17 @@ export const Register = () => {
               >
                 Senha
               </label>
+            </div>
+
+            <div className="flex items-center gap-1">
+              <input
+                type="checkbox"
+                id="rememberMe"
+                className="relative h-4 w-4 cursor-pointer appearance-none rounded-sm border border-gray-700 bg-transparent checked:border-none checked:bg-orange-500 checked:before:mx-auto checked:before:block checked:before:h-2.5 checked:before:w-1.5 checked:before:rotate-45 checked:before:border-b-2 checked:before:border-r-2 checked:before:border-gray-200 checked:before:content-['']"
+              />
+              <Label htmlFor="rememberMe" className="text-gray-700">
+                Eu declaro que concordo com os termos de serviços.
+              </Label>
             </div>
           </div>
 

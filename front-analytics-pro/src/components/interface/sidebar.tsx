@@ -34,7 +34,7 @@ export const Sidebar = ({ disabled }: PropsSidebarHandler) => {
       className={`flex flex-col justify-between border-r border-gray-300 bg-gray-50 p-2 transition-all duration-300 ease-in-out
       ${disabled ? "w-62 visible" : "invisible w-0 overflow-hidden px-0 py-0"}`}
     >
-      <nav className="flex flex-1 flex-col pb-2 pt-2">
+      <nav className="flex flex-1 flex-col gap-4 pb-2 pt-2">
         <Breadcrumb className="pl-2">
           <BreadcrumbList>
             {pathname.length > 2 && (
@@ -76,7 +76,7 @@ export const Sidebar = ({ disabled }: PropsSidebarHandler) => {
             <Link
               className="group flex items-center gap-2 rounded border border-transparent p-2 transition duration-300 ease-in-out hover:border-orange-400 hover:bg-white"
               title="Tela de monitoramento das operações | Em tempo real."
-              to="/home/monitoring"
+              to="/monitoring"
             >
               <MonitorIcon className="h-5 w-5 text-gray-500 transition duration-300 ease-in-out group-hover:animate-bounce group-hover:text-orange-500" />
               Monitoramento
