@@ -19,7 +19,7 @@ import {
   BreadcrumbList,
   BreadcrumbSeparator,
 } from "../ui/breadcrumb";
-import { Profile } from "./Profile";
+import { Profile } from "./profile";
 
 interface PropsSidebarHandler {
   disabled?: boolean;
