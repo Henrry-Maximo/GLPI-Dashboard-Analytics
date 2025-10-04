@@ -7,6 +7,7 @@ interface CardStatusProps extends ComponentProps<"div"> {
   icon: React.ElementType;
   iconClassName: string;
   className?: string;
+  size?: number;
 }
 
 export function CardStatus({
@@ -14,13 +15,13 @@ export function CardStatus({
   title,
   icon: Icon,
   iconClassName,
-  className,
+  className
 }: CardStatusProps) {
   return (
     <Card
-      className={`grid w-full grid-cols-[auto_1fr] items-center rounded-md bg-gray-50 shadow-lg ${className}`}
+      className={`grid grid-cols-[auto_1fr] items-center justify-center rounded-md bg-gray-50 shadow-lg ${className}`}
     >
-      <CardHeader className="items-center gap-4 p-4">
+      <CardHeader className="items-center gap-4 p-0">
         <div
           className={`flex items-center justify-center rounded-md border p-4 text-2xl text-white shadow-lg ${iconClassName}`}
         >
