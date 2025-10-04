@@ -14,13 +14,21 @@ import {
   CircleDot,
   CircleEllipsis,
   Clipboard,
+  FileText,
   Flag,
+  Maximize,
   Timer,
 } from "lucide-react";
 import { type ChartConfig } from "@/components/ui/chart";
 import { ChartAreaInteractive } from "@/components/interface/main/AreaChart";
 import { ChartLineLabel } from "@/components/interface/main/LineChart";
 import { ChartPieDonutText } from "@/components/interface/main/PieChart";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 // API
 const type = [
@@ -207,7 +215,29 @@ export const Home = () => {
           Home
         </HeaderIcon>
 
-        <HeaderButton>Relatório</HeaderButton>
+        <div className="flex gap-2">
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <HeaderButton>
+                  <Maximize size={16} />
+                </HeaderButton>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Tela Cheia</p>
+              </TooltipContent>
+            </Tooltip>
+
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <HeaderButton>
+                  <FileText size={16} />
+                </HeaderButton>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Relatório</p>
+              </TooltipContent>
+            </Tooltip>
+        </div>
       </HeaderRoot>
 
       <Separator />

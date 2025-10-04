@@ -42,7 +42,7 @@ const chartConfig = {
 
 export function ChartLineLabel() {
   return (
-    <Card className="bg-gray-50 border-orange-200">
+    <Card className="bg-gray-50">
       <CardHeader>
         <CardTitle className="text-orange-700">Tickets Resolvidos vs Pendentes</CardTitle>
         <CardDescription>Janeiro - Junho 2024</CardDescription>

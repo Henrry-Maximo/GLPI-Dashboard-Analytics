@@ -61,7 +61,7 @@ export function ChartPieDonutText() {
   }, [])
 
   return (
-    <Card className="flex flex-col bg-gray-50 border-orange-200">
+    <Card className="flex flex-col bg-gray-50">
       <CardHeader className="items-center pb-0">
         <CardTitle className="text-orange-700">Status dos Tickets</CardTitle>
         <CardDescription>Janeiro - Junho 2024</CardDescription>

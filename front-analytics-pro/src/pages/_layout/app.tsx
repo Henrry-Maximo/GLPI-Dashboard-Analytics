@@ -1,6 +1,7 @@
 
 import { Header } from "@/components/interface/header";
 import { Sidebar } from "@/components/interface/sidebar";
+import { TooltipProvider } from "@/components/ui/tooltip";
 import { useState } from "react";
 import { Outlet } from "react-router-dom";
 
@@ -15,6 +16,7 @@ export const Layout = () => {
 
   return (
     <>
+    <TooltipProvider>
       <div className="grid h-screen grid-cols-[auto_1fr] grid-rows-[auto_1fr]">
         <div className="col-span-full">
           <Header onOpenSidebar={handlerSidebar} />
@@ -26,6 +28,7 @@ export const Layout = () => {
           <Outlet />
         </div>
       </div>
+    </TooltipProvider>
     </>
   );
 };
