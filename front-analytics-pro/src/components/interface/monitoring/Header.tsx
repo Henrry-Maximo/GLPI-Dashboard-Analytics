@@ -1,8 +1,22 @@
 import { CircleArrowLeft } from "lucide-react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 export const HeaderMonitoring = () => {
-  const currentDate = new Date();
+  const [currentTime, setCurrentTime] = useState(new Date());
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000);
+
+    return () => clearInterval(intervalId);
+  }, []);
+
+  const timeDeclare = `${currentTime.getHours().toString().padStart(2, "0")}:${currentTime
+    .getMinutes()
+    .toString()
+    .padStart(2, "0")}:${currentTime.getSeconds().toString().padStart(2, "0")}`;
 
   return (
     <header className="flex flex-row items-center justify-between gap-4 bg-orange-500 p-4 text-slate-100">
@@ -17,14 +31,14 @@ export const HeaderMonitoring = () => {
 
       <p className="flex flex-col items-end">
         <span className="text-base font-bold">
-          {currentDate.toLocaleDateString("pt-BR", {
+          {currentTime.toLocaleDateString("pt-BR", {
             day: "2-digit",
             month: "numeric",
             year: "numeric",
           })}
         </span>
         <span className="text-3xl font-semibold tabular-nums">
-          {/* {`${hours}:${minutes}:${seconds}`} */}
+          {timeDeclare}
         </span>
       </p>
     </header>
