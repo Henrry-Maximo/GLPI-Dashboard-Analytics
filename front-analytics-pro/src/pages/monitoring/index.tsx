@@ -31,19 +31,17 @@ export const Monitoring = () => {
             </p>
             <p className="text-2xl font-normal text-gray-600">
               Data de Criação:
-              <span className="ml-2 text-gray-600">
-                Data de Criação: 03/10/2025 13:49
-              </span>
+              <span className="ml-2 text-gray-600">03/10/2025 13:49</span>
             </p>
           </div>
         </div>
 
-        <section className="flex h-80 flex-col border-t-2 bg-white p-4">
-          <h2 className="p-2 text-center text-2xl font-normal">
-            Últimos Chamados
-          </h2>
-
+        <section className="flex h-80 flex-col justify-between border-t-2 bg-white p-4">
           <div className="mt-2 overflow-y-auto">
+            <h2 className="p-2 text-center text-2xl font-normal">
+              Últimos Chamados
+            </h2>
+
             <table className="w-full border-separate bg-white">
               <thead className="sticky left-0 right-0 top-0 bg-orange-500 text-white">
                 <tr>
@@ -70,6 +68,31 @@ export const Monitoring = () => {
                   </th>
                 </tr>
               </thead>
+              <tbody className="bg-gray-50 font-light">
+                <tr
+                  key={1}
+                  className="border-b transition duration-200 hover:bg-gray-100"
+                >
+                  <td className="px-4 py-3 text-left text-sm">1</td>
+                  <td className="px-4 py-3 text-left text-sm">
+                    Henrique Maximo
+                  </td>
+                  <td className="px-4 py-3 text-left text-sm">
+                    Alteraçãi Usuário
+                  </td>
+
+                  <td className="px-4 py-3 text-left text-sm">
+                    <span className="flex items-center gap-2">✨ Pendente</span>
+                  </td>
+                  <td className="px-4 py-3 text-left text-sm">
+                    Henrique Maximo
+                  </td>
+                  <td className="px-4 py-3 text-left text-sm">TI</td>
+                  <td className={`px-4 py-3 text-left text-sm font-semibold`}>
+                    Baixa
+                  </td>
+                </tr>
+              </tbody>
             </table>
           </div>
 
