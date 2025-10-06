@@ -306,19 +306,6 @@ export const Tickets = () => {
                 </SelectContent>
               </Select>
 
-              <Select>
-                <SelectTrigger className="w-[140px]">
-                  <SelectValue placeholder="Categoria" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">Todas</SelectItem>
-                  <SelectItem value="hardware">Hardware</SelectItem>
-                  <SelectItem value="software">Software</SelectItem>
-                  <SelectItem value="access">Acesso</SelectItem>
-                  <SelectItem value="email">Email</SelectItem>
-                </SelectContent>
-              </Select>
-
               <Button variant="outline" size="icon">
                 <Filter size={16} />
               </Button>
@@ -345,14 +332,8 @@ export const Tickets = () => {
                         <Hash size={12} />
                         {ticket.id}
                       </Badge>
-                      {getStatusBadge(ticket.status)}
-                      {getPriorityBadge(ticket.priority)}
-                      <Badge
-                        variant="outline"
-                        className="bg-purple-50 text-purple-700"
-                      >
-                        {ticket.category}
-                      </Badge>
+                      {/* {getStatusBadge(ticket.status)} */}
+                      {/* {getPriorityBadge(ticket.priority)} */}
                     </div>
                     <h3 className="mb-2 text-lg font-semibold text-gray-900">
                       {ticket.title}
@@ -423,7 +404,7 @@ export const Tickets = () => {
 
                   <Badge
                     variant="outline"
-                    className="border-white bg-gray-700 text-white"
+                    className="border border-orange-500  text-orange-500"
                   >
                     Pressione para Abrir
                   </Badge>
