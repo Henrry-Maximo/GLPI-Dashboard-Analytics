@@ -26,9 +26,9 @@ import { ChartPieDonutText } from "@/components/interface/main/PieChart";
 import {
   Tooltip,
   TooltipContent,
-  TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { Spinner } from "@/components/interface/Spinner";
 
 // API
 const type = [
@@ -216,27 +216,27 @@ export const Home = () => {
         </HeaderIcon>
 
         <div className="flex gap-2">
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <HeaderButton>
-                  <Maximize size={16} />
-                </HeaderButton>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>Tela Cheia</p>
-              </TooltipContent>
-            </Tooltip>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <HeaderButton>
+                <Maximize size={16} />
+              </HeaderButton>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Tela Cheia</p>
+            </TooltipContent>
+          </Tooltip>
 
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <HeaderButton>
-                  <FileText size={16} />
-                </HeaderButton>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>Relatório</p>
-              </TooltipContent>
-            </Tooltip>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <HeaderButton>
+                <FileText size={16} />
+              </HeaderButton>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Relatório</p>
+            </TooltipContent>
+          </Tooltip>
         </div>
       </HeaderRoot>
 
