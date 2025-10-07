@@ -1,5 +1,4 @@
-
-import { Header } from "@/components/interface/header";
+import { Header } from "@/components/interface/Header";
 import { Sidebar } from "@/components/interface/Sidebar";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { useState } from "react";
@@ -16,19 +15,19 @@ export const Layout = () => {
 
   return (
     <>
-    <TooltipProvider>
-      <div className="grid h-screen grid-cols-[auto_1fr] grid-rows-[auto_1fr]">
-        <div className="col-span-full">
-          <Header onOpenSidebar={handlerSidebar} />
-        </div>
+      <TooltipProvider>
+        <div className="grid h-screen grid-cols-[auto_1fr] grid-rows-[auto_1fr]">
+          <div className="col-span-full">
+            <Header onOpenSidebar={handlerSidebar} />
+          </div>
 
-        <Sidebar disabled={isOpen} />
+          <Sidebar disabled={isOpen} />
 
-        <div className="flex flex-1 overflow-y-auto bg-white p-4">
-          <Outlet />
+          <div className="flex flex-1 overflow-y-auto bg-white p-4">
+            <Outlet />
+          </div>
         </div>
-      </div>
-    </TooltipProvider>
+      </TooltipProvider>
     </>
   );
 };
