@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import {
   Select,
   SelectContent,
@@ -38,7 +38,17 @@ import {
   Search,
   BookDown,
   X,
+  BookOpen,
 } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 const mockTickets = [
   {
@@ -319,7 +329,7 @@ export const Tickets = () => {
           {mockTickets.map((ticket) => (
             <Card
               key={ticket.id}
-              className="cursor-pointer border-l-4 border-l-transparent bg-gray-50 shadow-md transition-all hover:scale-[0.98] hover:border-l-orange-500 hover:shadow-lg"
+              className="cursor-default border-l-4 border-l-transparent bg-gray-50 shadow-md transition-all hover:scale-[0.98] hover:border-l-orange-500 hover:shadow-lg"
             >
               <CardContent className="p-6">
                 <div className="mb-4 flex items-start justify-between">
@@ -402,12 +412,71 @@ export const Tickets = () => {
                     </div>
                   </div>
 
-                  <Badge
-                    variant="outline"
-                    className="border border-orange-500  text-orange-500"
-                  >
-                    Pressione para Abrir
-                  </Badge>
+                  <Dialog>
+                    <DialogTrigger>
+                      <Button className="border border-orange-500  bg-white text-orange-500 hover:text-white">
+                        <BookOpen size={16} className="mr-2" />
+                        Pressione para Abrir
+                      </Button>
+                    </DialogTrigger>
+
+                    <DialogContent className="max-w-lg rounded-2xl">
+                      <DialogHeader>
+                        <DialogTitle className="text-xl font-semibold">
+                          {ticket.title}
+                        </DialogTitle>
+                        <DialogDescription>
+                          ID do Chamado: #{ticket.id}
+                        </DialogDescription>
+                      </DialogHeader>
+
+                      <div className="mt-4 space-y-2 text-sm">
+                        <p>
+                          <strong>Descrição:</strong> {ticket.description}
+                        </p>
+                        <p>
+                          <strong>Requerente:</strong> {ticket.requester}
+                        </p>
+                        <p>
+                          <strong>Setor:</strong> {ticket.sector}
+                        </p>
+                        <p>
+                          <strong>Técnico:</strong> {ticket.technician}
+                        </p>
+                        <p>
+                          <strong>Status:</strong> {ticket.status}
+                        </p>
+                        <p>
+                          <strong>Urgência:</strong> {ticket.priority}
+                        </p>
+                        <p>
+                          <strong>Data de Criação:</strong> {ticket.createdAt}
+                        </p>
+                        <p>
+                          <strong>Data de Atualização:</strong>{" "}
+                          {ticket.updatedAt}
+                        </p>
+                        <p>
+                          <strong>Localização:</strong> {ticket.location}
+                        </p>
+                        <p>
+                          <strong>Categoria:</strong> {ticket.category}
+                        </p>
+                        <p>
+                          <strong>Comentário:</strong> {ticket.comments}
+                        </p>
+                      </div>
+
+                      <DialogFooter className="mt-4">
+                        <Button
+                          variant="secondary"
+                          className="border border-orange-500  bg-white text-orange-500 hover:text-orange-500 "
+                        >
+                          Fechar
+                        </Button>
+                      </DialogFooter>
+                    </DialogContent>
+                  </Dialog>
                 </div>
               </CardContent>
             </Card>
