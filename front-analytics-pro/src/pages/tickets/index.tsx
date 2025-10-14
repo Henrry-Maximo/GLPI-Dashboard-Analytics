@@ -437,51 +437,46 @@ export const Tickets = () => {
                         </DialogDescription>
                       </DialogHeader>
 
-                      {/* nayara.ribeiro / albras@2025 - Sarah */}
+                      <div className="rounded-lg border border-orange-300 bg-gray-50 p-4 shadow">
+                        <h3 className="mb-3 text-lg font-semibold">
+                          Informações
+                        </h3>
+                        <table className="w-full border-collapse text-sm">
+                          <tbody>
+                            <tr className="border-b">
+                              <td className="w-32 font-medium">Descrição:</td>
+                              <td>{ticket.description}</td>
+                            </tr>
+                            <tr className="border-b">
+                              <td className="font-medium">Requerente:</td>
+                              <td>{ticket.requester}</td>
+                            </tr>
+                            <tr className="border-b">
+                              <td className="font-medium">Setor:</td>
+                              <td>{ticket.sector}</td>
+                            </tr>
+                            <tr className="border-b">
+                              <td className="font-medium">Técnico:</td>
+                              <td>{ticket.technician}</td>
+                            </tr>
+                            <tr className="border-b">
+                              <td className="font-medium">Status:</td>
+                              <td>{ticket.status}</td>
+                            </tr>
+                            <tr className="border-b">
+                              <td className="font-medium">Urgência:</td>
+                              <td>{ticket.priority}</td>
+                            </tr>
+                            <tr>
+                              <td className="font-medium">Categoria:</td>
+                              <td>{ticket.category}</td>
+                            </tr>
+                          </tbody>
+                        </table>
 
-                      {/* <div className="mt-4 space-y-2 text-sm">
-                        <p>
-                          <strong>Descrição:</strong> {ticket.description}
-                        </p>
-                        <p>
-                          <strong>Requerente:</strong> {ticket.requester}
-                        </p>
-                        <p>
-                          <strong>Setor:</strong> {ticket.sector}
-                        </p>
-                        <p>
-                          <strong>Técnico:</strong> {ticket.technician}
-                        </p>
-                        <p>
-                          <strong>Status:</strong> {ticket.status}
-                        </p>
-                        <p>
-                          <strong>Urgência:</strong> {ticket.priority}
-                        </p>
-                        <p>
-                          <strong>Data de Criação:</strong> {ticket.createdAt}
-                        </p>
-                        <p>
-                          <strong>Data de Atualização:</strong>{" "}
-                          {ticket.updatedAt}
-                        </p>
-                        <p>
-                          <strong>Localização:</strong> {ticket.location}
-                        </p>
-                        <p>
-                          <strong>Categoria:</strong> {ticket.category}
-                        </p>
-                        <p>
-                          <strong>Comentário:</strong> {ticket.comments}
-                        </p>
-                      </div> */}
-
-                      <div className="flex flex-col">
-                        <div></div>
-
-                        <div className="flex flex-row justify-between rounded-md border border-orange-500 bg-orange-50 p-2">
-                          <span>Data de Criação: 11/08/2025</span>
-                          <span>Data de Atualização: 11/08/2000</span>
+                        <div className="mt-3 flex justify-between text-xs text-gray-500">
+                          <span>Criado: {ticket.createdAt}</span>
+                          <span>Atualizado: {ticket.updatedAt}</span>
                         </div>
                       </div>
 
