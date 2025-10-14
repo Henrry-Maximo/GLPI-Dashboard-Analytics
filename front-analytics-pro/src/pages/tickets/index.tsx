@@ -39,6 +39,8 @@ import {
   BookDown,
   X,
   BookOpen,
+  PersonStanding,
+  Ticket,
 } from "lucide-react";
 import {
   Dialog,
@@ -49,6 +51,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { Separator } from "@/components/ui/separator";
 
 const mockTickets = [
   {
@@ -422,15 +425,21 @@ export const Tickets = () => {
 
                     <DialogContent className="max-w-lg rounded-2xl">
                       <DialogHeader>
-                        <DialogTitle className="text-xl font-semibold">
+                        <DialogTitle className="flex items-center justify-evenly text-xl font-semibold text-orange-500">
+                          <Ticket className="h-10 w-10 rounded-full bg-orange-50 p-2" />
                           {ticket.title}
                         </DialogTitle>
-                        <DialogDescription>
-                          ID do Chamado: #{ticket.id}
+                        <DialogDescription className="flex items-center justify-end">
+                          ID do Chamado:
+                          <span className="ml-1 text-orange-500">
+                            #{ticket.id}
+                          </span>
                         </DialogDescription>
                       </DialogHeader>
 
-                      <div className="mt-4 space-y-2 text-sm">
+                      {/* nayara.ribeiro / albras@2025 - Sarah */}
+
+                      {/* <div className="mt-4 space-y-2 text-sm">
                         <p>
                           <strong>Descrição:</strong> {ticket.description}
                         </p>
@@ -465,14 +474,28 @@ export const Tickets = () => {
                         <p>
                           <strong>Comentário:</strong> {ticket.comments}
                         </p>
+                      </div> */}
+
+                      <div className="flex flex-col">
+                        <div></div>
+
+                        <div className="flex flex-row justify-between rounded-md border border-orange-500 bg-orange-50 p-2">
+                          <span>Data de Criação: 11/08/2025</span>
+                          <span>Data de Atualização: 11/08/2000</span>
+                        </div>
                       </div>
 
-                      <DialogFooter className="mt-4">
+                      <Separator />
+
+                      <DialogFooter>
                         <Button
                           variant="secondary"
-                          className="border border-orange-500  bg-white text-orange-500 hover:text-orange-500 "
+                          className="border border-orange-500  bg-white text-orange-500 hover:text-orange-500"
                         >
-                          Fechar
+                          Editar
+                        </Button>
+                        <Button className="bg-orange-500 text-white hover:bg-orange-600">
+                          Imprimir
                         </Button>
                       </DialogFooter>
                     </DialogContent>
