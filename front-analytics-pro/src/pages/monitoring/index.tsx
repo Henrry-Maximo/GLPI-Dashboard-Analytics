@@ -1,4 +1,4 @@
-import { HeaderMonitoring } from "@/components/interface/monitoring/Header";
+import { HeaderMonitoring } from "@/components/interface/monitoring/header";
 
 export const Monitoring = () => {
   return (

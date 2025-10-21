@@ -1,5 +1,5 @@
-import { Header } from "@/components/interface/Header";
-import { Sidebar } from "@/components/interface/Sidebar";
+import { Header } from "@/components/interface/header";
+import { Sidebar } from "@/components/interface/sidebar";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { useState } from "react";
 import { Outlet } from "react-router-dom";

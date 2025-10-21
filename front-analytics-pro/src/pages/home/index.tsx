@@ -1,9 +1,4 @@
-import { CardStatus } from "@/components/interface/main/CardStatus";
-import {
-  HeaderRoot,
-  HeaderIcon,
-  HeaderButton,
-} from "@/components/interface/main/Header";
+import { CardStatus } from "@/components/interface/main/card-status";
 import { Separator } from "@/components/ui/separator";
 import {
   ArrowLeftRight,
@@ -19,14 +14,16 @@ import {
   Maximize,
   Timer,
 } from "lucide-react";
-import { ChartAreaInteractive } from "@/components/interface/main/AreaChart";
-import { ChartLineLabel } from "@/components/interface/main/LineChart";
-import { ChartPieDonutText } from "@/components/interface/main/PieChart";
+import { ChartAreaInteractive } from "@/components/interface/main/area-chart";
+import { ChartLineLabel } from "@/components/interface/main/line-chart";
+import { ChartPieDonutText } from "@/components/interface/main/pie-chart";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+
+import { HeaderButton, HeaderIcon, HeaderRoot } from "@/components/interface/main/header";
 
 // API
 const type = [

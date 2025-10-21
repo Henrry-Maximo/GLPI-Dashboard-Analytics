@@ -2,7 +2,7 @@ import {
   HeaderButton,
   HeaderIcon,
   HeaderRoot,
-} from "@/components/interface/main/Header";
+} from "@/components/interface/main/header";
 import { ChartLine } from "lucide-react";
 
 export const Analytics = () => {

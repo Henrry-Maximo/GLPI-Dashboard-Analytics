@@ -1,47 +1,11 @@
 import {
-  HeaderRoot,
-  HeaderIcon,
   HeaderButton,
-} from "@/components/interface/main/Header";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { ScrollArea } from "@/components/ui/scroll-area";
+  HeaderIcon,
+  HeaderRoot,
+} from "@/components/interface/main/header";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
-  ChartLine,
-  Clock,
-  User,
-  Building,
-  AlertCircle,
-  CheckCircle,
-  Pause,
-  XCircle,
-  Calendar,
-  Hash,
-  Filter,
-  Plus,
-  MoreVertical,
-  Eye,
-  Edit,
-  MessageSquare,
-  TrendingUp,
-  ClipboardList,
-  Zap,
-  Search,
-  BookDown,
-  X,
-  BookOpen,
-  PersonStanding,
-  Ticket,
-} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
@@ -51,7 +15,37 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
+import {
+  AlertCircle,
+  BookDown,
+  BookOpen,
+  Building,
+  Calendar,
+  ChartLine,
+  CheckCircle,
+  Clock,
+  Filter,
+  Hash,
+  MessageSquare,
+  Pause,
+  Plus,
+  Search,
+  Ticket,
+  TrendingUp,
+  User,
+  X,
+  XCircle
+} from "lucide-react";
 
 const mockTickets = [
   {

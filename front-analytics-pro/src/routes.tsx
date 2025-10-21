@@ -26,7 +26,7 @@ export function Routers() {
         <Route path="help" element={<Help />} />
       </Route>
 
-      <Route path="/home" element={<Layout />}>
+      <Route path="/app" element={<Layout />}>
         <Route path="" element={<Home />} />
         <Route path="tickets" element={<Tickets />} />
         <Route path="analytics" element={<Analytics />} />
