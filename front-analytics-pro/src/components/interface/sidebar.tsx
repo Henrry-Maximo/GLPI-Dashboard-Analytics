@@ -68,7 +68,7 @@ export const Sidebar = ({ disabled }: PropsSidebarHandler) => {
             <Link
               className="group flex items-center gap-2 rounded border border-transparent p-2 transition duration-300 ease-in-out hover:border-orange-400 hover:bg-white"
               title="Tela para busca/filtragem de chamados."
-              to="/home/tickets"
+              to="/app/tickets"
             >
               <Tickets className="h-5 w-5 text-gray-500 transition duration-300 ease-in-out group-hover:animate-bounce group-hover:text-orange-500" />
               Chamados
@@ -84,7 +84,7 @@ export const Sidebar = ({ disabled }: PropsSidebarHandler) => {
             <Link
               className="group flex items-center gap-2 rounded border border-transparent p-2 transition duration-300 ease-in-out hover:border-orange-400 hover:bg-white"
               title="Dashboard para análise a curto prazo das operações."
-              to="/home/analytics"
+              to="/app/analytics"
             >
               <Database className="h-5 w-5 text-gray-500 transition duration-300 ease-in-out group-hover:animate-bounce group-hover:text-orange-500" />
               Análises
@@ -92,7 +92,7 @@ export const Sidebar = ({ disabled }: PropsSidebarHandler) => {
             <Link
               className="group flex items-center gap-2 rounded border border-transparent p-2 transition duration-300 ease-in-out hover:border-orange-400 hover:bg-white"
               title="Dashboard para relatório de estatísticas sobre a operação."
-              to="/home/statistics"
+              to="/app/statistics"
             >
               <Calculator className="h-5 w-5 text-gray-500 transition duration-300 ease-in-out group-hover:animate-bounce group-hover:text-orange-500" />
               Estatísticas
@@ -102,7 +102,7 @@ export const Sidebar = ({ disabled }: PropsSidebarHandler) => {
             <Link
               className="group flex items-center gap-2 rounded border border-transparent p-2 transition duration-300 ease-in-out hover:border-orange-400 hover:bg-white"
               title="Detalhes"
-              to="/home"
+              to="/app"
             >
               <Ellipsis className="h-5 w-5 text-gray-500 transition duration-300 ease-in-out group-hover:animate-pulse group-hover:text-orange-500" />
               Mais
@@ -118,7 +118,7 @@ export const Sidebar = ({ disabled }: PropsSidebarHandler) => {
           <Link
             className="group flex items-center gap-2 rounded border border-transparent p-2 transition duration-300 ease-in-out hover:border-orange-400 hover:bg-white"
             title="Precisa de ajuda? Aperta aqui."
-            to="/home/help"
+            to="/help"
           >
             <HelpCircleIcon className="h-5 w-5 text-gray-500 transition duration-300 ease-in-out group-hover:animate-bounce group-hover:text-orange-500" />
             Ajuda
@@ -127,7 +127,7 @@ export const Sidebar = ({ disabled }: PropsSidebarHandler) => {
           <Link
             className="group flex items-center gap-2 rounded border border-transparent p-2 transition duration-300 ease-in-out hover:border-orange-400 hover:bg-white"
             title="Tela para modificar configurações do sistema."
-            to="/home/settings"
+            to="/app/settings"
           >
             <Settings className="h-5 w-5 text-gray-500 transition duration-300 ease-in-out group-hover:animate-bounce group-hover:text-orange-500" />
             Configurações

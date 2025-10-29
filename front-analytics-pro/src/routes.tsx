@@ -1,4 +1,5 @@
 import { Routes, Route, Navigate } from "react-router-dom";
+
 import { Layout } from "./pages/_layout/app";
 import { Auth } from "./pages/_layout/auth";
 
